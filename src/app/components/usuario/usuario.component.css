@@ -1,0 +1,8 @@
+.tablaUsuarios {
+  height: 25rem;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}

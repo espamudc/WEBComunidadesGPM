@@ -1,0 +1,47 @@
+<h1 mat-dialog-title style="text-align: center;">Datos de Persona</h1>
+<mat-dialog-content>
+    <div class="form-group row">
+        <div class="col-sm-12">
+            <input matInput [(ngModel)]="data._persona.PrimerNombre +' '+data._persona.SegundoNombre +' '+data._persona.PrimerApellido +' '+ data._persona.SegundoApellido"
+            type="text" class="form-control" readonly>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6">
+            <input matInput [(ngModel)]="data._persona.TipoIdentificacion.Descripcion" type="text" class="form-control" readonly>
+        </div>
+        <div class="col-sm-6">
+            <input matInput [(ngModel)]="data._persona.NumeroIdentificacion" type="text" class="form-control" readonly>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6">
+            <input type="text" class="form-control" readonly value="TELEFONO">
+        </div>
+        <div class="col-sm-6">
+            <input matInput  [(ngModel)]="data._persona.Telefono || sinNumero" type="text" class="form-control" readonly>
+        </div>
+        
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6">
+            <input type="text" class="form-control" readonly value="SEXO">
+        </div>
+        <div class="col-sm-6">
+            <input matInput [(ngModel)]="data._persona.Sexo.Descripcion || sinCorreo" type="text" class="form-control" readonly>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6">
+            <input  type="text" class="form-control" readonly value="DIRECCIÓN">
+        </div>
+        <div class="col-sm-6">
+            <input matInput [(ngModel)]="data._persona.Direccion || sinDireccion" type="text" class="form-control" readonly>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close type="button" class="btn-block btn-primary">
+        Cerrar
+    </button>
+</mat-dialog-actions>
