@@ -141,8 +141,10 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
   arrayIndexesTipoUsuario: string[] = [];
   ngOnInit() {
     // this.testSelect.nativeElement.value="0";
-    this._consultarTiposUsuarios();
-    this._consultarTiposUsuariosUsados();
+    this._consultarTiposUsuarios().then(data=>{
+      this._consultarTiposUsuariosUsados();
+    });
+    
     // this.consultarTipoUsuario();
     // this.listaTipoUsuario.map(
     //   item => {
@@ -152,9 +154,9 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
   }
 // ----------------------------------------------------------------------------------------------
   _listaTiposUsuarios:any[]=[];
-  _consultarTiposUsuarios(){
+  async _consultarTiposUsuarios(){
     console.log("_consultarTiposUsuarios");
-     this.tipoUsuariosService.consultarTiposUsuarios()
+     await this.tipoUsuariosService.consultarTiposUsuarios()
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaTiposUsuarios = data['respuesta'];
@@ -226,6 +228,8 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
         if (data['http']['codigo']=='200') {
           var index = this._listaAsignarUsuarioTipoUsuario.indexOf(_item);
           this._listaAsignarUsuarioTipoUsuario.splice(index, 1);
+          this._validarTiposUsados();
+          // this._listaTiposUsuarios.push(_item['TipoUsuario']);
         }else{
           console.log(data['http']);
         }
