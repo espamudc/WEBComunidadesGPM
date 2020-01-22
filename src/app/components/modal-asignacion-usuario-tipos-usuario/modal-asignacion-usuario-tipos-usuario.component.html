@@ -30,10 +30,10 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let item of _listaAsignarUsuarioTipoUsuario">
-                                    <td> {{ item.Descripcion }} </td>
+                                    <td> {{ item.TipoUsuario.Descripcion }} </td>
                                     <td>
                                         <button [disabled]="botonEliminar" class="btn btn-sm btn-outline-danger btn-block"
-                                            value="{{item.IdTipoUsuario}}" (click)="_eliminarTipoUsuarioDeLista(item)">
+                                            value="{{item.IdAsignarUsuarioTipoUsuarioEncriptado}}" (click)="_eliminarTipoUsuarioDeLista(item)">
                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                         </button>
                                     </td>

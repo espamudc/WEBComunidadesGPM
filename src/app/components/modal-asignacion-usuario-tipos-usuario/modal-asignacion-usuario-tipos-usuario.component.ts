@@ -150,7 +150,7 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
     //   }
     // )
   }
-//----------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------
   _listaTiposUsuarios:any[]=[];
   _consultarTiposUsuarios(){
     console.log("_consultarTiposUsuarios");
@@ -174,7 +174,8 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
       .then(data=>{
         if (data['http']['codigo']=='200') {
           data['respuesta'].map(element => {
-            this._listaAsignarUsuarioTipoUsuario.push(element['TipoUsuario']);
+            // this._listaAsignarUsuarioTipoUsuario.push(element['TipoUsuario']);
+            this._listaAsignarUsuarioTipoUsuario.push(element);
           });
 
         }else{
@@ -188,7 +189,8 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
 
   _validarTiposUsados(){
     this._listaAsignarUsuarioTipoUsuario.map((item,index)=>{
-      var obj= this._listaTiposUsuarios.find(dato=>dato.IdTipoUsuarioEncriptado===item.IdTipoUsuarioEncriptado);
+      // var obj= this._listaTiposUsuarios.find(dato=>dato.IdTipoUsuarioEncriptado===item.IdTipoUsuarioEncriptado);
+      var obj= this._listaTiposUsuarios.find(dato=>dato.IdTipoUsuarioEncriptado===item.TipoUsuario.IdTipoUsuarioEncriptado);
       if (this._listaTiposUsuarios.includes(obj)) {
         var indexOf = this._listaTiposUsuarios.indexOf(obj);
         this._listaTiposUsuarios.splice(indexOf,1);
@@ -199,14 +201,41 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
   _tipoUsuario:any="0";
   _asignarTipoUsuario(){
     console.log(this.testSelect.nativeElement.value);
+    this.asignarUsuarioTipoUsuarioService._insertarAsignarUsuarioTipoUsuario(
+      this.data._usuario.IdUsuarioEncriptado,
+      this.testSelect.nativeElement.value
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+        this._listaAsignarUsuarioTipoUsuario.push(data['respuesta']['TipoUsuario']);
+        // this._consultarTiposUsuarios();
+        // this._consultarTiposUsuariosUsados();
+        // this._validarTiposUsados();
+      }else{
+        console.log(data['http']);
+      }
+    }).catch(error=>{
+
+    });
+
   }
   onCangeSelectTipoU(event:any){
     console.log(event.target.value);
     
   }
 
-  _eliminarTipoUsuarioDeLista(_tipo:any){
-
+  _eliminarTipoUsuarioDeLista(_item:any){
+    this.asignarUsuarioTipoUsuarioService._eliminarAsignarUsuarioTipoUsuario(_item.IdAsignarUsuarioTipoUsuarioEncriptado)
+      .then(data=>{
+        if (data['http']['codigo']=='200') {
+          var index = this._listaAsignarUsuarioTipoUsuario.indexOf(_item);
+          this._listaAsignarUsuarioTipoUsuario.splice(index, 1);
+        }else{
+          console.log(data['http']);
+        }
+      })
+      .catch(error=>{
+        console.log(error);
+      });
   }
 
   // _borrarTipoUsuario(_item){
