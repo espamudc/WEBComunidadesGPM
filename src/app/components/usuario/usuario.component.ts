@@ -342,6 +342,7 @@ export class UsuarioComponent implements OnInit {
 
   ngOnInit() {
     // this.consultarUsuarios();
+    this.cedula = "Numero de Identificacion"
     this._consultarUsuarios();
   }
 
@@ -368,15 +369,25 @@ export class UsuarioComponent implements OnInit {
 
   _IdPersonaEncriptado:string="0";
   _insertarUsuario(){
+    console.log(this._IdPersonaEncriptado);
+    
     this.usuarioService._insertarUsuario(
-      this._IdPersonaEnciptado,
-      this.myForm.get('_valorUsuario').toString(),
-      this.myForm.get('_contrasena').toString()
-    ).then(data=>{}).catch(error=>{});
+      this._IdPersonaEncriptado,
+      this.myForm.get('_valorUsuario').value,
+      this.myForm.get('_contrasena').value
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+          this._consultarUsuarios();
+          this._refrescarForm();
+      }else{
+        console.log(data['http']);
+      }
+    }).catch(error=>{
+      console.log(error);
+    });
   }
 
-  _IdUsuarioEnciptado:string="0";
-  _IdPersonaEnciptado:string="0";
+  _IdUsuarioEncriptado:string="0";
   _prepararUsuario(_usuario:any){
     console.log(_usuario);
     
@@ -385,23 +396,70 @@ export class UsuarioComponent implements OnInit {
     if(!this.inputUsuario){
       this.inputUsuario == false;
     }
-    this._IdUsuarioEnciptado = _usuario.IdUsuarioEncriptado;
-    this._IdPersonaEnciptado = _usuario.IdPersonaEncriptado;
+    this._IdUsuarioEncriptado = _usuario.IdUsuarioEncriptado;
+    // debugger
+    this._IdPersonaEncriptado = _usuario.Persona.IdPersonaEncriptado;
     this.myForm.get('_valorUsuario').setValue(_usuario.Correo);
     // this.myForm.get('_contrasena').setValue(_usuario.ClaveEncriptada) ;
     this.nombres = _usuario.Persona.PrimerNombre +" "+_usuario.Persona.SegundoNombre;
     this.apellidos = _usuario.Persona.PrimerApellido +" "+_usuario.Persona.SegundoApellido;
     this._refrescar = true;
+
+    this.testButton.nativeElement.value = "modificar";
+
   }
-
+  _modificarUsuario(){
+    console.log(this._IdPersonaEncriptado);
+    
+    this.usuarioService._modificarUsuario(
+      this._IdUsuarioEncriptado,
+      this._IdPersonaEncriptado,
+      this.myForm.get('_valorUsuario').value,
+      this.myForm.get('_contrasena').value
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+          this._consultarUsuarios();
+          this._refrescarForm();
+          console.log(data);
+          
+      }else{
+        console.log(data['http']);
+      }
+    }).catch(error=>{
+      console.log(error);
+    });
+  }
   _refrescar:boolean=false;
-
   _refrescarForm(){
     this.myForm.reset();
     this.nombres=null;
     this.apellidos=null;
     this._refrescar = false;
     this.nuevoUsuario = 'Nuevo Usuario';
+    this.testButton.nativeElement.value="insertar";
+  }
+
+  _eliminarUsuario(_item){
+    console.log(_item.IdUsuarioEncriptado);
+    
+    this.usuarioService._eliminarUsuario(
+      _item.IdUsuarioEncriptado
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+          this._consultarUsuarios();
+          this._refrescarForm();
+          console.log(data);
+          
+          var obj= this._listaUsuarios.find(dato=>dato._IdUsuarioEncriptado===_item.IdUsuarioEncriptado);
+          var indexOf = this._listaUsuarios.indexOf(obj);
+          this._listaUsuarios.splice(indexOf,1);
+          
+      }else{
+        console.log(data['http']);
+      }
+    }).catch(error=>{
+      console.log(error);
+    });
   }
 
   _abrirModalAsignacionUsuarioTiposUsuario(_usuario) {
@@ -420,35 +478,31 @@ export class UsuarioComponent implements OnInit {
     let dialogRef = this.modalAsignacionUsuarioPersona.open(ModalAsignacionUsuarioPersonaComponent, {
       width: '900px',
       height: '500px',
-      data: { IdPersonaEncriptado:'0' }
+      data: { }
     });
     dialogRef.afterClosed().subscribe(result=>{
-      console.log(result);
-      
-    });
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log("sss");
-      
-    //   console.log(result);
-      
-    //   // if(this.cedula == ''){
-    //   //   if (result != null) {
-    //   //     this.inputPersona = true;
-    //   //     this.resultadoModal = result;
-    //   //     this.cedula = this.resultadoModal.cedula;
-    //   //     this.idPersona = this.resultadoModal.idPersona;
-    //   //     this.nombres = this.resultadoModal.nombres;
-    //   //     this.apellidos = this.resultadoModal.apellidos;
-    //   //     if (result.idUsuario == null) {
-    //   //       this.idUsuarioModalAUP = '';
-    //   //     } else {
-    //   //       this.idUsuarioModalAUP = result.idUsuario;
-    //   //     }
-    //   //   } else {
-    //   //     this.inputPersona = false;
-    //   //   }
-    //   // }
-    // });
+      // console.log(result);
+      if (result) {
+        this._persona = result;
+        console.log(this._persona);
+        this._IdPersonaEncriptado = result.IdPersonaEncriptado;
+        this.nombres    = result.PrimerNombre+' '+result.SegundoNombre;
+        this.apellidos  = result.PrimerApellido+' '+result.SegundoApellido;
+        this.cedula     = result.NumeroIdentificacion;
+      }
+    }); 
+  }
+
+  _validacionFormulario() {
+    console.log(this.testButton.nativeElement.value);
+    if (this.myForm.valid) {
+      if (this.testButton.nativeElement.value == "insertar") {
+        this._insertarUsuario();
+      } else if (this.testButton.nativeElement.value == "modificar") {
+        this._modificarUsuario();
+        this.testButton.nativeElement.value = "insertar";
+      }
+    }
   }
 
 }

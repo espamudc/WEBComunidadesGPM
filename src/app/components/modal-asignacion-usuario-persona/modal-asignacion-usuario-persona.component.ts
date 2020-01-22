@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { PersonaService } from 'src/app/services/persona.service';
 import { Persona } from 'src/app/interfaces/persona/persona';
-import { MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { DialogData } from '../usuario/usuario.component';
 
 @Component({
@@ -13,6 +13,7 @@ export class ModalAsignacionUsuarioPersonaComponent implements OnInit {
 
   constructor(
     private personaService: PersonaService,
+    private dialogRef: MatDialogRef<ModalAsignacionUsuarioPersonaComponent>,
     // @Inject(MAT_DIALOG_DATA) public data:DialogData
     @Inject(MAT_DIALOG_DATA) public data:any
   ) { }
@@ -61,12 +62,12 @@ export class ModalAsignacionUsuarioPersonaComponent implements OnInit {
         });
   }
 
-  _persona ={'PrimerNombre':'','PrimerApellido':'','NumeroIdentificacion':''};
+  _persona = {};
+
+
   _asignarUsuarioaPersona(_item){
-    this._persona.PrimerNombre = _item.PrimerNombre;
-    this._persona.PrimerApellido = _item._persona.PrimerApellido;
-    this._persona.NumeroIdentificacion = _item.NumeroIdentificacion;
-    // console.log(_persona);
+    // console.log(_item);
+    this.dialogRef.close(_item);
     
   }
 

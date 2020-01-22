@@ -54,13 +54,18 @@ export class UsuarioService {
     _Correo:string,
     _Clave:string,
   ){
+    // debugger
     const body = new HttpParams()
-      .set('IdPersonaEncriptado', _IdPersonaEncriptado)
+      .set('Persona.IdPersonaEncriptado', _IdPersonaEncriptado)
       .set('Correo', _Correo)
       .set('Clave',_Clave);
-
+    // console.log('IdPersonaEncriptado', _IdPersonaEncriptado);
+    // console.log('Correo', _Correo);
+    // console.log('Clave',_Clave);
+    
+    
     return new Promise((resolve, reject) => {
-      this.http.post(this.apiUrl + 'usuario_insertar', body.toString(),{headers: this._header})
+      this.http.post(url + 'usuario_insertar', body.toString(),{headers: this._header})
         .subscribe(res => {
           resolve(res);
         }, (err) => {
@@ -70,6 +75,46 @@ export class UsuarioService {
 
   }
 
+  _modificarUsuario(
+    _IdUsuarioEncriptado:string,
+    _IdPersonaEncriptado:string,
+    _Correo:string,
+    _Clave:string
+  ){
+    const body = new HttpParams()
+      .set('IdUsuarioEncriptado', _IdUsuarioEncriptado)
+      .set('Persona.IdPersonaEncriptado', _IdPersonaEncriptado)
+      .set('Correo', _Correo)
+      .set('Clave',_Clave);
+    
+    console.log('IdUsuarioEncriptado', _IdUsuarioEncriptado);
+    console.log('Persona.IdPersonaEncriptado', _IdPersonaEncriptado);
+    console.log('Correo', _Correo);
+    console.log('Clave',_Clave);
+    // debugger
+    
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'usuario_modificar', body.toString(),{headers: this._header})
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          reject(err);
+        })
+    });
+  }
+
+  _eliminarUsuario(IdUsuarioEncriptado:string){
+    // debugger
+    const body = new HttpParams();
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'usuario_eliminar?_idUsuarioEncriptado='+IdUsuarioEncriptado, body.toString(),{headers: this._header})
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          reject(err);
+        })
+    });
+  }
 
   //------------------------------------------------------------------------------
 

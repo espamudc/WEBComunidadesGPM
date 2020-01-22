@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <div *ngIf="!_refrescar" class="form-group input-container">
                         <input [value]="cedula" type="text" readonly class="form-control input-field">
-                        <i (click)="abrirModalAsignacionUsuarioPersona()" class="fa fa-user-plus icon"
+                        <i (click)="_abrirModalAsignacionUsuarioPersona()" class="fa fa-user-plus icon"
                             style="background-color:#f0ad4e;"></i>
                     </div>
                     <div class="form-group">
@@ -22,10 +22,10 @@
                     <div class="badge badge-danger mb-3 btn-block" [hidden]="inputPersona">
                         Persona Requerida
                     </div>
-                    <form [formGroup]="myForm" (ngSubmit)="validacionFormulario()" novalidate>
+                    <form [formGroup]="myForm" (ngSubmit)="_validacionFormulario()" novalidate>
                         <div class="form-group">
                             <input #testInput formControlName="_valorUsuario" type="email"
-                                (keyup)="onChangeInputUsuario()" class="form-control" placeholder="Ingrese Usuario">
+                                (keyup)="onChangeInputUsuario()" class="form-control" placeholder="Ingrese el Correo">
                             <div class="badge badge-danger mt-3 btn-block"
                                 *ngIf="_valorUsuario.invalid && (_valorUsuario.dirty || _valorUsuario.touched)">
                                 <div *ngIf="_valorUsuario.errors.required">
