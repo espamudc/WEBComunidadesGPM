@@ -365,6 +365,16 @@ export class UsuarioComponent implements OnInit {
         console.log(error);
       });
   }
+
+  _IdPersonaEncriptado:string="0";
+  _insertarUsuario(){
+    this.usuarioService._insertarUsuario(
+      this._IdPersonaEnciptado,
+      this.myForm.get('_valorUsuario').toString(),
+      this.myForm.get('_contrasena').toString()
+    ).then(data=>{}).catch(error=>{});
+  }
+
   _IdUsuarioEnciptado:string="0";
   _IdPersonaEnciptado:string="0";
   _prepararUsuario(_usuario:any){
@@ -403,6 +413,42 @@ export class UsuarioComponent implements OnInit {
         _usuario: _usuario,
       }
     });
+  }
+
+  _persona:any;
+  _abrirModalAsignacionUsuarioPersona() {
+    let dialogRef = this.modalAsignacionUsuarioPersona.open(ModalAsignacionUsuarioPersonaComponent, {
+      width: '900px',
+      height: '500px',
+      data: { IdPersonaEncriptado:'0' }
+    });
+    dialogRef.afterClosed().subscribe(result=>{
+      console.log(result);
+      
+    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log("sss");
+      
+    //   console.log(result);
+      
+    //   // if(this.cedula == ''){
+    //   //   if (result != null) {
+    //   //     this.inputPersona = true;
+    //   //     this.resultadoModal = result;
+    //   //     this.cedula = this.resultadoModal.cedula;
+    //   //     this.idPersona = this.resultadoModal.idPersona;
+    //   //     this.nombres = this.resultadoModal.nombres;
+    //   //     this.apellidos = this.resultadoModal.apellidos;
+    //   //     if (result.idUsuario == null) {
+    //   //       this.idUsuarioModalAUP = '';
+    //   //     } else {
+    //   //       this.idUsuarioModalAUP = result.idUsuario;
+    //   //     }
+    //   //   } else {
+    //   //     this.inputPersona = false;
+    //   //   }
+    //   // }
+    // });
   }
 
 }

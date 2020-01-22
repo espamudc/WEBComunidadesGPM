@@ -20,14 +20,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of personas | filter: filterPersona : 'NumeroDocumento'">
+                    <tr *ngFor="let item of _listaPersonas | filter: filterPersona : 'NumeroDocumento'">
                         <td> {{ item.PrimerNombre }} {{ item.SegundoNombre }} </td>
-                        <td> {{ item.ApellidoPaterno }} {{ item.ApellidoMaterno }} </td>
-                        <td> {{ item.TipoDocumento }} </td>
-                        <td> {{ item.NumeroDocumento }} </td>
+                        <td> {{ item.PrimerApellido }} {{ item.SegundoApellido }} </td>
+                        <td> {{ item.TipoIdentificacion.Descripcion }} </td>
+                        <td> {{ item.NumeroIdentificacion }} </td>
                         <td>
-                            <button [mat-dialog-close]="data" class="btn btn-sm btn-outline-warning separacion-botones"
-                                value="{{item.IdPersona}}" (click)="_asignarUsuarioaPersona(item)">
+                            <button [mat-dialog-close]="_persona" class="btn btn-sm btn-outline-warning separacion-botones"
+                                value="{{item.IdPersonaEncriptado}}" (click)="_asignarUsuarioaPersona(item)">
                                 <i class="fa fa-user-plus" aria-hidden="true"></i>
                             </button>
                         </td>

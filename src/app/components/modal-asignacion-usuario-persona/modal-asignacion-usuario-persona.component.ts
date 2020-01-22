@@ -13,7 +13,8 @@ export class ModalAsignacionUsuarioPersonaComponent implements OnInit {
 
   constructor(
     private personaService: PersonaService,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    // @Inject(MAT_DIALOG_DATA) public data:DialogData
+    @Inject(MAT_DIALOG_DATA) public data:any
   ) { }
   
   personas : Persona[] = [];
@@ -42,7 +43,32 @@ export class ModalAsignacionUsuarioPersonaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.consultarPersonas();
+    this._consultarPersonas();
   }
+
+  //-------------------------------------------------------------------------------
+  _listaPersonas:any[]=[];
+  _consultarPersonas(){
+    this.personaService._consultarPersonas('token')
+        .then(data=>{
+          console.log(data);
+          if (data['http']['codigo']=='200') {
+            // debugger
+            this._listaPersonas = data['respuesta'];
+          }
+        }).catch(error=>{
+          console.log(error);
+        });
+  }
+
+  _persona ={'PrimerNombre':'','PrimerApellido':'','NumeroIdentificacion':''};
+  _asignarUsuarioaPersona(_item){
+    this._persona.PrimerNombre = _item.PrimerNombre;
+    this._persona.PrimerApellido = _item._persona.PrimerApellido;
+    this._persona.NumeroIdentificacion = _item.NumeroIdentificacion;
+    // console.log(_persona);
+    
+  }
+
 
 }

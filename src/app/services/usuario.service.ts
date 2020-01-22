@@ -48,6 +48,29 @@ export class UsuarioService {
           });
       });
   }
+
+  _insertarUsuario(
+    _IdPersonaEncriptado:string,
+    _Correo:string,
+    _Clave:string,
+  ){
+    const body = new HttpParams()
+      .set('IdPersonaEncriptado', _IdPersonaEncriptado)
+      .set('Correo', _Correo)
+      .set('Clave',_Clave);
+
+    return new Promise((resolve, reject) => {
+      this.http.post(this.apiUrl + 'usuario_insertar', body.toString(),{headers: this._header})
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          reject(err);
+        })
+    });
+
+  }
+
+
   //------------------------------------------------------------------------------
 
   private apiUrl = "http://192.168.25.20:90/api/"

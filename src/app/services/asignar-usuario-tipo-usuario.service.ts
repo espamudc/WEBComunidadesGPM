@@ -30,7 +30,7 @@ export class AsignarUsuarioTipoUsuarioService {
   ){
     const _body = new HttpParams()
       .set('Usuario.IdUsuarioEncriptado',_IdUsuarioEncriptado)
-      .set('TipoUsuario.IdTipoUsuarioEncriptado',_IdUsuarioEncriptado);
+      .set('TipoUsuario.IdTipoUsuarioEncriptado',_IdTipoUsuarioEncriptado);
       return new Promise((resolve, reject) => {
         this.http.post(url+'asignarusuariotipousuario_insertar',_body.toString(),{headers:this._header})
                   .subscribe(res=>{
@@ -45,7 +45,7 @@ export class AsignarUsuarioTipoUsuarioService {
     const _body = new HttpParams();
       // .set('_IdAsignarUsuarioTipoUsuarioEncriptado',_IdAsignarUsuarioTipoUsuarioEncriptado);
       return new Promise((resolve, reject) => {
-        this.http.post(url+'asignarusuariotipousuario_eliminar?_IdAsignarUsuarioTipoUsuario='+_IdAsignarUsuarioTipoUsuarioEncriptado,_body.toString(),{headers:this._header})
+        this.http.post(url+'asignarusuariotipousuario_eliminar?_IdAsignarUsuarioTipoUsuarioEncriptado='+_IdAsignarUsuarioTipoUsuarioEncriptado,_body.toString(),{headers:this._header})
                   .subscribe(res=>{
                     resolve(res);
                   },(err)=>{
