@@ -65,6 +65,7 @@
                         </div> 
                         <!-- (ngSubmit)="_validarForm()" -->
                         <button  type="button" class="btn btn-primary" [disabled]="_validar" (click)="_validarForm()">{{_btnAccion}}</button>                       
+                        <button *ngIf="_btnAccion==='Modificar'" type="button" class="btn btn-secondary" (click)="_refrescarForm()" style="float: right;">Refrescar <i class="fa fa-refresh" aria-hidden="true"></i></button>
                     </div>
                 </div>
             </div>
@@ -118,7 +119,7 @@
                         </div> 
                         
                         <div class="form-group"> 
-                            <input required [(ngModel)]="_direccion" [ngModelOptions]="{standalone: true}" name="_direccion" type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Dirección">
+                            <input required [(ngModel)]="_direccion" [ngModelOptions]="{standalone: true}" name="_direccion" (keyup)="_validarCompletos()" type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Dirección">
                             <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                         </div>
 

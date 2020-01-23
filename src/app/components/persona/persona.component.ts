@@ -67,7 +67,6 @@ export class PersonaComponent implements OnInit {
   _cmbCanton="0";
   _cmbProvincia="0";
   _IdPersonaEncriptado : any="0";
-  _refrescar = false;
   _primerNombre="";
   _segundoNombre="";
   _primerApellido="";
@@ -82,6 +81,7 @@ export class PersonaComponent implements OnInit {
   // @ViewChild('cmbSexo',{static:false}) cmbSexo:MatSelect;
 
   _validarCompletos(){
+    // debugger
     if (
       this._cmbSexo                !="0"     && 
       this._cmbTipoIdentificacion  !="0"     &&
@@ -132,34 +132,33 @@ export class PersonaComponent implements OnInit {
 
   _ingresarPersona() {
       this.personaService._insertarPersona(
-        this._primerNombre,
-        this._segundoNombre,
-        this._primerApellido,
-        this._segundoApellido,
-        this._numeroIdentificacion,
-        this._cmbTipoIdentificacion,
-        this._telefono,
-        this._cmbSexo,
-        this._cmbParroquia,//this.parroquia,
-        this._direccion,
-        'token'
-        ).then(
-          data => {
-            if (data['http']['codigo'] == '200') {
-              this._consultarPersonas();
-              this._refrescarTabla();
-            } else {
-              
-            }
-          },
-        )
-        .catch(
-          err => {
-            console.log(err);
+      this._primerNombre,
+      this._segundoNombre,
+      this._primerApellido,
+      this._segundoApellido,
+      this._numeroIdentificacion,
+      this._cmbTipoIdentificacion,
+      this._telefono,
+      this._cmbSexo,
+      this._cmbParroquia,//this.parroquia,
+      this._direccion,
+      'token'
+      ).then(
+        data => {
+          if (data['http']['codigo'] == '200') {
+            this._consultarPersonas();
+            this._refrescarTabla();
+          } else {
+            
           }
-        );
-        
-    // }
+        },
+      )
+      .catch(
+        err => {
+          console.log(err);
+        }
+      );
+
   }
   _modificarPersona() {
    
@@ -208,9 +207,6 @@ export class PersonaComponent implements OnInit {
           console.log(error);
         });
   }
-  // @ViewChild("tablaPersonas",{static:false}) tablaPersona : MatTable<any>;
-  // @ViewChild(MatTable,{static:false}) table: MatTable<any>;
-  // @ViewChild('tablaPersonas',{static:false}) myTable: MatTable<any>;
   _eliminarPersona(_persona:any){
     console.log("persona",_persona);
     console.log("listapersona despues",this._listaPersonas);
@@ -274,14 +270,6 @@ export class PersonaComponent implements OnInit {
   //@ViewChild('cmbTipoidentificacion',{static:false}) cmbTipoidentificacion:ElementRef;
   _prepararPersona(_persona:any){
     
-    
-    // const nombres   = _persona.PrimerNombre +' '+ _persona.SegundoNombre;
-    // const apellidos = _persona.PrimerApellido +' '+ _persona.SegundoApellido;
-    // this.myForm.get('_nombres').setValue(nombres);
-    // this.myForm.get('_apellidos').setValue(apellidos);
-    // this.myForm.get('_numeroDocumento').setValue(_persona.NumeroIdentificacion);
-    // this.myForm.get('_telefono1').setValue(_persona.Telefono);
-    // this.myForm.get('_direccion').setValue(_persona.Direccion);
     this._IdPersonaEncriptado= _persona.IdPersonaEncriptado;
     this._primerNombre=_persona.PrimerNombre;
     this._segundoNombre = _persona.SegundoNombre;
@@ -300,16 +288,25 @@ export class PersonaComponent implements OnInit {
     this._btnAccion="Modificar";
     this._validarCompletos();
     // this.nuevaPersona = "Modificar Persona";
-    this._refrescar = true;
+   
   }
 
   _refrescarForm(){
-    this._IdPersonaEncriptado = "0";
-    // this.myForm.reset();
-    this._cmbSexo= "0";
-    this._cmbTipoIdentificacion ="0";
-    // this.limpiarSelects();
-    this._refrescar = false;
+
+    this._cmbSexo ="0";
+    this._cmbTipoIdentificacion = "0";
+    this._cmbParroquia="0";
+    this._cmbCanton="0";
+    this._cmbProvincia="0";
+    this._IdPersonaEncriptado ="0";
+    this._primerNombre="";
+    this._segundoNombre="";
+    this._primerApellido="";
+    this._segundoApellido="";
+    this._telefono="";
+    this._direccion="";
+    this._numeroIdentificacion="";
+
     this._btnAccion="Guardar";
   }
 
