@@ -44,7 +44,7 @@ export class PersonaService {
     // const IdParroquia = _persona.Parroquia.IdParroquia.toString();
     // _persona.Parroquia.IdParroquia = IdParroquia;
     return new Promise ((resolve,reject)=>{
-      console.log("servicio:",_body.toString());
+      // console.log("servicio:",_body.toString());
       this.http.post(url+'persona_insertar', _body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);

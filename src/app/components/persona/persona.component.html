@@ -1,266 +1,201 @@
 <br>
-<div id="formPersonas" class="container">
-    <form [formGroup]="myForm" (ngSubmit)="validarFormulario()" novalidate>
+<div class="container">
+    <div class="row">
+        <div class="col-12"> <h2 style="text-align: center;">Personas</h2> <br> </div>
+    </div>
+    <form #frmPersona="ngForm" >
+
         <div class="row">
             <div class="col-lg-7">
                 <div class="card">
-                    <div class="card-header" style="text-align: center;">
-                        {{ nuevaPersona }}
-                        <button *ngIf="_refrescar" (click)="_refrescarForm()" class="btn" type="button"><i  style="text-align: right;" class="fa fa-undo" aria-hidden="true"></i></button>
-                    </div>
                     <div class="card-body">
-                        <div class="form-group">
-                            <input type="text" formControlName="_nombres" class="form-control"
-                                placeholder="Ingrese Nombres" (keyup)="onChangeInputNombres()">
-                            <div class="badge badge-danger mt-3 btn-block"
-                                *ngIf="_nombres.invalid && (_nombres.dirty || _nombres.touched)">
-                                <div *ngIf="_nombres.errors.required">
-                                    Nombres Requeridos
+                        <div class="form-group"> 
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input required type="text" [(ngModel)]="_primerNombre" [ngModelOptions]="{standalone: true}" name="_primerNombre" (keyup)="_validarCompletos()" class="form-control"  aria-describedby="emailHelp" placeholder="Primer Nombre">
+                                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                                 </div>
-                            </div>
-                            <div class="badge badge-danger mt-3 btn-block" [hidden]="inputNombres">
-                                Necesita dos Nombres
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" formControlName="_apellidos" class="form-control"
-                                placeholder="Ingrese Apellidos" (keyup)="onChangeInputApellidos()">
-                            <div class="badge badge-danger mt-3 btn-block"
-                                *ngIf="_apellidos.invalid && (_apellidos.dirty || _apellidos.touched)">
-                                <div *ngIf="_apellidos.errors.required">
-                                    Apellidos Requeridos
-                                </div>
-                            </div>
-                            <div class="badge badge-danger mt-3 btn-block" [hidden]="inputApellidos">
-                                Necesita dos Apellidos
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <select #cmbTipoidentificacion type="text" [(ngModel)]="_cmbtipoIdentificacion" [ngModelOptions]="{standalone: true}"
-                                class="form-control" (change)="onChangeSelectTipoDocumento($event.target.value)">
-                                <option value="0" disabled>Seleccione Tipo de identificación</option>
-                                <option *ngFor="let item of _listaTipoIdentificacion" value="{{item.IdTipoIdentificacionEncriptado}}">
-                                    {{ item.Descripcion }}
-                                </option>
-                            </select>
-                            <div class="badge badge-danger mt-3 btn-block" [hidden]="selectTipoDocumento">
-                                Tipo Documento Requerido
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <input type="number" formControlName="_numeroDocumento" (keyup)="onChangeInputCedula()"
-                                class="form-control" placeholder="Ingrese Número Documento">
-                            <div class="badge badge-danger mt-3 btn-block"
-                                *ngIf="_numeroDocumento.invalid && (_numeroDocumento.dirty || _numeroDocumento.touched)">
-                                <div *ngIf="_numeroDocumento.errors.required">
-                                    Numero de Documento Requerido
-                                </div>
-                            </div>
-                            <div class="badge badge-danger mt-3 btn-block" [hidden]="inputCedula">
-                                Cédula ya existe
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <select type="text" [(ngModel)]="_cmbSexo" [ngModelOptions]="{standalone: true}"
-                                class="form-control" (change)="onChangeSelectTipoSexo($event.target.value)">
-                                <option value="0" disabled="disabled" >Seleccione El Sexo</option>
-                                <option *ngFor="let item of _listaSexos" value="{{item.IdSexoEncriptado}}">
-                                    {{ item.Descripcion }}
-                                </option>
-                            </select>
-                            <div class="badge badge-danger mt-3 btn-block" [hidden]="selectTipoDocumento">
-                                Sexo Requerido
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <input type="number" formControlName="_telefono1" class="form-control"
-                                placeholder="Telefono">
-                            <div class="badge badge-danger mt-3 btn-block"
-                                *ngIf="_telefono1.invalid && (_telefono1.dirty || _telefono1.touched)">
-                                <div *ngIf="_telefono1.errors.required">
-                                    Telefono Requerido
+                                <div class="col-lg-6">
+                                    <input type="text" [(ngModel)]="_segundoNombre" [ngModelOptions]="{standalone: true}" name="_segundoNombre" (keyup)="_validarCompletos()" class="form-control"  aria-describedby="emailHelp" placeholder="Segundo Nombre">
+                                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>    -->
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group"> 
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input required type="text" [(ngModel)]="_primerApellido" [ngModelOptions]="{standalone: true}" name="_primerApellido" (keyup)="_validarCompletos()" class="form-control"  aria-describedby="emailHelp" placeholder="Primer Apellido">
+                                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                                </div>
+                                <div class="col-lg-6">
+                                    <input required type="text" [(ngModel)]="_segundoApellido" [ngModelOptions]="{standalone: true}" name="_segundoApellido" (keyup)="_validarCompletos()" class="form-control"  aria-describedby="emailHelp" placeholder="Segundo Apellido">
+                                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>    -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group"> 
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <select  [(ngModel)]="_cmbTipoIdentificacion" [ngModelOptions]="{standalone: true}" name="_cmbTipoIdentificacion" (change)="_validarCompletos()" class="form-control">
+                                        <option value="0" disabled>Seleccionar tipo de identificación</option>
+                                        <option *ngFor="let item of _listaTipoIdentificacion" value="{{item.IdTipoIdentificacionEncriptado}}" >{{ item.Descripcion }}</option>
+                                    </select>
+                                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                                </div>
+                                <div class="col-lg-6">
+                                    <input required [(ngModel)]="_numeroIdentificacion" [ngModelOptions]="{standalone: true}" name="_numeroIdentificacion" (keyup)="_validarCompletos()" type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Número de identificación">
+                                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>    -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group"> 
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <select  [(ngModel)]="_cmbSexo" [ngModelOptions]="{standalone: true}" class="form-control" name="_cmbSexo" (change)="_validarCompletos()">
+                                        <option value="0" disabled>Seleccionar sexo</option>
+                                        <option *ngFor="let item of _listaSexos" value="{{item.IdSexoEncriptado}}" >{{ item.Descripcion }}</option>
+                                    </select>
+                                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                                </div>
+                            </div>
+                        </div>      
+                        <div class="form-group"> 
+                            <input required [(ngModel)]="_telefono" [ngModelOptions]="{standalone: true}" name="_telefono" type="number" (keyup)="_validarCompletos()" class="form-control"  aria-describedby="emailHelp" placeholder="Telefono">
+                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                        </div> 
+                        <!-- (ngSubmit)="_validarForm()" -->
+                        <button  type="button" class="btn btn-primary" [disabled]="_validar" (click)="_validarForm()">{{_btnAccion}}</button>                       
                     </div>
                 </div>
             </div>
-
             <div class="col-lg-5">
                 <div class="card">
-                    <div class="card-header" style="text-align: center;">
-                        {{ direccion }}
-                    </div>
                     <div class="card-body">
-                        <div class="form-group">
-                            <select type="text" [(ngModel)]="provincia" [ngModelOptions]="{standalone: true}"
-                                class="form-control" (change)="_cantonesDeUnaProvincia($event.target.value)">
-                                <option value="0" disabled>Seleccionar Provincia </option>
-                                <option *ngFor="let item of _listaProvincias" value="{{item.IdProvinciaEncriptado}}">
-                                    {{ item.NombreProvincia }}
-                                </option>
-                            </select>
-                            <div class="badge badge-danger mt-3 btn-block" [hidden]="selectProvincia">
-                                Provincia Requerida
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <select type="text" [(ngModel)]="canton" [ngModelOptions]="{standalone: true}"
-                                class="form-control" (change)="_parroquiasDeUnCanton($event.target.value)">
-                                <option value="0" disabled>Seleccionar Cantón </option>
-                                <option *ngFor="let item of _listaCantones" value="{{item.IdCantonEncriptado}}">
-                                    {{ item.NombreCanton }}
-                                </option>
-                            </select>
-                            <div class="badge badge-danger mt-3 btn-block" [hidden]="selectCanton">
-                                Canton Requerida
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <select type="text" [(ngModel)]="parroquia" [ngModelOptions]="{standalone: true}"
-                                (change)="_comunidadesDeUnaParroquia($event.target.value)" class="form-control">
-                                <option value="0" disabled>Seleccionar Parroquia</option>
-                                <option *ngFor="let item of _listaParroquias" value="{{item.IdParroquiaEncriptado}}">
-                                    {{ item.NombreParroquia }}
-                                </option>
-                            </select>
-                            <div class="badge badge-danger mt-3 btn-block" [hidden]="selectParroquia">
-                                Parroquia Requerida
-                            </div>
-                        </div>
-                        <!-- <div class="form-group">
-                            <select type="text" [(ngModel)]="comunidad" [ngModelOptions]="{standalone: true}"
-                                 class="form-control">
-                                <option value="0" disabled>Seleccionar Comunidad</option>
-                                <option *ngFor="let item of _listaComunidades" value="{{item.IdComunidadEncriptado}}">
-                                    {{ item.NombreComunidad }}
-                                </option>
-                            </select>
-                            <div class="badge badge-danger mt-3 btn-block" [hidden]="selectParroquia">
-                                Comunidad Requerida
-                            </div>
-                        </div> -->
-                        <div class="form-group">
-                            <input type="text" formControlName="_direccion" class="form-control"
-                                placeholder="Ingrese Direccion" >
-                            <div class="badge badge-danger mt-3 btn-block"
-                                *ngIf="_direccion.invalid && (_direccion.dirty || _direccion.touched)">
-                                <div *ngIf="_direccion.errors.required">
-                                    Dirección Requeridos
+
+                        <div class="form-group"> 
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <select  [(ngModel)]="_cmbProvincia" 
+                                            [ngModelOptions]="{standalone: true}" 
+                                            name="_provincia" class="form-control"
+                                            (change)="_cantonesDeUnaProvincia($event.target.value)">
+                                        <option value="0" disabled>Seleccionar Provincia</option>
+                                        <option *ngFor="let item of _listaProvincias" value="{{item.IdProvinciaEncriptado}}">{{ item.NombreProvincia }}</option>
+                                    </select>
+                                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                                 </div>
                             </div>
-                            <div class="badge badge-danger mt-3 btn-block" [hidden]="inputDireccion">
-                                Necesita Dirección
-                            </div>
                         </div>
+                        <div class="form-group"> 
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <select  [(ngModel)]="_cmbCanton" 
+                                            [ngModelOptions]="{standalone: true}" 
+                                            name="_canton" 
+                                            class="form-control"
+                                            (change)="_parroquiasDeUnCanton($event.target.value)">
+                                        <option value="0" disabled>Seleccionar Cantón</option>
+                                        <option *ngFor="let item of _listaCantones" value="{{item.IdCantonEncriptado}}"> {{ item.NombreCanton }}</option>
+                                    </select>
+                                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="form-group"> 
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <select  [(ngModel)]="_cmbParroquia" 
+                                            [ngModelOptions]="{standalone: true}" 
+                                            name="_parroquia" 
+                                            class="form-control"
+                                            (change)="_comunidadesDeUnaParroquia($event.target.value)">
+                                        <option value="0" disabled>Seleccionar Parroquia</option>
+                                        <option *ngFor="let item of _listaParroquias" value="{{item.IdParroquiaEncriptado}}">{{ item.NombreParroquia }}</option>
+                                    </select>
+                                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                                </div>
+                            </div>
+                        </div> 
+                        
+                        <div class="form-group"> 
+                            <input required [(ngModel)]="_direccion" [ngModelOptions]="{standalone: true}" name="_direccion" type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Dirección">
+                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
-        <br>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="form-group">
-                    <button type="submit" class="form-control btn-success" [value]="botonInsertar" #testButton [disabled]="myForm.invalid">Guardar Persona</button>
+
+        
+    </form>
+<br>
+    <!-- <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                              <tr>
+                                <th scope="col">Nombres</th>
+                                <th scope="col">Apellidoa</th>
+                                <th scope="col">Documento</th>
+                                <th scope="col">Nº Documento</th>
+                                <th scope="col" style="text-align: center;">Acciones</th>
+                              </tr>
+                            </thead>
+                            <tbody class="scroll">
+                                <tr *ngFor="let item of _listaPersonas">
+                                    <td> {{ item.PrimerNombre }} {{ item.SegundoNombre }} </td>
+                                    <td> {{ item.PrimerApellido}} {{item.SegundoApellido}} </td>
+                                    <td> {{ item.TipoIdentificacion.Descripcion }} </td>
+                                    <td> {{item.NumeroIdentificacion}} </td>
+                                    <td class="form-group text-center"> 
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <button tooltip="Ver Información" 
+                                                    class="btn btn-sm btn-outline-primary separacion-botones "
+                                                    value="{{item.IdPersonaEncriptado}}"
+                                                    (click)="_verPersona(item)">
+                                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                            <div class="col-4">
+                                                <button tooltip="Modificar" 
+                                                    class="btn btn-sm btn-outline-info separacion-botones "
+                                                    value="{{item.IdPersonaEncriptado}}"
+                                                    (click)="_prepararPersona(item)">
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                            <div class="col-4">
+                                                <button tooltip="Eliminar" *ngIf="item.Utilizado==0"
+                                                    class="btn btn-sm btn-outline-danger separacion-botones"
+                                                    value="{{item.IdPersonaEncriptado}}" (click)="_eliminarPersona(item)">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                    
+                                        
+                                    
+                                       
+                                        
+                                    </td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                      </div>
                 </div>
             </div>
-        </div>
-    </form>
-
-    <div class="row">
-        <div class="col-lg-12">
-            <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th scope="col">Nombres</th>
-                    <th scope="col">Apellidoa</th>
-                    <th scope="col">Documento</th>
-                    <th scope="col">Nº Documento</th>
-                    <th scope="col" style="text-align: center;">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody class="scroll">
-                    <tr *ngFor="let item of _listaPersonas">
-                        <td> {{ item.PrimerNombre }} {{ item.SegundoNombre }} </td>
-                        <td> {{ item.PrimerApellido}} {{item.SegundoApellido}} </td>
-                        <td> {{ item.TipoIdentificacion.Descripcion }} </td>
-                        <td> {{item.NumeroIdentificacion}} </td>
-                        <td style="text-align: center !important;"> 
-                            
-                            <button tooltip="Ver Información" 
-                                class="btn btn-sm btn-outline-primary separacion-botones "
-                                value="{{item.IdPersonaEncriptado}}"
-                                (click)="_verPersona(item)">
-                                <i class="fa fa-eye" aria-hidden="true"></i>
-                            </button>
-                        
-                            <button tooltip="Modificar" 
-                                class="btn btn-sm btn-outline-info separacion-botones "
-                                value="{{item.IdPersonaEncriptado}}"
-                                (click)="_prepararPersona(item)">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                            </button>
-                        
-                            <button tooltip="Eliminar" 
-                                class="btn btn-sm btn-outline-danger separacion-botones"
-                                value="{{item.IdPersonaEncriptado}}" (click)="_eliminarPersona(item)">
-                                <i class="fa fa-trash" aria-hidden="true"></i>
-                            </button>
-                            
-                        </td>
-                        
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- <div class="row">
-        <div class="col-md-12">
-            <div class="table-responsive-sm">
-                <table class="table table-sm">
-                    <thead class="card-header">
-                        <tr>
-                            <th scope="col">Nombres</th>
-                            <th scope="col">Apellidoa</th>
-                            <th scope="col">Documento</th>
-                            <th scope="col">Nº Documento</th>
-                            <th scope="col" style="text-align: center;">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="mat-elevation-z5">
-                        <tr *ngFor="let element of _listaPersonas">
-                            <td> {{ element.PrimerNombre }} {{ element.SegundoNombre }} </td>
-                            <td> {{ element.PrimerApellido}} {{element.SegundoApellido}} </td>
-                            <td> {{ element.TipoIdentificacion.Descripcion }} </td>
-                            <td> {{element.NumeroIdentificacion}} </td>
-                            <td> 
-                                <button tooltip="Ver Información" placement="top"
-                                    class="btn btn-sm btn-outline-primary separacion-botones"
-                                    value="{{element.IdPersonaEncriptado}}"
-                                    (click)="_verPersona(element)">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
-                                </button>
-                                <button tooltip="Modificar" placement="top"
-                                    class="btn btn-sm btn-outline-info separacion-botones"
-                                    value="{{element.IdPersonaEncriptado}}"
-                                    (click)="_prepararPersona(element)">
-                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                </button>
-                                <button tooltip="Eliminar" placement="top"
-                                    class="btn btn-sm btn-outline-danger separacion-botones"
-                                    value="{{element.IdPersonaEncriptado}}" (click)="_eliminarPersona(element)">
-                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                </button>
-                            </td>
-                            
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+           
         </div>
     </div> -->
-    <!-- <div class="row">
+
+    <div class="row">
         <div class="col-md-12">
             <div class="form-group input-container">
                 <i class="fa fa-search icon"></i>
@@ -270,25 +205,25 @@
 
             <div class="tablaPersonas mat-elevation-z5">
                 <table mat-table [dataSource]="_listaPersonas">
-                    <ng-container matColumnDef="nombres">
+                    <ng-container matColumnDef="Nombres">
                         <th mat-header-cell *matHeaderCellDef> Nombres </th>
                         <td mat-cell *matCellDef="let element"> {{ element.PrimerNombre }} {{ element.SegundoNombre }}
                         </td>
                     </ng-container>
-                    <ng-container matColumnDef="apellidos">
+                    <ng-container matColumnDef="Apellidos">
                         <th mat-header-cell *matHeaderCellDef> Apellidos </th>
                         <td mat-cell *matCellDef="let element"> {{ element.PrimerApellido}} {{element.SegundoApellido}}
                             </td>
                     </ng-container>
-                    <ng-container matColumnDef="documento">
+                    <ng-container matColumnDef="TipoIdentidicacion">
                         <th mat-header-cell *matHeaderCellDef> Documento </th>
                         <td mat-cell *matCellDef="let element"> {{ element.TipoIdentificacion.Descripcion }} </td>
                     </ng-container>
-                    <ng-container matColumnDef="numeroDocumento">
+                    <ng-container matColumnDef="Identificacion">
                         <th mat-header-cell *matHeaderCellDef> No. Documento </th>
                         <td mat-cell *matCellDef="let element"> {{element.NumeroIdentificacion}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="acciones">
+                    <ng-container matColumnDef="Acciones">
                         <th colspan="2" mat-header-cell *matHeaderCellDef> Acciones </th>
                         <ng-container *matCellDef="let element">
                             <ng-container >
@@ -309,7 +244,7 @@
                                     </button>
                                 </td>
                                 <td mat-cell>
-                                    <button tooltip="Eliminar" placement="top"
+                                    <button tooltip="Eliminar" placement="top" *ngIf="element.Utilizado==0"
                                         class="btn btn-sm btn-outline-danger separacion-botones"
                                         value="{{element.IdPersonaEncriptado}}" (click)="_eliminarPersona(element)">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
@@ -323,9 +258,6 @@
                 </table>
             </div>
         </div>
-    </div> -->
-</div>
+    </div>
 
-<ul>
-    <!-- <li *ngFor="let item of _listaPersonas" (click)="_eliminarPersona(item)"> {{item.IdPersonaEncriptado}}</li> -->
-</ul>
+</div>
