@@ -153,6 +153,10 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
     // )
   }
 // ----------------------------------------------------------------------------------------------
+  _ordenar(){
+    this._listaTiposUsuarios.sort();
+    this._listaAsignarUsuarioTipoUsuario.sort();
+  }
   _listaTiposUsuarios:any[]=[];
   async _consultarTiposUsuarios(){
     console.log("_consultarTiposUsuarios");
@@ -177,6 +181,7 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
           data['respuesta'].map(element => {
             // this._listaAsignarUsuarioTipoUsuario.push(element['TipoUsuario']);
             this._listaAsignarUsuarioTipoUsuario.push(element);
+            
           });
 
         }else{
@@ -208,9 +213,8 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._listaAsignarUsuarioTipoUsuario.push(data['respuesta']);
-        // this._consultarTiposUsuarios();
-        // this._consultarTiposUsuariosUsados();
-        // this._validarTiposUsados();
+        this.testSelect.nativeElement.value = "0";
+        this._ordenar();
       }else{
         console.log(data['http']);
       }
@@ -228,7 +232,11 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
         if (data['http']['codigo']=='200') {
           var index = this._listaAsignarUsuarioTipoUsuario.indexOf(_item);
           this._listaAsignarUsuarioTipoUsuario.splice(index, 1);
-          this._validarTiposUsados();
+          //this._validarTiposUsados();
+          if (!this._listaTiposUsuarios.includes(_item['TipoUsuario'])) {
+            this._listaTiposUsuarios.push(_item['TipoUsuario']);
+          }
+          this._ordenar();
           // this._listaTiposUsuarios.push(_item['TipoUsuario']);
         }else{
           console.log(data['http']);
@@ -239,12 +247,6 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
       });
   }
 
-  // _borrarTipoUsuario(_item){
-  //   console.log(_item);
-  //   // this._listaTiposUsuarios.find(dato=>dato.IdTipoUsuarioEnciptado==_item.IdTipoUsuarioEnciptado)
-  //   console.log("indexof",this._listaTiposUsuarios.indexOf(dato => dato.IdTipoUsuarioEncriptado == _item.IdTipoUsuarioEncriptado));
-  //   // debugger
-  //   // this._listaTiposUsuarios.splice(this._listaTiposUsuarios.indexOf(dato => dato.IdTipoUsuarioEnciptado === _item.IdTipoUsuarioEnciptado), 1);
-  // }
+
 
 }

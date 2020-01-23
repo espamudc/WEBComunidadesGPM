@@ -94,10 +94,10 @@
                     <div class="card-body">
                         <div class="form-group">
                             <select type="text" [(ngModel)]="provincia" [ngModelOptions]="{standalone: true}"
-                                class="form-control" (change)="cantonesDeUnaProvincia($event.target.value)">
+                                class="form-control" (change)="_cantonesDeUnaProvincia($event.target.value)">
                                 <option value="0" disabled>Seleccionar Provincia </option>
-                                <option *ngFor="let item of provincias" value="{{item.IdProvincia}}">
-                                    {{ item.Descripcion }}
+                                <option *ngFor="let item of _listaProvincias" value="{{item.IdProvinciaEncriptado}}">
+                                    {{ item.NombreProvincia }}
                                 </option>
                             </select>
                             <div class="badge badge-danger mt-3 btn-block" [hidden]="selectProvincia">
@@ -106,10 +106,10 @@
                         </div>
                         <div class="form-group">
                             <select type="text" [(ngModel)]="canton" [ngModelOptions]="{standalone: true}"
-                                class="form-control" (change)="parroquiasDeUnCanton($event.target.value)">
+                                class="form-control" (change)="_parroquiasDeUnCanton($event.target.value)">
                                 <option value="0" disabled>Seleccionar Cantón </option>
-                                <option *ngFor="let item of cantones" value="{{item.IdCanton}}">
-                                    {{ item.Descripcion }}
+                                <option *ngFor="let item of _listaCantones" value="{{item.IdCantonEncriptado}}">
+                                    {{ item.NombreCanton }}
                                 </option>
                             </select>
                             <div class="badge badge-danger mt-3 btn-block" [hidden]="selectCanton">
@@ -118,16 +118,28 @@
                         </div>
                         <div class="form-group">
                             <select type="text" [(ngModel)]="parroquia" [ngModelOptions]="{standalone: true}"
-                                (change)="onChangeSelectParroquia($event.target.value)" class="form-control">
+                                (change)="_comunidadesDeUnaParroquia($event.target.value)" class="form-control">
                                 <option value="0" disabled>Seleccionar Parroquia</option>
-                                <option *ngFor="let item of parroquias" value="{{item.IdParroquia}}">
-                                    {{ item.Descripcion }}
+                                <option *ngFor="let item of _listaParroquias" value="{{item.IdParroquiaEncriptado}}">
+                                    {{ item.NombreParroquia }}
                                 </option>
                             </select>
                             <div class="badge badge-danger mt-3 btn-block" [hidden]="selectParroquia">
                                 Parroquia Requerida
                             </div>
                         </div>
+                        <!-- <div class="form-group">
+                            <select type="text" [(ngModel)]="comunidad" [ngModelOptions]="{standalone: true}"
+                                 class="form-control">
+                                <option value="0" disabled>Seleccionar Comunidad</option>
+                                <option *ngFor="let item of _listaComunidades" value="{{item.IdComunidadEncriptado}}">
+                                    {{ item.NombreComunidad }}
+                                </option>
+                            </select>
+                            <div class="badge badge-danger mt-3 btn-block" [hidden]="selectParroquia">
+                                Comunidad Requerida
+                            </div>
+                        </div> -->
                         <div class="form-group">
                             <input type="text" formControlName="_direccion" class="form-control"
                                 placeholder="Ingrese Direccion" >
@@ -154,7 +166,101 @@
             </div>
         </div>
     </form>
+
     <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Nombres</th>
+                    <th scope="col">Apellidoa</th>
+                    <th scope="col">Documento</th>
+                    <th scope="col">Nº Documento</th>
+                    <th scope="col" style="text-align: center;">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody class="scroll">
+                    <tr *ngFor="let item of _listaPersonas">
+                        <td> {{ item.PrimerNombre }} {{ item.SegundoNombre }} </td>
+                        <td> {{ item.PrimerApellido}} {{item.SegundoApellido}} </td>
+                        <td> {{ item.TipoIdentificacion.Descripcion }} </td>
+                        <td> {{item.NumeroIdentificacion}} </td>
+                        <td style="text-align: center !important;"> 
+                            
+                            <button tooltip="Ver Información" 
+                                class="btn btn-sm btn-outline-primary separacion-botones "
+                                value="{{item.IdPersonaEncriptado}}"
+                                (click)="_verPersona(item)">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </button>
+                        
+                            <button tooltip="Modificar" 
+                                class="btn btn-sm btn-outline-info separacion-botones "
+                                value="{{item.IdPersonaEncriptado}}"
+                                (click)="_prepararPersona(item)">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </button>
+                        
+                            <button tooltip="Eliminar" 
+                                class="btn btn-sm btn-outline-danger separacion-botones"
+                                value="{{item.IdPersonaEncriptado}}" (click)="_eliminarPersona(item)">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                            
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive-sm">
+                <table class="table table-sm">
+                    <thead class="card-header">
+                        <tr>
+                            <th scope="col">Nombres</th>
+                            <th scope="col">Apellidoa</th>
+                            <th scope="col">Documento</th>
+                            <th scope="col">Nº Documento</th>
+                            <th scope="col" style="text-align: center;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="mat-elevation-z5">
+                        <tr *ngFor="let element of _listaPersonas">
+                            <td> {{ element.PrimerNombre }} {{ element.SegundoNombre }} </td>
+                            <td> {{ element.PrimerApellido}} {{element.SegundoApellido}} </td>
+                            <td> {{ element.TipoIdentificacion.Descripcion }} </td>
+                            <td> {{element.NumeroIdentificacion}} </td>
+                            <td> 
+                                <button tooltip="Ver Información" placement="top"
+                                    class="btn btn-sm btn-outline-primary separacion-botones"
+                                    value="{{element.IdPersonaEncriptado}}"
+                                    (click)="_verPersona(element)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </button>
+                                <button tooltip="Modificar" placement="top"
+                                    class="btn btn-sm btn-outline-info separacion-botones"
+                                    value="{{element.IdPersonaEncriptado}}"
+                                    (click)="_prepararPersona(element)">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </button>
+                                <button tooltip="Eliminar" placement="top"
+                                    class="btn btn-sm btn-outline-danger separacion-botones"
+                                    value="{{element.IdPersonaEncriptado}}" (click)="_eliminarPersona(element)">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> -->
+    <!-- <div class="row">
         <div class="col-md-12">
             <div class="form-group input-container">
                 <i class="fa fa-search icon"></i>
@@ -163,7 +269,7 @@
             </div>
 
             <div class="tablaPersonas mat-elevation-z5">
-                <table  mat-table [dataSource]="_listaPersonas">
+                <table mat-table [dataSource]="_listaPersonas">
                     <ng-container matColumnDef="nombres">
                         <th mat-header-cell *matHeaderCellDef> Nombres </th>
                         <td mat-cell *matCellDef="let element"> {{ element.PrimerNombre }} {{ element.SegundoNombre }}
@@ -172,7 +278,7 @@
                     <ng-container matColumnDef="apellidos">
                         <th mat-header-cell *matHeaderCellDef> Apellidos </th>
                         <td mat-cell *matCellDef="let element"> {{ element.PrimerApellido}} {{element.SegundoApellido}}
-                            {{ element.ApellidoMaterno }} </td>
+                            </td>
                     </ng-container>
                     <ng-container matColumnDef="documento">
                         <th mat-header-cell *matHeaderCellDef> Documento </th>
@@ -185,32 +291,7 @@
                     <ng-container matColumnDef="acciones">
                         <th colspan="2" mat-header-cell *matHeaderCellDef> Acciones </th>
                         <ng-container *matCellDef="let element">
-                            <ng-container *ngIf="element.IdUsuario == ''">
-                                <td mat-cell>
-                                    <button tooltip="Ver Información" placement="top"
-                                        class="btn btn-sm btn-outline-primary separacion-botones"
-                                        value="{{element.IdPersonaEncriptado}}"
-                                        (click)="_verPersona(element)">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
-                                    </button>
-                                </td>
-                                <td mat-cell>
-                                    <button tooltip="Modificar" placement="top"
-                                        class="btn btn-sm btn-outline-info separacion-botones"
-                                        value="{{element.IdPersonaEncriptado}}"
-                                        (click)="_prepararPersona(element)">
-                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                    </button>
-                                </td>
-                                <td mat-cell>
-                                    <button tooltip="Eliminar" placement="top"
-                                        class="btn btn-sm btn-outline-danger separacion-botones"
-                                        value="{{element.IdPersonaEncriptado}}" (click)="_eliminarPersona(element)">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                    </button>
-                                </td>
-                            </ng-container>
-                            <ng-container *ngIf="!element.IdUsuario != ''">
+                            <ng-container >
                                 <td mat-cell>
                                     <button tooltip="Ver Información" placement="top"
                                         class="btn btn-sm btn-outline-primary separacion-botones"
@@ -242,7 +323,7 @@
                 </table>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 
 <ul>

@@ -36,7 +36,7 @@ export class PersonaService {
           .set('TipoIdentificacion.IdTipoIdentificacionEncriptado',_IdTipoIdentificacionEncriptado)
           .set('Telefono'             ,_Telefono)
           .set('Sexo.IdSexoEncriptado',_IdSexoEncriptado)
-          .set('Parroquia'            ,_IdParroquiaEncriptado) //se debe cambiar esto cuando exista la tabla de parroquia
+          .set('Parroquia.IdParroquiaEncriptado'            ,_IdParroquiaEncriptado) //se debe cambiar esto cuando exista la tabla de parroquia
           .set('Direccion'            ,_Direccion)
           .set('Token'                ,_Token);
     // _body.
@@ -67,7 +67,7 @@ export class PersonaService {
     _Direccion:string,
     _Token:string
   ){
-    // debugger
+    // 
     const _body = new HttpParams()
           .set('IdPersonaEncriptado'  ,_IdPersonaEncriptado)
           .set('PrimerNombre'         ,_PrimerNombre)
@@ -96,19 +96,16 @@ export class PersonaService {
     });
   }
   _eliminarPersona(
-    _IdPersonaEncriptado:string,
-    _Token:string
+    _IdPersonaEncriptado:string
   ){
-    const _body = new HttpParams()
-          .set('IdPersonaEncriptado'  ,_IdPersonaEncriptado)
-          .set('Token'                ,_Token);
+    const _body = new HttpParams();
     // _body.
     //_persona.Parroquia.IdParroquia=1; // se debe cambiar esto cuando se tenga los modulos de Parroquia
     // const IdParroquia = _persona.Parroquia.IdParroquia.toString();
     // _persona.Parroquia.IdParroquia = IdParroquia;
     return new Promise ((resolve,reject)=>{
       console.log("servicio:",_body.toString());
-      this.http.post(url+'persona_eliminar', _body.toString(),{headers:this._header})
+      this.http.post(url+'persona_eliminar?_idPersonaEncriptado='+_IdPersonaEncriptado, _body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{
@@ -117,7 +114,7 @@ export class PersonaService {
     });
   }
   _consultarPersonas(_token:string){
-    // debugger
+    // 
     const _body = new HttpParams().set('Token',_token);
     
     return new Promise((resolve, reject) => {

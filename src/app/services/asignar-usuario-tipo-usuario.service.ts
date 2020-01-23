@@ -11,12 +11,12 @@ export class AsignarUsuarioTipoUsuarioService {
   
   private _header = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-  _consultarAsignarUsuarioTipoUsuario(_IdUsuarioEnciptado:string)
+  _consultarAsignarUsuarioTipoUsuario(_IdUsuarioEncriptado:string)
   {
     const _body = new HttpParams();
     
     return new Promise((resolve, reject) => {
-      this.http.post(url+'asignarusuariotipousuario_consultar?_IdUsuarioEncriptado='+_IdUsuarioEnciptado,_body.toString(),{headers:this._header})
+      this.http.post(url+'asignarusuariotipousuario_consultar?_IdUsuarioEncriptado='+_IdUsuarioEncriptado,_body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{
