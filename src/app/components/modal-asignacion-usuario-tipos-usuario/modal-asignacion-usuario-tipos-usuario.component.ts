@@ -25,8 +25,8 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
   botonEliminar = false;
   idUsuario = this.data.idUsuario;
   tipoUsuario = '0';
-  tipoUsuarios: TipoUsuario[] = [];
-  listaTipoUsuario = this.data.listaTipoUsuario;
+  // tipoUsuarios: TipoUsuario[] = [];
+  // listaTipoUsuario = this.data.listaTipoUsuario;
   idTipoUsuario: string;
   descripcion: string;
 
@@ -143,6 +143,8 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
     // this.testSelect.nativeElement.value="0";
     this._consultarTiposUsuarios().then(data=>{
       this._consultarTiposUsuariosUsados();
+    }).catch(error=>{
+      
     });
     
     // this.consultarTipoUsuario();
@@ -160,7 +162,7 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
   _listaTiposUsuarios:any[]=[];
   async _consultarTiposUsuarios(){
     console.log("_consultarTiposUsuarios");
-     await this.tipoUsuariosService.consultarTiposUsuarios()
+     await this.tipoUsuariosService._consultarTiposUsuarios()
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaTiposUsuarios = data['respuesta'];
@@ -193,6 +195,18 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
       });
   }
   _validarTiposUsados(){
+    this._listaAsignarUsuarioTipoUsuario.map((item,index)=>{
+      // var obj= this._listaTiposUsuarios.find(dato=>dato.IdTipoUsuarioEncriptado===item.IdTipoUsuarioEncriptado);
+      var obj= this._listaTiposUsuarios.find(dato=>dato.IdTipoUsuarioEncriptado===item.TipoUsuario.IdTipoUsuarioEncriptado);
+      
+      if (this._listaTiposUsuarios.includes(obj)) {
+        var indexOf = this._listaTiposUsuarios.indexOf(obj);
+        this._listaTiposUsuarios.splice(indexOf,1);
+      }
+    });
+    console.log(this._listaTiposUsuarios);
+  }
+  _validarTiposUsados2(){
     this._listaAsignarUsuarioTipoUsuario.map((item,index)=>{
       // var obj= this._listaTiposUsuarios.find(dato=>dato.IdTipoUsuarioEncriptado===item.IdTipoUsuarioEncriptado);
       var obj= this._listaTiposUsuarios.find(dato=>dato.IdTipoUsuarioEncriptado===item.TipoUsuario.IdTipoUsuarioEncriptado);
@@ -247,6 +261,9 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
       });
   }
 
+  _consultarDatosModal(){
+   
+  }
 
 
 }
