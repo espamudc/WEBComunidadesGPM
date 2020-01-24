@@ -8,27 +8,52 @@
                 </div>
                 <div class="card-body">
                     <input [value]="idCanton" class="form-control" type="number" readonly disabled hidden>
-                    <div class="form-group">
-                        <input [value]="canton" type="text" class="form-control" readonly disabled>
-                    </div>
-                    <form [formGroup]="myForm" (ngSubmit)="validarFormulario()" novalidate>
-                        <div class="form-group">
-                            <input formControlName="_parroquia" class="form-control" type="text"
-                                placeholder="Ingrese Parroquia">
-                            <div class="badge badge-danger mt-3 btn-block" [hidden]="inputIdCanton">
-                                Canton Requerido
-                            </div>
-                            <div class="badge badge-danger mt-3 btn-block"
-                                *ngIf="_parroquia.invalid && (_parroquia.dirty || _parroquia.touched)">
-                                <div *ngIf="_parroquia.errors.required">
-                                    Parroquia Requerida
-                                </div>
-                            </div>
+
+                    <form #frmParroquia="ngForm" (ngSubmit)="_validarFormulario()" >
+                        <div class="form-group"> 
+                            <input disabled required [(ngModel)]="_nombreProvincia" [ngModelOptions]="{standalone: true}" name="_nombreProvincia" type="text" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Provincia">
+                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                         </div>
+                        <div class="form-group"> 
+                            <input disabled required [(ngModel)]="_nombreCanton" [ngModelOptions]="{standalone: true}" name="_nombreCanton" type="text" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Canton">
+                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                        </div>
+                        <div class="form-group"> 
+                            <input  required [(ngModel)]="_codigoParroquia" [ngModelOptions]="{standalone: true}" name="_codigoParroquia" type="text" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Código de la Parroquia">
+                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                        </div> 
+                        <div class="form-group"> 
+                            <input required [(ngModel)]="_nombreParroquia" [ngModelOptions]="{standalone: true}" name="_nombreParroquia" type="text" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Nombre">
+                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                        </div> 
+                        <div class="form-group"> 
+                            <input [(ngModel)]="_descripcionParroquia" [ngModelOptions]="{standalone: true}" name="_descripcionParroquia" type="text"  class="form-control"  aria-describedby="emailHelp" placeholder="Descripción"> <!-- (keyup)="_validarCompletos($event)"-->
+                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                        </div> 
+                        <!-- <div class="form-group"> 
+                            <input #rutaLogoParroquia [(ngModel)]="_rutaLogoParroquia" [ngModelOptions]="{standalone: true}" name="_rutaLogoParroquia" type="file" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Telefono"> -->
+                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                        <!-- </div>  -->
+                           
                         <div class="form-group">
-                            <button type="submit" [value]="botonIngresar" [disabled]="myForm.invalid"
-                                class="form-control btn-success" #testButton>Guardar
-                                Parroquia</button>
+                            <button type="submit" [disabled]="_validar" *ngIf="_btnAccion==='Guardar'"
+                                class="form-control btn-success" >{{_btnAccion}}
+                            </button>
+                        </div>
+                        <div class="form-group" *ngIf="_btnAccion==='Modificar'">
+                            <div class="row">
+                                <div class="col-6">
+                                    <button  type="submit" [disabled]="_validar" 
+                                        class="form-control btn-success" >{{_btnAccion}}
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button  type="button" 
+                                        class="form-control btn-secondary" (click)="_limpiarForm()">Refrescar <i class="fa fa-refresh" aria-hidden="true"></i>
+                                    </button>
+                                </div>    
+                                
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -45,39 +70,18 @@
                             placeholder="Ejem. Tosagua">
                         <i class="fa fa-refresh icon" (click)="consultarParroquias()" aria-hidden="true"></i>
                     </div>
-                    <!-- <div class="table-responsive-sm">
-                        <table class="table table-sm">
-                            <thead class="card-header">
-                                <tr>
-                                    <th scope="col">Canton</th>
-                                    <th scope="col" style="text-align: center;">Seleccionar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of cantones | filter: filterCanton : 'Descripcion'">
-                                    <td> {{ item.Descripcion }} </td>
-                                    <td>
-                                        <button tooltip="Seleccionar" placement="top"
-                                            class="btn btn-sm btn-block btn-outline-warning" (click)="setCanton(item)">
-                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                        </button>
-                                    </td>
-                            </tbody>
-                        </table>
-                    </div> -->
-
 
                     <div class="tablaCantones mat-elevation-z5">
-                        <table mat-table [dataSource]="cantones">
+                        <table #MatTableCantones mat-table [dataSource]="_listaCantones">
                             <ng-container matColumnDef="canton">
                                 <th mat-header-cell *matHeaderCellDef> Cantón </th>
-                                <td mat-cell *matCellDef="let element"> {{element.Descripcion}} </td>
+                                <td mat-cell *matCellDef="let element"> {{element.NombreCanton}} </td>
                             </ng-container>
                             <ng-container matColumnDef="acciones">
                                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
                                 <td mat-cell *matCellDef="let element">
                                     <button tooltip="Seleccionar" placement="top"
-                                        class="btn btn-sm btn-block btn-outline-warning" (click)="setCanton(element)">
+                                        class="btn btn-sm btn-block btn-outline-warning" (click)="_prepararCanton(element)">
                                         <i class="fa fa-plus" aria-hidden="true"></i>
                                     </button>
                                 </td>
@@ -104,89 +108,36 @@
                                     placeholder="Ejem. Bachillero">
                                 <i class="fa fa-refresh icon" (click)="consultarParroquias()" aria-hidden="true"></i>
                             </div>
-                            <!-- <div class="table-responsive-sm">
-                                <table class="table table-sm">
-                                    <thead class="card-header">
-                                        <tr>
-                                            <th scope="col">Parroquia</th>
-                                            <th scope="col">Cantón</th>
-                                            <th scope="col" colspan="2" style="text-align: center;">Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let item of parroquias | filter: filterParroquia : 'Descripcion'">
-                                            <td> {{ item.Descripcion }} </td>
-                                            <td> {{ item.Canton.Descripcion }} </td>
-                                            <ng-container
-                                                *ngIf="item.PermitirEliminacion; then sePuedeEliminar; else noSePuedeEliminar">
-                                            </ng-container>
-                                            <ng-template #noSePuedeEliminar>
-                                                <td colspan="2">
-                                                    <button tooltip="Modificar" placement="top"
-                                                        class="btn btn-block btn-sm btn-outline-info separacion-botones"
-                                                        value="{{item.IdParroquia}}" (click)=mostrarParroquia(item)>
-                                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                    </button>
-                                                </td>
-                                            </ng-template>
-                                            <ng-template #sePuedeEliminar>
-                                                <td>
-                                                    <button tooltip="Modificar" placement="top"
-                                                        class="btn btn-block btn-sm btn-outline-info separacion-botones"
-                                                        value="{{item.IdParroquia}}" (click)=mostrarParroquia(item)>
-                                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <button
-                                                        class="btn btn-block btn-sm btn-outline-danger separacion-botones"
-                                                        value="{{item.IdParroquia}}"
-                                                        (click)=eliminarParroquia(item.IdParroquia)>
-                                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                                    </button>
-                                                </td>
-                                            </ng-template>
-                                    </tbody>
-                                </table>
-                            </div> -->
 
                             <div class="tablaParroquias mat-elevation-z5">
-                                <table mat-table [dataSource]="parroquias">
+                                <table mat-table [dataSource]="_listaParroquias">
                                     <ng-container matColumnDef="parroquia">
                                         <th mat-header-cell *matHeaderCellDef> Parroquia </th>
-                                        <td mat-cell *matCellDef="let element"> {{element.Descripcion}} </td>
+                                        <td mat-cell *matCellDef="let element"> {{element.NombreParroquia}} </td>
                                     </ng-container>
                                     <ng-container matColumnDef="canton">
                                         <th mat-header-cell *matHeaderCellDef> Cantón </th>
-                                        <td mat-cell *matCellDef="let element"> {{element.Canton.Descripcion}} </td>
+                                        <td mat-cell *matCellDef="let element"> {{element.Canton.NombreCanton}} </td>
                                     </ng-container>
                                     <ng-container matColumnDef="acciones">
                                         <th colspan="2" mat-header-cell *matHeaderCellDef> Acciones </th>
                                         <ng-container *matCellDef="let element">
-                                            <ng-container *ngIf="element.PermitirEliminacion">
+                                            <ng-container >
                                                 <td mat-cell>
                                                     <button tooltip="Modificar" placement="top"
-                                                        class="btn btn-sm btn-outline-info" value="{{element.IdParroquia}}"
-                                                        (click)=mostrarParroquia(element)>
+                                                        class="btn btn-sm btn-outline-info" value="{{element.IdParroquiaEncriptado}}"
+                                                        (click)=_prepararParroquia(element)>
                                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                     </button>
                                                 </td>
                                                 <td mat-cell>
-                                                    <button class="btn btn-sm btn-outline-danger" value="{{element.IdParroquia}}"
-                                                        (click)=eliminarParroquia(element.IdParroquia)>
+                                                    <button *ngIf="element.Utilizado == 0" class="btn btn-sm btn-outline-danger" value="{{element.IdParroquiaEncriptado}}"
+                                                        (click)=eliminarParroquia(element)>
                                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                                     </button>
                                                 </td>
                                             </ng-container>
-                                            <ng-container *ngIf="!element.PermitirEliminacion">
-                                                <td mat-cell colspan="2">
-                                                    <button tooltip="Modificar" placement="top"
-                                                        class="btn btn-sm btn-outline-info" value="{{element.IdParroquia}}"
-                                                        (click)=mostrarParroquia(element)>
-                                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                    </button>
-                                                </td>
-                                            </ng-container>
+                                            
                                         </ng-container>
                                     </ng-container>
                                     <tr mat-header-row *matHeaderRowDef="tablaParroquias

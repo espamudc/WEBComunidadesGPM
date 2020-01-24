@@ -86,6 +86,7 @@ import { MatTableModule } from '@angular/material';
     MatChipsModule,
     TooltipModule,
   ],
+  exports:[],
   entryComponents: [ 
     ModalDetallePersonaComponent,
     ModalAsignacionUsuarioPersonaComponent ,
