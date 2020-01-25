@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { FormGroup, FormControl, Validators, Form } from '@angular/forms';
 
 // Services
 import { PanelAdministracionService } from 'src/app/services/panel-administracion.service';
@@ -10,196 +10,264 @@ import { Provincia } from 'src/app/interfaces/provincia/provincia';
 import { Canton } from 'src/app/interfaces/canton/canton';
 import sweetalert from 'sweetalert';
 import { ProvinciaComponent } from '../provincia/provincia.component';
+import { LugaresService } from 'src/app/services/lugares.service';
+import { MatTable } from '@angular/material';
 
 @Component({
   selector: 'app-canton',
   templateUrl: './canton.component.html',
-  styleUrls: ['./canton.component.css']
+  styleUrls: ['./canton.component.css'],
+  // template:`<app-canton (clic)="_consultarProvincias()"></app-canton>`
+  // providers: [this._consul]
+  // queries:`{{_consultarProvincias()}}`
+  // template:`{{_consultarProvincias()}}`
 })
-export class CantonComponent implements OnInit {
+export class CantonComponent implements OnInit,AfterViewInit {
 
-  myForm: FormGroup;
-  @ViewChild('testButton', { static: false }) testButton: ElementRef;
-  @ViewChild('provinciaComponent', { static: false }) provinciaComponent: ProvinciaComponent;
 
-  constructor(private panelAdministracionService: PanelAdministracionService,
-    private personaService: PersonaService
+  constructor(
+    private lugaresService:LugaresService,
+    //  private provinciaComponent:ProvinciaComponent
   ) {
-    this.myForm = new FormGroup({
-      _canton: new FormControl('', [Validators.required])
-    })
+
   }
 
-  botonIngresar = 'ingresar';
-  idCanton = '0';
-  idProvincia = '0';
-  inputIdProvincia = true;
-  provincia = 'Seleccione Provincia';
 
-  filterProvincia = '';
-  filterCanton = '';
-  provincias: Provincia[] = [];
-  cantones: Canton[] = [];
-
-  consultarProvincias() {
-    this.personaService.consultarProvincias(localStorage.getItem('miCuenta.getToken'))
-      .then(
-        ok => {
-          this.provincias = ok['respuesta'];
-        }
-      )
-      .catch(
-        error => {
-          console.log(error);
-        }
-      )
+  ngOnInit() {
+    //this.provinciaComponent._listaProvincias
+    this._consultarCantones();
+    this._consultarProvincias();
   }
 
-  consultarCantones() {
-    this.personaService.consultarCantones(localStorage.getItem('miCuenta.getToken'))
-      .then(
-        ok => {
-          this.cantones = [];
-          this.cantones = ok['respuesta'];
-          console.log(this.cantones);
-          this.consultarProvincias();
-        }
-      )
-      .catch(
-        error => {
-          console.log(error);
-        }
-      )
+  ngAfterViewInit(){
+
   }
 
-  validarFormulario() {
-    if (this.myForm.valid) {
-      if (this.testButton.nativeElement.value == 'ingresar') {
-        if (this.idProvincia == '0') {
-          this.inputIdProvincia = false;
-        }
-        else {
-          this.crearCanton();
-        }
-      } else if (this.testButton.nativeElement.value == 'modificar') {
-        this.actualizarCanton();
-        this.testButton.nativeElement.value = 'ingresar';
-      }
-    } else {
-      console.log("Algo Salio Mal");
+  tablaCantones = ['codigo','canton', 'provincia', 'acciones'];
+  tablaProvincias = ['provincia', 'acciones'];
+
+
+  _idProvinciaEncriptado=""; _nombreProvincia=""; _listaProvincias:any[]=[]; // la provincia que se escoje
+
+  _validar=true;
+  _idCantonEncriptado="";
+  _codigoCanton="";
+  _nombreCanton="";
+  _descripcionCanton="";
+  _rutaLogoCanton="";
+
+  _btnAccion="Guardar";
+
+  @ViewChild('frmCanton',{static:false}) frmCanton:Form;
+  @ViewChild(ProvinciaComponent,{static:false}) provinciaComponent: ProvinciaComponent;
+
+  _limpiarForm(){
+
+    //----------PROVINCIA-------------
+    this._idProvinciaEncriptado = "";
+    this._nombreProvincia       = "";
+    //------------------------------
+    this._idCantonEncriptado="";
+    this._codigoCanton="";
+    this._nombreCanton="";
+    this._descripcionCanton="";
+    this._rutaLogoCanton="";
+
+    this._btnAccion = "Guardar";
+    this._validar = true;
+  }
+
+  _validarCompletos(event){
+    if (event.target.value==="") {
+      event.target.classList.add("is-invalid");
+    }else{
+      event.target.classList.remove("is-invalid");
+    }
+
+    if (
+      this._codigoCanton      !="" &&
+      this._nombreCanton      !="" &&
+      this._nombreProvincia   !=""
+      // this._descripcionCanton !="" &&
+      // this._rutaLogoCanton    !=""
+    ) {
+      this._validar=false;
+    }else{
+      this._validar=true;
+    }
+
+  }
+
+  _validarBoton(){
+    if (
+      this._codigoCanton      !="" &&
+      this._nombreCanton      !="" &&
+      this._nombreProvincia   !=""
+      // this._descripcionCanton !="" &&
+      // this._rutaLogoCanton    !=""
+    ) {
+      this._validar=false;
+    }else{
+      this._validar=true;
     }
   }
 
-  crearCanton() {
-    this.panelAdministracionService.crearCanton(
-      this.idProvincia,
-      this.myForm.get('_canton').value,
-      localStorage.getItem('miCuenta.postToken'))
-      .then(
-        ok => {
-          this.limpiarCampos();
-          this.consultarCantones();
-        }
-      )
-      .catch(
-        error => {
-          console.log(error);
-        }
-      )
-  }
-
-  mostrarCanton(canton) {
-    this.idProvincia = canton.Provincia.IdProvincia;
-    this.provincias.map(
-      item => {
-        if (this.idProvincia == item.IdProvincia) {
-          this.provincia = item.Descripcion;
+  _validarFormulario(){
+    if (
+      this._codigoCanton      !="" &&
+      this._nombreCanton
+      // this._descripcionCanton !="" &&
+      // this._rutaLogoCanton    !=""
+    ) {
+      if (this._validar===false) {
+        if (this._btnAccion==="Guardar") {
+          this._ingresarCanton();
+        }else if (this._btnAccion==="Modificar") {
+          this._modificarCanton();
         }
       }
-    )
-    this.idCanton = canton.IdCanton;
-    this.myForm.setValue({
-      _canton: canton.Descripcion
-    })
-    this.testButton.nativeElement.value = 'modificar';
+
+    }
   }
 
-  actualizarCanton() {
-    this.panelAdministracionService.actualizarCanton(
-      this.idProvincia,
-      this.idCanton,
-      this.myForm.get('_canton').value,
-      localStorage.getItem('miCuenta.putToken'))
-      .then(
-        ok => {
-          this.limpiarCampos();
-          this.consultarCantones();
-        }
-      )
-      .catch(
-        error => {
-          console.log(error);
-        }
-      )
-  }
+  _listaCantones:any[]=[];
+  _consultarCantones(){
+    //this.native_codigoCanton.nativeElement.value;
+    this.lugaresService._consultarCantones()
+      .then(data=>{
+        if (data['http']['codigo']=='200') {
+          this._listaCantones=data['respuesta'];
+          console.log(this._listaCantones);
 
- 
-  eliminarCanton(idCanton: string) {
-    sweetalert({
-      title: "Advertencia",
-      text: "¿Está seguro que desea eliminar?",
-      icon: "warning",
-      buttons: ['Cancelar', 'Ok'],
-      dangerMode: true
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-          this.panelAdministracionService.eliminarCanton(
-            idCanton,
-            localStorage.getItem('miCuenta.deleteToken'))
-            .then(
-              ok => {
-                if (ok['respuesta']) {
-                  sweetAlert("Se a eliminado Correctamente!", {
-                    icon: "success",
-                  });
-                  this.consultarCantones();
-                } else {
-                  sweetAlert("No se ha podido elminiar!", {
-                    icon: "error",
-                  });
-                }
-              }
-            )
-            .catch(
-              error => {
-                console.log(error);
-              }
-            )
+        }else{
+          console.log(data['http']);
         }
+      })
+      .catch(error=>{
+        console.log(error);
+      }).finally(()=>{
+
       });
   }
 
-  setProvincia(provincia) {
-    this.idProvincia = provincia.IdProvincia;
-    this.provincia = provincia.Descripcion;
-    this.inputIdProvincia = true;
+  _ingresarCanton(){
+
+    this.lugaresService._insertarCanton(
+      this._codigoCanton,
+      this._nombreCanton,
+      this._descripcionCanton,
+      this._rutaLogoCanton,
+      this._idProvinciaEncriptado
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+        this._consultarCantones();
+        this._limpiarForm();
+        this._validar=true;
+        this._validarBoton();
+        // this._validarFormulario();
+      }else{
+        console.log(data['http']);
+      }
+    }).catch(error=>{
+
+    }).finally(()=>{
+
+    });
+  }
+  _modificarCanton(){
+    this.lugaresService._modificarCanton(
+      this._idCantonEncriptado,
+      this._codigoCanton,
+      this._nombreCanton,
+      this._descripcionCanton,
+      this._rutaLogoCanton,
+      this._idProvinciaEncriptado
+    ).then(data=>{
+      // console.log(data);
+      
+      if (data['http']['codigo']=='200') {
+        this._consultarCantones();
+        this._limpiarForm();
+      }else{
+        console.log(data['http']);
+      }
+    }).catch(error=>{
+
+    }).finally(()=>{
+
+    });
+  }
+  _eliminarCanton(_item){
+    this.lugaresService._eliminarCanton(
+      _item.IdCantonEncriptado
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+        this._consultarCantones();
+      }else{
+        console.log(data['http']);
+      }
+    }).catch(error=>{
+
+    }).finally(()=>{
+
+    });
+  }
+  _provinciaQuitada:any="";
+  _prepararCanton(_item){
+
+    this._idProvinciaEncriptado = _item.Provincia.IdProvinciaEncriptado;
+    this._nombreProvincia       = _item.Provincia.NombreProvincia;
+
+    this._idCantonEncriptado =_item.IdCantonEncriptado;
+    this._codigoCanton       =_item.CodigoCanton;
+    this._nombreCanton       =_item.NombreCanton;
+    this._descripcionCanton  =_item.DescripcionCanton;
+    this._rutaLogoCanton     =_item.RutaLogoCanton;
+    this._btnAccion = "Modificar";
+    this._validarBoton();
+  }
+  @ViewChild('MatTableProvincias',{static:false}) MatTableProvincias :MatTable<any>;
+  _prepararProvincia(_item){
+
+    this._idProvinciaEncriptado =_item.IdProvinciaEncriptado;
+    this._nombreProvincia       =_item.NombreProvincia;
+
+    if (this._provinciaQuitada!="") {
+      // this._consultarProvincias();
+      this._listaProvincias.push(this._provinciaQuitada);
+
+    }
+    
+    var obj = this._listaProvincias.find(dato=>dato.IdProvinciaEncriptado==_item.IdProvinciaEncriptado);
+    console.log(obj);
+    
+    var index = this._listaProvincias.indexOf(obj);
+    console.log(index);
+    
+    this._listaProvincias.splice(index,1);
+    this._provinciaQuitada = _item;
+
+    this.MatTableProvincias.dataSource = this._listaProvincias;
+    // this._listaProvincias.sort();
+    this.MatTableProvincias.renderRows();
+
   }
 
-  limpiarCampos() {
-    this.myForm.reset();
-    this.provincia = 'Provincia';
+  _consultarProvincias(){
+    //this.native_codigoProvincia.nativeElement.value;
+    this.lugaresService._consultarProvincias()
+      .then(data=>{
+        if (data['http']['codigo']=='200') {
+          this._listaProvincias=data['respuesta'];
+        }else{
+          console.log(data['http']);
+        }
+      })
+      .catch(error=>{
+        console.log(error);
+      }).finally(()=>{
+        // this._listaProvincias.sort();
+      });
   }
-
-  get _canton() {
-    return this.myForm.get('_canton');
-  }
-
-  ngOnInit() {
-    this.consultarCantones();
-  }
-
-  tablaCantones = ['canton', 'provincia', 'acciones'];
-  tablaProvincias = ['provincia', 'acciones'];
 
 }

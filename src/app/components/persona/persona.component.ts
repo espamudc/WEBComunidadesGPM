@@ -103,6 +103,8 @@ export class PersonaComponent implements OnInit {
   }
 
   _validarForm(){
+    console.log(this._btnAccion);
+    
     
     if (
       this._cmbSexo                !="0"     && 
@@ -122,10 +124,14 @@ export class PersonaComponent implements OnInit {
         // this.frmPersona.valid = true;
         this._ingresarPersona();
       } 
-      }else if (this._btnAccion==="Modificar") {
+      else if (this._btnAccion==="Modificar") {
+        // debugger
         this._modificarPersona();
       }
     }
+      
+      
+  }
 
   
 
@@ -180,7 +186,7 @@ export class PersonaComponent implements OnInit {
           ok => {
             console.log(ok);
             
-            if (ok['http']['codigo'] != '200') {
+            if (ok['http']['codigo'] == '200') {
               this._consultarPersonas();           
             } else {
               ok['http']['mensaje'];
