@@ -22,15 +22,15 @@ export class ParroquiaComponent implements OnInit {
   constructor(
     private lugaresService:LugaresService
   ) {
+
+  }
+
+  ngOnInit() {
     this._consultarParroquias();
     this._consultarCantones();
   }
 
-  ngOnInit() {
-    
-  }
-
-  tablaParroquias = ['parroquia', 'canton', 'acciones'];
+  tablaParroquias = ['codigo','parroquia', 'canton', 'acciones'];
   tablaCantones = ['canton', 'acciones'];
 
   _idCantonEncriptado=""; _nombreCanton=""; _listaCantones:any[]=[]; _idProvinciaEncriptado=""; _nombreProvincia="";// la Canton que se escoje
@@ -90,7 +90,8 @@ export class ParroquiaComponent implements OnInit {
     if (
       this._codigoParroquia      !="" &&
       this._nombreParroquia      !="" &&
-      this._nombreCanton   !=""
+      this._nombreCanton         !="" &&
+      this._nombreProvincia      !=""
       // this._descripcionParroquia !="" &&
       // this._rutaLogoParroquia    !=""
     ) {
@@ -221,11 +222,14 @@ export class ParroquiaComponent implements OnInit {
   }
   @ViewChild('MatTableCantones',{static:false}) MatTableCantones :MatTable<any>;
   _prepararCanton(_item){
-
+    //------------------Provincia--------------------------------------
+    this._idProvinciaEncriptado = _item.Provincia.IdProvinciaEncriptado;
+    this._nombreProvincia       = _item.Provincia.NombreProvincia;
+    //------------------Canton----------------------------------------
     this._idCantonEncriptado =_item.IdCantonEncriptado;
     this._nombreCanton       =_item.NombreCanton;
 
-    this._idProvinciaEncriptado = _item.Provincia.IdProvinciaEncriptado;
+    // this._idProvinciaEncriptado = _item.Provincia.IdProvinciaEncriptado;
 
     if (this._CantonQuitada!="") {
       // this._consultarCantones();

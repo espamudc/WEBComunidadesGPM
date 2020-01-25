@@ -135,12 +135,12 @@ export class LugaresService {
 
   }
   _modificarCanton(
-      _IdCantonEncriptado:any="",
-      _CodigoCanton:any="",
-      _NombreCanton:any="",
-      _DescripcionCanton:any="",
-      _RutaLogoCanton:any="",
-      _IdProvinciaEncriptado:any=""
+      _IdCantonEncriptado,
+      _CodigoCanton,
+      _NombreCanton,
+      _DescripcionCanton,
+      _RutaLogoCanton,
+      _IdProvinciaEncriptado
       ){
       const _body = new HttpParams()
         .set('IdCantonEncriptado'  ,_IdCantonEncriptado)
@@ -220,12 +220,12 @@ export class LugaresService {
 
   }
   _modificarParroquia(
-      _IdParroquiaEncriptado:any="",
-      _CodigoParroquia:any="",
-      _NombreParroquia:any="",
-      _DescripcionParroquia:any="",
-      _RutaLogoParroquia:any="",
-      _IdCantonEncriptado:any="",
+      _IdParroquiaEncriptado,
+      _CodigoParroquia,
+      _NombreParroquia,
+      _DescripcionParroquia,
+      _RutaLogoParroquia,
+      _IdCantonEncriptado,
       _IdProvinciaEncriptado
       ){
       const _body = new HttpParams()
@@ -275,6 +275,84 @@ export class LugaresService {
     });
 
   }
+
+  _insertarComunidad(
+    // _IdComunidadEncriptado:any,
+    _CodigoComunidad:any,
+    _NombreComunidad:any,
+    _DescripcionComunidad:any,
+    _RutaLogoComunidad:any,
+    _IdParroquiaEncriptado,
+    _IdCantonEncriptado:any,
+    _IdProvinciaEncriptado:any
+  ){
+
+    const _body = new HttpParams()
+          // .set('IdComunidadEncriptado'  ,_IdComunidadEncriptado)
+          .set('Parroquia.IdParroquiaEncriptado'  ,_IdParroquiaEncriptado)
+          .set('Parroquia.Canton.IdCantonEncriptado'       ,_IdCantonEncriptado)
+          .set('Parroquia.Canton.Provincia.IdProvinciaEncriptado'       ,_IdProvinciaEncriptado)
+          .set('CodigoComunidad'        ,_CodigoComunidad)
+          .set('NombreComunidad'        ,_NombreComunidad)
+          .set('DescripcionComunidad'   ,_DescripcionComunidad)
+          .set('RutaLogoComunidad'      ,_RutaLogoComunidad)
+          // .set('EstadoComunidad'        ,_EstadoComunidad)
+    ;
+    return new Promise ((resolve,reject)=>{
+      // console.log("servicio:",_body.toString());
+      this.http.post(url+'comunidad_insertar', _body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+
+  }
+
+  _modificarComunidad(
+      _IdComunidadEncriptado,
+      _CodigoComunidad,
+      _NombreComunidad,
+      _DescripcionComunidad,
+      _RutaLogoComunidad,
+      _IdParroquiaEncriptado,
+      _IdCantonEncriptado,
+      _IdProvinciaEncriptado
+      ){
+      const _body = new HttpParams()
+        .set('IdComunidadEncriptado'  ,_IdComunidadEncriptado)
+        .set('Parroquia.IdParroquiaEncriptado'  ,_IdParroquiaEncriptado)
+        .set('Parroquia.Canton.IdCantonEncriptado'       ,_IdCantonEncriptado)
+        .set('Parroquia.Canton.Provincia.IdProvinciaEncriptado'       ,_IdProvinciaEncriptado)
+        .set('CodigoComunidad'        ,_CodigoComunidad)
+        .set('NombreComunidad'        ,_NombreComunidad)
+        .set('DescripcionComunidad'   ,_DescripcionComunidad)
+        .set('RutaLogoComunidad'      ,_RutaLogoComunidad)
+    ;
+    return new Promise ((resolve,reject)=>{
+      // console.log("servicio:",_body.toString());
+      this.http.post(url+'comunidad_modificar', _body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
+  _eliminarComunidad(_IdComunidadEncriptado:any){
+    const _body = new HttpParams();
+    return new Promise ((resolve,reject)=>{
+      // console.log("servicio:",_body.toString());
+      this.http.post(url+'comunidad_eliminar?_idComunidadEncriptado='+_IdComunidadEncriptado, _body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
+
   //-----------------------FILTROS ESPECIFICOS--------------------------------------------------------
 
   _consultarCantonesDe(_IdProvinciaEncriptado:any){
@@ -322,6 +400,9 @@ export class LugaresService {
   }
 
   
+
+  
+
 
 
 

@@ -102,6 +102,10 @@
                     </div>
                     <div class="tablaCantones mat-elevation-z5">
                         <table mat-table [dataSource]="_listaCantones">
+                            <ng-container matColumnDef="codigo">
+                                <th mat-header-cell *matHeaderCellDef> Código </th>
+                                <td mat-cell *matCellDef="let element"> {{element.CodigoCanton}} </td>
+                            </ng-container>
                             <ng-container matColumnDef="canton">
                                 <th mat-header-cell *matHeaderCellDef> Cantón </th>
                                 <td mat-cell *matCellDef="let element"> {{element.NombreCanton}} </td>

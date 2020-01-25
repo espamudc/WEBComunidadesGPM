@@ -36,7 +36,7 @@ export class ProvinciaComponent implements OnInit {
 
   _validar=true;
 
-  tablaProvincias = ['provincia', 'acciones'];
+  tablaProvincias = ['codigo','provincia', 'acciones'];
   
   _idProvinciaEncriptado="";
   _codigoProvincia="";

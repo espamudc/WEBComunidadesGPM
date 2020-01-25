@@ -68,6 +68,10 @@
 
                     <div class="tablaProvincias mat-elevation-z5">
                         <table mat-table [dataSource]="_listaProvincias">
+                            <ng-container matColumnDef="codigo">
+                                <th mat-header-cell *matHeaderCellDef> Código </th>
+                                <td mat-cell *matCellDef="let element"> {{element.CodigoProvincia}} </td>
+                            </ng-container>
                             <ng-container matColumnDef="provincia">
                                 <th mat-header-cell *matHeaderCellDef> Provincia </th>
                                 <td mat-cell *matCellDef="let element"> {{element.NombreProvincia}} </td>
@@ -75,7 +79,7 @@
                             <ng-container matColumnDef="acciones">
                                 <th colspan="2" mat-header-cell *matHeaderCellDef> Acciones </th>
                                 <ng-container *matCellDef="let element">
-                                    <ng-container *ngIf="element.PermitirEliminacion">
+                                    <ng-container >
                                         <td mat-cell>
                                             <button tooltip="Modificar" placement="top"
                                                 class="btn btn-sm btn-outline-info" value="{{element.IdProvinciaEncriptado}}"
@@ -84,31 +88,14 @@
                                             </button>
                                         </td>
                                         <td mat-cell>
-                                            <button class="btn btn-sm btn-outline-danger"
+                                            <button class="btn btn-sm btn-outline-danger" *ngIf="element.Utilizado==0"
                                                 value="{{element.IdProvinciaEncriptado}}"
                                                 (click)=eliminarProvincia(element.IdProvinciaEncriptado)>
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                             </button>
                                         </td>
                                     </ng-container>
-                                    <ng-container>
-                                        <td mat-cell colspan="2">
-                                            <button tooltip="Modificar" placement="top"
-                                                class="btn btn-sm btn-outline-info" value="{{element.IdProvinciaEncriptado}}"
-                                                (click)=_prepararProvincia(element)>
-                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                            </button>
-                                        </td>
-                                    </ng-container>
-                                    <ng-container>
-                                        <td mat-cell colspan="2">
-                                            <button tooltip="Eliminar" placement="top" *ngIf="element.Utilizado==0"
-                                                class="btn btn-sm btn-outline-danger separacion-botones" value="{{element.IdProvinciaEncriptado}}"
-                                                (click)=_eliminarProvincia(element)>
-                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                            </button>
-                                        </td>
-                                    </ng-container>
+
                                 </ng-container>
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="tablaProvincias; sticky: true"></tr>

@@ -43,7 +43,7 @@ export class CantonComponent implements OnInit,AfterViewInit {
 
   }
 
-  tablaCantones = ['canton', 'provincia', 'acciones'];
+  tablaCantones = ['codigo','canton', 'provincia', 'acciones'];
   tablaProvincias = ['provincia', 'acciones'];
 
 
