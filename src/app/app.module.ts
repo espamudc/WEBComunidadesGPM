@@ -21,9 +21,9 @@ import { LoginComponent } from './components/login/login.component';
 import { PersonaComponent } from './components/persona/persona.component';
 import { Page404Component } from './components/page404/page404.component';
 import { NavComponent } from "./nav/nav.component";
-import { InventarioComponent } from './components/inventario/inventario.component';
-import { CompraComponent } from './components/compra/compra.component';
-import { VentaComponent } from './components/venta/venta.component';
+// import { InventarioComponent } from './components/inventario/inventario.component';
+// import { CompraComponent } from './components/compra/compra.component';
+// import { VentaComponent } from './components/venta/venta.component';
 
 // Functional Components
 import { HttpClientModule } from "@angular/common/http";
@@ -52,9 +52,9 @@ import { MatTableModule } from '@angular/material';
     PersonaComponent,
     Page404Component,
     NavComponent,
-    InventarioComponent,
-    CompraComponent,
-    VentaComponent,
+    // InventarioComponent,
+    // CompraComponent,
+    // VentaComponent,
     ModalDetallePersonaComponent,
     ModalAsignacionUsuarioPersonaComponent,
     PanelAdministracionComponent,

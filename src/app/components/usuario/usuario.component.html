@@ -101,19 +101,9 @@
                                             </button>
                                         </td>
                                         <td mat-cell>
-                                            <button tooltip="Deshabilitar" placement="top" (click)="_eliminarUsuario(element)"
+                                            <button *ngIf="element.Utilizado==0" tooltip="Deshabilitar" placement="top" (click)="_eliminarUsuario(element)"
                                                 class="btn btn-sm btn-outline-danger separacion-botones">
                                                 <i class="fa fa-user-times" aria-hidden="true"></i>
-                                            </button>
-                                        </td>
-                                    </ng-container>
-                                    <ng-container *ngIf="!element.Estado">
-                                        <td mat-cell colspan="3">
-                                            <button tooltip="Habilitar" placement="top" 
-                                                (click)="_habilitarUsuario(element)"
-                                                style="justify-content: center;"
-                                                class="btn btn-sm btn-block btn-outline-success">
-                                                <i class="fa fa-user-plus" aria-hidden="true"> Habilitar</i>
                                             </button>
                                         </td>
                                     </ng-container>

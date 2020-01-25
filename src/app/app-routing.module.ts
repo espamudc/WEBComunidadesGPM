@@ -6,9 +6,9 @@ import { LoginComponent } from './components/login/login.component';
 import { NavComponent } from './nav/nav.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { PersonaComponent } from './components/persona/persona.component';
-import { InventarioComponent } from "./components/inventario/inventario.component";
-import { CompraComponent } from "./components/compra/compra.component";
-import { VentaComponent } from "./components/venta/venta.component";
+// import { InventarioComponent } from "./components/inventario/inventario.component";
+// import { CompraComponent } from "./components/compra/compra.component";
+// import { VentaComponent } from "./components/venta/venta.component";
 import { Page404Component } from './components/page404/page404.component';
 
 // Guards
@@ -29,18 +29,6 @@ const routes: Routes = [
       },
       {
         path: 'personas', component: PersonaComponent,
-        // canActivate: [ValidarUsuarioGuard]
-      },
-      {
-        path: 'inventarios', component: InventarioComponent,
-        // canActivate: [ValidarUsuarioGuard]
-      },
-      {
-        path: 'compras', component: CompraComponent,
-        // canActivate: [ValidarUsuarioGuard]
-      },
-      {
-        path: 'ventas', component: VentaComponent,
         // canActivate: [ValidarUsuarioGuard]
       },
       {

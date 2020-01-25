@@ -8,16 +8,24 @@
                 </div>
                 <div class="card-body">
                     <form [formGroup]="myForm" (ngSubmit)="validarFormulario()" novalidate>
-                        <div class="form-group">
-                            <input formControlName="_provincia" class="form-control" type="text"
-                                placeholder="Ingrese Provincia">
-                            <div class="badge badge-danger mt-3 btn-block"
-                                *ngIf="_provincia.invalid && (_provincia.dirty || _provincia.touched)">
-                                <div *ngIf="_provincia.errors.required">
-                                    Provincia Requerida
-                                </div>
-                            </div>
-                        </div>
+                        
+                        <div class="form-group"> 
+                            <input required [(ngModel)]="_codigoProvincia" [ngModelOptions]="{standalone: true}" name="_codigoProvincia" type="text" (keyup)="_validarCompletos()" class="form-control"  aria-describedby="emailHelp" placeholder="Código de la Provincia">
+                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                        </div> 
+                        <div class="form-group"> 
+                            <input required [(ngModel)]="_nombreProvincia" [ngModelOptions]="{standalone: true}" name="_nombreProvincia" type="text" (keyup)="_validarCompletos()" class="form-control"  aria-describedby="emailHelp" placeholder="Nombre">
+                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                        </div> 
+                        <div class="form-group"> 
+                            <input required [(ngModel)]="_DescripcionProvincia" [ngModelOptions]="{standalone: true}" name="_DescripcionProvincia" type="text" (keyup)="_validarCompletos()" class="form-control"  aria-describedby="emailHelp" placeholder="Descripción">
+                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                        </div> 
+                        <div class="form-group"> 
+                            <input required [(ngModel)]="_rutaLogoProvincia" [ngModelOptions]="{standalone: true}" name="_rutaLogoProvincia" type="file" (keyup)="_validarCompletos()" class="form-control"  aria-describedby="emailHelp" placeholder="Telefono">
+                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                        </div> 
+
                         <div class="form-group">
                             <button type="submit" [value]="botonIngresar" [disabled]="myForm.invalid"
                                 class="form-control btn-success" #testButton>Guardar
@@ -39,48 +47,9 @@
                             placeholder="Ejem. Manabi">
                         <i class="fa fa-refresh icon" (click)="mostrarProvincia()" aria-hidden="true"></i>
                     </div>
-                    <!-- <table class="table-scroll table table-hover">
-                        <thead class="card-header">
-                            <tr>
-                                <th scope="col">Provincia</th>
-                                <th scope="col" colspan="2" style="text-align: center;">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of provincias | filter: filterProvincia : 'Descripcion'">
-                                <td> {{ item.Descripcion }} </td>
-                                <ng-container
-                                    *ngIf="item.PermitirEliminacion; then sePuedeEliminar; else noSePuedeEliminar">
-                                </ng-container>
-                                <ng-template #noSePuedeEliminar>
-                                    <td colspan="2">
-                                        <button tooltip="Modificar" placement="top"
-                                            class="btn btn-block btn-sm btn-outline-info separacion-botones"
-                                            value="{{item.IdProvincia}}" (click)=setProvincia(item)>
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                        </button>
-                                    </td>
-                                </ng-template>
-                                <ng-template #sePuedeEliminar>
-                                    <td>
-                                        <button tooltip="Modificar" placement="top"
-                                            class="btn btn-block btn-sm btn-outline-info separacion-botones"
-                                            value="{{item.IdProvincia}}" (click)=setProvincia(item)>
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-block btn-sm btn-outline-danger separacion-botones"
-                                            value="{{item.IdProvincia}}" (click)=eliminarProvincia(item.IdProvincia)>
-                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                        </button>
-                                    </td>
-                                </ng-template>
-                        </tbody>
-                    </table> -->
-                    
+
                     <div class="tablaProvincias mat-elevation-z5">
-                        <table mat-table [dataSource]="provincias">
+                        <table mat-table [dataSource]="_listaProvincias">
                             <ng-container matColumnDef="provincia">
                                 <th mat-header-cell *matHeaderCellDef> Provincia </th>
                                 <td mat-cell *matCellDef="let element"> {{element.Descripcion}} </td>
