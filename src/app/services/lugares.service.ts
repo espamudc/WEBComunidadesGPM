@@ -399,11 +399,229 @@ export class LugaresService {
 
   }
 
+  //-----------------------SERVICIOS PARA LOS REPRESENTANTES DE CADA LUGAR--------------------------------------------------------
+
+  //-----------representante de una provincia---------------------------
+
+  _consultarRepresentanteProvincia(_IdProvinciaEncriptado:any){
+    const _body = new HttpParams();
+
+    return new Promise ((resolve,reject)=>{
+      // console.log("servicio:",_body.toString());
+      this.http.post(url+'prefecto_consultarporidprovincia?_idProvinciaEncriptado='+_IdProvinciaEncriptado, _body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
+
+  _insertarRepresentanteProvincia(
+    // _IdPrefectoEncriptado,
+    _IdProvinciaEncriptado:any,
+    _Representante:any,
+    _FechaIngreso:any,
+    _FechaSalida:any
+  ){
+
+    const _body = new HttpParams()
+      // .set('IdPrefectoEncriptado'  ,_IdPrefectoEncriptado)
+      .set('Provincia.IdProvinciaEncriptado'  ,_IdProvinciaEncriptado)
+      .set('Representante'  ,_Representante)
+      .set('FechaIngreso'  ,_FechaIngreso)
+      .set('FechaSalida'  ,_FechaSalida)
+    ;
+
+    return new Promise ((resolve,reject)=>{
+      // console.log("servicio:",_body.toString());
+      this.http.post(url+'prefecto_insertar', _body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
   
+  _eliminarRepresentanteProvincia(
+    _IdRepresentante:any
+  ){
+    const _body = new HttpParams();
+    return new Promise ((resolve,reject)=>{
+          // console.log("servicio:",_body.toString());
+          this.http.post(url+'prefecto_eliminar?_idPrefectoEncriptado='+_IdRepresentante, _body.toString(),{headers:this._header})
+                    .subscribe(res=>{
+                      resolve(res);
+                    },(err)=>{
+                      reject(err);
+                    });
+    });
+  }
 
+  //------Representante de un canton---------------------------------
+
+  _insertarRepresentanteCanton(
+    // _IdPrefectoEncriptado,
+    _IdCantonEncriptado:any,
+    _Representante:any,
+    _FechaIngreso:any,
+    _FechaSalida:any
+  ){
+    const _body = new HttpParams()
+      // .set('IdPrefectoEncriptado'  ,_IdPrefectoEncriptado)
+      .set('Canton.IdCantonEncriptado'  ,_IdCantonEncriptado)
+      .set('Representante'  ,_Representante)
+      .set('FechaIngreso'  ,_FechaIngreso)
+      .set('FechaSalida'  ,_FechaSalida)
+    ;
+
+    return new Promise ((resolve,reject)=>{
+      // console.log("servicio:",_body.toString());
+      this.http.post(url+'alcalde_insertar', _body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
+
+  _consultarRepresentanteCanton(_IdCantonEncriptado:any){
+    const _body = new HttpParams();
+
+    return new Promise ((resolve,reject)=>{
+      // console.log("servicio:",_body.toString());
+      this.http.post(url+'alcalde_consultarporidcanton?_idCantonEncriptado='+_IdCantonEncriptado, _body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
   
+  _eliminarRepresentanteCanton(_IdRepresentante:any){
+    const _body = new HttpParams();
 
+    return new Promise ((resolve,reject)=>{
+          // console.log("servicio:",_body.toString());
+          this.http.post(url+'alcalde_eliminar?_idAlcaldeEncriptado='+_IdRepresentante, _body.toString(),{headers:this._header})
+                    .subscribe(res=>{
+                      resolve(res);
+                    },(err)=>{
+                      reject(err);
+                    });
+    });
+  }
 
+  //------Representante de un Parroquia---------------------------------
 
+  _insertarRepresentanteParroquia(
+    // _IdPrefectoEncriptado,
+    _IdParroquiaEncriptado:any,
+    _Representante:any,
+    _FechaIngreso:any,
+    _FechaSalida:any
+  ){
+    const _body = new HttpParams()
+      // .set('IdPrefectoEncriptado'  ,_IdPrefectoEncriptado)
+      .set('Parroquia.IdParroquiaEncriptado'  ,_IdParroquiaEncriptado)
+      .set('Representante'  ,_Representante)
+      .set('FechaIngreso'  ,_FechaIngreso)
+      .set('FechaSalida'  ,_FechaSalida)
+    ;
+
+    return new Promise ((resolve,reject)=>{
+      // console.log("servicio:",_body.toString());
+      this.http.post(url+'presidentejuntaparroquial_insertar', _body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
+  _consultarRepresentanteParroquia(_IdParroquiaEncriptado:any){
+    const _body = new HttpParams();
+
+    return new Promise ((resolve,reject)=>{
+      // console.log("servicio:",_body.toString());
+      this.http.post(url+'presidentejuntaparroquial_consultarporidparroquia?_idParroquiaEncriptado='+_IdParroquiaEncriptado, _body.toString(),{headers:this._header})
+          .subscribe(res=>{
+            resolve(res);
+          },(err)=>{
+            reject(err);
+          });
+    });
+  }
+  _eliminarRepresentanteParroquia(_IdRepresentante:any){
+    const _body = new HttpParams();
+
+    return new Promise ((resolve,reject)=>{
+          // console.log("servicio:",_body.toString());
+          this.http.post(url+'presidentejuntaparroquial_eliminar?_idPresidenteJuntaParroquialEncriptado='+_IdRepresentante, _body.toString(),{headers:this._header})
+              .subscribe(res=>{
+                resolve(res);
+              },(err)=>{
+                reject(err);
+              });
+    });
+  }
+
+  //------Representante de una Comunidad---------------------------------
+
+  _insertarRepresentanteComunidad(
+    // _IdPrefectoEncriptado,
+    _IdComunidadEncriptado:any,
+    _Representante:any,
+    _FechaIngreso:any,
+    _FechaSalida:any
+  ){
+    const _body = new HttpParams()
+      // .set('IdPrefectoEncriptado'  ,_IdPrefectoEncriptado)
+      .set('Comunidad.IdComunidadEncriptado'  ,_IdComunidadEncriptado)
+      .set('Representante'  ,_Representante)
+      .set('FechaIngreso'  ,_FechaIngreso)
+      .set('FechaSalida'  ,_FechaSalida)
+    ;
+
+    return new Promise ((resolve,reject)=>{
+      // console.log("servicio:",_body.toString());
+      this.http.post(url+'lidercomunitario_insertar', _body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
+
+  _consultarRepresentanteComunidad(_IdComunidadEncriptado:any){
+    const _body = new HttpParams();
+
+    return new Promise ((resolve,reject)=>{
+      // console.log("servicio:",_body.toString());
+      this.http.post(url+'lidercomunitario_consultarporidcomunidad?_idComunidadEncriptado='+_IdComunidadEncriptado, _body.toString(),{headers:this._header})
+          .subscribe(res=>{
+            resolve(res);
+          },(err)=>{
+            reject(err);
+          });
+    });
+  }
+  _eliminarRepresentanteComunidad(_IdRepresentante:any){
+    const _body = new HttpParams();
+
+    return new Promise ((resolve,reject)=>{
+          // console.log("servicio:",_body.toString());
+          this.http.post(url+'lidercomunitario_eliminar?_idLiderComunitarioEncriptado='+_IdRepresentante, _body.toString(),{headers:this._header})
+              .subscribe(res=>{
+                resolve(res);
+              },(err)=>{
+                reject(err);
+              });
+    });
+  }
 
 }

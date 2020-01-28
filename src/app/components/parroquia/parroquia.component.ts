@@ -7,7 +7,8 @@ import { Canton } from 'src/app/interfaces/canton/canton';
 import sweetalert from 'sweetalert';
 import { LugaresService } from 'src/app/services/lugares.service';
 import { CantonComponent } from '../canton/canton.component';
-import { MatTable } from '@angular/material';
+import { MatTable, MatDialog } from '@angular/material';
+import { ModalLugarRepresentanteComponent } from '../modal-lugar-representante/modal-lugar-representante.component';
 
 
 @Component({
@@ -20,7 +21,8 @@ export class ParroquiaComponent implements OnInit {
   
 
   constructor(
-    private lugaresService:LugaresService
+    private lugaresService:LugaresService,
+    private modalLugarRepresentante:MatDialog
   ) {
 
   }
@@ -267,6 +269,20 @@ export class ParroquiaComponent implements OnInit {
       }).finally(()=>{
         // this._listaCantones.sort();
       });
+  }
+
+  _verRepresentante(_item){
+    let dialogRef = this.modalLugarRepresentante.open(ModalLugarRepresentanteComponent, {
+      width: '900px',
+      height: '500px',
+      data: { lugar_tipo: 'parroquia', lugar_data: _item }
+    });
+    dialogRef.afterClosed().subscribe(result=>{
+      // console.log(result);
+      if (result) {
+        
+      }
+    }); 
   }
 
 }

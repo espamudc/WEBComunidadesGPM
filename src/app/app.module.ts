@@ -43,6 +43,11 @@ import { ModalDetalleUsuarioComponent } from './components/modal-detalle-usuario
 import { TooltipModule } from 'ng2-tooltip-directive';
 import Swal from 'sweetalert2';
 import { MatTableModule } from '@angular/material';
+// import { ModalProvinciaPrefectoComponent } from './components/modal-provincia-prefecto/modal-provincia-prefecto.component';
+// import { LugarRepresentanteComponent } from './components/lugar-representante/lugar-representante.component';
+import { ModalLugarRepresentanteComponent } from './components/modal-lugar-representante/modal-lugar-representante.component';
+import { TipoUsuarioComponent } from './components/tipo-usuario/tipo-usuario.component';
+import { ModalAsignarModuloPrivilegioComponent } from './components/modal-asignar-modulo-privilegio/modal-asignar-modulo-privilegio.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +68,12 @@ import { MatTableModule } from '@angular/material';
     ParroquiaComponent,
     ProvinciaComponent,
     ModalAsignacionUsuarioTiposUsuarioComponent,
-    ModalDetalleUsuarioComponent
+    ModalDetalleUsuarioComponent,
+    // ModalProvinciaPrefectoComponent,
+    // LugarRepresentanteComponent,
+    ModalLugarRepresentanteComponent,
+    TipoUsuarioComponent,
+    ModalAsignarModuloPrivilegioComponent
   ],
   imports: [
     BrowserModule,
@@ -91,7 +101,8 @@ import { MatTableModule } from '@angular/material';
     ModalDetallePersonaComponent,
     ModalAsignacionUsuarioPersonaComponent ,
     ModalAsignacionUsuarioTiposUsuarioComponent,
-    ModalDetalleUsuarioComponent
+    ModalDetalleUsuarioComponent,
+    ModalLugarRepresentanteComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

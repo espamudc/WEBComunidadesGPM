@@ -4,8 +4,10 @@ import { LugaresService } from 'src/app/services/lugares.service';
 // import { PersonaService } from 'src/app/services/persona.service';
 // import { Provincia } from 'src/app/interfaces/provincia/provincia';
 import sweetalert from 'sweetalert';
-import { MatTable } from '@angular/material';
+import { MatTable, MatDialog } from '@angular/material';
+import { ModalLugarRepresentanteComponent } from '../modal-lugar-representante/modal-lugar-representante.component';
 // import { MatTable } from '@angular/material';
+
 
 @Component({
   selector: 'app-provincia',
@@ -18,7 +20,8 @@ export class ProvinciaComponent implements OnInit {
   @ViewChild('testButton', { static: false }) testButton: ElementRef;
 
   constructor(
-    private lugaresService:LugaresService
+    private lugaresService:LugaresService,
+    private modalLugarRepresentante:MatDialog,
   ) {
     // this.myForm = new FormGroup({
     //   _provincia: new FormControl('', [Validators.required])
@@ -197,6 +200,22 @@ export class ProvinciaComponent implements OnInit {
     this._rutaLogoProvincia     =_item.RutaLogoProvincia;
     this._btnAccion = "Modificar";
     this._validarBoton();
+  }
+
+
+  
+  _verRepresentante(_item){
+    let dialogRef = this.modalLugarRepresentante.open(ModalLugarRepresentanteComponent, {
+      width: '900px',
+      height: '500px',
+      data: { lugar_tipo: 'provincia', lugar_data: _item }
+    });
+    dialogRef.afterClosed().subscribe(result=>{
+      // console.log(result);
+      if (result) {
+        
+      }
+    }); 
   }
 
 }

@@ -10,6 +10,7 @@
             
 
                     <form #frmParroquia="ngForm" (ngSubmit)="_validarFormulario()" >
+                        
                         <div class="form-group"> 
                             <input disabled required [(ngModel)]="_nombreProvincia" [ngModelOptions]="{standalone: true}" name="_nombreProvincia" type="text" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Provincia">
                             <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
@@ -127,6 +128,13 @@
                                         <th colspan="2" mat-header-cell *matHeaderCellDef> Acciones </th>
                                         <ng-container *matCellDef="let element">
                                             <ng-container >
+                                                <td mat-cell>
+                                                    <button tooltip="Asignar Representante" placement="top"
+                                                        class="btn btn-sm btn-outline-warning" value="{{element.IdParroquiaEncriptado}}"
+                                                        (click)=_verRepresentante(element)>
+                                                        <i class="fa fa-user-o" aria-hidden="true"></i>
+                                                    </button>
+                                                </td>
                                                 <td mat-cell>
                                                     <button tooltip="Modificar" placement="top"
                                                         class="btn btn-sm btn-outline-info" value="{{element.IdParroquiaEncriptado}}"

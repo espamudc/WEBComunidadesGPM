@@ -11,7 +11,8 @@ import { Canton } from 'src/app/interfaces/canton/canton';
 import sweetalert from 'sweetalert';
 import { ProvinciaComponent } from '../provincia/provincia.component';
 import { LugaresService } from 'src/app/services/lugares.service';
-import { MatTable } from '@angular/material';
+import { MatTable, MatDialog } from '@angular/material';
+import { ModalLugarRepresentanteComponent } from '../modal-lugar-representante/modal-lugar-representante.component';
 
 @Component({
   selector: 'app-canton',
@@ -27,6 +28,7 @@ export class CantonComponent implements OnInit,AfterViewInit {
 
   constructor(
     private lugaresService:LugaresService,
+    private modalLugarRepresentante:MatDialog
     //  private provinciaComponent:ProvinciaComponent
   ) {
 
@@ -268,6 +270,21 @@ export class CantonComponent implements OnInit,AfterViewInit {
       }).finally(()=>{
         // this._listaProvincias.sort();
       });
+  }
+
+
+  _verRepresentante(_item){
+    let dialogRef = this.modalLugarRepresentante.open(ModalLugarRepresentanteComponent, {
+      width: '900px',
+      height: '500px',
+      data: { lugar_tipo: 'canton', lugar_data: _item }
+    });
+    dialogRef.afterClosed().subscribe(result=>{
+      // console.log(result);
+      if (result) {
+        
+      }
+    }); 
   }
 
 }

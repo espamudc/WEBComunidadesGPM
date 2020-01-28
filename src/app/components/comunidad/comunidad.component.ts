@@ -7,7 +7,8 @@ import { PersonaService } from 'src/app/services/persona.service';
 import sweetalert from 'sweetalert';
 import { ParroquiaComponent } from '../parroquia/parroquia.component';
 import { LugaresService } from 'src/app/services/lugares.service';
-import { MatTable } from '@angular/material';
+import { MatTable, MatDialog } from '@angular/material';
+import { ModalLugarRepresentanteComponent } from '../modal-lugar-representante/modal-lugar-representante.component';
 @Component({
   selector: 'app-comunidad',
   templateUrl: './comunidad.component.html',
@@ -16,7 +17,8 @@ import { MatTable } from '@angular/material';
 export class ComunidadComponent implements OnInit {
 
   constructor(
-    private lugaresService:LugaresService
+    private lugaresService:LugaresService,
+    private modalLugarRepresentante:MatDialog
   ) {
     
   }
@@ -284,5 +286,20 @@ export class ComunidadComponent implements OnInit {
         // this._listaParroquias.sort();
       });
   }
+
+  _verRepresentante(_item){
+    let dialogRef = this.modalLugarRepresentante.open(ModalLugarRepresentanteComponent, {
+      width: '900px',
+      height: '500px',
+      data: { lugar_tipo: 'comunidad', lugar_data: _item }
+    });
+    dialogRef.afterClosed().subscribe(result=>{
+      // console.log(result);
+      if (result) {
+        
+      }
+    }); 
+  }
+
 
 }
