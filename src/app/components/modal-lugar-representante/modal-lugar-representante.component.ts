@@ -18,6 +18,7 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
     this._cargartabla();
   }
   ngAfterViewInit(){
+
     var _fecha_hoy="";
     var _fecha = new Date();
     var _mes ="";
@@ -147,6 +148,7 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
       this._idLugarEcriptado = this.data.lugar_data.IdComunidadEncriptado;
       this._cargarRepresentanteComunidad();
     }
+    
   }
   _eliminarRepresentante(_item){
     
@@ -192,7 +194,12 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
       }).catch(error=>{
         console.log(error);
       }).finally(()=>{
-        console.log(this._listaRepresentantes);
+        console.log(this._listaRepresentantes);//0001-01-01T00:00:00 
+        // this._listaRepresentantes.map(element => {
+        //   if (element.FechaSalida.toString()=='0001-01-01T00:00:00') {
+        //     element.FechaSalida="No Fijada";
+        //   }
+        // });
         this.MatTableRepresentantes.renderRows();
       });
   }
@@ -250,6 +257,11 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
       }).catch(error=>{
         console.log(error);
       }).finally(()=>{
+        // this._listaRepresentantes.map(element => {
+        //   if (element.FechaSalida.toString()=='0001-01-01T00:00:00') {
+        //     element.FechaSalida="No Fijada";
+        //   }
+        // });
         this.MatTableRepresentantes.renderRows();
       });
   }
@@ -309,6 +321,11 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
       }).catch(error=>{
         console.log(error);
       }).finally(()=>{
+        // this._listaRepresentantes.map(element => {
+        //   if (element.FechaSalida.toString()=='0001-01-01T00:00:00') {
+        //     element.FechaSalida="No Fijada";
+        //   }
+        // });
         this.MatTableRepresentantes.renderRows();
       });
   }
@@ -367,6 +384,11 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
     }).catch(error=>{
       console.log(error);
     }).finally(()=>{
+      // this._listaRepresentantes.map(element => {
+      //   if (element.FechaSalida.toString()=='0001-01-01T00:00:00') {
+      //     element.FechaSalida="No Fijada";
+      //   }
+      // });
       this.MatTableRepresentantes.renderRows();
     });
   }
@@ -412,4 +434,6 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
     });
 
   }
+  //------------------------------------------------------------------------------------------
+  
 }

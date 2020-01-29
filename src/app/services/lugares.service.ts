@@ -360,7 +360,7 @@ export class LugaresService {
 
     return new Promise ((resolve,reject)=>{
       // console.log("servicio:",_body.toString());
-      this.http.post(url+'canton_consultar?_IdProvinciaEncriptado='+_IdProvinciaEncriptado, _body.toString(),{headers:this._header})
+      this.http.post(url+'canton_consultarporidprovincia?_idProvinciaEncriptado='+_IdProvinciaEncriptado, _body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{
@@ -374,7 +374,7 @@ export class LugaresService {
 
     return new Promise ((resolve,reject)=>{
       // console.log("servicio:",_body.toString());
-      this.http.post(url+'parroquia_consultar?_IdCantonEncriptado='+_IdCantonEncriptado, _body.toString(),{headers:this._header})
+      this.http.post(url+'parroquia_consultarporidcanton?_idCantonEncriptado='+_IdCantonEncriptado, _body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{
@@ -389,7 +389,7 @@ export class LugaresService {
     // 
     return new Promise ((resolve,reject)=>{
       // console.log("servicio:",_body.toString());
-      this.http.post(url+'comunidad_consultar?_IdParroquiaEncriptado='+_IdParroquiaEncriptado, _body.toString(),{headers:this._header})
+      this.http.post(url+'comunidad_consultarporidparroquia?_idParroquiaEncriptado='+_IdParroquiaEncriptado, _body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{

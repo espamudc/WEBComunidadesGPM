@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TipoUsuarioService } from 'src/app/services/tipo-usuario.service';
+import { ModalAsignarTipoUsuarioModuloPrivilegioComponent } from '../modal-asignar-tipo-usuario-modulo-privilegio/modal-asignar-tipo-usuario-modulo-privilegio.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-tipo-usuario',
@@ -9,7 +11,8 @@ import { TipoUsuarioService } from 'src/app/services/tipo-usuario.service';
 export class TipoUsuarioComponent implements OnInit {
 
   constructor(
-    private tipoUsuarioService:TipoUsuarioService
+    private tipoUsuarioService:TipoUsuarioService,
+    private modalAsignarTipoUsuarioModuloPrivilegio:MatDialog
   ) { }
 
   ngOnInit() {
@@ -17,6 +20,7 @@ export class TipoUsuarioComponent implements OnInit {
   }
 
   tablaTiposUsuarios=['descripcion','acciones'];
+  tablaAsignarTipoUsuarioModuloPrivilegio=['modulos','privilegios','acciones'];
   _listaTiposUsuarios:any[]=[];
 
   _consultarTiposUsuarios(){
@@ -38,6 +42,21 @@ export class TipoUsuarioComponent implements OnInit {
   }
 
   _verAsignarModuloPrivilegio(_item){
+    let dialogRef = this.modalAsignarTipoUsuarioModuloPrivilegio.open(ModalAsignarTipoUsuarioModuloPrivilegioComponent, {
+      width: '900px',
+      height: '500px',
+      data: { _item }
+    });
+    dialogRef.afterClosed().subscribe(result=>{
+      // console.log(result);
+      if (result) {
+        
+      }
+    }); 
+  }
+
+  _verTipoUsuario(_item){
+    console.log(_item);
     
   }
 

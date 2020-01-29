@@ -16,9 +16,10 @@ import { ModalDetallePersonaComponent } from "src/app/components/modal-detalle-p
 import { SexoService } from 'src/app/services/sexo.service';
 import { TipoIdentificacionService } from 'src/app/services/tipo-identificacion.service';
 import { LugaresService } from 'src/app/services/lugares.service';
-import { MatTable } from '@angular/material';
+import { MatTable, MatSnackBar, MatSnackBarConfig } from '@angular/material';
+// import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
+// import { MessageBoxComponent } from 'src/app/message-box/message-box.component';
 // import { MatTableDataSource } from '@angular/material';
-
 
 @Component({
   selector: 'app-persona',
@@ -35,6 +36,8 @@ export class PersonaComponent implements OnInit {
     private sexoService:SexoService,
     private tipoIdentificacionService:TipoIdentificacionService,
     private dialog: MatDialog,
+    // private messagebox : MessageBoxComponent,
+    private snackBarComponent: MatSnackBar,
   ) {
   
   }
@@ -78,6 +81,10 @@ export class PersonaComponent implements OnInit {
   _btnAccion="Guardar";
 
   @ViewChild('frmPersona',{static:false}) frmPersona : Form; 
+
+  @ViewChild('ComboProvincias',{static:false}) ComboProvincias:ElementRef;
+  @ViewChild('ComboCantones',{static:false}) ComboCantones:ElementRef;
+  @ViewChild('ComboParroquias',{static:false}) ComboParroquias:ElementRef;
   // @ViewChild('cmbSexo',{static:false}) cmbSexo:MatSelect;
 
   _validarCompletos(){
@@ -85,9 +92,12 @@ export class PersonaComponent implements OnInit {
     if (
       this._cmbSexo                !="0"     && 
       this._cmbTipoIdentificacion  !="0"     &&
-      this._cmbParroquia           !="0"     &&
-      this._cmbCanton              !="0"     &&
-      this._cmbProvincia           !="0"     &&
+      // this._cmbParroquia           !="0"     &&
+      // this._cmbCanton              !="0"     &&
+      // this._cmbProvincia           !="0"     &&
+      this.ComboParroquias.nativeElement.value !="0"  &&
+      this.ComboCantones.nativeElement.value !="0"    &&
+      this.ComboProvincias.nativeElement.value !="0"  &&
       this._primerNombre           !=""      &&
       this._primerApellido         !=""      &&
       this._segundoApellido        !=""      &&
@@ -109,9 +119,12 @@ export class PersonaComponent implements OnInit {
     if (
       this._cmbSexo                !="0"     && 
       this._cmbTipoIdentificacion  !="0"     &&
-      this._cmbParroquia           !="0"     &&
-      this._cmbCanton              !="0"     &&
-      this._cmbProvincia           !="0"     &&
+      // this._cmbParroquia           !="0"     &&
+      // this._cmbCanton              !="0"     &&
+      // this._cmbProvincia           !="0"     &&
+      this.ComboParroquias.nativeElement.value !="0"  &&
+      this.ComboCantones.nativeElement.value !="0"    &&
+      this.ComboProvincias.nativeElement.value !="0"  &&
       this._primerNombre           !=""      &&
       this._primerApellido         !=""      &&
       this._segundoApellido        !=""      &&
@@ -146,7 +159,8 @@ export class PersonaComponent implements OnInit {
       this._cmbTipoIdentificacion,
       this._telefono,
       this._cmbSexo,
-      this._cmbParroquia,//this.parroquia,
+      // this._cmbParroquia,//this.parroquia,
+      this.ComboParroquias.nativeElement.value,
       this._direccion,
       'token'
       ).then(
@@ -154,14 +168,16 @@ export class PersonaComponent implements OnInit {
           if (data['http']['codigo'] == '200') {
             this._consultarPersonas();
             this._refrescarTabla();
+            this._refrescarForm();
           } else {
-            
+            this.mensaje(data['http']['mensaje']);
           }
         },
       )
       .catch(
         err => {
           console.log(err);
+          this.mensaje(err);
         }
       );
 
@@ -179,7 +195,8 @@ export class PersonaComponent implements OnInit {
         this._cmbTipoIdentificacion,
         this._telefono,
         this._cmbSexo,
-        this._cmbParroquia,//this.parroquia,
+        // this._cmbParroquia,//this.parroquia,
+        this.ComboParroquias.nativeElement.value,
         this._direccion,
         'token'
         ).then(
@@ -187,15 +204,19 @@ export class PersonaComponent implements OnInit {
             console.log(ok);
             
             if (ok['http']['codigo'] == '200') {
-              this._consultarPersonas();           
+              this._consultarPersonas(); 
+              this._refrescarForm();
+                      
             } else {
-              ok['http']['mensaje'];
+              // ok['http']['mensaje'];
+              this.mensaje(ok['http']['mensaje']);
             }
           },
         )
         .catch(
           err => {
             console.log(err);
+            this.mensaje(err);
           }
         )
     // }
@@ -223,15 +244,17 @@ export class PersonaComponent implements OnInit {
           //var obj= this._listaPersonas.find(dato=>dato.IdPersonaEncriptado===_persona.IdPersonaEncriptado);
           var indexOf = this._listaPersonas.indexOf(_persona);
           this._listaPersonas.splice(indexOf,1);
+         
           this._refrescarTabla();
           // this.table.dataSource = this._listaPersonas;
           // this.table.renderRows()
         }else{
+          this.mensaje(data['http']['mensaje'])
           console.log(data);
         }
       })
       .catch(error=>{
-
+        this.mensaje(error);
       });
   }
   _consultarSexos(){
@@ -265,8 +288,8 @@ export class PersonaComponent implements OnInit {
 
   _verPersona(_persona: any) {
     let dialogRef = this.dialog.open(ModalDetallePersonaComponent, {
-      width: '500px',
-      height: '450px',
+      width: 'auto',
+      height: 'auto',
       data: {
         _persona : _persona
       }
@@ -285,9 +308,20 @@ export class PersonaComponent implements OnInit {
     this._cmbTipoIdentificacion = _persona.TipoIdentificacion.IdTipoIdentificacionEncriptado;
     this._telefono = _persona.Telefono;
     this._cmbSexo = _persona.Sexo.IdSexoEncriptado;
-    this._cmbParroquia = "0";
+    // this._cmbParroquia  = _persona.Parroquia.IdParroquiaEncriptado;
+    // this._cmbCanton     = _persona.Parroquia.Canton.IdCantonEncriptado;
+    // this._cmbProvincia  = _persona.Parroquia.Canton.Provincia.IdProvinciaEncriptado;
     this._direccion = _persona.Direccion;
 
+    this.lugaresService._consultarProvincias();
+
+    this._cantonesDeUnaProvincia(_persona.Parroquia.Canton.Provincia.IdProvinciaEncriptado);
+    this._parroquiasDeUnCanton(_persona.Parroquia.Canton.IdCantonEncriptado);  
+    // var obj = this._listaProvincias.find(item=>item.IdProvinciaEncriptado==_persona.Parroquia.Canton.Provincia.IdProvinciaEncriptado);
+    this.ComboProvincias.nativeElement.value  = _persona.Parroquia.Canton.Provincia.IdProvinciaEncriptado;
+    this.ComboCantones.nativeElement.value    = _persona.Parroquia.Canton.IdCantonEncriptado;
+    this.ComboParroquias.nativeElement.value  = _persona.Parroquia.IdParroquiaEncriptado;
+    // console.log(obj);
     
     //debugger
     // this.testButton.nativeElement.value = "modificar";
@@ -301,9 +335,15 @@ export class PersonaComponent implements OnInit {
 
     this._cmbSexo ="0";
     this._cmbTipoIdentificacion = "0";
+
     this._cmbParroquia="0";
     this._cmbCanton="0";
     this._cmbProvincia="0";
+
+    this.ComboParroquias.nativeElement.value="0";
+    this.ComboCantones.nativeElement.value="0";
+    this.ComboProvincias.nativeElement.value="0";
+
     this._IdPersonaEncriptado ="0";
     this._primerNombre="";
     this._segundoNombre="";
@@ -314,6 +354,7 @@ export class PersonaComponent implements OnInit {
     this._numeroIdentificacion="";
 
     this._btnAccion="Guardar";
+    this._validar=true;
   }
 
   @ViewChild(MatTable,{static:false}) MatTablaPersonas: MatTable<any>;
@@ -347,7 +388,10 @@ export class PersonaComponent implements OnInit {
   _listaCantones:any[]=[];
   _cantonesDeUnaProvincia(event){
     // 
-   
+    
+    this.ComboCantones.nativeElement.value="0";
+    this.ComboParroquias.nativeElement.value="0";
+
     var id = event;
     console.log(id);
     if (id!="0") {
@@ -357,7 +401,6 @@ export class PersonaComponent implements OnInit {
             this._listaCantones = data['respuesta'];
           }else{
             console.log(data);
-            
           }
         }).catch(error=>{
           console.log(error);
@@ -369,6 +412,8 @@ export class PersonaComponent implements OnInit {
   _listaParroquias:any[]=[];
   _parroquiasDeUnCanton(event){
     
+    this.ComboParroquias.nativeElement.value="0";
+
     var id = event;
     console.log(id);
     if (id!="0") {
@@ -415,6 +460,27 @@ export class PersonaComponent implements OnInit {
     }
     console.log("lista",this._listaComunidades);
     
+  }
+
+  mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
+
+    
+    if (_duracion==null) {
+       _duracion=3000;
+    }
+    if (_opcion==1) {
+      _mensaje="Datos ingresados correctamente";
+    }
+    if (_opcion==2) {
+      _mensaje="Datos modificados correctamente";
+    }
+    if (_opcion==3) {
+      _mensaje="Datos eliminados correctamente";
+    }
+    if (_color==null) {
+      _color ="gpm-danger";
+    }
+    let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
   }
 
 }

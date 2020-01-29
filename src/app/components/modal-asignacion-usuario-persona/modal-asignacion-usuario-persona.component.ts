@@ -29,19 +29,7 @@ export class ModalAsignacionUsuarioPersonaComponent implements OnInit {
     this.data.apellidos = persona.ApellidoPaterno +' '+ persona.ApellidoMaterno; 
   }
 
-  consultarPersonas() {
-    this.personaService.consultarPersonasSinUsuario(localStorage.getItem('miCuenta.getToken'))
-      .then(
-        ok => {
-          this.personas = ok['respuesta'];
-        },
-      )
-      .catch(
-        error => {
-          console.log(error);
-        }
-      )
-  }
+
 
   ngOnInit() {
     this._consultarPersonas();
@@ -50,7 +38,7 @@ export class ModalAsignacionUsuarioPersonaComponent implements OnInit {
   //-------------------------------------------------------------------------------
   _listaPersonas:any[]=[];
   _consultarPersonas(){
-    this.personaService._consultarPersonas('token')
+    this.personaService._consultarPersonasSinUsuarios('token')
         .then(data=>{
           console.log(data);
           if (data['http']['codigo']=='200') {

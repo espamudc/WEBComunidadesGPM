@@ -17,7 +17,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { ModalAsignacionUsuarioPersonaComponent } from '../modal-asignacion-usuario-persona/modal-asignacion-usuario-persona.component';
 import { ModalAsignacionUsuarioTiposUsuarioComponent } from '../modal-asignacion-usuario-tipos-usuario/modal-asignacion-usuario-tipos-usuario.component';
 import { ModalDetalleUsuarioComponent } from '../modal-detalle-usuario/modal-detalle-usuario.component';
-import { MatTable } from '@angular/material';
+import { MatTable, MatSnackBar } from '@angular/material';
 
 export interface DialogData {
   cedula: string;
@@ -44,6 +44,7 @@ export class UsuarioComponent implements OnInit {
     private modalDetalleUsuario: MatDialog,
     private usuarioService: UsuarioService,
     private personaService: PersonaService,
+    private snackBarComponent:MatSnackBar
   ) {
     this.myForm = new FormGroup({
       _valorUsuario: new FormControl('', [Validators.required]),
@@ -51,10 +52,33 @@ export class UsuarioComponent implements OnInit {
     })
   }
 
+  mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
+
+    
+    if (_duracion==null) {
+       _duracion=3000;
+    }
+    if (_opcion==1) {
+      _mensaje="Datos ingresados correctamente";
+    }
+    if (_opcion==2) {
+      _mensaje="Datos modificados correctamente";
+    }
+    if (_opcion==3) {
+      _mensaje="Datos eliminados correctamente";
+    }
+    if (_color==null) {
+      _color ="gpm-danger";
+    }
+    let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
+  }
+
+
+
   botonInsertar = 'insertar';
-  cedula = 'Cedula';
-  nombres = 'Nombres';
-  apellidos = 'Apellidos';
+  cedula = '';
+  nombres = '';
+  apellidos = '';
   filterUsuario = '';
   idAsignacionTipoUsuario: string;
   idPersona: string;
@@ -82,6 +106,7 @@ export class UsuarioComponent implements OnInit {
 
   onChangeInputUsuario() {
     this.inputUsuario = true;
+    this._validarCompletos();
   }
 
 
@@ -96,7 +121,7 @@ export class UsuarioComponent implements OnInit {
 
   ngOnInit() {
     // this.consultarUsuarios();
-    this.cedula = "Numero de Identificacion"
+    //this.cedula = "Numero de Identificacion"
     this._consultarUsuarios();
   }
 
@@ -135,6 +160,8 @@ export class UsuarioComponent implements OnInit {
           this._refrescarForm();
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
+
       }
     }).catch(error=>{
       console.log(error);
@@ -178,6 +205,8 @@ export class UsuarioComponent implements OnInit {
           
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
+
       }
     }).catch(error=>{
       console.log(error);
@@ -211,6 +240,7 @@ export class UsuarioComponent implements OnInit {
           
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
       console.log(error);
@@ -245,6 +275,8 @@ export class UsuarioComponent implements OnInit {
         this.apellidos  = result.PrimerApellido+' '+result.SegundoApellido;
         this.cedula     = result.NumeroIdentificacion;
       }
+    },error=>{},()=>{
+      this._validarCompletos();
     }); 
   }
 
@@ -259,5 +291,21 @@ export class UsuarioComponent implements OnInit {
       }
     }
   }
+
+  _validar=true;
+  _validarCompletos(){
+    // debugger
+    if (
+      this.nombres     !=""     && 
+      this.apellidos   !=""     &&
+      this.cedula      !=""     &&
+      this.myForm.valid
+    ) {
+      this._validar=false;
+    }else{
+      this._validar=true;
+    }
+  }
+
 
 }

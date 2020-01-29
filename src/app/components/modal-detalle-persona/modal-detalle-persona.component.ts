@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { PersonaModal } from 'src/app/interfaces/persona/persona-modal';
 
@@ -7,11 +7,11 @@ import { PersonaModal } from 'src/app/interfaces/persona/persona-modal';
   templateUrl: './modal-detalle-persona.component.html',
   styleUrls: ['./modal-detalle-persona.component.css']
 })
-export class ModalDetallePersonaComponent implements OnInit {
+export class ModalDetallePersonaComponent implements OnInit,AfterViewInit {
 
   constructor(
     public dialogRef: MatDialogRef<ModalDetallePersonaComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: PersonaModal
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { console.log(data) }
 
   // nombresCompletos = this.data.primerNombreModal + ' ' + 
@@ -28,10 +28,17 @@ export class ModalDetallePersonaComponent implements OnInit {
   // sinDireccion: string;
 
   ngOnInit() {
+
     // if(this.data.provinciaModal == null || this.data.cantonModal == null ||
     //   this.data.parroquiaModal == null) {
     //     this.direccion = 'Sin Direccion';
     //   }
+  }
+
+  ngAfterViewInit(){
+    if (this.data._persona.SegundoNombre==null) {
+      this.data._persona.SegundoNombre="";
+    }
   }
 
 }

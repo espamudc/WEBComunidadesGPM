@@ -75,9 +75,9 @@
 
                         <div class="form-group"> 
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <select  [(ngModel)]="_cmbProvincia" 
-                                            [ngModelOptions]="{standalone: true}" 
+                                <div class="col-lg-12"> <!-- [(ngModel)]="_cmbProvincia"  [ngModelOptions]="{standalone: true}" -->
+                                    <select   #ComboProvincias
+                                            
                                             name="_provincia" class="form-control"
                                             (change)="_cantonesDeUnaProvincia($event.target.value)">
                                         <option value="0" disabled>Seleccionar Provincia</option>
@@ -89,9 +89,9 @@
                         </div>
                         <div class="form-group"> 
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <select  [(ngModel)]="_cmbCanton" 
-                                            [ngModelOptions]="{standalone: true}" 
+                                <div class="col-lg-12"> <!--  [(ngModel)]="_cmbCanton" [ngModelOptions]="{standalone: true}" -->
+                                    <select  #ComboCantones
+                                            
                                             name="_canton" 
                                             class="form-control"
                                             (change)="_parroquiasDeUnCanton($event.target.value)">
@@ -104,9 +104,9 @@
                         </div> 
                         <div class="form-group"> 
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <select  [(ngModel)]="_cmbParroquia" 
-                                            [ngModelOptions]="{standalone: true}" 
+                                <div class="col-lg-12"> <!--[ngModelOptions]="{standalone: true}"  [(ngModel)]="_cmbParroquia"-->
+                                    <select   #ComboParroquias
+                                            
                                             name="_parroquia" 
                                             class="form-control"
                                             (change)="_comunidadesDeUnaParroquia($event.target.value)">

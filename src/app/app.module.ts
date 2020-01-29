@@ -48,6 +48,10 @@ import { MatTableModule } from '@angular/material';
 import { ModalLugarRepresentanteComponent } from './components/modal-lugar-representante/modal-lugar-representante.component';
 import { TipoUsuarioComponent } from './components/tipo-usuario/tipo-usuario.component';
 import { ModalAsignarModuloPrivilegioComponent } from './components/modal-asignar-modulo-privilegio/modal-asignar-modulo-privilegio.component';
+import { ModalAsignarTipoUsuarioModuloPrivilegioComponent } from './components/modal-asignar-tipo-usuario-modulo-privilegio/modal-asignar-tipo-usuario-modulo-privilegio.component';
+
+import { MatExpansionModule, MatInputModule,MatSnackBarModule } from "@angular/material";
+// import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +77,9 @@ import { ModalAsignarModuloPrivilegioComponent } from './components/modal-asigna
     // LugarRepresentanteComponent,
     ModalLugarRepresentanteComponent,
     TipoUsuarioComponent,
-    ModalAsignarModuloPrivilegioComponent
+    ModalAsignarModuloPrivilegioComponent,
+    ModalAsignarTipoUsuarioModuloPrivilegioComponent,
+    // MessageBoxComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,6 +101,9 @@ import { ModalAsignarModuloPrivilegioComponent } from './components/modal-asigna
     PipesModule,
     MatChipsModule,
     TooltipModule,
+    MatExpansionModule, //
+    MatInputModule,
+    MatSnackBarModule,
   ],
   exports:[],
   entryComponents: [ 
@@ -102,7 +111,9 @@ import { ModalAsignarModuloPrivilegioComponent } from './components/modal-asigna
     ModalAsignacionUsuarioPersonaComponent ,
     ModalAsignacionUsuarioTiposUsuarioComponent,
     ModalDetalleUsuarioComponent,
-    ModalLugarRepresentanteComponent
+    ModalLugarRepresentanteComponent, //
+    ModalAsignarTipoUsuarioModuloPrivilegioComponent,
+    // MessageBoxComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
