@@ -1,8 +1,68 @@
 <br>
+
+
 <div class="container page-container animated fadeInDown">
     <div class="row justify-content-center">
+        
         <div class="col-md-6 col-xs-12 col-lg-4 col-sm-12">
-            <div class="card">
+
+            <form *ngIf="_verFormularioLogin==true" #frmLogin = "ngForm" (ngSubmit)="_onSubmitForm()">
+                <mat-card class="example-card">
+                    <mat-card-header>
+                      <div mat-card-avatar class="example-header-image"></div>
+                      <!-- <mat-card-title>Shiba Inu</mat-card-title> -->
+                      <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+                    </mat-card-header>
+                    <img src="../../../assets/img/logo.png" alt="Photo of a Shiba Inu">
+                    <br>
+                    <br>
+                    <p *ngIf="_validarCorreo==true">
+                        <mat-form-field style="width: 100%;" appearance="outline">
+                          <mat-label >Correo</mat-label>
+                          <input type="email" matInput placeholder="example@example.com" [(ngModel)]="_correo" name="_name">
+                          <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                          <!-- <mat-hint>Hint</mat-hint> -->
+                        </mat-form-field>
+                    </p>
+                    <p *ngIf="_login==true">
+                        <mat-form-field style="width: 100%;" appearance="outline">
+                          <mat-label>{{ _correoUsuario }}</mat-label>
+                          <input type="password" matInput  [(ngModel)]="_clave" name="_clave">
+                          <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                          <!-- <mat-hint>Hint</mat-hint> -->
+                        </mat-form-field>
+                    </p>
+    
+                    <mat-card-actions>
+                      <button class="btn-primary" mat-button style="width: 100%;">Ingresar</button>
+                      <!-- <button mat-button>SHARE</button> -->
+                    </mat-card-actions>
+                </mat-card>
+            </form >
+
+            <form [formGroup]="formMisRoles" (ngSubmit)="_ingresarAlSistema()" *ngIf="_verFormularioMisTiposUsuarios==true" #frmTiposUsuarios="ngForm" action="">
+                <mat-card>
+                   
+                    <img src="../../../assets/img/logo.png" alt="Photo of a Shiba Inu">
+                    <br>
+                    <br>
+                    <mat-form-field style="width: 100%;">
+                        <mat-label>Seleccione el Rol</mat-label>
+                        <mat-select formControlName="_cmbTiposUsuarios" >
+                          <mat-option required *ngFor="let item of _misTiposUsuarios" value="{{item.IdTipoUsuarioEncriptado}}" >
+                            {{item.Descripcion}}
+                          </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-card-actions>
+                        <button type="submit" class="btn-primary" mat-button style="width: 100%;"  invalid="frmTiposUsuarios.invalid">Ingresar</button>
+                        <!-- <button mat-button>SHARE</button> -->
+                    </mat-card-actions>
+                    <!-- <button *ngFor="let item of _misTiposUsuarios" class="btn btn-primary btn-block" mat-button (click)="_ingresarAlSistema(item)"> {{item.Descripcion}} </button> -->
+                </mat-card>   
+            </form>
+
+            <!-- <div class="card">
                 <div class="card-body card-login">
                     <img src="../../../assets/img/logo.png" width="200" height="100">
                     <form [formGroup]="myForm" (ngSubmit)="login()" novalidate>
@@ -40,8 +100,12 @@
                             </button>
                         </div>
                     </form>
+                
+
+                      
+
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

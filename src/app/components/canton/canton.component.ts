@@ -11,7 +11,8 @@ import { Canton } from 'src/app/interfaces/canton/canton';
 import sweetalert from 'sweetalert';
 import { ProvinciaComponent } from '../provincia/provincia.component';
 import { LugaresService } from 'src/app/services/lugares.service';
-import { MatTable } from '@angular/material';
+import { MatTable, MatDialog, MatSnackBar } from '@angular/material';
+import { ModalLugarRepresentanteComponent } from '../modal-lugar-representante/modal-lugar-representante.component';
 
 @Component({
   selector: 'app-canton',
@@ -27,7 +28,8 @@ export class CantonComponent implements OnInit,AfterViewInit {
 
   constructor(
     private lugaresService:LugaresService,
-    //  private provinciaComponent:ProvinciaComponent
+    private modalLugarRepresentante:MatDialog,
+    private snackBarComponent:MatSnackBar
   ) {
 
   }
@@ -41,6 +43,28 @@ export class CantonComponent implements OnInit,AfterViewInit {
 
   ngAfterViewInit(){
 
+  }
+
+
+  mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
+
+    
+    if (_duracion==null) {
+       _duracion=3000;
+    }
+    if (_opcion==1) {
+      _mensaje="Datos ingresados correctamente";
+    }
+    if (_opcion==2) {
+      _mensaje="Datos modificados correctamente";
+    }
+    if (_opcion==3) {
+      _mensaje="Datos eliminados correctamente";
+    }
+    if (_color==null) {
+      _color ="gpm-danger";
+    }
+    let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
   }
 
   tablaCantones = ['codigo','canton', 'provincia', 'acciones'];
@@ -167,6 +191,7 @@ export class CantonComponent implements OnInit,AfterViewInit {
         // this._validarFormulario();
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
 
@@ -190,6 +215,7 @@ export class CantonComponent implements OnInit,AfterViewInit {
         this._limpiarForm();
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
 
@@ -205,6 +231,7 @@ export class CantonComponent implements OnInit,AfterViewInit {
         this._consultarCantones();
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
 
@@ -222,6 +249,9 @@ export class CantonComponent implements OnInit,AfterViewInit {
     this._codigoCanton       =_item.CodigoCanton;
     this._nombreCanton       =_item.NombreCanton;
     this._descripcionCanton  =_item.DescripcionCanton;
+    if (this._descripcionCanton=='null') {
+      this._descripcionCanton="";
+    }
     this._rutaLogoCanton     =_item.RutaLogoCanton;
     this._btnAccion = "Modificar";
     this._validarBoton();
@@ -268,6 +298,25 @@ export class CantonComponent implements OnInit,AfterViewInit {
       }).finally(()=>{
         // this._listaProvincias.sort();
       });
+  }
+
+
+  _verRepresentante(_item){
+    let dialogRef = this.modalLugarRepresentante.open(ModalLugarRepresentanteComponent, {
+      width: 'auto',
+      height: 'auto',
+      data: { lugar_tipo: 'canton', lugar_data: _item }
+    });
+    dialogRef.afterClosed().subscribe(result=>{
+      // console.log(result);
+      if (result) {
+        
+      }
+    },error=>{
+
+    },()=>{
+      this._consultarCantones();
+    }); 
   }
 
 }

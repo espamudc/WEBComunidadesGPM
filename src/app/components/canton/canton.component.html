@@ -119,6 +119,13 @@
                                 <ng-container *matCellDef="let element">
                                     <ng-container >
                                         <td mat-cell>
+                                            <button tooltip="Asignar Representante" placement="top"
+                                                class="btn btn-sm btn-outline-warning" value="{{element.IdCantonEncriptado}}"
+                                                (click)=_verRepresentante(element)>
+                                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                        <td mat-cell>
                                             <button tooltip="Modificar" placement="top"
                                                 class="btn btn-sm btn-outline-info" value="{{element.IdCantonEncriptado}}"
                                                 (click)=_prepararCanton(element)>

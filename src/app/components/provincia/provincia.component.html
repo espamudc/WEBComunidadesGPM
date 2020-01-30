@@ -12,6 +12,18 @@
                 <div class="card-body">
                     <form #frmProvincia="ngForm" (ngSubmit)="_validarFormulario()" >
                         
+                        <!-- <div class="form-group"> 
+                            <div class="row">
+                                <div class="col-10"> 
+                                    <input disabled  [(ngModel)]="_representante" [ngModelOptions]="{standalone: true}" name="_representante" type="text" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Representante">
+                                </div>
+                                <div class="col-2">
+                                    <button (click)="_verRepresentante()" class="form-control btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div> -->
+
                         <div class="form-group"> 
                             <input  required [(ngModel)]="_codigoProvincia" [ngModelOptions]="{standalone: true}" name="_codigoProvincia" type="text" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Código de la Provincia">
                             <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
@@ -81,16 +93,23 @@
                                 <ng-container *matCellDef="let element">
                                     <ng-container >
                                         <td mat-cell>
+                                            <button tooltip="Asignar Representante" placement="top"
+                                                class="btn btn-sm btn-outline-warning" value="{{element.IdProvinciaEncriptado}}"
+                                                (click)=_verRepresentante(element)>
+                                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                        <td mat-cell>
                                             <button tooltip="Modificar" placement="top"
                                                 class="btn btn-sm btn-outline-info" value="{{element.IdProvinciaEncriptado}}"
-                                                (click)=mostrarProvincia(element)>
+                                                (click)=_prepararProvincia(element)>
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </button>
                                         </td>
                                         <td mat-cell>
                                             <button class="btn btn-sm btn-outline-danger" *ngIf="element.Utilizado==0"
                                                 value="{{element.IdProvinciaEncriptado}}"
-                                                (click)=eliminarProvincia(element.IdProvinciaEncriptado)>
+                                                (click)=_eliminarProvincia(element)>
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                             </button>
                                         </td>

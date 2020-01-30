@@ -4,8 +4,10 @@ import { LugaresService } from 'src/app/services/lugares.service';
 // import { PersonaService } from 'src/app/services/persona.service';
 // import { Provincia } from 'src/app/interfaces/provincia/provincia';
 import sweetalert from 'sweetalert';
-import { MatTable } from '@angular/material';
+import { MatTable, MatDialog, MatSnackBar } from '@angular/material';
+import { ModalLugarRepresentanteComponent } from '../modal-lugar-representante/modal-lugar-representante.component';
 // import { MatTable } from '@angular/material';
+
 
 @Component({
   selector: 'app-provincia',
@@ -18,7 +20,9 @@ export class ProvinciaComponent implements OnInit {
   @ViewChild('testButton', { static: false }) testButton: ElementRef;
 
   constructor(
-    private lugaresService:LugaresService
+    private lugaresService:LugaresService,
+    private modalLugarRepresentante:MatDialog,
+    private snackBarComponent:MatSnackBar
   ) {
     // this.myForm = new FormGroup({
     //   _provincia: new FormControl('', [Validators.required])
@@ -30,9 +34,26 @@ export class ProvinciaComponent implements OnInit {
    this._consultarProvincias();
   }
 
-  // get _provincia() {
-  //   return this.myForm.get('_provincia');
-  // }
+  mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
+
+    
+    if (_duracion==null) {
+       _duracion=3000;
+    }
+    if (_opcion==1) {
+      _mensaje="Datos ingresados correctamente";
+    }
+    if (_opcion==2) {
+      _mensaje="Datos modificados correctamente";
+    }
+    if (_opcion==3) {
+      _mensaje="Datos eliminados correctamente";
+    }
+    if (_color==null) {
+      _color ="gpm-danger";
+    }
+    let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
+  }
 
   _validar=true;
 
@@ -146,6 +167,7 @@ export class ProvinciaComponent implements OnInit {
         // this._validarFormulario();
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
       
@@ -166,6 +188,7 @@ export class ProvinciaComponent implements OnInit {
         this._limpiarForm();
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
       
@@ -181,6 +204,7 @@ export class ProvinciaComponent implements OnInit {
         this._consultarProvincias();
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
       
@@ -190,13 +214,41 @@ export class ProvinciaComponent implements OnInit {
   }
 
   _prepararProvincia(_item){
+    
+    
+
     this._idProvinciaEncriptado =_item.IdProvinciaEncriptado;
     this._codigoProvincia       =_item.CodigoProvincia;
     this._nombreProvincia       =_item.NombreProvincia;
     this._descripcionProvincia  =_item.DescripcionProvincia;
+    if (this._descripcionProvincia=='null') {
+      this._descripcionProvincia="";
+    }
     this._rutaLogoProvincia     =_item.RutaLogoProvincia;
     this._btnAccion = "Modificar";
     this._validarBoton();
+
+  }
+
+
+  
+  _verRepresentante(_item){
+    let dialogRef = this.modalLugarRepresentante.open(ModalLugarRepresentanteComponent, {
+      width: 'auto',
+      height: 'auto',
+      data: { lugar_tipo: 'provincia', lugar_data: _item }
+    });
+    dialogRef.afterClosed().subscribe(result=>{
+      // console.log(result);
+      if (result) {
+        
+      }
+    },erro=>{
+
+    },()=>{
+      this._consultarProvincias();
+    }); 
+
   }
 
 }

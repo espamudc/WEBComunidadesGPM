@@ -7,7 +7,8 @@ import { Canton } from 'src/app/interfaces/canton/canton';
 import sweetalert from 'sweetalert';
 import { LugaresService } from 'src/app/services/lugares.service';
 import { CantonComponent } from '../canton/canton.component';
-import { MatTable } from '@angular/material';
+import { MatTable, MatDialog, MatSnackBar } from '@angular/material';
+import { ModalLugarRepresentanteComponent } from '../modal-lugar-representante/modal-lugar-representante.component';
 
 
 @Component({
@@ -20,7 +21,9 @@ export class ParroquiaComponent implements OnInit {
   
 
   constructor(
-    private lugaresService:LugaresService
+    private lugaresService:LugaresService,
+    private modalLugarRepresentante:MatDialog
+    ,private snackBarComponent:MatSnackBar
   ) {
 
   }
@@ -28,6 +31,28 @@ export class ParroquiaComponent implements OnInit {
   ngOnInit() {
     this._consultarParroquias();
     this._consultarCantones();
+  }
+
+
+  mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
+
+    
+    if (_duracion==null) {
+       _duracion=3000;
+    }
+    if (_opcion==1) {
+      _mensaje="Datos ingresados correctamente";
+    }
+    if (_opcion==2) {
+      _mensaje="Datos modificados correctamente";
+    }
+    if (_opcion==3) {
+      _mensaje="Datos eliminados correctamente";
+    }
+    if (_color==null) {
+      _color ="gpm-danger";
+    }
+    let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
   }
 
   tablaParroquias = ['codigo','parroquia', 'canton', 'acciones'];
@@ -157,6 +182,7 @@ export class ParroquiaComponent implements OnInit {
         // this._validarFormulario();
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
 
@@ -181,6 +207,7 @@ export class ParroquiaComponent implements OnInit {
         this._limpiarForm();
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
 
@@ -196,6 +223,7 @@ export class ParroquiaComponent implements OnInit {
         this._consultarParroquias();
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
 
@@ -215,7 +243,11 @@ export class ParroquiaComponent implements OnInit {
     this._idParroquiaEncriptado =_item.IdParroquiaEncriptado;
     this._codigoParroquia       =_item.CodigoParroquia;
     this._nombreParroquia       =_item.NombreParroquia;
+    
     this._descripcionParroquia  =_item.DescripcionParroquia;
+    if (this._descripcionParroquia=='null') {
+      this._descripcionParroquia="";
+    }
     this._rutaLogoParroquia     =_item.RutaLogoParroquia;
     this._btnAccion = "Modificar";
     this._validarBoton();
@@ -267,6 +299,24 @@ export class ParroquiaComponent implements OnInit {
       }).finally(()=>{
         // this._listaCantones.sort();
       });
+  }
+
+  _verRepresentante(_item){
+    let dialogRef = this.modalLugarRepresentante.open(ModalLugarRepresentanteComponent, {
+      width: 'auto',
+      height: 'auto',
+      data: { lugar_tipo: 'parroquia', lugar_data: _item }
+    });
+    dialogRef.afterClosed().subscribe(result=>{
+      // console.log(result);
+      if (result) {
+        
+      }
+    },error=>{
+
+    },()=>{
+      this._consultarParroquias();
+    }); 
   }
 
 }

@@ -9,15 +9,15 @@
                 </div>
                 <div class="card-body">
                     <div *ngIf="!_refrescar" class="form-group input-container">
-                        <input [value]="cedula" type="text" readonly class="form-control input-field">
+                        <input [value]="cedula" type="text" readonly class="form-control input-field" placeholder="Escojer Persona">
                         <i (click)="_abrirModalAsignacionUsuarioPersona()" class="fa fa-user-plus icon"
                             style="background-color:#f0ad4e;"></i>
                     </div>
                     <div class="form-group">
-                        <input [value]="nombres" type="text" readonly class="form-control input-field">
+                        <input [value]="nombres" type="text" readonly class="form-control input-field" placeholder="Nombres">
                     </div>
                     <div class="form-group">
-                        <input [value]="apellidos" type="text" readonly class="form-control input-field">
+                        <input [value]="apellidos" type="text" readonly class="form-control input-field" placeholder="Apellidos">
                     </div>
                     <div class="badge badge-danger mb-3 btn-block" [hidden]="inputPersona">
                         Persona Requerida
@@ -32,13 +32,11 @@
                                     Usuario Requerido
                                 </div>
                             </div>
-                            <div class="badge badge-danger mt-3 btn-block" [hidden]="inputUsuario">
-                                Usuario ya existe
-                            </div>
+                            
                         </div>
                         <div class="form-group input-container">
                             <input formControlName="_contrasena" type="password" [type]="inputType"
-                                class="form-control input-field" placeholder="Ingrese Contraseña">
+                                class="form-control input-field" placeholder="Ingrese Contraseña" (keyup)="_validarCompletos()">
                             <i class="fa fa-eye icon" (click)="mostrarContrasena()"></i>
                         </div>
                         <div class="badge badge-danger btn-block mb-3"
@@ -48,8 +46,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <button class="form-control btn-success" type="submit" [disabled]="myForm.invalid"
-                                [value]="botonInsertar" #testButton>
+                            <button class="form-control btn-success" type="submit" [disabled]="_validar" #testButton
+                                [value]="botonInsertar">
                                 Guardar Usuario
                             </button>
                         </div>
