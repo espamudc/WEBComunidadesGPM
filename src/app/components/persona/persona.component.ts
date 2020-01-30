@@ -53,8 +53,18 @@ export class PersonaComponent implements OnInit {
     this._consultarProvincias();
   }
 
-
-
+  //-------------------------------------------------------------------------------------------
+   __cadena:string 
+  _validarSoloNumeros(event){
+    console.log("ddddd");
+    // this.__cadena = this._telefono;
+    // this.__cadena.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+    // this._telefono= this.__cadena;
+    // event.target.value = this._telefono;
+    console.log(this._telefono);
+    
+    // this._telefono = event.target.value.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+  }
   //-------------------------------------------------------------------------------------------
   tablaPersonas = ['Nombres','Apellidos','TipoIdentidicacion','Identificacion','Acciones'];
   _validar = true;
@@ -74,7 +84,7 @@ export class PersonaComponent implements OnInit {
   _segundoNombre="";
   _primerApellido="";
   _segundoApellido="";
-  _telefono="";
+  _telefono:string="";
   _direccion="";
   _numeroIdentificacion="";
 
@@ -146,15 +156,23 @@ export class PersonaComponent implements OnInit {
       
   }
 
-  
-
-
   _ingresarPersona() {
+
+      if(this._telefono=='null'){
+        this._telefono='';
+      }
+      if(this._segundoNombre=='null'){
+        this._segundoNombre = "";
+      }
+
+      const separador =" ";
+      const limite =1;
+
       this.personaService._insertarPersona(
       this._primerNombre,
       this._segundoNombre,
-      this._primerApellido,
-      this._segundoApellido,
+      this._primerApellido.split(separador,limite)[0],
+      this._segundoApellido.split(separador,limite)[0],
       this._numeroIdentificacion,
       this._cmbTipoIdentificacion,
       this._telefono,
@@ -184,13 +202,22 @@ export class PersonaComponent implements OnInit {
   }
   _modificarPersona() {
    
+    if(this._telefono=='null'){
+      this._telefono='';
+    }
+    if(this._segundoNombre=='null'){
+      this._segundoNombre = "";
+    }
+
+    const separador =" ";
+    const limite =1;
       
       this.personaService._modificarPersona(
         this._IdPersonaEncriptado,
         this._primerNombre,
-        this._primerApellido,
-        this._primerApellido,
-        this._segundoApellido,
+        this._segundoNombre,
+        this._primerApellido.split(separador,limite)[0],
+        this._segundoApellido.split(separador,limite)[0],
         this._numeroIdentificacion, 
         this._cmbTipoIdentificacion,
         this._telefono,
@@ -312,6 +339,13 @@ export class PersonaComponent implements OnInit {
     // this._cmbCanton     = _persona.Parroquia.Canton.IdCantonEncriptado;
     // this._cmbProvincia  = _persona.Parroquia.Canton.Provincia.IdProvinciaEncriptado;
     this._direccion = _persona.Direccion;
+
+    if(this._telefono=='null'){
+      this._telefono='';
+    }
+    if(this._segundoNombre=='null'){
+      this._segundoNombre = "";
+    }
 
     this.lugaresService._consultarProvincias();
 

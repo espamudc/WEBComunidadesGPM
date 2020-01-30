@@ -11,15 +11,32 @@ export class UsuarioService {
   //-----------------------------------------------------------------------------------------
   private _header = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-  _login(
-    _Correo:string,
-    _Clave:string,
-    _Token:string
-  ){
+  _validarCorreo(correo:string, token:string)
+  {    
     const body = new HttpParams()
-    .set('Correo', _Correo)
-    .set('Clave', _Clave)
-    .set('Token',_Token);
+    .set('Correo', correo)
+    .set('Token', token);
+
+     return new Promise((resolve, reject) => {
+          this.http.post(url+'ValidarCorreo',body.toString(),
+            { 
+              headers: new HttpHeaders()
+              .set('Content-Type', 'application/x-www-form-urlencoded')}
+            )
+            .subscribe(res => {
+                resolve(res);
+            }, (err) => {
+              reject(err);
+          });
+      });
+  }
+
+  _login(correo:string, clave:string, token:string)
+  {
+    const body = new HttpParams()
+    .set('Correo', correo)
+    .set('Clave', clave)
+    .set('Token',token);
 
      return new Promise((resolve, reject) => {
           this.http.post(url+'Login',body.toString(),

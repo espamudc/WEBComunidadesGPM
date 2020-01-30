@@ -50,7 +50,7 @@ import { TipoUsuarioComponent } from './components/tipo-usuario/tipo-usuario.com
 import { ModalAsignarModuloPrivilegioComponent } from './components/modal-asignar-modulo-privilegio/modal-asignar-modulo-privilegio.component';
 import { ModalAsignarTipoUsuarioModuloPrivilegioComponent } from './components/modal-asignar-tipo-usuario-modulo-privilegio/modal-asignar-tipo-usuario-modulo-privilegio.component';
 
-import { MatExpansionModule, MatInputModule,MatSnackBarModule } from "@angular/material";
+import { MatExpansionModule, MatInputModule,MatSnackBarModule,MatCardModule,MatSelectModule } from "@angular/material";
 // import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
@@ -104,6 +104,8 @@ import { MatExpansionModule, MatInputModule,MatSnackBarModule } from "@angular/m
     MatExpansionModule, //
     MatInputModule,
     MatSnackBarModule,
+    MatCardModule,
+    MatSelectModule
   ],
   exports:[],
   entryComponents: [ 

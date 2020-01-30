@@ -23,6 +23,10 @@ export class AppComponent {
   constructor(private breakpointObserver: BreakpointObserver,
     private router: Router) { 
     this.menu  = localStorage.getItem('menu');
+
+    // localStorage.setItem("_correo","");
+    // localStorage.setItem("_clave","");
+
     // if (localStorage.getItem('menu')!=null || localStorage.getItem('menu')=='false') {
     //   this.menu = localStorage.getItem('menu');
     //   localStorage.setItem('menu','true');

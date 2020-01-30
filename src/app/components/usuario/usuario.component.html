@@ -32,9 +32,7 @@
                                     Usuario Requerido
                                 </div>
                             </div>
-                            <div class="badge badge-danger mt-3 btn-block" [hidden]="inputUsuario">
-                                Usuario ya existe
-                            </div>
+                            
                         </div>
                         <div class="form-group input-container">
                             <input formControlName="_contrasena" type="password" [type]="inputType"
@@ -48,8 +46,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <button class="form-control btn-success" type="submit" [disabled]=" _validar"
-                                [value]="botonInsertar" #testButton>
+                            <button class="form-control btn-success" type="submit" [disabled]="_validar" #testButton
+                                [value]="botonInsertar">
                                 Guardar Usuario
                             </button>
                         </div>

@@ -59,9 +59,8 @@
                                 </div>
                             </div>
                         </div>      
-                        <div class="form-group"> 
-                            <input required [(ngModel)]="_telefono" [ngModelOptions]="{standalone: true}" name="_telefono" type="number" (keyup)="_validarCompletos()" class="form-control"  aria-describedby="emailHelp" placeholder="Telefono">
-                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                        <div class="form-group">
+                            <input required [(ngModel)]="_telefono" [ngModelOptions]="{standalone: true}" name="_telefono" type="text" (keypress)="_validarSoloNumeros($event)" (keyup)="_validarCompletos()" class="form-control"  aria-describedby="emailHelp" placeholder="Telefono">
                         </div> 
                         <!-- (ngSubmit)="_validarForm()" -->
                         <button  type="button" class="btn btn-primary" [disabled]="_validar" (click)="_validarForm()">{{_btnAccion}}</button>                       

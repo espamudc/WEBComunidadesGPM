@@ -85,7 +85,7 @@ export class UsuarioComponent implements OnInit {
   idUsuario: string;
   idUsuarioModalAUP: string;
   inputPersona = true;
-  inputUsuario = true;
+  
   inputType = 'password';
   resultadoModal: DialogData;
   nuevoUsuario = 'Nuevo Usuario';
@@ -105,7 +105,7 @@ export class UsuarioComponent implements OnInit {
   }
 
   onChangeInputUsuario() {
-    this.inputUsuario = true;
+   
     this._validarCompletos();
   }
 
@@ -174,18 +174,17 @@ export class UsuarioComponent implements OnInit {
     
     this.testInput.nativeElement.disabled = false;
     this.nuevoUsuario = 'Modificar Usuario';
-    if(!this.inputUsuario){
-      this.inputUsuario == false;
-    }
+
     this._IdUsuarioEncriptado = _usuario.IdUsuarioEncriptado;
     // debugger
     this._IdPersonaEncriptado = _usuario.Persona.IdPersonaEncriptado;
     this.myForm.get('_valorUsuario').setValue(_usuario.Correo);
     // this.myForm.get('_contrasena').setValue(_usuario.ClaveEncriptada) ;
+    this.cedula = _usuario.Persona.NumeroIdentificacion;
     this.nombres = _usuario.Persona.PrimerNombre +" "+_usuario.Persona.SegundoNombre;
     this.apellidos = _usuario.Persona.PrimerApellido +" "+_usuario.Persona.SegundoApellido;
     this._refrescar = true;
-
+    this._validar=false;
     this.testButton.nativeElement.value = "modificar";
 
   }
@@ -261,8 +260,8 @@ export class UsuarioComponent implements OnInit {
   _persona:any;
   _abrirModalAsignacionUsuarioPersona() {
     let dialogRef = this.modalAsignacionUsuarioPersona.open(ModalAsignacionUsuarioPersonaComponent, {
-      width: '900px',
-      height: '500px',
+      width: 'auto',
+      height: 'auto',
       data: { }
     });
     dialogRef.afterClosed().subscribe(result=>{
@@ -294,12 +293,11 @@ export class UsuarioComponent implements OnInit {
 
   _validar=true;
   _validarCompletos(){
-    // debugger
+    
     if (
       this.nombres     !=""     && 
       this.apellidos   !=""     &&
-      this.cedula      !=""     &&
-      this.myForm.valid
+      this.cedula      !=""     
     ) {
       this._validar=false;
     }else{
