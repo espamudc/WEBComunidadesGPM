@@ -15,6 +15,8 @@ import { Page404Component } from './components/page404/page404.component';
 import { ValidarUsuarioGuard } from "src/app/guards/validar-usuario.guard";
 import { PanelAdministracionComponent } from './components/panel-administracion/panel-administracion.component';
 import { TipoUsuarioComponent } from './components/tipo-usuario/tipo-usuario.component';
+import { CuestionarioGenericoComponent } from './components/cuestionario-generico/cuestionario-generico.component';
+import { EstructuraCuestionarioGenericoComponent } from './components/estructura-cuestionario-generico/estructura-cuestionario-generico.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -38,6 +40,14 @@ const routes: Routes = [
       },
       {
         path: 'panel-administracion', component: PanelAdministracionComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+      {
+        path: 'cuestionario-generico', component: CuestionarioGenericoComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+      {
+        path: 'estructura-cuestionario-generico', component: EstructuraCuestionarioGenericoComponent,
         // canActivate: [ValidarUsuarioGuard]
       },
     ]

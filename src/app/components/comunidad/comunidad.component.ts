@@ -179,6 +179,7 @@ export class ComunidadComponent implements OnInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._consultarComunidades();
+        this._consultarParroquias();
         this._limpiarForm();
         this._validar=true;
         this._validarBoton();
@@ -209,6 +210,7 @@ export class ComunidadComponent implements OnInit {
       
       if (data['http']['codigo']=='200') {
         this._consultarComunidades();
+        this._consultarParroquias();
         this._limpiarForm();
       }else{
         console.log(data['http']);
@@ -227,6 +229,7 @@ export class ComunidadComponent implements OnInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._consultarComunidades();
+        this._consultarParroquias();
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);

@@ -51,6 +51,9 @@ import { ModalAsignarModuloPrivilegioComponent } from './components/modal-asigna
 import { ModalAsignarTipoUsuarioModuloPrivilegioComponent } from './components/modal-asignar-tipo-usuario-modulo-privilegio/modal-asignar-tipo-usuario-modulo-privilegio.component';
 
 import { MatExpansionModule, MatInputModule,MatSnackBarModule,MatCardModule,MatSelectModule } from "@angular/material";
+import { CuestionarioGenericoComponent } from './components/cuestionario-generico/cuestionario-generico.component';
+import { ModalAsignarResponsableCuestionarioGenericoComponent } from './components/modal-asignar-responsable-cuestionario-generico/modal-asignar-responsable-cuestionario-generico.component';
+import { EstructuraCuestionarioGenericoComponent } from './components/estructura-cuestionario-generico/estructura-cuestionario-generico.component';
 // import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
@@ -79,6 +82,9 @@ import { MatExpansionModule, MatInputModule,MatSnackBarModule,MatCardModule,MatS
     TipoUsuarioComponent,
     ModalAsignarModuloPrivilegioComponent,
     ModalAsignarTipoUsuarioModuloPrivilegioComponent,
+    CuestionarioGenericoComponent,
+    ModalAsignarResponsableCuestionarioGenericoComponent,
+    EstructuraCuestionarioGenericoComponent,
     // MessageBoxComponent,
   ],
   imports: [
@@ -115,6 +121,7 @@ import { MatExpansionModule, MatInputModule,MatSnackBarModule,MatCardModule,MatS
     ModalDetalleUsuarioComponent,
     ModalLugarRepresentanteComponent, //
     ModalAsignarTipoUsuarioModuloPrivilegioComponent,
+    ModalAsignarResponsableCuestionarioGenericoComponent
     // MessageBoxComponent
   ],
   providers: [],

@@ -136,7 +136,16 @@ export class LoginComponent implements OnInit ,AfterViewInit{
             if (this._misTiposUsuarios.length<0) {
               this.mensaje("No Tiene Roles Asignados");
             }else if (this._misTiposUsuarios.length==1) {
-              this.router.navigateByUrl("/inicio");
+
+              localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado',this._misTiposUsuarios[0].IdAsignarUsuarioTipoUsuarioEncriptado)
+              if (localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado').length==0) {
+                
+              }else{
+                console.log("IdAsignarUsuarioTipoUsuarioEncriptado solo uno:",localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado'));
+                
+                this.router.navigateByUrl("/inicio");
+              }
+              
             }else if (this._misTiposUsuarios.length>1) {
               this._verFormularioMisTiposUsuarios=true;
             }
@@ -155,11 +164,17 @@ export class LoginComponent implements OnInit ,AfterViewInit{
 
   }
   _ingresarAlSistema(){
-    console.log(this.formMisRoles.get('_cmbTiposUsuarios').value);
+    //console.log(this.formMisRoles.get('_cmbTiposUsuarios').value);
     
-    if (this._cmbComboTipos!=null ) {
-      localStorage.setItem("IdTipoUsuarioEncriptado",this._cmbComboTipos);
-      this.router.navigateByUrl("/inicio");
+    if (this.formMisRoles.get('_cmbTiposUsuarios').value!=null ) {
+      localStorage.setItem("IdAsignarUsuarioTipoUsuarioEncriptado",this.formMisRoles.get('_cmbTiposUsuarios').value);
+      if (localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado').length==0) {
+                
+      }else{
+        this.router.navigateByUrl("/inicio");
+      }
+      console.log("IdAsignarUsuarioTipoUsuarioEncriptado: ",localStorage.getItem("IdAsignarUsuarioTipoUsuarioEncriptado"));
+       
     }else{
       this.mensaje("Seleccione un Rol");
     }

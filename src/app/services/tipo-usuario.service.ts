@@ -11,7 +11,7 @@ export class TipoUsuarioService {
 
     private _header = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-    consultarTiposUsuarios(_token:string=''){
+    _consultarTiposUsuarios(_token:string=''){
         //debugger
         const _body = new HttpParams();
         

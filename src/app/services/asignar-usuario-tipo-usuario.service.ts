@@ -53,5 +53,20 @@ export class AsignarUsuarioTipoUsuarioService {
                   });
       });
   }
+
+  _consultarAsignarUsuarioTipoUsuario_No_responsablesporcuestionariogenericoporidentificadortipousuario(
+    _idCuestionarioGenericoEncriptado,
+    _identificadorTipoUsuario:any
+  ){
+    const _body = new HttpParams();
+      return new Promise((resolve, reject) => {
+        this.http.post(url+'asignarusuariotipousuario_consultarnoasignadosresponsablesporcuestionariogenericoporidentificadortipousuario?_idCuestionarioGenericoEncriptado='+_idCuestionarioGenericoEncriptado+'&_identificadorTipoUsuario='+_identificadorTipoUsuario,_body.toString(),{headers:this._header})
+                  .subscribe(res=>{
+                    resolve(res);
+                  },(err)=>{
+                    reject(err);
+                  });
+      });
+  }
   
 }

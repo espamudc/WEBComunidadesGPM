@@ -49,8 +49,8 @@
                     <mat-form-field style="width: 100%;">
                         <mat-label>Seleccione el Rol</mat-label>
                         <mat-select formControlName="_cmbTiposUsuarios" >
-                          <mat-option required *ngFor="let item of _misTiposUsuarios" value="{{item.IdTipoUsuarioEncriptado}}" >
-                            {{item.Descripcion}}
+                          <mat-option required *ngFor="let item of _misTiposUsuarios" value="{{item.IdAsignarUsuarioTipoUsuarioEncriptado}}" >
+                            {{item.TipoUsuario.Descripcion}}
                           </mat-option>
                         </mat-select>
                     </mat-form-field>
