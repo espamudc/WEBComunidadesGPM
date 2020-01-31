@@ -1,0 +1,111 @@
+<!-- <p>cuestionario-generico works!</p> -->
+<!-- <mat-toolbar>
+  <span > Cuestionario Generico </span>
+</mat-toolbar> -->
+<br>
+<div class="container">
+    <h1 style="text-align: center;">Cuestionario Generico</h1>
+    <br>
+    <div class="row">
+        <div class="col-lg-4 col-md-5 mr-auto">
+            <mat-card>
+                <form [formGroup]="formCuestionarioGenerico" (ngSubmit)="_validarAccionForm()" class="example-form">
+
+                    <div class="example-container">
+                        <mat-form-field class="gpm-form-field">
+                          <input matInput placeholder="Nombre del Cuestionario" [formControl]="_nombre" required>
+                          <!-- <mat-error *ngIf="_nombre.invalid">{{getErrorMessage()}}</mat-error> -->
+                          <mat-error *ngIf="_nombre.hasError('required') || _nombre.invalid || (_nombre.dirty || _nombre.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                          </mat-error>
+                        </mat-form-field>
+                    </div> 
+
+                    <div class="example-container">
+                        <mat-form-field class="gpm-form-field">
+                          <input matInput placeholder="Descripcion del Cuestionario" [formControl]="_descripcion" required>
+                          <!-- <mat-error *ngIf="_nombre.invalid">{{getErrorMessage()}}</mat-error> -->
+                          <mat-error *ngIf="_descripcion.hasError('required') || _descripcion.invalid || (_descripcion.dirty || _descripcion.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                          </mat-error>
+                        </mat-form-field>
+                    </div> 
+                    <div *ngIf="_btnAccion=='Modificar'" class="row">
+                        <div class="col">
+                            <button  type="submit" class="btn-primary btn-block" mat-raised-button [disabled]="formCuestionarioGenerico.invalid">{{ _btnAccion }}</button>
+                        </div>
+                        <div class="col">
+                            <button  type="button" mat-raised-button
+                                class="btn-secondary btn-block" (click)="_limpiarForm()">Refrescar <i class="fa fa-refresh" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button *ngIf="_btnAccion=='Guardar'" type="submit" class="btn-primary btn-block" mat-raised-button [disabled]="formCuestionarioGenerico.invalid">{{ _btnAccion }}</button>
+                  </form>                  
+            </mat-card>
+        </div>
+        <div class="col-lg-8 col-md-7 mr-auto">
+            <mat-card>
+                <mat-form-field class="gpm-input">
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                  </mat-form-field>
+                  
+                  <table mat-table [dataSource]="_listaCuestionariosGenericos" class="mat-elevation-z8 gpm-table">
+                  
+                  
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="nombre">
+                      <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                      <td mat-cell *matCellDef="let element"> {{element.Nombre}} </td>
+                    </ng-container>
+                  
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="descripcion">
+                      <th mat-header-cell *matHeaderCellDef> Descripción </th>
+                      <td mat-cell *matCellDef="let element"> {{element.Descripcion}} </td>
+                    </ng-container>
+                  
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="acciones">  
+                      <th colspan="4" mat-header-cell *matHeaderCellDef> Acciones </th>
+                      <ng-container *matCellDef="let element">
+                        <td mat-cell > 
+                            <button tooltip="AsignarResponsable" placement="top"
+                                class="btn btn-sm btn-outline-warning" value="{{element.IdCuestionarioGenericoEncriptado}}"
+                                (click)=_verModalAsignarResponsableCuestionarioGenerico(element)>
+                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                            </button>
+                          </td>
+                          <td mat-cell >
+                            <button tooltip="Modificar" placement="top"
+                                class="btn btn-sm btn-outline-info" value="{{element.IdCuestionarioGenericoEncriptado}}"
+                                (click)=_prepararCuestionarioGenerico(element)>
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </button>
+                          </td>
+                          <td mat-cell > <!--*ngIf="element.Utilizado==0"-->
+                            <button *ngIf="element.Utilizado==0" tooltip="Eliminar" placement="top"
+                                class="btn btn-sm btn-outline-danger" value="{{element.IdCuestionarioGenericoEncriptado}}"
+                                (click)=_eliminarCuestionarioGenerico(element)>
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                          </td>
+                          <!-- <td mat-cell *ngIf="element.Utilizado!=0">
+                            <button tooltip="CambiarEstado" placement="top"
+                                class="btn btn-sm btn-outline-dark" value="{{element.IdCuestionarioGenericoEncriptado}}"
+                                (click)=_cambiarEstadoCuestionarioGenerico(element)>
+                                <i class="fa fa-power-off" aria-hidden="true"></i>
+                            </button>
+                          </td> -->
+                        </ng-container>
+                      </ng-container>
+                      
+                  
+                    <tr mat-header-row *matHeaderRowDef="Columns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: Columns;"></tr>
+                  </table>
+                  
+            </mat-card>
+        </div>
+    </div>
+</div>

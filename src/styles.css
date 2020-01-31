@@ -11193,3 +11193,33 @@
  .gpm-danger{
     background-color:  #e92631;
   }
+
+  .gpm-form-field{
+    width: 100% !important;
+  }
+  .gpm-button{
+    width: 100% !important;
+  }
+  .gpm-table{
+    width: 100% !important;
+  }
+  .gpm-input{
+    width: 100% !important;
+  }
+  .gpm-padding-10{
+    padding: 10px;
+  }
+  .gpm-span-center{
+    text-align: center !important;
+  }
+  .gpm-p-center{
+    text-align: center !important;
+  }
+
+  .gpm-universal-width{
+    width: 100% !important;
+  }
+  .gpm-universal-padding-top{
+    padding-top: 10px !important;
+    /* padding: 10px !important; */
+  }

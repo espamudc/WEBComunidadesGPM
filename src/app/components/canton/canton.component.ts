@@ -185,6 +185,7 @@ export class CantonComponent implements OnInit,AfterViewInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._consultarCantones();
+        this._consultarProvincias();
         this._limpiarForm();
         this._validar=true;
         this._validarBoton();
@@ -212,6 +213,7 @@ export class CantonComponent implements OnInit,AfterViewInit {
       
       if (data['http']['codigo']=='200') {
         this._consultarCantones();
+        this._consultarProvincias();
         this._limpiarForm();
       }else{
         console.log(data['http']);
@@ -229,6 +231,7 @@ export class CantonComponent implements OnInit,AfterViewInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._consultarCantones();
+        this._consultarProvincias();
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -262,20 +265,54 @@ export class CantonComponent implements OnInit,AfterViewInit {
     this._idProvinciaEncriptado =_item.IdProvinciaEncriptado;
     this._nombreProvincia       =_item.NombreProvincia;
 
-    if (this._provinciaQuitada!="") {
-      // this._consultarProvincias();
-      this._listaProvincias.push(this._provinciaQuitada);
+    // if (this._provinciaQuitada.IdProvinciaEncriptado!=null) {
+      
+    //   if (_item.IdProvinciaEncriptado==this._provinciaQuitada.IdProvinciaEncriptado) {
+    //     var index = this._listaProvincias.indexOf(_item);
+    //     this._listaProvincias.splice(index,1);
+    //   }else{
+    //     //this._provinciaQuitada = _item;
+    //     this.
+    //     //var index = this._listaProvincias.indexOf(_item);
+    //     //this._listaProvincias.splice(index,1);
+    //   }
+    // }else{
+    //   var index = this._listaProvincias.indexOf(_item);
+    //   this._listaProvincias.splice(index,1);
+    //   this._provinciaQuitada =_item;
+    //   // this._listaProvincias.push(this._provinciaQuitada);
+    // }
 
-    }
+    // if (this._provinciaQuitada!=null) {
+    //   var obj = this._listaProvincias.find(dato=>dato.IdProvinciaEncriptado==this._provinciaQuitada.IdProvinciaEncriptado);
+    //   if (obj==null) {
+    //     this._listaProvincias.push(this._provinciaQuitada);
+    //   }
+    // }
+    // this._listaProvincias.map(item=>{
+    //   if (item.IdProvinciaEncriptado == this._idProvinciaEncriptado) {
+    //     var index = this._listaProvincias.indexOf(item);
+    //     this._listaProvincias.splice(index,1);
+    //   }
+    // });
+
+    // var conta = this._listaProvincias.filter(dato=>dato.IdProvinciaEncriptado==_item.IdProvinciaEncriptado).length;
+
+
+    // if (this._provinciaQuitada!="") {
+    //   // this._consultarProvincias();
+    //   this._listaProvincias.push(this._provinciaQuitada);
+
+    // }
     
-    var obj = this._listaProvincias.find(dato=>dato.IdProvinciaEncriptado==_item.IdProvinciaEncriptado);
-    console.log(obj);
+    // var obj = this._listaProvincias.find(dato=>dato.IdProvinciaEncriptado==_item.IdProvinciaEncriptado);
+    // console.log(obj);
     
-    var index = this._listaProvincias.indexOf(obj);
-    console.log(index);
+    // var index = this._listaProvincias.indexOf(obj);
+    // console.log(index);
     
-    this._listaProvincias.splice(index,1);
-    this._provinciaQuitada = _item;
+    // this._listaProvincias.splice(index,1);
+    // this._provinciaQuitada = _item;
 
     this.MatTableProvincias.dataSource = this._listaProvincias;
     // this._listaProvincias.sort();
@@ -285,6 +322,7 @@ export class CantonComponent implements OnInit,AfterViewInit {
 
   _consultarProvincias(){
     //this.native_codigoProvincia.nativeElement.value;
+    
     this.lugaresService._consultarProvincias()
       .then(data=>{
         if (data['http']['codigo']=='200') {

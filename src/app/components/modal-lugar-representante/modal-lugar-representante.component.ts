@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatTable } from '@angular/material';
+import { MAT_DIALOG_DATA, MatTable, MatSnackBar } from '@angular/material';
 import { LugaresService } from 'src/app/services/lugares.service';
 
 @Component({
@@ -11,7 +11,8 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data:any,
-    private lugaresService:LugaresService
+    private lugaresService:LugaresService,
+    private snackBarComponent:MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -36,6 +37,29 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
     this._fechaSalida_.nativeElement.value = _fecha_hoy;
     console.log(_fecha.getFullYear().toString() + '-' + _mes + '-' + _fecha.getDate().toString());
     
+  }
+
+
+
+  mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
+
+    
+    if (_duracion==null) {
+       _duracion=3000;
+    }
+    if (_opcion==1) {
+      _mensaje="Datos ingresados correctamente";
+    }
+    if (_opcion==2) {
+      _mensaje="Datos modificados correctamente";
+    }
+    if (_opcion==3) {
+      _mensaje="Datos eliminados correctamente";
+    }
+    if (_color==null) {
+      _color ="gpm-danger";
+    }
+    let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
   }
 
   tablaRepresentantes = ['representante','fechaIngreso','fechaSalida', 'acciones'];
@@ -219,6 +243,7 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
         this._cargarRepresentanteProvincia();
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
       console.log(error);
@@ -237,6 +262,7 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
         this._cargarRepresentanteProvincia();
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
       console.log(error);
@@ -281,6 +307,7 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
         this._cargarRepresentanteCanton();
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
       console.log(error);
@@ -299,6 +326,7 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
         this._cargarRepresentanteCanton();
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
       console.log(error);
@@ -343,8 +371,10 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._cargarRepresentanteParroquia();
+        
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
       console.log(error);
@@ -363,6 +393,7 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
         this._cargarRepresentanteParroquia();
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
       console.log(error);
@@ -380,6 +411,7 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
         this._listaRepresentantes = data['respuesta'];
       }else{
         console.log(data['http']);
+
       }
     }).catch(error=>{
       console.log(error);
@@ -408,6 +440,7 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
         this._cargarRepresentanteComunidad();
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
       console.log(error);
@@ -426,6 +459,7 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
         this._cargarRepresentanteComunidad();
       }else{
         console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
       console.log(error);

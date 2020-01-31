@@ -176,6 +176,7 @@ export class ParroquiaComponent implements OnInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._consultarParroquias();
+        this._consultarCantones();
         this._limpiarForm();
         this._validar=true;
         this._validarBoton();
@@ -204,6 +205,7 @@ export class ParroquiaComponent implements OnInit {
       
       if (data['http']['codigo']=='200') {
         this._consultarParroquias();
+        this._consultarCantones();
         this._limpiarForm();
       }else{
         console.log(data['http']);
@@ -221,6 +223,7 @@ export class ParroquiaComponent implements OnInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._consultarParroquias();
+        this._consultarCantones();
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);

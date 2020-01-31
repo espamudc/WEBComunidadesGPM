@@ -189,6 +189,8 @@ export class UsuarioComponent implements OnInit {
 
   }
   _modificarUsuario(){
+
+
     console.log(this._IdPersonaEncriptado);
     
     this.usuarioService._modificarUsuario(
@@ -208,6 +210,7 @@ export class UsuarioComponent implements OnInit {
 
       }
     }).catch(error=>{
+      this.mensaje("Verifique si faltan por completar")
       console.log(error);
     });
   }
@@ -288,6 +291,8 @@ export class UsuarioComponent implements OnInit {
         this._modificarUsuario();
         this.testButton.nativeElement.value = "insertar";
       }
+    }else{
+      this.mensaje("Verifique si los datos están completos.")
     }
   }
 

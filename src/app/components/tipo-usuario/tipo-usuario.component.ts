@@ -24,7 +24,7 @@ export class TipoUsuarioComponent implements OnInit {
   _listaTiposUsuarios:any[]=[];
 
   _consultarTiposUsuarios(){
-    this.tipoUsuarioService.consultarTiposUsuarios()
+    this.tipoUsuarioService._consultarTiposUsuarios()
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaTiposUsuarios = data['respuesta'];

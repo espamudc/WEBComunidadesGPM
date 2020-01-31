@@ -1,0 +1,67 @@
+<!-- <p>estructura-cuestionario-generico works!</p> -->
+ <div class="container">
+    <h1 style="text-align: center;">Estructura del Cuestionario Generico</h1>
+    <br>
+    <div class="row">
+        <div class="col-lg-12 mr-auto">
+
+            <mat-card class="gpm-universal-width">
+                <mat-form-field class="gpm-form-field col-lg-6">
+                    <mat-label>Seleccione un Cuestionario</mat-label>
+                    <mat-select  (selectionChange)="_onChangeCmbCuestionariosGenericos($event)">
+                        <mat-option *ngFor="let item of _listaCuestionariosGenericos" [value]="item.CuestionarioGenerico.IdCuestionarioGenericoEncriptado">
+                            {{item.CuestionarioGenerico.Nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="gpm-form-field col-lg-6">
+                    <mat-label>Seleccione un Componente</mat-label>
+                    <mat-select (selectionChange)="_onChangeCmbComponentesCuestionarioGenerico($event)">    
+                        <mat-option *ngFor="let item of _listaComponentesCuestionarioGenerico" [value]="item.IdComponenteEncriptado">
+                            {{item.Descripcion}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </mat-card>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 mr-auto gpm-universal-padding-top">
+            <mat-card class="gpm-universal-width ">
+                <form [formGroup]="formComponenteCuestionarioGenerico">
+                    <div class="example-container">
+                        <mat-form-field class="gpm-form-field col-11">
+                          <input matInput placeholder="Nombre del Componente" [formControl]="_descripcion" required>
+                          <!-- <mat-error *ngIf="_nombre.invalid">{{getErrorMessage()}}</mat-error> -->
+                          <mat-error *ngIf="_descripcion.hasError('required') || _descripcion.invalid || (_descripcion.dirty || _descripcion.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                          </mat-error>
+                        </mat-form-field>
+                        <button class="col-1 btn btn-primary" mat-button> <i class="fa fa-plus" aria-hidden="true"></i>
+                        </button>
+                    </div> 
+                </form>
+            </mat-card>
+        </div>
+    </div>
+    <div class="row" *ngFor="let item of _listaComponentesCuestionarioGenerico">
+        <div class="col-lg-12 mr-auto gpm-universal-padding-top">
+            <mat-card class="gpm-universal-width ">
+                <form action="" class="row">
+                    <div class="col-11">
+                        {{item.Descripcion}}
+                    </div>
+                    <div class="col-1">
+                        <!-- <button class="btn btn-primary" mat-button> <i class="fa fa-plus" aria-hidden="true"></i></button> -->
+                    </div>
+                </form>
+                
+                
+            </mat-card>
+        </div>
+    </div>
+    
+
+ </div>
