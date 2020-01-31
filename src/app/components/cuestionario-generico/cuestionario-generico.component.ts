@@ -43,7 +43,7 @@ export class CuestionarioGenericoComponent implements OnInit {
   formCuestionarioGenerico:FormGroup;
 
   ngOnInit() {
-    this._cargarMisCuestionariosGenericos();
+    this._cargarCuestionariosGenericos();
   }
 
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
@@ -99,43 +99,13 @@ export class CuestionarioGenericoComponent implements OnInit {
   }
 
   @ViewChild(MatTable,{static:false}) MatTableCuestionariosGenericos :MatTable<any>;
-  // _cargarCuestionariosGenericos(){
-  //   this.cuestionarioGenericoService._consultarCuestionarioGenerioco()
-  //     .then(data=>{
-  //       if (data['http']['codigo']=='200') {
-          
-  //         this._listaCuestionariosGenericos = data['respuesta'];
-  //         console.log(data['http']['codigo']);
-          
-  //       }else{
-  //         this.mensaje(data['http']['mensaje']);
-  //       }
-  //     }).catch(error=>{
-
-  //     }).finally(()=>{
-  //       this.MatTableCuestionariosGenericos.renderRows();
-  //     });
-  // }
-
-  _cargarMisCuestionariosGenericos(){
-    // console.log(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado'));
-    
-    this.cuestionarioGenericoService._consultarCuestionarioGeneriocoPorIdAsignarUsuarioTipoUsuarioEncriptado(
-      localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')
-    )
+  _cargarCuestionariosGenericos(){
+    this.cuestionarioGenericoService._consultarCuestionarioGenerioco()
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          // console.log(data['respuesta']);
-          // debugger
-          this._listaCuestionariosGenericos = data['respuesta'];
-          // data['respuesta'].map(item=>{
-          //   console.log(item.CuestionarioGenerico);
-          //   this._listaCuestionariosGenericos.push(item.CuestionarioGenerico);
-          //   // this._listaCuestionariosGenericos.push(item['CuestionarioGenerico']);
-          // });
-          console.log(this._listaCuestionariosGenericos);
           
-          // console.log(data['http']['codigo']);
+          this._listaCuestionariosGenericos = data['respuesta'];
+          console.log(data['http']['codigo']);
           
         }else{
           this.mensaje(data['http']['mensaje']);
@@ -146,6 +116,36 @@ export class CuestionarioGenericoComponent implements OnInit {
         this.MatTableCuestionariosGenericos.renderRows();
       });
   }
+
+  // _cargarMisCuestionariosGenericos(){
+  //   // console.log(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado'));
+    
+  //   this.cuestionarioGenericoService._consultarCuestionarioGeneriocoPorIdAsignarUsuarioTipoUsuarioEncriptado(
+  //     localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')
+  //   )
+  //     .then(data=>{
+  //       if (data['http']['codigo']=='200') {
+  //         // console.log(data['respuesta']);
+  //         // debugger
+  //         this._listaCuestionariosGenericos = data['respuesta'];
+  //         // data['respuesta'].map(item=>{
+  //         //   console.log(item.CuestionarioGenerico);
+  //         //   this._listaCuestionariosGenericos.push(item.CuestionarioGenerico);
+  //         //   // this._listaCuestionariosGenericos.push(item['CuestionarioGenerico']);
+  //         // });
+  //         console.log(this._listaCuestionariosGenericos);
+          
+  //         // console.log(data['http']['codigo']);
+          
+  //       }else{
+  //         this.mensaje(data['http']['mensaje']);
+  //       }
+  //     }).catch(error=>{
+
+  //     }).finally(()=>{
+  //       this.MatTableCuestionariosGenericos.renderRows();
+  //     });
+  // }
 
   _insertarCuestionarioGenerico(){
     // console.log(this.formCuestionarioGenerico.get("_nombre").value);
@@ -195,7 +195,7 @@ export class CuestionarioGenericoComponent implements OnInit {
     )
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          this._cargarMisCuestionariosGenericos();
+          this._cargarCuestionariosGenericos();
           // console.log(data['http']['codigo']);
           this._limpiarForm();
         }else{
@@ -204,7 +204,7 @@ export class CuestionarioGenericoComponent implements OnInit {
       }).catch(error=>{
 
       }).finally(()=>{
-        this._cargarMisCuestionariosGenericos();
+        this._cargarCuestionariosGenericos();
       });
   }
 
@@ -218,7 +218,7 @@ export class CuestionarioGenericoComponent implements OnInit {
     )
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          this._cargarMisCuestionariosGenericos();
+          this._cargarCuestionariosGenericos();
           // console.log(data['http']['codigo']);
           
         }else{
@@ -227,7 +227,7 @@ export class CuestionarioGenericoComponent implements OnInit {
       }).catch(error=>{
 
       }).finally(()=>{
-        this._cargarMisCuestionariosGenericos();
+        this._cargarCuestionariosGenericos();
       });
   }
 
@@ -242,6 +242,8 @@ export class CuestionarioGenericoComponent implements OnInit {
       if (result) {
         
       }
+    },error=>{},()=>{
+      this._cargarCuestionariosGenericos();
     }); 
   }
 
@@ -266,7 +268,7 @@ export class CuestionarioGenericoComponent implements OnInit {
         console.log(error);
       })
       .finally(()=>{
-        this._cargarMisCuestionariosGenericos();
+        this._cargarCuestionariosGenericos();
       });
   }
 

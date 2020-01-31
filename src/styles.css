@@ -11215,3 +11215,11 @@
   .gpm-p-center{
     text-align: center !important;
   }
+
+  .gpm-universal-width{
+    width: 100% !important;
+  }
+  .gpm-universal-padding-top{
+    padding-top: 10px !important;
+    /* padding: 10px !important; */
+  }
