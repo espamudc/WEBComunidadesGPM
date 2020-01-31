@@ -26,4 +26,26 @@ export class ComponenteCuestionarioGenericoService {
     });
   }
 
+  _insertarComponenteCuestionarioGenerico( 
+    _IdCuestionarioGenerico ,
+    _Descripcion,
+    _Orden
+  ){
+    const _body = new HttpParams()
+    .set("CuestionarioGenerico.IdCuestionarioGenerico",_IdCuestionarioGenerico)
+    .set("Descripcion",_Descripcion)
+    .set("Orden",_Orden)
+
+    ;
+    
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'componente_insertar',_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
+
 }
