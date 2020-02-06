@@ -11218,8 +11218,13 @@
 
   .gpm-universal-width{
     width: 100% !important;
+    max-width: 100% !important;
   }
   .gpm-universal-padding-top{
     padding-top: 10px !important;
     /* padding: 10px !important; */
+  }
+
+  .example-card {
+    max-width: 100% !important;
   }

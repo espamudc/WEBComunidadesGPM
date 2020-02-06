@@ -1,67 +1,337 @@
 <!-- <p>estructura-cuestionario-generico works!</p> -->
- <div class="container">
-    <h1 style="text-align: center;">Estructura del Cuestionario Generico</h1>
+<div class="container">
+    
     <br>
     <div class="row">
-        <div class="col-lg-12 mr-auto">
+        <div  class="col-lg-6 mr-auto">
 
-            <mat-card class="gpm-universal-width">
-                <mat-form-field class="gpm-form-field col-lg-6">
-                    <mat-label>Seleccione un Cuestionario</mat-label>
-                    <mat-select  (selectionChange)="_onChangeCmbCuestionariosGenericos($event)">
-                        <mat-option *ngFor="let item of _listaCuestionariosGenericos" [value]="item.CuestionarioGenerico.IdCuestionarioGenericoEncriptado">
-                            {{item.CuestionarioGenerico.Nombre}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field class="gpm-form-field col-lg-6">
-                    <mat-label>Seleccione un Componente</mat-label>
-                    <mat-select (selectionChange)="_onChangeCmbComponentesCuestionarioGenerico($event)">    
-                        <mat-option *ngFor="let item of _listaComponentesCuestionarioGenerico" [value]="item.IdComponenteEncriptado">
+            <mat-card style="height: 100% !important;" class="gpm-universal-width">
+                <h3 style="text-align: center;">Estructura </h3>
+                <form [formGroup]="formCuestionarioGenerico">
+                    <mat-form-field class="gpm-form-field col-lg-12">
+                        <mat-label>Seleccione un Cuestionario</mat-label>
+                        <mat-select [formControl]="_cmbCuestionarioGenerico"
+                            (selectionChange)="_onChangeCmbCuestionariosGenericos($event)">
+                            <mat-option *ngFor="let item of _listaCuestionariosGenericos"
+                                [value]="item.CuestionarioGenerico.IdCuestionarioGenericoEncriptado">
+                                {{item.CuestionarioGenerico.Nombre}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="_cmbCuestionarioGenerico.valid" class="gpm-form-field col-lg-12">
+                        <mat-label>Seleccione un Componente</mat-label>
+                        <mat-select [formControl]="_cmbComponenteCuestionarioGenerico"
+                            (selectionChange)="_onChangeCmbComponentesCuestionarioGenerico($event)">
+                            <mat-option *ngFor="let item of _listaComponentesCuestionarioGenerico"
+                                [value]="item.IdComponenteEncriptado">
+                                {{item.Descripcion}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="_cmbComponenteCuestionarioGenerico.valid" class="gpm-form-field col-lg-12">
+                        <mat-label>Seleccione una Sección</mat-label>
+                        <mat-select [formControl]="_cmbSeccionComponenteCuestionarioGenerico"
+                            (selectionChange)="_onChangeCmbSeccionComponentesCuestionarioGenerico($event)">
+                            <mat-option *ngFor="let item of _listaSeccionesComponenteCuestionarioGenerico"
+                                [value]="item.IdSeccionEncriptado">
+                                {{item.Descripcion}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </form>
+            </mat-card>
+           
+
+        </div>
+
+        <div  class="col-lg-6 mr-auto">
+        <!-- <br *ngIf="logica_componentes == true"> -->
+            <mat-card style="height: 100% !important;" *ngIf="logica_componentes == true" class="gpm-universal-width ">
+                <h3 style="text-align: center;">Componente</h3>
+                <form [formGroup]="formComponenteCuestionarioGenerico"
+                    (ngSubmit)="_validarAccionFormComponenteCuestionarioGenerico()">
+
+                    <mat-form-field class="gpm-form-field">
+                        <input matInput placeholder="Nombre del nuevo Componente" [formControl]="_descripcion" required>
+                        <mat-error
+                            *ngIf="_descripcion.hasError('required') || _descripcion.invalid || (_descripcion.dirty || _descripcion.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <!-- <button (click)="formComponenteCuestionarioGenerico.reset()" *ngIf="_btnAccionC=='Actualizar'" [disabled]="_cmbCuestionarioGenerico.invalid" class=" btn btn-block col-lg-1 col-sm-2" mat-button type="button"> 
+                        <mat-icon  aria-hidden="false" aria-label="Example home icon">refresh</mat-icon>
+                    </button> -->
+
+                    <!-- <mat-card-actions> -->
+                        <button [disabled]="_cmbCuestionarioGenerico.invalid" class=" btn btn-primary btn-block" mat-button type="submit">
+                            <mat-icon *ngIf="_btnAccionC=='Guardar'" aria-hidden="false" aria-label="Example home icon">add
+                            </mat-icon>
+                            <mat-icon *ngIf="_btnAccionC=='Actualizar'" aria-hidden="false" aria-label="Example home icon">
+                                edit</mat-icon>
+                        </button>
+                    <!-- </mat-card-actions> -->
+
+                </form>
+            </mat-card>
+            <!-- <br *ngIf="logica_secciones == true"> -->
+            <mat-card style="height: 100% !important;" *ngIf="logica_secciones == true" class="gpm-universal-width">
+                <h3 style="text-align: center;">Sección</h3>
+                <form [formGroup]="formSeccionComponenteCuestionarioGenerico"
+                    (ngSubmit)="_validarAccionFormformSeccionComponenteCuestionarioGenerico()">
+
+                    
+                    <!-- <mat-card-content> -->
+                    <mat-form-field class="gpm-form-field">
+                        <input matInput placeholder="Nombre de la Sección" [formControl]="_descripcionSeccion" required>
+                        <mat-error
+                            *ngIf="_descripcionSeccion.hasError('required') || _descripcionSeccion.invalid || (_descripcionSeccion.dirty || _descripcionSeccion.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    <!-- </mat-card-content> -->
+                    <!-- <mat-card-actions > -->
+                    <button [disabled]="_cmbComponenteCuestionarioGenerico.invalid"
+                        class="btn btn-primary btn-block" mat-button type="submit">
+                        <mat-icon *ngIf="_btnAccionS=='Guardar'" aria-hidden="false" aria-label="Example home icon">add
+                        </mat-icon>
+                        <mat-icon *ngIf="_btnAccionS=='Actualizar'" aria-hidden="false" aria-label="Example home icon">
+                            edit</mat-icon>
+                    </button>
+                    <!-- </mat-card-actions> -->
+
+
+                </form>
+            </mat-card>
+
+            <!-- <br *ngIf="logica_preguntas == true"> -->
+            <mat-card style="height: 100% !important;" *ngIf="logica_preguntas == true" class="gpm-universal-width">
+                <h3 style="text-align: center;">Pregunta</h3>
+                <form [formGroup]="formPreguntaSeccionComponenteCuestionarioGenerico"
+                    (ngSubmit)="_validarAccionFormformPreguntaSeccionComponenteCuestionarioGenerico()">
+
+                    <mat-form-field class="gpm-form-field">
+                        <mat-label>Seleccione un Tipo de Pregunta</mat-label>
+                        <mat-select required [formControl]="_cmbTipoPregunta"
+                            (selectionChange)="_onChangeCmb_cmbTipoPregunta($event)">
+                            <mat-option *ngFor="let item of _listaTipoPreguntaSeccionComponenteCuestionarioGenericoService"
+                                [value]="item.IdTipoPreguntaEncriptado">
+                                {{item.Descripcion}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="gpm-form-field">
+                        <input matInput placeholder="Descripción de la Pregunta" [formControl]="_descripcionPregunta" required>
+                        <mat-error
+                            *ngIf="_descripcionPregunta.hasError('required') || _descripcionPregunta.invalid || (_descripcionPregunta.dirty || _descripcionPregunta.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                        </mat-error>
+                    </mat-form-field>
+                   
+                    <!-- <div class="row"> -->
+                    
+                    <mat-radio-group  class="gpm-form-field" required [formControl]="_obligatorio" aria-label="Obligatoria">
+                        <mat-label>La Pregunta es obligatoria?  </mat-label>
+                        <mat-radio-button checked="true" value="1">SI</mat-radio-button>
+                        <mat-radio-button value="0">NO</mat-radio-button>
+                       
+                    </mat-radio-group>
+                    
+                    <!-- </div> -->
+                    <!-- <mat-form-field class="gpm-form-field col-lg-11 col-sm-10"> -->
+                  
+                    <!-- <input type="radio"  placeholder="Descripción de la Pregunta" [formControl]="_obligatorio" value="SI" required>
+                        <input type="radio"  placeholder="Descripción de la Pregunta" [formControl]="_obligatorio"  value="NO" required>
+                        <mat-error *ngIf="_obligatorio.hasError('required') || _obligatorio.invalid || (_obligatorio.dirty || _obligatorio.touched ) ">
+                        Este dato es <strong>obligatorio</strong>
+                        </mat-error> -->
+                    <!-- </mat-form-field> -->
+                    <!-- <mat-card-actions> -->
+                        <button [disabled]="_cmbComponenteCuestionarioGenerico.invalid && formPreguntaSeccionComponenteCuestionarioGenerico.invalid"
+                            class=" btn btn-primary btn-block"  mat-button type="submit">
+                            <mat-icon *ngIf="_btnAccionP=='Guardar'" aria-hidden="false" aria-label="Example home icon">add
+                            </mat-icon>
+                            <mat-icon *ngIf="_btnAccionP=='Actualizar'" aria-hidden="false" aria-label="Example home icon">
+                                edit</mat-icon>
+                        </button>
+                    <!-- </mat-card-actions> -->
+                    
+
+                </form>
+            </mat-card>
+        </div>
+
+    </div>
+    <br *ngIf="logica_componentes == true">
+    <mat-card *ngIf="logica_componentes == true">
+        <h2 style="text-align: center;">Listado de Componentes</h2>
+        
+        <div *ngIf="logica_componentes == true" class="row">
+            <div class="col-12">
+                
+                <mat-accordion>
+    
+                    <mat-expansion-panel *ngFor="let element of _listaComponentesCuestionarioGenerico ; let i = index"
+                        hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{element.Descripcion}}
+                            </mat-panel-title>
+                            <!-- <mat-icon>edit</mat-icon> -->
+    
+    
+    
+    
+    
+                            <button mat-button *ngIf="element.Utilizado==0">
+                                <mat-icon (click)="_prepararComponenteCuestionarioGenerico(element)">edit</mat-icon>
+                            </button>
+                            <button mat-button *ngIf="element.Utilizado==0">
+                                <mat-icon (click)="_eliminarComponenteCuestionarioGenerico(element)">clear</mat-icon>
+                            </button>
+                            <button mat-button *ngIf="_listaComponentesCuestionarioGenerico.length >1">
+                                <mat-icon *ngIf="i > 0" (click)="_subirComponenteCuestionarioGenerico(element)">
+                                    arrow_drop_up</mat-icon>
+                                <mat-icon *ngIf="(i+1) != _listaComponentesCuestionarioGenerico.length"
+                                    (click)="_bajarComponenteCuestionarioGenerico(element)">arrow_drop_down</mat-icon>
+                            </button>
+    
+    
+                            <!-- <mat-slide-toggle *ngIf="element.Estado==0" checked="false">Activar!</mat-slide-toggle>
+                        <mat-slide-toggle *ngIf="element.Estado==1"  checked="true">Desactivar!</mat-slide-toggle> -->
+    
+                            <!-- <mat-panel-description>
+                          Currently I am {{panelOpenState ? 'open' : 'closed'}}
+                        </mat-panel-description> -->
+                        </mat-expansion-panel-header>
+                        <!-- <p>I'm visible because I am open</p> -->
+    
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+    </mat-card >
+
+
+    <br *ngIf="logica_secciones == true">
+    <mat-card *ngIf="logica_secciones == true">
+        <div *ngIf="logica_secciones == true" class="row">
+
+            <div class="col-12">
+                <h2 style="text-align: center;">Listado de Secciones</h2>
+    
+                <mat-accordion>
+    
+                    <mat-expansion-panel *ngFor="let element of _listaSeccionesComponenteCuestionarioGenerico; let i=index"
+                        hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{element.Descripcion}}
+                            </mat-panel-title>
+                            <!-- <mat-icon>edit</mat-icon> -->
+    
+                            <!-- <button mat-button *ngIf="element.Utilizado==0">
+                                <mat-icon (click)="_prepararSeccionDeComponenteDeCuestionarioGenerico(element)">edit
+                                </mat-icon>
+                            </button> -->
+                            <button mat-button *ngIf="element.Utilizado==0">
+                                <mat-icon (click)="_eliminarSeccionComponenteCuestionarioGenerico(element)">clear
+                                </mat-icon>
+                            </button>
+                            <button mat-button *ngIf="_listaSeccionesComponenteCuestionarioGenerico.length >1">
+                                <mat-icon *ngIf="i > 0" (click)="_subirSeccionComponenteCuestionarioGenerico(element)">
+                                    arrow_drop_up</mat-icon>
+                                <mat-icon *ngIf="(i+1) != _listaSeccionesComponenteCuestionarioGenerico.length"
+                                    (click)="_bajarSeccionComponenteCuestionarioGenerico(element)">arrow_drop_down
+                                </mat-icon>
+                            </button>
+    
+    
+    
+    
+                            <!-- <mat-slide-toggle *ngIf="element.Estado==0" checked="false">Activar!</mat-slide-toggle>
+                        <mat-slide-toggle *ngIf="element.Estado==1"  checked="true">Desactivar!</mat-slide-toggle> -->
+    
+                            <!-- <mat-panel-description>
+                          Currently I am {{panelOpenState ? 'open' : 'closed'}}
+                        </mat-panel-description> -->
+                        </mat-expansion-panel-header>
+                        <!-- <p>I'm visible because I am open</p> -->
+    
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+    </mat-card>
+
+
+    <br *ngIf="logica_preguntas == true">
+    <mat-card *ngIf="logica_preguntas == true">
+        <div *ngIf="logica_preguntas == true" class="row">
+
+            <div class="col-12">
+                <h2 style="text-align: center;">Listado de Preguntas</h2>
+                <mat-form-field class="gpm-form-field">
+                    <mat-label>Seleccione el criterio de agrupación</mat-label>
+                    <mat-select >
+                        <mat-option value="0">TODAS</mat-option>
+                        <mat-option *ngFor="let item of _listaTipoPreguntaSeccionComponenteCuestionarioGenericoService"
+                            [value]="item.IdTipoPreguntaEncriptado">
                             {{item.Descripcion}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-
-            </mat-card>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12 mr-auto gpm-universal-padding-top">
-            <mat-card class="gpm-universal-width ">
-                <form [formGroup]="formComponenteCuestionarioGenerico">
-                    <div class="example-container">
-                        <mat-form-field class="gpm-form-field col-11">
-                          <input matInput placeholder="Nombre del Componente" [formControl]="_descripcion" required>
-                          <!-- <mat-error *ngIf="_nombre.invalid">{{getErrorMessage()}}</mat-error> -->
-                          <mat-error *ngIf="_descripcion.hasError('required') || _descripcion.invalid || (_descripcion.dirty || _descripcion.touched ) ">
-                            Este dato es <strong>obligatorio</strong>
-                          </mat-error>
-                        </mat-form-field>
-                        <button class="col-1 btn btn-primary" mat-button> <i class="fa fa-plus" aria-hidden="true"></i>
-                        </button>
-                    </div> 
-                </form>
-            </mat-card>
-        </div>
-    </div>
-    <div class="row" *ngFor="let item of _listaComponentesCuestionarioGenerico">
-        <div class="col-lg-12 mr-auto gpm-universal-padding-top">
-            <mat-card class="gpm-universal-width ">
-                <form action="" class="row">
-                    <div class="col-11">
-                        {{item.Descripcion}}
-                    </div>
-                    <div class="col-1">
-                        <!-- <button class="btn btn-primary" mat-button> <i class="fa fa-plus" aria-hidden="true"></i></button> -->
-                    </div>
-                </form>
-                
-                
-            </mat-card>
-        </div>
-    </div>
+                <mat-accordion>
     
+                    <mat-expansion-panel *ngFor="let item of _listaPreguntasSeccionComponenteCuestionarioGenerico; let i=index"
+                        hideToggle>
 
- </div>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title >
+                                {{item.Descripcion}} 
+                            </mat-panel-title>
+                            <mat-panel-description >
+                                
+                            </mat-panel-description>
+                            <!-- <mat-icon>edit</mat-icon> -->
+     
+                            <button mat-button *ngIf="item.Utilizado==0" tooltip="Editar" placement="top">
+                                <mat-icon (click)="_prepararPreguntaSeccionDeComponenteDeCuestionarioGenerico(item)">edit
+                                </mat-icon>
+                            </button>
+                            <button mat-button *ngIf="item.Utilizado==0" tooltip="Eliminar" placement="top">
+                                <mat-icon (click)="_eliminarPreguntaSeccionComponenteCuestionarioGenerico(item)">clear
+                                </mat-icon>
+                            </button>
+                            <button mat-button *ngIf="i > 0" tooltip="Cambiar el orden : Subir" placement="top">
+                                <mat-icon *ngIf="i > 0" (click)="_subirPreguntaSeccionComponenteCuestionarioGenerico(item)">
+                                    arrow_drop_up
+                                </mat-icon>
+                            </button>
+                            <button mat-button *ngIf="(i+1) != _listaPreguntasSeccionComponenteCuestionarioGenerico.length" tooltip="Cambiar el orden : Bajar" placement="top">
+                                <mat-icon *ngIf="(i+1) != _listaPreguntasSeccionComponenteCuestionarioGenerico.length"
+                                    (click)="_bajarPreguntaSeccionComponenteCuestionarioGenerico(item)">arrow_drop_down
+                                </mat-icon>
+                            </button>
+                           
+                        </mat-expansion-panel-header>
+                        <div *ngIf="item.TipoPregunta.Identificador==2 || item.TipoPregunta.Identificador==3 ">
+                           
+                            <app-pregunta-seleccion [item]="item"></app-pregunta-seleccion>
+                           
+                        </div>
+                        <div *ngIf="item.TipoPregunta.Identificador==4">
+                            <app-pregunta-matriz [item]="item"></app-pregunta-matriz>
+                        </div>
+                       
+                    </mat-expansion-panel>
+                </mat-accordion>
+    
+            </div>
+        </div>
+    </mat-card>
+
+
+
+</div>

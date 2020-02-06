@@ -5,19 +5,18 @@ import { url } from "../../environments/environment";
 @Injectable({
   providedIn: 'root'
 })
-export class ComponenteCuestionarioGenericoService {
+export class PreguntaSeccionComponenteCuestionarioGenericoService {
 
   constructor(private http: HttpClient) { }
 
   private _header = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-  _consultarComponentesDeCuestionario(
-    _IdCuestionarioGenerioEncriptado
-  ){
+  _consultarPreguntasSeccionComponenteCuestionarioGenerico(_idSeccionEncriptado){
     const _body = new HttpParams();
-    
+    //debugger
+   
     return new Promise((resolve, reject) => {
-      this.http.post(url+'componente_consultarporidcuestionariogenerico?_idCuestionarioGenerioEncriptado='+_IdCuestionarioGenerioEncriptado,_body.toString(),{headers:this._header})
+      this.http.post(url+'pregunta_consultaridseccion?_idSeccionEncriptado='+_idSeccionEncriptado,_body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{
@@ -25,21 +24,23 @@ export class ComponenteCuestionarioGenericoService {
                 });
     });
   }
-
-  _insertarComponenteCuestionarioGenerico( 
-    _IdCuestionarioGenericoEncriptado ,
-    _Descripcion,
-    _Orden
-  ){
+  _insertarPreguntasSeccionComponenteCuestionarioGenerico(
+      _IdTipoPreguntaEncriptado,
+      _IdSeccionEncriptado,
+      _Descripcion,
+      _Orden,
+      _Obligatorio,
+    ){
     const _body = new HttpParams()
-    .set("CuestionarioGenerico.IdCuestionarioGenericoEncriptado",_IdCuestionarioGenericoEncriptado)
+    .set("TipoPregunta.IdTipoPreguntaEncriptado",_IdTipoPreguntaEncriptado)
+    .set("Seccion.IdSeccionEncriptado",_IdSeccionEncriptado)
     .set("Descripcion",_Descripcion)
+    .set("Obligatorio",_Obligatorio)
     .set("Orden",_Orden)
-
     ;
     
     return new Promise((resolve, reject) => {
-      this.http.post(url+'componente_insertar',_body.toString(),{headers:this._header})
+      this.http.post(url+'pregunta_insertar',_body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{
@@ -47,23 +48,18 @@ export class ComponenteCuestionarioGenericoService {
                 });
     });
   }
-
-  _modificarComponenteCuestionarioGenerico(
-    _IdComponenteEncriptado, 
-    _IdCuestionarioGenericoEncriptado ,
-    _Descripcion,
-    _Orden
-  ){
-    const _body = new HttpParams()
-    .set("IdComponenteEncriptado",_IdComponenteEncriptado)
-    .set("CuestionarioGenerico.IdCuestionarioGenericoEncriptado",_IdCuestionarioGenericoEncriptado)
-    .set("Descripcion",_Descripcion)
-    .set("Orden",_Orden)
-
-    ;
+  _modificarPreguntasSeccionComponenteCuestionarioGenerico(
+      _IdPreguntaEncriptado,
+      _IdTipoPreguntaEncriptado,
+      _IdSeccionEncriptado,
+      _Descripcion,
+      _Orden,
+      _Obligatorio,
+    ){
+    const _body = new HttpParams();
     
     return new Promise((resolve, reject) => {
-      this.http.post(url+'componente_modificar',_body.toString(),{headers:this._header})
+      this.http.post(url+'pregunta_modificar',_body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{
@@ -71,25 +67,20 @@ export class ComponenteCuestionarioGenericoService {
                 });
     });
   }
-
-  _eliminarComponenteCuestionarioGenerico(
-    _idComponenteEncriptado
-  ){
+  _eliminarPreguntasSeccionComponenteCuestionarioGenerico(
+    _IdPreguntaEncriptado
+    ){
     const _body = new HttpParams();
-
+    
     return new Promise((resolve, reject) => {
-      this.http.post(url+'componente_eliminar?_idComponenteEncriptado='+_idComponenteEncriptado,_body.toString(),{headers:this._header})
+      this.http.post(url+'pregunta_eliminar?_idPreguntaEncriptado='+_IdPreguntaEncriptado,_body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{
                   reject(err);
                 });
     });
-
   }
-
-
-
 
 
 }
