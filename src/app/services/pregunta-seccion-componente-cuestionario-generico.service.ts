@@ -56,7 +56,14 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
       _Orden,
       _Obligatorio,
     ){
-    const _body = new HttpParams();
+    const _body = new HttpParams()
+      .set("IdPreguntaEncriptado",_IdPreguntaEncriptado)
+      .set("TipoPregunta.IdTipoPreguntaEncriptado",_IdTipoPreguntaEncriptado)
+      .set("Seccion.IdSeccionEncriptado",_IdSeccionEncriptado)
+      .set("Descripcion",_Descripcion)
+      .set("Obligatorio",_Obligatorio)
+      .set("Orden",_Orden)
+    ;
     
     return new Promise((resolve, reject) => {
       this.http.post(url+'pregunta_modificar',_body.toString(),{headers:this._header})

@@ -1,14 +1,15 @@
 <br>
 <div class="container">
-    <div class="row">
-        <div class="col-12"> <h2 style="text-align: center;">Personas</h2> <br> </div>
-    </div>
+
     <form #frmPersona="ngForm" >
 
         <div class="row">
             <div class="col-lg-7">
-                <div class="card">
-                    <div class="card-body">
+                <mat-card>
+                    <div class="row">
+                        <div class="col-12"> <h2 style="text-align: center;">Persona</h2>  </div>
+                    </div>
+                    <!-- <div class="card-body"> -->
                         <div class="form-group"> 
                             <div class="row">
                                 <div class="col-lg-6">
@@ -50,80 +51,91 @@
                         </div>
                         <div class="form-group"> 
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <select  [(ngModel)]="_cmbSexo" [ngModelOptions]="{standalone: true}" class="form-control" name="_cmbSexo" (change)="_validarCompletos()">
                                         <option value="0" disabled>Seleccionar sexo</option>
                                         <option *ngFor="let item of _listaSexos" value="{{item.IdSexoEncriptado}}" >{{ item.Descripcion }}</option>
                                     </select>
                                     <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                                 </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <input required [(ngModel)]="_telefono" [ngModelOptions]="{standalone: true}" name="_telefono" type="text" (keypress)="_validarSoloNumeros($event)" (keyup)="_validarCompletos()" class="form-control"  aria-describedby="emailHelp" placeholder="Telefono">
+                                    </div> 
+                                </div>
                             </div>
                         </div>      
-                        <div class="form-group">
-                            <input required [(ngModel)]="_telefono" [ngModelOptions]="{standalone: true}" name="_telefono" type="text" (keypress)="_validarSoloNumeros($event)" (keyup)="_validarCompletos()" class="form-control"  aria-describedby="emailHelp" placeholder="Telefono">
-                        </div> 
+                       
                         <!-- (ngSubmit)="_validarForm()" -->
-                        <button  type="button" class="btn btn-primary" [disabled]="_validar" (click)="_validarForm()">{{_btnAccion}}</button>                       
-                        <button *ngIf="_btnAccion==='Modificar'" type="button" class="btn btn-secondary" (click)="_refrescarForm()" style="float: right;">Refrescar <i class="fa fa-refresh" aria-hidden="true"></i></button>
-                    </div>
-                </div>
+                        
+                        <button *ngIf="_btnAccion==='Guardar'" mat-button  type="button" class="btn btn-primary btn-block" [disabled]="_validar" (click)="_validarForm()">{{_btnAccion}}</button>                       
+                        <div class="row" *ngIf="_btnAccion==='Modificar'">
+                            <div class="col-lg-6">
+                                <button mat-button  type="button" class="btn btn-primary btn-block" [disabled]="_validar" (click)="_validarForm()">{{_btnAccion}}</button>                       
+                            </div>
+                            <div class="col-lg-6" >
+                                <button  mat-button *ngIf="_btnAccion==='Modificar'" type="button" class="btn btn-secondary btn-block" (click)="_refrescarForm()" style="float: right;">Refrescar <i class="fa fa-refresh" aria-hidden="true"></i></button>
+
+                            </div>
+                        </div>
+                    <!-- </div> -->
+                </mat-card>
             </div>
             <div class="col-lg-5">
-                <div class="card">
-                    <div class="card-body">
-
-                        <div class="form-group"> 
-                            <div class="row">
-                                <div class="col-lg-12"> <!-- [(ngModel)]="_cmbProvincia"  [ngModelOptions]="{standalone: true}" -->
-                                    <select   #ComboProvincias
-                                            
-                                            name="_provincia" class="form-control"
-                                            (change)="_cantonesDeUnaProvincia($event.target.value)">
-                                        <option value="0" disabled>Seleccionar Provincia</option>
-                                        <option *ngFor="let item of _listaProvincias" value="{{item.IdProvinciaEncriptado}}">{{ item.NombreProvincia }}</option>
-                                    </select>
-                                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group"> 
-                            <div class="row">
-                                <div class="col-lg-12"> <!--  [(ngModel)]="_cmbCanton" [ngModelOptions]="{standalone: true}" -->
-                                    <select  #ComboCantones
-                                            
-                                            name="_canton" 
-                                            class="form-control"
-                                            (change)="_parroquiasDeUnCanton($event.target.value)">
-                                        <option value="0" disabled>Seleccionar Cantón</option>
-                                        <option *ngFor="let item of _listaCantones" value="{{item.IdCantonEncriptado}}"> {{ item.NombreCanton }}</option>
-                                    </select>
-                                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                                </div>
-                            </div>
-                        </div> 
-                        <div class="form-group"> 
-                            <div class="row">
-                                <div class="col-lg-12"> <!--[ngModelOptions]="{standalone: true}"  [(ngModel)]="_cmbParroquia"-->
-                                    <select   #ComboParroquias
-                                            
-                                            name="_parroquia" 
-                                            class="form-control"
-                                            (change)="_comunidadesDeUnaParroquia($event.target.value)">
-                                        <option value="0" disabled>Seleccionar Parroquia</option>
-                                        <option *ngFor="let item of _listaParroquias" value="{{item.IdParroquiaEncriptado}}">{{ item.NombreParroquia }}</option>
-                                    </select>
-                                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                                </div>
-                            </div>
-                        </div> 
-                        
-                        <div class="form-group"> 
-                            <input required [(ngModel)]="_direccion" [ngModelOptions]="{standalone: true}" name="_direccion" (keyup)="_validarCompletos()" type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Dirección">
-                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                        </div>
-
+                <mat-card>
+                    <div class="row">
+                        <div class="col-12"> <h2 style="text-align: center;">Ubicación</h2>  </div>
                     </div>
-                </div>
+                    <div class="form-group"> 
+                        <div class="row">
+                            <div class="col-lg-12"> <!-- [(ngModel)]="_cmbProvincia"  [ngModelOptions]="{standalone: true}" -->
+                                <select   #ComboProvincias
+                                        
+                                        name="_provincia" class="form-control"
+                                        (change)="_cantonesDeUnaProvincia($event.target.value)">
+                                    <option value="0" disabled>Seleccionar Provincia</option>
+                                    <option *ngFor="let item of _listaProvincias" value="{{item.IdProvinciaEncriptado}}">{{ item.NombreProvincia }}</option>
+                                </select>
+                                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group"> 
+                        <div class="row">
+                            <div class="col-lg-12"> <!--  [(ngModel)]="_cmbCanton" [ngModelOptions]="{standalone: true}" -->
+                                <select  #ComboCantones
+                                        
+                                        name="_canton" 
+                                        class="form-control"
+                                        (change)="_parroquiasDeUnCanton($event.target.value)">
+                                    <option value="0" disabled>Seleccionar Cantón</option>
+                                    <option *ngFor="let item of _listaCantones" value="{{item.IdCantonEncriptado}}"> {{ item.NombreCanton }}</option>
+                                </select>
+                                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="form-group"> 
+                        <div class="row">
+                            <div class="col-lg-12"> <!--[ngModelOptions]="{standalone: true}"  [(ngModel)]="_cmbParroquia"-->
+                                <select   #ComboParroquias
+                                        
+                                        name="_parroquia" 
+                                        class="form-control"
+                                        (change)="_comunidadesDeUnaParroquia($event.target.value)">
+                                    <option value="0" disabled>Seleccionar Parroquia</option>
+                                    <option *ngFor="let item of _listaParroquias" value="{{item.IdParroquiaEncriptado}}">{{ item.NombreParroquia }}</option>
+                                </select>
+                                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                            </div>
+                        </div>
+                    </div> 
+                    
+                    <div class="form-group"> 
+                        <input required [(ngModel)]="_direccion" [ngModelOptions]="{standalone: true}" name="_direccion" (keyup)="_validarCompletos()" type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Dirección">
+                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                    </div>
+                </mat-card>
             </div>
         </div>
 

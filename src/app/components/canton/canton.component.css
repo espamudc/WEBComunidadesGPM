@@ -1,10 +1,10 @@
 .tablaCantones {
-    height: 34.5rem;
+    /* height: 34.5rem; */
     overflow: auto;
 }
   
 .tablaProvincias {
-    height: 16rem;
+    /* height: 16rem; */
     overflow: auto;
 }
 

@@ -1,10 +1,15 @@
 <mat-dialog-content>
-    <div class="card ">
-        <div class="card-header">
-            Asignar Role(s)
-        </div>
-        <div class="card-body">
+    <!-- <h1 mat-dialog-title style="text-align: center;"> ASIGNAR ROL(ES)</h1> -->
+    <!-- <div class="card "> -->
+        <!-- <div class="card-header"> -->
+    <div class="row">
+        <div class="col-12"><h2 style="text-align: center;"> ASIGNAR ROL(ES)</h2></div> 
+    </div>   
+   <br>
+        <!-- </div> -->
+        <!-- <div class="card-body"> -->
             <div class="row">
+
                 <div class="col-md-12">
                     <div class="form-group input-container"> <!-- [(ngModel)]="_tipoUsuario"-->
                         <select #testSelect  type="text" class="form-control input-field"  > <!-- (click)="_validarTiposUsados()"    (click)="agregarTipoUsuarioALista($event)"-->
@@ -43,8 +48,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        <!-- </div> -->
+    <!-- </div> -->
 </mat-dialog-content>
 <mat-dialog-actions>
     <button mat-button [mat-dialog-close]="data" type="button" class="btn btn-block btn-primary">

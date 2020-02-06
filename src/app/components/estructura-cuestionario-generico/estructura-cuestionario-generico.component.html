@@ -40,7 +40,6 @@
                     </mat-form-field>
                 </form>
             </mat-card>
-           
 
         </div>
 
@@ -76,28 +75,37 @@
             </mat-card>
             <!-- <br *ngIf="logica_secciones == true"> -->
             <mat-card style="height: 100% !important;" *ngIf="logica_secciones == true" class="gpm-universal-width">
-                <h3 style="text-align: center;">Sección</h3>
+               
+                
                 <form [formGroup]="formSeccionComponenteCuestionarioGenerico"
                     (ngSubmit)="_validarAccionFormformSeccionComponenteCuestionarioGenerico()">
 
+                    <mat-card-content>
+                        <h3 style="text-align: center;">Sección</h3>
+                        <mat-form-field class="gpm-form-field">
+                            <input matInput placeholder="Nombre de la Sección" [formControl]="_descripcionSeccion" required>
+                            <mat-error
+                                *ngIf="_descripcionSeccion.hasError('required') || _descripcionSeccion.invalid || (_descripcionSeccion.dirty || _descripcionSeccion.touched ) ">
+                                Este dato es <strong>obligatorio</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button [disabled]="_cmbComponenteCuestionarioGenerico.invalid" class="btn btn-primary btn-block" mat-button type="submit">
+                            <mat-icon *ngIf="_btnAccionS=='Guardar'" aria-hidden="false" aria-label="Example home icon">
+                                add
+                            </mat-icon>
+                            <mat-icon *ngIf="_btnAccionS=='Actualizar'" aria-hidden="false" aria-label="Example home icon">
+                                edit
+                            </mat-icon>
+                        </button>
+                    </mat-card-actions>
                     
                     <!-- <mat-card-content> -->
-                    <mat-form-field class="gpm-form-field">
-                        <input matInput placeholder="Nombre de la Sección" [formControl]="_descripcionSeccion" required>
-                        <mat-error
-                            *ngIf="_descripcionSeccion.hasError('required') || _descripcionSeccion.invalid || (_descripcionSeccion.dirty || _descripcionSeccion.touched ) ">
-                            Este dato es <strong>obligatorio</strong>
-                        </mat-error>
-                    </mat-form-field>
+
                     <!-- </mat-card-content> -->
                     <!-- <mat-card-actions > -->
-                    <button [disabled]="_cmbComponenteCuestionarioGenerico.invalid"
-                        class="btn btn-primary btn-block" mat-button type="submit">
-                        <mat-icon *ngIf="_btnAccionS=='Guardar'" aria-hidden="false" aria-label="Example home icon">add
-                        </mat-icon>
-                        <mat-icon *ngIf="_btnAccionS=='Actualizar'" aria-hidden="false" aria-label="Example home icon">
-                            edit</mat-icon>
-                    </button>
+
                     <!-- </mat-card-actions> -->
 
 
@@ -131,10 +139,10 @@
                    
                     <!-- <div class="row"> -->
                     
-                    <mat-radio-group  class="gpm-form-field" required [formControl]="_obligatorio" aria-label="Obligatoria">
+                    <mat-radio-group [(ngModel)]="_obligatorioPregunta" class="gpm-form-field" required [formControl]="_obligatorio" aria-label="Obligatoria">
                         <mat-label>La Pregunta es obligatoria?  </mat-label>
-                        <mat-radio-button checked="true" value="1">SI</mat-radio-button>
-                        <mat-radio-button value="0">NO</mat-radio-button>
+                        <mat-radio-button checked="true" [value]="_obligatorioPregunta_true">SI</mat-radio-button>
+                        <mat-radio-button [value]="_obligatorioPregunta_false">NO</mat-radio-button>
                        
                     </mat-radio-group>
                     
