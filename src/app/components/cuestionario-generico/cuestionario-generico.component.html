@@ -1,14 +1,16 @@
 <!-- <p>cuestionario-generico works!</p> -->
 <!-- <mat-toolbar>
-  <span > Cuestionario Generico </span>
+  <span > Cuestionario Genérico </span>
 </mat-toolbar> -->
 <br>
 <div class="container">
-    <h1 style="text-align: center;">Cuestionario Generico</h1>
-    <br>
+    
     <div class="row">
-        <div class="col-lg-4 col-md-5 mr-auto">
+        <div class="col-lg-5 col-md-5 mr-auto">
             <mat-card>
+              <div class="row">
+                <div class="col-12"> <h2 style="text-align: center;">Cuestionario Genérico</h2>  </div>
+              </div>
                 <form [formGroup]="formCuestionarioGenerico" (ngSubmit)="_validarAccionForm()" class="example-form">
 
                     <div class="example-container">
@@ -44,8 +46,8 @@
                   </form>                  
             </mat-card>
         </div>
-        <div class="col-lg-8 col-md-7 mr-auto">
-            <mat-card>
+        <div class="col-lg-7 col-md-7 mr-auto">
+            <!-- <mat-card> -->
                 <mat-form-field class="gpm-input">
                     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
                   </mat-form-field>
@@ -105,7 +107,7 @@
                     <tr mat-row *matRowDef="let row; columns: Columns;"></tr>
                   </table>
                   
-            </mat-card>
+            <!-- </mat-card> -->
         </div>
     </div>
 </div>

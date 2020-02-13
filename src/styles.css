@@ -11190,6 +11190,11 @@
    border-top-left-radius: 0;
    border-top-right-radius: 0;
  }
+
+
+
+
+
  .gpm-danger{
     background-color:  #e92631;
   }
@@ -11218,8 +11223,16 @@
 
   .gpm-universal-width{
     width: 100% !important;
+    max-width: 100% !important;
+  }
+  .gpm-universal-heigth{
+    height: 100% !important;
   }
   .gpm-universal-padding-top{
     padding-top: 10px !important;
     /* padding: 10px !important; */
+  }
+
+  .example-card {
+    max-width: 100% !important;
   }

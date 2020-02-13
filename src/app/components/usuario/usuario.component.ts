@@ -252,8 +252,8 @@ export class UsuarioComponent implements OnInit {
   _abrirModalAsignacionUsuarioTiposUsuario(_usuario) {
     // var listaTipoUsuario = _usuario.ListaTipoUsuario;
     let dialogRef = this.modalAsignacionUsuarioTiposUsuario.open(ModalAsignacionUsuarioTiposUsuarioComponent, {
-      width: '900px',
-      height: '390px',
+      width: '500px',
+      height: 'auto',
       data: {
         _usuario: _usuario,
       }

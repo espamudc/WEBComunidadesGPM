@@ -31,7 +31,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ModalDetallePersonaComponent } from './components/modal-detalle-persona/modal-detalle-persona.component';
 import { ModalAsignacionUsuarioPersonaComponent } from './components/modal-asignacion-usuario-persona/modal-asignacion-usuario-persona.component';
 import { PipesModule } from './pipes/pipes.module';
-import {MatChipsModule} from '@angular/material/chips';
+import { MatChipsModule} from '@angular/material/chips';
 import { PanelAdministracionComponent } from './components/panel-administracion/panel-administracion.component';
 import { CantonComponent } from './components/canton/canton.component';
 import { ComunidadComponent } from './components/comunidad/comunidad.component';
@@ -42,7 +42,7 @@ import { ModalDetalleUsuarioComponent } from './components/modal-detalle-usuario
 
 import { TooltipModule } from 'ng2-tooltip-directive';
 import Swal from 'sweetalert2';
-import { MatTableModule } from '@angular/material';
+import { MatTableModule, MatNativeDateModule } from '@angular/material';
 // import { ModalProvinciaPrefectoComponent } from './components/modal-provincia-prefecto/modal-provincia-prefecto.component';
 // import { LugarRepresentanteComponent } from './components/lugar-representante/lugar-representante.component';
 import { ModalLugarRepresentanteComponent } from './components/modal-lugar-representante/modal-lugar-representante.component';
@@ -50,10 +50,13 @@ import { TipoUsuarioComponent } from './components/tipo-usuario/tipo-usuario.com
 import { ModalAsignarModuloPrivilegioComponent } from './components/modal-asignar-modulo-privilegio/modal-asignar-modulo-privilegio.component';
 import { ModalAsignarTipoUsuarioModuloPrivilegioComponent } from './components/modal-asignar-tipo-usuario-modulo-privilegio/modal-asignar-tipo-usuario-modulo-privilegio.component';
 
-import { MatExpansionModule, MatInputModule,MatSnackBarModule,MatCardModule,MatSelectModule } from "@angular/material";
+import { MatDatepickerModule,MatCheckboxModule,MatRadioModule,MatSlideToggleModule,MatExpansionModule, MatInputModule,MatSnackBarModule,MatCardModule,MatSelectModule } from "@angular/material";
 import { CuestionarioGenericoComponent } from './components/cuestionario-generico/cuestionario-generico.component';
 import { ModalAsignarResponsableCuestionarioGenericoComponent } from './components/modal-asignar-responsable-cuestionario-generico/modal-asignar-responsable-cuestionario-generico.component';
 import { EstructuraCuestionarioGenericoComponent } from './components/estructura-cuestionario-generico/estructura-cuestionario-generico.component';
+import { PreguntaAbiertaComponent } from './components/tipo-preguntas/pregunta-abierta/pregunta-abierta.component';
+import { PreguntaSeleccionComponent } from './components/tipo-preguntas/pregunta-seleccion/pregunta-seleccion.component';
+import { PreguntaMatrizComponent } from './components/tipo-preguntas/pregunta-matriz/pregunta-matriz.component';
 // import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
@@ -85,6 +88,9 @@ import { EstructuraCuestionarioGenericoComponent } from './components/estructura
     CuestionarioGenericoComponent,
     ModalAsignarResponsableCuestionarioGenericoComponent,
     EstructuraCuestionarioGenericoComponent,
+    PreguntaAbiertaComponent,
+    PreguntaSeleccionComponent,
+    PreguntaMatrizComponent,
     // MessageBoxComponent,
   ],
   imports: [
@@ -111,7 +117,11 @@ import { EstructuraCuestionarioGenericoComponent } from './components/estructura
     MatInputModule,
     MatSnackBarModule,
     MatCardModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    MatDatepickerModule,MatNativeDateModule
   ],
   exports:[],
   entryComponents: [ 
@@ -121,8 +131,8 @@ import { EstructuraCuestionarioGenericoComponent } from './components/estructura
     ModalDetalleUsuarioComponent,
     ModalLugarRepresentanteComponent, //
     ModalAsignarTipoUsuarioModuloPrivilegioComponent,
-    ModalAsignarResponsableCuestionarioGenericoComponent
-    // MessageBoxComponent
+    ModalAsignarResponsableCuestionarioGenericoComponent,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
