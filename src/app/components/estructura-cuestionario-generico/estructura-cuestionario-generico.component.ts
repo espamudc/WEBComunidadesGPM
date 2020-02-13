@@ -565,6 +565,9 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
           console.log(data);
           
           this._listaPreguntasSeccionComponenteCuestionarioGenerico= data['respuesta'];
+
+          //this._listaPreguntasSeccionComponenteCuestionarioGenerico.sort(data=>data.Orden);
+
         }else{
           this.mensaje(data['http']['mensaje']);
         }
@@ -587,7 +590,9 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
   _btnAccionP="Guardar";
   _insertarPreguntaSeccionComponenteCuestionarioGenerico(){
     console.log(this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_obligatorio").value);
+
     
+
     let _orden = this._listaPreguntasSeccionComponenteCuestionarioGenerico.length+1; 
     //console.log(_orden);
     
@@ -606,7 +611,8 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
       this._obligatorioPregunta
     ).then(data=>{
       if (data['http']['codigo']=='200') {
-        this._consultarPreguntasSeccionComponenteCuestionarioGenerico(this.formCuestionarioGenerico.get("_cmbSeccionComponenteCuestionarioGenerico").value);
+        this._listaPreguntasSeccionComponenteCuestionarioGenerico.push(data['respuesta']);
+        //this._consultarPreguntasSeccionComponenteCuestionarioGenerico(this.formCuestionarioGenerico.get("_cmbSeccionComponenteCuestionarioGenerico").value);
         this.formPreguntaSeccionComponenteCuestionarioGenerico.reset();
       }else {
         this.mensaje(data['http']['mensaje']);
@@ -624,7 +630,37 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     this.preguntaSeccionComponenteCuestionarioGenericoService._eliminarPreguntasSeccionComponenteCuestionarioGenerico(id)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          this._consultarPreguntasSeccionComponenteCuestionarioGenerico(idSeccion);
+          let element = this._listaPreguntasSeccionComponenteCuestionarioGenerico.find(item=>item.IdPreguntaEncriptado===_item.IdPreguntaEncriptado);
+          let index = this._listaPreguntasSeccionComponenteCuestionarioGenerico.indexOf(element);
+          let orden = this._listaPreguntasSeccionComponenteCuestionarioGenerico[index].Orden;
+
+          this._listaPreguntasSeccionComponenteCuestionarioGenerico.splice(index,1);
+          debugger
+          for (let i = index; i<= this._listaPreguntasSeccionComponenteCuestionarioGenerico.length ; i++) {
+            this.preguntaSeccionComponenteCuestionarioGenericoService._modificarPreguntasSeccionComponenteCuestionarioGenerico(
+              this._listaPreguntasSeccionComponenteCuestionarioGenerico[i].IdPreguntaEncriptado,
+              this._listaPreguntasSeccionComponenteCuestionarioGenerico[i].TipoPregunta.IdTipoPreguntaEncriptado,
+              this._listaPreguntasSeccionComponenteCuestionarioGenerico[i].Seccion.IdSeccionEncriptado,
+              this._listaPreguntasSeccionComponenteCuestionarioGenerico[i].Descripcion,
+              orden,
+              this._listaPreguntasSeccionComponenteCuestionarioGenerico[i].Obligatorio,
+            ).then(data=>{
+              if (data['http']['codigo']=='200') {
+                
+              } else {
+                
+              }
+            }).catch(error=>{
+
+            }).finally(()=>{
+              
+            });
+            orden++;
+
+          }
+
+
+          // this._consultarPreguntasSeccionComponenteCuestionarioGenerico(idSeccion);
         }else{
           this.mensaje(data['http']['mensaje']);
         }
@@ -635,10 +671,13 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
       });
   }
   
+  _OcultarcmbTipoPregunta=false;
   _prepararPreguntaSeccionDeComponenteDeCuestionarioGenerico(_item){
 
     console.log(_item.TipoPregunta.IdTipoPreguntaEncriptado);
-    
+    this._OcultarcmbTipoPregunta=true;
+    // this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_cmbTipoPregunta");
+
 
     this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_idPreguntaEncriptado").setValue(_item.IdPreguntaEncriptado);
     this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_cmbTipoPregunta").setValue(_item.TipoPregunta.IdTipoPreguntaEncriptado);
@@ -673,7 +712,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
       console.log("PREGUNTA - MODIFICAR -ERROR:",error);
       
     }).finally(()=>{
-
+      this._OcultarcmbTipoPregunta=false;
     });
   }
 

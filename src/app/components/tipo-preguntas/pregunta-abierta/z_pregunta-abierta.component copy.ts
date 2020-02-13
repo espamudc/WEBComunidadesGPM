@@ -20,8 +20,9 @@ export class PreguntaAbiertaComponent implements OnInit {
       _idPreguntaEncriptado         : new FormControl('',[Validators.required]),
       _cmbTipoDato                  : new FormControl('',[Validators.required]),
       _especificaRango              : new FormControl('',[Validators.required]),
-      _valorMinimo                : new FormControl(null),
-      _valorMaximo                  : new FormControl(null),
+      _valorMinimimo                : new FormControl(''),
+      _nose                         : new FormControl(''),
+      _valorMaximo                  : new FormControl(''),
       _identificador                : new FormControl('')
     });
 
@@ -35,7 +36,9 @@ export class PreguntaAbiertaComponent implements OnInit {
   Columns: string[] = [ 'tipo_dato','minimo', 'maximo' ,'acciones'];
   formPreguntaTipoAbierta:FormGroup;
 
-
+  get nose(){
+    return this.formPreguntaTipoAbierta.get("_nose");
+  }
 
   get PREGUNTAABIERTA_idPreguntaAbiertaEncriptado(){
     return this.formPreguntaTipoAbierta.get("_idPreguntaAbiertaEncriptado");
@@ -53,8 +56,8 @@ export class PreguntaAbiertaComponent implements OnInit {
   get PREGUNTAABIERTA_especificaRango(){
     return this.formPreguntaTipoAbierta.get("_especificaRango");
   }
-  get PREGUNTAABIERTA_valorMinimo(){
-    return this.formPreguntaTipoAbierta.get("_valorMinimo");
+  get PREGUNTAABIERTA_valorMinimimo(){
+    return this.formPreguntaTipoAbierta.get("_valorMinimimo");
   }
   get PREGUNTAABIERTA_valorMaximo(){
     return this.formPreguntaTipoAbierta.get("_valorMaximo");
@@ -109,11 +112,25 @@ export class PreguntaAbiertaComponent implements OnInit {
   _maximo="";
   _input_required=false;
   _requeridos(event){
-    this.PREGUNTAABIERTA_valorMinimo.reset();
-    this.PREGUNTAABIERTA_valorMaximo.reset();
+    // this.PREGUNTAABIERTA_valorMinimimo.reset();
+    // this.PREGUNTAABIERTA_valorMaximo.reset();
     console.log(event.checked);
     this._input_required=event.cheked;
-    
+    // if (event.cheked==false) {
+    //   let v = new Validators;
+    //   // this.PREGUNTAABIERTA_valorMinimimo.clearAsyncValidators();
+    //   // this.PREGUNTAABIERTA_valorMaximo.clearAsyncValidators();
+
+    //   this.formPreguntaTipoAbierta.get("_valorMinimimo").clearAsyncValidators();
+    //   this.formPreguntaTipoAbierta.get("_valorMinimimo").updateValueAndValidity({onlySelf:true});
+    //   this.formPreguntaTipoAbierta.get("_valorMaximo").clearAsyncValidators();
+    //   this.formPreguntaTipoAbierta.get("_valorMaximo").updateValueAndValidity({onlySelf:true});
+    // }else if(event.cheked==true){
+    //   this.formPreguntaTipoAbierta.get("_valorMinimimo").setValidators(Validators.required);
+    //   this.formPreguntaTipoAbierta.get("_valorMinimimo").updateValueAndValidity({onlySelf:true});
+    //   this.formPreguntaTipoAbierta.get("_valorMaximo").setValidators(Validators.required);
+    //   this.formPreguntaTipoAbierta.get("_valorMaximo").updateValueAndValidity({onlySelf:true});
+    // }
 
   }
   // _lsita_listaOpcionesPreguntasAbiertas
@@ -156,65 +173,95 @@ export class PreguntaAbiertaComponent implements OnInit {
       });
   }
 
-   _min ="";
-   _max="";
-  _validarFormPreguntasAbiertas(){
-    if (this._checkBoxEspecificarRango==true) {
-      
-
-      let obj = (this._listaPreguntaAbiertaTipoDatos.find(item=>item.IdTipoDatoEncriptado== this.formPreguntaTipoAbierta.get("_cmbTipoDato").value)).Identificador;
-      //this._identificador = obj;
-     
-      if (obj==2) {
-        try {
-          let _minimo = new Date(this.PREGUNTAABIERTA_valorMinimo.value).toJSON().slice().replace('T', ' ').replace('Z','');
-          let _maximo = new Date(this.PREGUNTAABIERTA_valorMaximo.value).toJSON().slice().replace('T', ' ').replace('Z','');
-        
-          this._min = _minimo;
-          this._max =_maximo;
-        } catch (error) {
-          
-        }
-      }else{
-        this._min = this.PREGUNTAABIERTA_valorMinimo.value;
-        this._max = this.PREGUNTAABIERTA_valorMaximo.value;
-      }
-
-      if (this.formPreguntaTipoAbierta.get("_valorMaximo").value < this.formPreguntaTipoAbierta.get("_valorMinimo").value) {
-        this.mensaje("Ingrese un rango correcto");
-      } else if (this.formPreguntaTipoAbierta.get("_valorMaximo").value > this.formPreguntaTipoAbierta.get("_valorMinimo").value) {
-        this._insertarOpcionPreguntasAbiertas();
-      }    
-    } else {
-      this._insertarOpcionPreguntasAbiertas();
-    }
-  }
-
   _insertarOpcionPreguntasAbiertas(){
 
-      console.log("get miniom",this.formPreguntaTipoAbierta.get("_valorMaximo").value);
-      console.log("get max",this.formPreguntaTipoAbierta.get("_valorMinimo").value);
-      console.log("valor minimo",this.PREGUNTAABIERTA_valorMinimo.value);
-      this.preguntaAbiertaService._insertarOpcionPreguntaAbierta(
-            this.item.IdPreguntaEncriptado,
-            this.item.TipoPregunta.IdTipoPreguntaEncriptado,
-            this.formPreguntaTipoAbierta.get("_cmbTipoDato").value,
-            this.formPreguntaTipoAbierta.get("_especificaRango").value,
-            this._min,
-            this._max
-          ).then(data=>{
-            if (data['http']['codigo']=='200') {
-              this._consultarOpcionesPreguntasAbiertas();
-            }else{
-              this.mensaje(data['http']['mensaje']);
-            }
-          }).catch(error=>{
-            console.log(error);
+    console.log((( this.nose.value)));
+    console.log( this.formPreguntaTipoAbierta.get("_nose").value);
+    this.PREGUNTAABIERTA_valorMinimimo.value;
+    console.log(this.formPreguntaTipoAbierta.get("_valorMinimo").value);
+    // console.log(this.formPreguntaTipoAbierta.get("_valorMaximo").value);
+    
+    // let obj = (this._listaPreguntaAbiertaTipoDatos.find(item=>item.IdTipoDatoEncriptado== this.formPreguntaTipoAbierta.get("_cmbTipoDato").value)).Identificador;
+    // //this._identificador = obj;
+    // let _min ="";
+    // let _max="";
+    // if (obj==2) {
+    //   try {
+    //     let _minimo = new Date(this.PREGUNTAABIERTA_valorMinimimo.value).toJSON().slice().replace('T', ' ').replace('Z','');
+    //     let _maximo = new Date(this.PREGUNTAABIERTA_valorMaximo.value).toJSON().slice().replace('T', ' ').replace('Z','');
+       
+    //     _min = _minimo;
+    //     _max =_maximo;
+    //   } catch (error) {
+        
+    //   }
 
-          }).finally(()=>{
+    // } else {
+    //  // console.log(( this.PREGUNTAABIERTA_valorMinimimo.value));
+    //   //console.log(this.formPreguntaTipoAbierta.get("_valorMinimimo").value);
 
-          });
-     
+    //   const v = this.formPreguntaTipoAbierta.get("_valorMaximo").value;
+    //   console.log("v",v);
+      
+    //   // _min=this.formPreguntaTipoAbierta.get("_valorMinimo").value;
+    //   // _max=this.formPreguntaTipoAbierta.get("_valorMaximo").value;
+    // }
+    // debugger
+    // console.log("minimo",_min,"maximo",_max);
+    // console.log(this._checkBoxEspecificarRango);
+    // console.log("nose",this.formPreguntaTipoAbierta.get("nose").value);
+    
+    // if (this._checkBoxEspecificarRango==true) {
+    //   //debugger
+    //   if (_min == null || _max == null) {
+    //     //console.log(_min+"hola");
+        
+    //     this.mensaje("Ingrese el maximo y minimo");
+    //   } else {
+    //     // this.preguntaAbiertaService._insertarOpcionPreguntaAbierta(
+    //     //     this.item.IdPreguntaEncriptado,
+    //     //     this.item.TipoPregunta.IdTipoPreguntaEncriptado,
+    //     //     this.formPreguntaTipoAbierta.get("_cmbTipoDato").value,
+    //     //     this.formPreguntaTipoAbierta.get("_especificaRango").value,
+    //     //     _min,
+    //     //     _max
+    //     //   ).then(data=>{
+    //     //     if (data['http']['codigo']=='200') {
+    //     //       this._consultarOpcionesPreguntasAbiertas();
+    //     //     }else{
+    //     //       this.mensaje(data['http']['mensaje']);
+    //     //     }
+    //     //   }).catch(error=>{
+    //     //     console.log(error);
+
+    //     //   }).finally(()=>{
+
+    //     //   });
+    //   }
+    // } else {
+    //   // this.preguntaAbiertaService._insertarOpcionPreguntaAbierta(
+    //   //     this.item.IdPreguntaEncriptado,
+    //   //     this.item.TipoPregunta.IdTipoPreguntaEncriptado,
+    //   //     this.formPreguntaTipoAbierta.get("_cmbTipoDato").value,
+    //   //     this.formPreguntaTipoAbierta.get("_especificaRango").value,
+    //   //     _min,
+    //   //     _max
+    //   //   ).then(data=>{
+    //   //     if (data['http']['codigo']=='200') {
+    //   //       this._consultarOpcionesPreguntasAbiertas();
+    //   //     }else{
+    //   //       this.mensaje(data['http']['mensaje']);
+    //   //     }
+    //   //   }).catch(error=>{
+    //   //     console.log(error);
+
+    //   //   }).finally(()=>{
+
+    //   // });
+    // }
+
   }
-}
 
+
+
+}

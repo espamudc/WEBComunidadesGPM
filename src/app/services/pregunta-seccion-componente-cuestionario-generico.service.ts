@@ -16,7 +16,7 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
     //debugger
    
     return new Promise((resolve, reject) => {
-      this.http.post(url+'pregunta_consultaridseccion?_idSeccionEncriptado='+_idSeccionEncriptado,_body.toString(),{headers:this._header})
+      this.http.post(url+'pregunta_consultarporidseccion?_idSeccionEncriptado='+_idSeccionEncriptado,_body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{

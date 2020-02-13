@@ -118,7 +118,7 @@
                 <form [formGroup]="formPreguntaSeccionComponenteCuestionarioGenerico"
                     (ngSubmit)="_validarAccionFormformPreguntaSeccionComponenteCuestionarioGenerico()">
 
-                    <mat-form-field class="gpm-form-field">
+                    <mat-form-field [hidden]="_OcultarcmbTipoPregunta" class="gpm-form-field">
                         <mat-label>Seleccione un Tipo de Pregunta</mat-label>
                         <mat-select required [formControl]="_cmbTipoPregunta"
                             (selectionChange)="_onChangeCmb_cmbTipoPregunta($event)">
@@ -324,6 +324,9 @@
                             </button>
                            
                         </mat-expansion-panel-header>
+                        <div *ngIf="item.TipoPregunta.Identificador==1">
+                            <app-pregunta-abierta [item]="item"></app-pregunta-abierta>
+                        </div>
                         <div *ngIf="item.TipoPregunta.Identificador==2 || item.TipoPregunta.Identificador==3 ">
                            
                             <app-pregunta-seleccion [item]="item"></app-pregunta-seleccion>
@@ -332,6 +335,7 @@
                         <div *ngIf="item.TipoPregunta.Identificador==4">
                             <app-pregunta-matriz [item]="item"></app-pregunta-matriz>
                         </div>
+
                        
                     </mat-expansion-panel>
                 </mat-accordion>

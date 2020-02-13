@@ -1,1 +1,112 @@
-<p>pregunta-abierta works!</p>
+<!-- <p>pregunta-abierta works!</p> -->
+<!-- <div class="row">
+    <div class="col-lg-12"> -->
+        <form [formGroup]="formPreguntaTipoAbierta" (ngSubmit)="_validarFormPreguntasAbiertas()">
+            <!-- <mat-card class="col-lg-12"> -->
+            <mat-form-field  class="gpm-form-field col-lg-3 col-md-2">
+                <mat-label>Seleccione un Tipo de Dato</mat-label>
+                <mat-select required [formControl]="PREGUNTAABIERTA_cmbTipoDato"
+                    (selectionChange)="_onChangeCmb_PREGUNTAABIERTA_cmbTipoDato($event)">
+                    <mat-option *ngFor="let item of _listaPreguntaAbiertaTipoDatos"
+                        [value]="item.IdTipoDatoEncriptado">
+                        {{item.Descripcion}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            
+            <mat-checkbox (change)="_requeridos($event)" [formControl]="PREGUNTAABIERTA_especificaRango" [(ngModel)]="_checkBoxEspecificarRango" class="gpm-form-field col-lg-2" labelPosition="before">Especificar Rango</mat-checkbox>
+
+            <mat-form-field *ngIf="(_identificador==1 || _identificador==3 || _identificador==4) && _checkBoxEspecificarRango==true" class="gpm-form-field col-lg-3 col-md-2">
+                <input [formControl]="PREGUNTAABIERTA_valorMinimo" matInput placeholder="Valor Mínimo"  >
+                <mat-error
+                    *ngIf=" PREGUNTAABIERTA_valorMinimo.hasError('required') || 
+                            PREGUNTAABIERTA_valorMinimo.invalid || 
+                            (PREGUNTAABIERTA_valorMinimo.dirty || PREGUNTAABIERTA_valorMinimo.touched ) " >
+                    Este dato es <strong>obligatorio</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field *ngIf="(_identificador==1 || _identificador==3 || _identificador==4) && _checkBoxEspecificarRango==true" class="gpm-form-field col-lg-3 col-md-2">
+                <input [formControl]="PREGUNTAABIERTA_valorMaximo" matInput placeholder="Valor Maximo" >
+                <mat-error
+                    *ngIf=" PREGUNTAABIERTA_valorMaximo.hasError('required') || 
+                            PREGUNTAABIERTA_valorMaximo.invalid || 
+                            (PREGUNTAABIERTA_valorMaximo.dirty || PREGUNTAABIERTA_valorMaximo.touched ) ">
+                    Este dato es <strong>obligatorio</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field *ngIf="_identificador==2  && _checkBoxEspecificarRango==true" class="gpm-form-field col-lg-3 col-md-2" >
+                <mat-label>Escoje la fecha inicial</mat-label>
+                <input [formControl]="PREGUNTAABIERTA_valorMinimo" matInput [matDatepicker]="picker1"  >
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field *ngIf="_identificador==2  && _checkBoxEspecificarRango==true" class="gpm-form-field col-lg-3 col-md-2">
+                <mat-label>Escoje la fecha final</mat-label>
+                <input [formControl]="PREGUNTAABIERTA_valorMaximo" matInput [matDatepicker]="picker2"  >
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+                
+            <button [disabled]="formPreguntaTipoAbierta.invalid " mat-button class="btn btn-primary col-lg-1">  
+                <mat-icon >add</mat-icon>
+            </button>  
+        </form>
+        <br>
+        <table mat-table [dataSource]="_listaOpcionesPreguntasAbiertas" class="mat-elevation-z8 gpm-table">
+
+
+
+            <!-- <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef>  </th>
+            <td mat-cell *matCellDef="let element"> 
+                
+               
+        
+            </td>
+            </ng-container> -->
+            <ng-container matColumnDef="tipo_dato">
+                <th mat-header-cell *matHeaderCellDef> Tipo de Dato </th>
+                <td mat-cell *matCellDef="let element"> {{element.TipoDato.Descripcion}} </td>
+            </ng-container>
+            <ng-container matColumnDef="minimo">
+                <th mat-header-cell *matHeaderCellDef> Valor Mínimo </th>
+                <td mat-cell *matCellDef="let element"> 
+                    <div *ngIf="element.ValorMinimo!='undefined'"> {{element.ValorMinimo}} </div> 
+                    <div *ngIf="element.ValorMinimo=='undefined'"> No Aplica </div>    
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="maximo">
+                <th mat-header-cell *matHeaderCellDef> Valor Máximo </th>
+                <td mat-cell *matCellDef="let element">  
+                    <div *ngIf="element.ValorMaximo!='undefined'"> {{element.ValorMaximo}} </div> 
+                    <div *ngIf="element.ValorMaximo=='undefined'"> No Aplica </div>    
+                </td>
+            </ng-container>
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="acciones">  
+            <th  mat-header-cell *matHeaderCellDef>  </th>
+            <ng-container *matCellDef="let element">
+                
+                <!-- <td mat-cell *ngIf="element.Utilizado==0"> 
+                    <button mat-button  tooltip="Eliminar" placement="top"
+                        class="btn btn-sm btn-outline-danger" value="{{element.IdOpcionPreguntaSeleccionEncriptado}}"
+                        (click)=_eliminarPreguntasSeleccion(element)>
+                        <mat-icon>clear</mat-icon>
+                    </button>
+                </td> -->
+               
+                </ng-container>
+            </ng-container>
+            
+        
+            <tr mat-header-row *matHeaderRowDef="Columns"></tr>
+            <tr mat-row *matRowDef="let row; columns: Columns;"></tr>
+        </table>
+
+
+    <!-- </div>
+    
+</div> -->
