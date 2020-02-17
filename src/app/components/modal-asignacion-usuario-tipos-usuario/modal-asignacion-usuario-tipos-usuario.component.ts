@@ -50,7 +50,6 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
   //   this._listaAsignarUsuarioTipoUsuario.sort();
   // }
   _listaTiposUsuarios:any[]=[];
-
   _listaAsignarUsuarioTipoUsuario:any[]=[];
   _consultarTiposUsuariosAsignados(){
     console.log("_consultarTiposUsuariosUsados");

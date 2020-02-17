@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormGroup, Validators, FormControl, Form } from '@angular/forms';
 import sweetalert from "sweetalert";
 
@@ -26,7 +26,7 @@ import { MatTable, MatSnackBar, MatSnackBarConfig } from '@angular/material';
   templateUrl: './persona.component.html',
   styleUrls: ['./persona.component.css']
 })
-export class PersonaComponent implements OnInit {
+export class PersonaComponent implements OnInit,AfterViewInit {
 
   // myForm: FormGroup;
 
@@ -38,11 +38,68 @@ export class PersonaComponent implements OnInit {
     private dialog: MatDialog,
     // private messagebox : MessageBoxComponent,
     private snackBarComponent: MatSnackBar,
-  ) {
-  
+  ) 
+  {
+    this.formPersona  = new FormGroup({
+      _idPersonaEncriptado    : new FormControl(''),
+      _primerNombre           : new FormControl('',[Validators.required]),
+      _segundoNombre          : new FormControl('',[Validators.required]),
+      _primerApellido         : new FormControl('',[Validators.required]),
+      _segundoApellido        : new FormControl('',[Validators.required]),
+      _cmbTipoIdentificacion  : new FormControl('',[Validators.required]),
+      _numeroIdentificacion   : new FormControl('',[Validators.required]),
+      _cmbSexo                : new FormControl('',[Validators.required]),
+      _telefono               : new FormControl(''),
+      _cmbProvincia           : new FormControl('',[Validators.required]),
+      _cmbCanton              : new FormControl('',[Validators.required]),
+      _cmbParroquia           : new FormControl('',[Validators.required]),
+      _direccion              : new FormControl('',[Validators.required])
+    });
+    //this.formPersona.setControl('_primerNombre',new FormControl('',[Validators.required]));
+    
   }
 
+  formPersona: FormGroup;
+  get formPersona_idPersonaEncriptado(){
+    return this.formPersona.get("_idPersonaEncriptado");
+  }
+  get formPersona_primerNombre(){
+    return this.formPersona.get("_primerNombre");
+  }
+  get formPersona_segundoNombre(){
+    return this.formPersona.get("_segundoNombre");
+  }
+  get formPersona_primerApellido(){
+    return this.formPersona.get("_primerApellido");
+  }
+  get formPersona_segundoApellido(){
+    return this.formPersona.get("_segundoApellido");
+  }
+  get formPersona_cmbTipoIdentificacion(){
+    return this.formPersona.get("_cmbTipoIdentificacion");
+  }
+  get formPersona_numeroIdentificacion(){
+    return this.formPersona.get("_numeroIdentificacion");
+  }
+  get formPersona_cmbSexo(){
+    return this.formPersona.get("_cmbSexo");
+  }
+  get formPersona_telefono(){
+    return this.formPersona.get("_telefono");
+  }
+  get formPersona_cmbProvincia(){
+    return this.formPersona.get("_cmbProvincia");
+  }
+  get formPersona_cmbCanton(){
+    return this.formPersona.get("_cmbCanton");
+  }
+  get formPersona_cmbParroquia(){
+    return this.formPersona.get("_cmbParroquia");
+  }
 
+  get formPersona_direccion(){
+    return this.formPersona.get("_direccion");
+  }
 
   ngOnInit() {
     this._consultarPersonas();
@@ -52,6 +109,12 @@ export class PersonaComponent implements OnInit {
     this._consultarSexos();
     this._consultarProvincias();
   }
+
+  ngAfterViewInit(){
+    
+  }
+
+  
 
   //-------------------------------------------------------------------------------------------
    __cadena:string 
@@ -122,6 +185,7 @@ export class PersonaComponent implements OnInit {
     }
   }
 
+  
   _validarForm(){
     console.log(this._btnAccion);
     
@@ -145,17 +209,105 @@ export class PersonaComponent implements OnInit {
     ) {
       if (this._btnAccion==="Guardar") {
         // this.frmPersona.valid = true;
-        this._ingresarPersona();
+        // this._ingresarPersona();
+        this._ingresarPersona2();
       } 
       else if (this._btnAccion==="Modificar") {
         // debugger
-        this._modificarPersona();
+        this._modificarPersona2();
       }
     }
       
       
   }
 
+  _validarForm2(){
+    if (this._btnAccion==="Guardar") {
+      // this.frmPersona.valid = true;
+      // this._ingresarPersona();
+      this._ingresarPersona2();
+    } 
+    else if (this._btnAccion==="Modificar") {
+      // debugger
+      this._modificarPersona2();
+    }
+  }
+
+  _ingresarPersona2() {
+
+    const separador =" ";
+    const limite =1;
+
+    this.personaService._insertarPersona(
+    this.formPersona_primerNombre.value,
+    this.formPersona_segundoNombre.value,
+    this.formPersona_primerApellido.value,
+    this.formPersona_segundoApellido.value,
+    this.formPersona_numeroIdentificacion.value,
+    this.formPersona_cmbTipoIdentificacion.value,
+    this.formPersona_telefono.value,
+    this.formPersona_cmbSexo.value,
+    // this._cmbParroquia,//this.parroquia,
+    this.formPersona_cmbParroquia.value,
+    this.formPersona_direccion.value,
+    'token'
+    ).then(
+      data => {
+        if (data['http']['codigo'] == '200') {
+          this._consultarPersonas();
+          this._refrescarTabla();
+          this._refrescarForm();
+        } else {
+          this.mensaje(data['http']['mensaje']);
+        }
+      },
+    )
+    .catch(
+      err => {
+        console.log(err);
+        this.mensaje(err);
+      }
+    );
+
+  }
+  _modificarPersona2() {
+      
+      this.personaService._modificarPersona(
+        this.formPersona_idPersonaEncriptado.value,
+        this.formPersona_primerNombre.value,
+        this.formPersona_segundoNombre.value,
+        this.formPersona_primerApellido.value,
+        this.formPersona_segundoApellido.value,
+        this.formPersona_numeroIdentificacion.value,
+        this.formPersona_cmbTipoIdentificacion.value,
+        this.formPersona_telefono.value,
+        this.formPersona_cmbSexo.value,
+        // this._cmbParroquia,//this.parroquia,
+        this.formPersona_cmbParroquia.value,
+        this.formPersona_direccion.value,
+        'token'
+        ).then(
+          ok => {
+            console.log(ok);
+            
+            if (ok['http']['codigo'] == '200') {
+              this._consultarPersonas(); 
+              this._refrescarForm();
+                      
+            } else {
+              // ok['http']['mensaje'];
+              this.mensaje(ok['http']['mensaje']);
+            }
+          },
+        )
+        .catch(
+          err => {
+            console.log(err);
+            this.mensaje(err);
+          }
+        )
+    // }
+  }
   _ingresarPersona() {
 
       if(this._telefono=='null'){
@@ -367,6 +519,22 @@ export class PersonaComponent implements OnInit {
     this._validarCompletos();
     // this.nuevaPersona = "Modificar Persona";
    
+
+    this.formPersona.get("_idPersonaEncriptado")  .setValue(_persona.IdPersonaEncriptado);
+    this.formPersona.get("_primerNombre")         .setValue(_persona.PrimerNombre);
+    this.formPersona.get("_segundoNombre")        .setValue(_persona.SegundoNombre);
+    this.formPersona.get("_primerApellido")       .setValue(_persona.PrimerApellido);
+    this.formPersona.get("_segundoApellido")      .setValue(_persona.SegundoApellido);
+    this.formPersona.get("_cmbTipoIdentificacion").setValue(_persona.TipoIdentificacion.IdTipoIdentificacionEncriptado);
+    this.formPersona.get("_numeroIdentificacion") .setValue(_persona.NumeroIdentificacion);
+    this.formPersona.get("_cmbSexo")              .setValue(_persona.Sexo.IdSexoEncriptado);
+    this.formPersona.get("_telefono")             .setValue(_persona.Telefono);
+    this.formPersona.get("_cmbProvincia")         .setValue(_persona.Parroquia.Canton.Provincia.IdProvinciaEncriptado);
+    this.formPersona.get("_cmbCanton")            .setValue(_persona.Parroquia.Canton.IdCantonEncriptado);
+    this.formPersona.get("_cmbParroquia")         .setValue(_persona.Parroquia.IdParroquiaEncriptado);
+    this.formPersona.get("_direccion")            .setValue(_persona.Direccion);
+
+
   }
 
   _refrescarForm(){
@@ -393,6 +561,9 @@ export class PersonaComponent implements OnInit {
 
     this._btnAccion="Guardar";
     this._validar=true;
+
+    this.formPersona.reset();
+
   }
 
   @ViewChild(MatTable,{static:false}) MatTablaPersonas: MatTable<any>;
