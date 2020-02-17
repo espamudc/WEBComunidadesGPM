@@ -1,7 +1,81 @@
 <br>
 <div class="container">
     <div class="row">
-        <div class="col-lg-4" style="float: left;">
+        <div class="col-lg-5 col-md-5 mr-auto ">
+            <form [formGroup]="form">
+                <mat-card class="mat-elevation-z7">
+                    <div class="row">
+                        <div class="col-12"> <h2 style="text-align: center;">Usuario</h2>  </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-10 ">
+                            <mat-form-field class="gpm-universal-width">
+                                <input matInput placeholder="Numero de Indentificacion" [formControl]="formUsuario_numeroIdentificacion" required>
+                                <mat-error *ngIf="formUsuario_numeroIdentificacion.hasError('required') || formUsuario_numeroIdentificacion.invalid || (formUsuario_numeroIdentificacion.dirty || formUsuario_numeroIdentificacion.touched ) ">
+                                    Este dato es <strong>obligatorio</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div >
+                            <button class="col-2 btn" type="button">
+                                <i class="fa fa-user-plus icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+
+                    <mat-form-field class="gpm-universal-width">
+                        <input matInput placeholder="Nombres" 
+                                [formControl]="formUsuario_nombres" required>
+                        <mat-error *ngIf="  formUsuario_nombres.hasError('required') || 
+                                            formUsuario_nombres.invalid || 
+                                            (formUsuario_nombres.dirty || 
+                                            formUsuario_nombres.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="gpm-universal-width">
+                        <input matInput placeholder="Apellidos" 
+                                        [formControl]="formUsuario_apellidos" required>
+                        <mat-error *ngIf="  formUsuario_apellidos.hasError('required') || 
+                                            formUsuario_apellidos.invalid || 
+                                            (formUsuario_apellidos.dirty || 
+                                            formUsuario_apellidos.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="gpm-universal-width">
+                        <input matInput placeholder="Nombre de Usuario" 
+                                        [formControl]="formUsuario_usuario" required>
+                        <mat-error *ngIf="  formUsuario_usuario.hasError('required') || 
+                                            formUsuario_usuario.invalid || 
+                                            (formUsuario_usuario.dirty || 
+                                            formUsuario_usuario.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="gpm-universal-width">
+                        <input matInput placeholder="Clave" 
+                                        [formControl]="formUsuario_clave" required>
+                        <mat-error *ngIf="  formUsuario_clave.hasError('required') || 
+                                            formUsuario_clave.invalid || 
+                                            (formUsuario_clave.dirty || 
+                                            formUsuario_clave.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                </mat-card>
+            </form>
+        </div>
+        <div class="col-lg-7 col-md-7 mr-auto "></div>
+
+    </div>
+    <div class="row" hidden>
+        <div class="col-lg-5 col-md-5 mr-auto" style="float: left;">
             <mat-card>
                 <div class="row">
                     <div class="col-12">
@@ -64,7 +138,8 @@
             </mat-card>
 
         </div>
-        <div class="col-lg-8">
+        <div class="col-lg-7 col-md-7 mr-auto">
+            
             <!-- <div class="card"> -->
                 <!-- <div class="card-header" style="text-align: center;">
                     Lista Usuarios

@@ -1,7 +1,224 @@
 <br>
 <div class="container">
 
-    <form #frmPersona="ngForm" >
+        
+    <div class="row">
+        <div class="col-lg-5 col-md-5 mr-auto ">
+            <form [formGroup]="formPersona" (ngSubmit)="_validarForm2()">
+
+                <mat-card class="mat-elevation-z7">
+                    <div class="row">
+                        <div class="col-12"> <h2 style="text-align: center;">Persona</h2>  </div>
+                    </div>
+                    
+                    <mat-form-field class="gpm-universal-width">
+                        <input matInput placeholder="Primer Nombre" [formControl]="formPersona_primerNombre" required>
+                        <mat-error *ngIf="formPersona_primerNombre.hasError('required') || formPersona_primerNombre.invalid || (formPersona_primerNombre.dirty || formPersona_primerNombre.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="gpm-universal-width">
+                        <input matInput placeholder="Segundo Nombre" [formControl]="formPersona_segundoNombre" required>
+                        <mat-error *ngIf="formPersona_segundoNombre.hasError('required') || formPersona_segundoNombre.invalid || (formPersona_segundoNombre.dirty || formPersona_segundoNombre.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="gpm-universal-width">
+                        <input matInput placeholder="Primer Apellido" [formControl]="formPersona_primerApellido" required>
+                        <mat-error *ngIf="formPersona_primerApellido.hasError('required') || formPersona_primerApellido.invalid || (formPersona_primerApellido.dirty || formPersona_primerApellido.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="gpm-universal-width">
+                        <input matInput placeholder="Segundo Apellido" [formControl]="formPersona_segundoApellido" required>
+                        <mat-error *ngIf="formPersona_segundoApellido.hasError('required') || formPersona_segundoApellido.invalid || (formPersona_segundoApellido.dirty || formPersona_segundoApellido.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                        
+
+
+                    <mat-form-field class="gpm-universal-width">
+                        <mat-label>Sexo</mat-label>
+                        <mat-select [formControl]="formPersona_cmbSexo"
+                            > <!--(selectionChange)=""-->
+                            <mat-option *ngFor="let item of _listaSexos"
+                                [value]="item.IdSexoEncriptado">
+                                {{item.Descripcion}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="gpm-universal-width">
+                        <input matInput placeholder="Telefono" [formControl]="formPersona_telefono" >
+                        <mat-error *ngIf="formPersona_telefono.hasError('required') || formPersona_telefono.invalid || (formPersona_telefono.dirty || formPersona_telefono.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-accordion>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header (click)="_consultarTipoIdentificacion()" >
+                                <mat-panel-title>Identificación</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            
+                            <mat-form-field class="gpm-universal-width">
+                                <mat-label>Tipo de Identificación</mat-label>
+                                <mat-select [formControl]="formPersona_cmbTipoIdentificacion"
+                                    > <!--(selectionChange)=""-->
+                                    <mat-option *ngFor="let item of _listaTipoIdentificacion"
+                                        [value]="item.IdTipoIdentificacionEncriptado">
+                                        {{item.Descripcion}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+        
+                            <mat-form-field class="gpm-universal-width">
+                                <input matInput placeholder="Número de Identificación" [formControl]="formPersona_numeroIdentificacion" required>
+                                <mat-error *ngIf="formPersona_numeroIdentificacion.hasError('required') || formPersona_numeroIdentificacion.invalid || (formPersona_numeroIdentificacion.dirty || formPersona_numeroIdentificacion.touched ) ">
+                                    Este dato es <strong>obligatorio</strong>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header (click)="_consultarProvincias()">
+                                <mat-panel-title>Dirección</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            
+                            <mat-form-field class="gpm-universal-width">
+                                <mat-label>Provincia</mat-label>
+                                <mat-select [formControl]="formPersona_cmbProvincia"
+                                (selectionChange)="_cantonesDeUnaProvincia($event.value)"> <!--(selectionChange)=""-->
+                                    <mat-option *ngFor="let item of _listaProvincias"
+                                        [value]="item.IdProvinciaEncriptado">
+                                        {{item.NombreProvincia}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field class="gpm-universal-width">
+                                <mat-label>Cantón</mat-label>
+                                <mat-select [formControl]="formPersona_cmbCanton"
+                                    (selectionChange)="_parroquiasDeUnCanton($event.value)"> <!--(selectionChange)=""-->
+                                    <mat-option *ngFor="let item of _listaCantones"
+                                        [value]="item.IdCantonEncriptado">
+                                        {{item.NombreCanton}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field class="gpm-universal-width">
+                                <mat-label>Parroquia</mat-label>
+                                <mat-select [formControl]="formPersona_cmbParroquia"
+                                    > <!--(selectionChange)=""-->
+                                    <mat-option *ngFor="let item of _listaParroquias"
+                                        [value]="item.IdParroquiaEncriptado">
+                                        {{item.NombreParroquia}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field class="gpm-universal-width">
+                                <input matInput placeholder="Dirección" [formControl]="formPersona_direccion" >
+                                <mat-error *ngIf="formPersona_direccion.hasError('required') || formPersona_direccion.invalid || (formPersona_direccion.dirty || formPersona_direccion.touched ) ">
+                                    Este dato es <strong>obligatorio</strong>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                    <!-- <mat-accordion>
+                        
+                    </mat-accordion> -->
+                   
+                    <br>
+                    <button *ngIf="_btnAccion==='Guardar'" mat-button class="btn btn-primary btn-block"> <i class="fa fa-plus"></i> </button>
+                    <div class="row" *ngIf="_btnAccion==='Modificar'">
+                        <div class="col-6">
+                            <button mat-button class="btn btn-primary btn-block"> <i class="fa fa-edit"></i> </button>
+                        </div>
+                        <div class="col-6">
+                            <button (click)="_refrescarForm()" type="button" mat-button class="btn btn-light btn-block"> <i class="fa fa-refresh"></i> </button>
+                        </div>
+                    </div>
+
+                </mat-card>
+            </form>
+        </div>
+        <div class="col-lg-7 col-md-7 mr-auto ">
+            
+            
+
+            <div style="height: 100% !important;" class="tablaPersonas mat-elevation-z5">
+                <br>
+                <div class="col-12">
+                    <mat-form-field class="gpm-input">
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+                    </mat-form-field>
+                </div>
+                
+
+                <table mat-table [dataSource]="_listaPersonas">
+                    <ng-container matColumnDef="Nombres">
+                        <th mat-header-cell *matHeaderCellDef> Nombres </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.PrimerNombre }} {{ element.SegundoNombre }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Apellidos">
+                        <th mat-header-cell *matHeaderCellDef> Apellidos </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.PrimerApellido}} {{element.SegundoApellido}}
+                            </td>
+                    </ng-container>
+                    <ng-container matColumnDef="TipoIdentidicacion">
+                        <th mat-header-cell *matHeaderCellDef> Documento </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.TipoIdentificacion.Descripcion }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Identificacion">
+                        <th mat-header-cell *matHeaderCellDef> No. Documento </th>
+                        <td mat-cell *matCellDef="let element"> {{element.NumeroIdentificacion}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Acciones">
+                        <th colspan="2" mat-header-cell *matHeaderCellDef> Acciones </th>
+                        <ng-container *matCellDef="let element">
+                            <ng-container >
+                                <td mat-cell>
+                                    <button tooltip="Ver Información" placement="top"
+                                        class="btn btn-sm btn-outline-primary separacion-botones"
+                                        value="{{element.IdPersonaEncriptado}}"
+                                        (click)="_verPersona(element)">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                                <td mat-cell>
+                                    <button tooltip="Modificar" placement="top"
+                                        class="btn btn-sm btn-outline-info separacion-botones"
+                                        value="{{element.IdPersonaEncriptado}}"
+                                        (click)="_prepararPersona(element)">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                                <td mat-cell>
+                                    <button tooltip="Eliminar" placement="top" *ngIf="element.Utilizado==0"
+                                        class="btn btn-sm btn-outline-danger separacion-botones"
+                                        value="{{element.IdPersonaEncriptado}}" (click)="_eliminarPersona(element)">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="tablaPersonas; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: tablaPersonas;"></tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+ 
+    <br>
+    <form hidden #frmPersona="ngForm" >
 
         <div class="row">
             <div class="col-lg-7">
@@ -142,72 +359,8 @@
         
     </form>
 <br>
-    <!-- <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                              <tr>
-                                <th scope="col">Nombres</th>
-                                <th scope="col">Apellidoa</th>
-                                <th scope="col">Documento</th>
-                                <th scope="col">Nº Documento</th>
-                                <th scope="col" style="text-align: center;">Acciones</th>
-                              </tr>
-                            </thead>
-                            <tbody class="scroll">
-                                <tr *ngFor="let item of _listaPersonas">
-                                    <td> {{ item.PrimerNombre }} {{ item.SegundoNombre }} </td>
-                                    <td> {{ item.PrimerApellido}} {{item.SegundoApellido}} </td>
-                                    <td> {{ item.TipoIdentificacion.Descripcion }} </td>
-                                    <td> {{item.NumeroIdentificacion}} </td>
-                                    <td class="form-group text-center"> 
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <button tooltip="Ver Información" 
-                                                    class="btn btn-sm btn-outline-primary separacion-botones "
-                                                    value="{{item.IdPersonaEncriptado}}"
-                                                    (click)="_verPersona(item)">
-                                                    <i class="fa fa-eye" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                            <div class="col-4">
-                                                <button tooltip="Modificar" 
-                                                    class="btn btn-sm btn-outline-info separacion-botones "
-                                                    value="{{item.IdPersonaEncriptado}}"
-                                                    (click)="_prepararPersona(item)">
-                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                            <div class="col-4">
-                                                <button tooltip="Eliminar" *ngIf="item.Utilizado==0"
-                                                    class="btn btn-sm btn-outline-danger separacion-botones"
-                                                    value="{{item.IdPersonaEncriptado}}" (click)="_eliminarPersona(item)">
-                                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        
-                                    
-                                        
-                                    
-                                       
-                                        
-                                    </td>
-                                    
-                                </tr>
-                            </tbody>
-                        </table>
-                      </div>
-                </div>
-            </div>
-           
-        </div>
-    </div> -->
-
-    <div class="row">
+   
+    <div hidden class="row">
         <div class="col-md-12">
             <div class="form-group input-container">
                 <i class="fa fa-search icon"></i>

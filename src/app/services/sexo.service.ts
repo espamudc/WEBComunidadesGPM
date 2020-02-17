@@ -12,7 +12,7 @@ export class SexoService {
     consultarSexos(_token:string=''){
         //debugger
         const _body = new HttpParams().set('Token',_token);
-        
+        // debugger
         return new Promise((resolve, reject) => {
         this.http.post(url+'sexo_consultar',_body.toString(),{headers:this._header})
                     .subscribe(res=>{

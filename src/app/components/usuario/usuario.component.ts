@@ -47,11 +47,46 @@ export class UsuarioComponent implements OnInit {
     private snackBarComponent:MatSnackBar
   ) {
     this.myForm = new FormGroup({
+      _numeroIdentificacion : new FormControl('', [Validators.required]),
+      _nombres : new FormControl('', [Validators.required]),
+      _apellidos : new FormControl('', [Validators.required]),
       _valorUsuario: new FormControl('', [Validators.required]),
       _contrasena: new FormControl('', [Validators.required])
-    })
+    });
+
+    this.formUsuario = new FormGroup({
+      _idUsuarioEncriptado : new FormControl(''),
+      _numeroIdentificacion : new FormControl('', [Validators.required]),
+      _nombres : new FormControl('', [Validators.required]),
+      _apellidos : new FormControl('', [Validators.required]),
+      _usuario: new FormControl('', [Validators.required]),
+      _clave: new FormControl('', [Validators.required])
+
+    });
+
   }
 
+  formUsuario : FormGroup;
+
+  get formUsuario_idUsuarioEncriptado(){
+    return this.formUsuario.get('_idUsuarioEncriptado');
+  }
+  get formUsuario_numeroIdentificacion(){
+    return this.formUsuario.get('_numeroIdentificacion');
+  }
+  get formUsuario_nombres(){
+    return this.formUsuario.get('_nombres');
+  }
+  get formUsuario_apellidos(){
+    return this.formUsuario.get('_apellidos');
+  }
+  get formUsuario_usuario(){
+    return this.formUsuario.get('_usuario');
+  }
+  get formUsuario_clave (){
+    return this.formUsuario.get('_clave');
+  }
+  
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
 
     
@@ -73,7 +108,13 @@ export class UsuarioComponent implements OnInit {
     let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
   }
 
+  get _valorUsuario() {
+    return this.myForm.get('_valorUsuario');
+  }
 
+  get _contrasena() {
+    return this.myForm.get('_contrasena');
+  }
 
   botonInsertar = 'insertar';
   cedula = '';
@@ -111,13 +152,6 @@ export class UsuarioComponent implements OnInit {
 
 
 
-  get _valorUsuario() {
-    return this.myForm.get('_valorUsuario');
-  }
-
-  get _contrasena() {
-    return this.myForm.get('_contrasena');
-  }
 
   ngOnInit() {
     // this.consultarUsuarios();
