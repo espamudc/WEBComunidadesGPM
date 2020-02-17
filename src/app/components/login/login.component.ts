@@ -150,6 +150,8 @@ export class LoginComponent implements OnInit ,AfterViewInit{
               this._verFormularioMisTiposUsuarios=true;
             }
             
+          }else if (data['http']['codigo']=='500') {
+            this.mensaje("A ocurrido un error inesperado, intente más tarde.")
           }else{
             this.mensaje(data['http']['mensaje']);
           }

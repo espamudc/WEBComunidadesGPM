@@ -181,6 +181,8 @@ export class ParroquiaComponent implements OnInit {
         this._validar=true;
         this._validarBoton();
         // this._validarFormulario();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -207,6 +209,8 @@ export class ParroquiaComponent implements OnInit {
         this._consultarParroquias();
         this._consultarCantones();
         this._limpiarForm();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -224,6 +228,8 @@ export class ParroquiaComponent implements OnInit {
       if (data['http']['codigo']=='200') {
         this._consultarParroquias();
         this._consultarCantones();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);

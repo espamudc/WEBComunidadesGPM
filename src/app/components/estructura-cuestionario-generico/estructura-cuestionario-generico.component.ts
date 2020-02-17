@@ -214,6 +214,8 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
           
           // console.log(data['http']['codigo']);
           
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
           this.mensaje(data['http']['mensaje']);
         }
@@ -287,8 +289,6 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
           this._listaComponentesCuestionarioGenerico= data['respuesta'];
           console.log(this._listaComponentesCuestionarioGenerico);
           
-        }else{
-          this.mensaje(data['http']['mensaje']);
         }
       }).catch(error=>{
 
@@ -326,6 +326,8 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
         if (data['http']['codigo']=='200') {
           this._consultarComponentesDeCuestionario(this.formComponenteCuestionarioGenerico.get("_idCuestionarioGenericoEncriptado").value);
           this.formComponenteCuestionarioGenerico.reset();
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
           this.mensaje(data['http']['mensaje']);
         }
@@ -341,6 +343,8 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._consultarComponentesDeCuestionario(this.formCuestionarioGenerico.get("_cmbCuestionarioGenerico").value)
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
           this.mensaje(data['http']['mensaje']);
         }
@@ -360,8 +364,6 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
           this._listaSeccionesComponenteCuestionarioGenerico = data['respuesta'];
           // console.log(this._listaSeccionesComponenteCuestionarioGenerico);
           
-        }else{
-          this.mensaje(data['http']['mensaje']);
         }
       }).catch(error=>{
         console.log("error",error);
@@ -393,6 +395,8 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
       if (data['http']['codigo']=='200') {
         this._consultarSeccionesDeComponentesDeCuestionario(this.formCuestionarioGenerico.get("_cmbComponenteCuestionarioGenerico").value);
         this.formSeccionComponenteCuestionarioGenerico.reset();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         this.mensaje(data['http']['mensaje']);
       }
@@ -461,6 +465,8 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
         this._consultarComponentesDeCuestionario( this.formComponenteCuestionarioGenerico.get("_idCuestionarioGenericoEncriptado").value);
         this.formComponenteCuestionarioGenerico.reset();
         this._btnAccionC="Guardar";
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         this.mensaje(data['http']['mensaje']);
       }
@@ -529,6 +535,8 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
         this._consultarSeccionesDeComponentesDeCuestionario(this.formSeccionComponenteCuestionarioGenerico.get("_idComponenteEncriptado").value);
         this.formSeccionComponenteCuestionarioGenerico.reset();
         this._btnAccionS="Guardar";
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         this.mensaje(data['http']['mensaje']);
       }
@@ -543,8 +551,6 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaTipoPreguntaSeccionComponenteCuestionarioGenericoService=data['respuesta'];
-        }else{
-          this.mensaje(data['http']['mensaje']);
         }
       }).catch(error=>{
 
@@ -568,8 +574,6 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
 
           //this._listaPreguntasSeccionComponenteCuestionarioGenerico.sort(data=>data.Orden);
 
-        }else{
-          this.mensaje(data['http']['mensaje']);
         }
       }).catch(error=>{
         console.log(error);
@@ -614,6 +618,8 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
         this._listaPreguntasSeccionComponenteCuestionarioGenerico.push(data['respuesta']);
         //this._consultarPreguntasSeccionComponenteCuestionarioGenerico(this.formCuestionarioGenerico.get("_cmbSeccionComponenteCuestionarioGenerico").value);
         this.formPreguntaSeccionComponenteCuestionarioGenerico.reset();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else {
         this.mensaje(data['http']['mensaje']);
       }
@@ -635,7 +641,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
           let orden = this._listaPreguntasSeccionComponenteCuestionarioGenerico[index].Orden;
 
           this._listaPreguntasSeccionComponenteCuestionarioGenerico.splice(index,1);
-          debugger
+          
           for (let i = index; i<= this._listaPreguntasSeccionComponenteCuestionarioGenerico.length ; i++) {
             this.preguntaSeccionComponenteCuestionarioGenericoService._modificarPreguntasSeccionComponenteCuestionarioGenerico(
               this._listaPreguntasSeccionComponenteCuestionarioGenerico[i].IdPreguntaEncriptado,
@@ -661,6 +667,8 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
 
 
           // this._consultarPreguntasSeccionComponenteCuestionarioGenerico(idSeccion);
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
           this.mensaje(data['http']['mensaje']);
         }
@@ -705,6 +713,8 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
         this._consultarPreguntasSeccionComponenteCuestionarioGenerico(this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_cmbSeccion").value);
         this._btnAccionP="Guardar";
         this.formPreguntaSeccionComponenteCuestionarioGenerico.reset();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         this.mensaje(data['http']['mensaje']);
       }
@@ -714,6 +724,13 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     }).finally(()=>{
       this._OcultarcmbTipoPregunta=false;
     });
+  }
+
+  _subirPreguntaSeccionComponenteCuestionarioGenerico(_item){
+    let element = this._listaPreguntasSeccionComponenteCuestionarioGenerico.find(data=>data.IdPreguntaEncriptado);
+    let index = this._listaPreguntasSeccionComponenteCuestionarioGenerico.indexOf(element);
+    // this._listaPreguntasSeccionComponenteCuestionarioGenerico[index].Orden-=1;
+    // this._listaPreguntasSeccionComponenteCuestionarioGenerico[index-1].Orden+=1;
   }
 
 }

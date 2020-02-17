@@ -177,6 +177,8 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
         if (data['http']['codigo']=='200') {
           this._consultarAsignados();
           this._consultarNoAsinados();
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
           console.log(data['http']);
           this.mensaje(data['http']['mensaje']);
@@ -198,6 +200,8 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
         if (data['http']['codigo']=='200') {
           this._consultarAsignados();
           this._consultarNoAsinados();
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
           console.log(data['http']);
           this.mensaje(data['http']['mensaje']);

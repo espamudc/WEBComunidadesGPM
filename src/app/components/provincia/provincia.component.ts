@@ -165,6 +165,8 @@ export class ProvinciaComponent implements OnInit {
         this._validar=true;
         this._validarBoton();
         // this._validarFormulario();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -186,6 +188,8 @@ export class ProvinciaComponent implements OnInit {
       if (data['http']['codigo']=='200') {
         this._consultarProvincias();
         this._limpiarForm();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -202,6 +206,8 @@ export class ProvinciaComponent implements OnInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._consultarProvincias();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);

@@ -241,6 +241,8 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._cargarRepresentanteProvincia();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -260,6 +262,8 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._cargarRepresentanteProvincia();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -305,6 +309,8 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._cargarRepresentanteCanton();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -324,6 +330,8 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._cargarRepresentanteCanton();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -372,6 +380,8 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
       if (data['http']['codigo']=='200') {
         this._cargarRepresentanteParroquia();
         
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -391,6 +401,8 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._cargarRepresentanteParroquia();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -438,6 +450,8 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._cargarRepresentanteComunidad();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -457,6 +471,8 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._cargarRepresentanteComunidad();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);

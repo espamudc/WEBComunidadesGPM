@@ -146,6 +146,8 @@ export class PreguntaAbiertaComponent implements OnInit {
         if (data['http']['codigo']=='200') {
           this._consultarOpcionesPreguntasAbiertas();
           //this._listaOpcionesPreguntasAbiertas = data['respuesta'];
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
           this.mensaje(data['http']['mesaje']);
         }
@@ -205,6 +207,8 @@ export class PreguntaAbiertaComponent implements OnInit {
           ).then(data=>{
             if (data['http']['codigo']=='200') {
               this._consultarOpcionesPreguntasAbiertas();
+            }else if (data['http']['codigo']=='500') {
+              this.mensaje("A ocurrido un error inesperado, intente más tarde.")
             }else{
               this.mensaje(data['http']['mensaje']);
             }

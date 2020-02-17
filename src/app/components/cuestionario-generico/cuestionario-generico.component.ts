@@ -107,8 +107,6 @@ export class CuestionarioGenericoComponent implements OnInit {
           this._listaCuestionariosGenericos = data['respuesta'];
           console.log(data['http']['codigo']);
           
-        }else{
-          this.mensaje(data['http']['mensaje']);
         }
       }).catch(error=>{
 
@@ -162,6 +160,8 @@ export class CuestionarioGenericoComponent implements OnInit {
           // console.log(data['http']['codigo']);
           this._limpiarForm();
           // this.formCuestionarioGenerico.reset();
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
           this.mensaje(data['http']['mensaje']);
         }
@@ -198,6 +198,8 @@ export class CuestionarioGenericoComponent implements OnInit {
           this._cargarCuestionariosGenericos();
           // console.log(data['http']['codigo']);
           this._limpiarForm();
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
           this.mensaje(data['http']['mensaje']);
         }
@@ -259,6 +261,8 @@ export class CuestionarioGenericoComponent implements OnInit {
         if (data['http']['codigo']=='200') {
           // console.log("ok");
           
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
           console.log(data['http']);
           this.mensaje(data['http']['mensaje']);
