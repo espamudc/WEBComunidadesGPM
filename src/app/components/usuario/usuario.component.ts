@@ -192,6 +192,8 @@ export class UsuarioComponent implements OnInit {
       if (data['http']['codigo']=='200') {
           this._consultarUsuarios();
           this._refrescarForm();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -238,6 +240,8 @@ export class UsuarioComponent implements OnInit {
           this._refrescarForm();
           console.log(data);
           
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -274,6 +278,8 @@ export class UsuarioComponent implements OnInit {
           var indexOf = this._listaUsuarios.indexOf(obj);
           this._listaUsuarios.splice(indexOf,1);
           
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);

@@ -4,6 +4,7 @@ import { TipoUsuario } from 'src/app/interfaces/tipo-usuario/tipo-usuario';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TipoUsuarioService } from 'src/app/services/tipo-usuario.service';
 import { AsignarUsuarioTipoUsuarioService } from 'src/app/services/asignar-usuario-tipo-usuario.service';
+import { MatSnackBar } from '@angular/material';
 // import { element } from 'protractor';
 
 @Component({
@@ -13,7 +14,7 @@ import { AsignarUsuarioTipoUsuarioService } from 'src/app/services/asignar-usuar
 })
 export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
 
-  constructor(
+  constructor(private snackBarComponent: MatSnackBar,
     private tipoUsuariosService:TipoUsuarioService,
     private asignarUsuarioTipoUsuarioService:AsignarUsuarioTipoUsuarioService,
     private usuarioService: UsuarioService,
@@ -89,6 +90,8 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
         this._consultarTiposUsuariosNoAsignados();
         this._consultarTiposUsuariosAsignados();
         this.testSelect.nativeElement.value="0";
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
       }
@@ -105,6 +108,8 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
           this._consultarTiposUsuariosNoAsignados();
           this._consultarTiposUsuariosAsignados();
           this.testSelect.nativeElement.value="0";
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
           console.log(data['http']);
         }
@@ -118,4 +123,25 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
     console.log(event.target.value); 
   }
   
+  mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
+
+    
+    if (_duracion==null) {
+       _duracion=3000;
+    }
+    if (_opcion==1) {
+      _mensaje="Datos ingresados correctamente";
+    }
+    if (_opcion==2) {
+      _mensaje="Datos modificados correctamente";
+    }
+    if (_opcion==3) {
+      _mensaje="Datos eliminados correctamente";
+    }
+    if (_color==null) {
+      _color ="gpm-danger";
+    }
+    let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
+  }
+
 }

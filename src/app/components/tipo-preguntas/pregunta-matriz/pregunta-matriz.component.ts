@@ -138,8 +138,10 @@ export class PreguntaMatrizComponent implements OnInit {
         this.formPreguntaOpcionUnoMatriz.reset();
         this._consultarOpcionUnoMatriz();
         this._consultarPreguntaConfigurarMatriz();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       } else {
-        
+        this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
 
@@ -171,7 +173,7 @@ export class PreguntaMatrizComponent implements OnInit {
 
   _insertarPreguntaConfigurarMatriz(){
     // this._listaOpcionUnoMatriz.map((element,index)=>{
-      //debugger
+      
       this.preguntaMatrizService._insertarPreguntaConfigurarMatriz(
         this.item.IdPreguntaEncriptado,
         this.formPreguntaOpcionDosMatriz.get("_descripcion").value
@@ -180,9 +182,11 @@ export class PreguntaMatrizComponent implements OnInit {
           this.formPreguntaOpcionDosMatriz.reset();
           this.formPreguntaOpcionUnoMatriz.reset();
           this._consultarPreguntaConfigurarMatriz();
-          this._vistaPreguntaConfigurarMatriz();
+          //this._vistaPreguntaConfigurarMatriz();
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
-
+          this.mensaje(data['http']['mensaje']);
         }
       }).catch(error=>{
 
@@ -243,22 +247,25 @@ export class PreguntaMatrizComponent implements OnInit {
   }
   
   _eliminarPreguntaOpcionDos(_item){
-    debugger
+    
     this.preguntaMatrizService._eliminarPreguntaMatrizOpcionDos(_item.IdOpcionDosMatrizEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this.FilaOpcionUnoMatriz=[];
           this.ColumnsOpcionDosMatriz=[];
+          this._consultarOpcionUnoMatriz();
           this._consultarPreguntaConfigurarMatriz();
-          this._vistaPreguntaConfigurarMatriz();
+          //this._vistaPreguntaConfigurarMatriz();
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
           
         }
       }).catch(error=>{
 
       }).finally(()=>{
-        this._consultarPreguntaConfigurarMatriz();
-        this._vistaPreguntaConfigurarMatriz();
+        //this._consultarPreguntaConfigurarMatriz();
+        //this._vistaPreguntaConfigurarMatriz();
       });
   }
 
@@ -271,7 +278,9 @@ export class PreguntaMatrizComponent implements OnInit {
           this.ColumnsOpcionDosMatriz=[];
           this._consultarOpcionUnoMatriz();
           this._consultarPreguntaConfigurarMatriz();
-          this._vistaPreguntaConfigurarMatriz();
+          //this._vistaPreguntaConfigurarMatriz();
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
           this.mensaje(data['http']['mensaje']);
         }
@@ -280,7 +289,7 @@ export class PreguntaMatrizComponent implements OnInit {
       }).finally(()=>{
         this._consultarOpcionUnoMatriz();
         this._consultarPreguntaConfigurarMatriz();
-        this._vistaPreguntaConfigurarMatriz();
+        //this._vistaPreguntaConfigurarMatriz();
       });
   }
 

@@ -155,6 +155,8 @@ export class ComunidadComponent implements OnInit {
           this._listaComunidades=data['respuesta'];
           console.log(this._listaComunidades);
 
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
           console.log(data['http']);
         }
@@ -184,6 +186,8 @@ export class ComunidadComponent implements OnInit {
         this._validar=true;
         this._validarBoton();
         // this._validarFormulario();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -212,6 +216,8 @@ export class ComunidadComponent implements OnInit {
         this._consultarComunidades();
         this._consultarParroquias();
         this._limpiarForm();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -230,6 +236,8 @@ export class ComunidadComponent implements OnInit {
       if (data['http']['codigo']=='200') {
         this._consultarComunidades();
         this._consultarParroquias();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);

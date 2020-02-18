@@ -90,7 +90,10 @@ export class PreguntaSeleccionComponent implements OnInit {
     ).then(data=>{
       
       if (data['http']['codigo']=="200") {
+        this.formPreguntaTipoSeleccion.reset();
         this._consultarPreguntasSeleccion();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         this.mensaje(data['http']['mensaje']);
       }
@@ -98,6 +101,19 @@ export class PreguntaSeleccionComponent implements OnInit {
       console.log(error);
       
     }).finally(()=>{});
+  }
+  _eliminarPreguntasSeleccion(_item){
+    // this.preguntaSeleccionService
+    this.preguntaSeleccionService._eliminarOpcionPreguntaSeleccion(_item.IdOpcionPreguntaSeleccionEncriptado)
+      .then(data=>{
+        if (data['http']['codigo']=='200') {
+          this._consultarPreguntasSeleccion();
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+        }else{
+          this.mensaje(data['http']['mensaje'])
+        }
+      }).catch(error=>{}).finally(()=>{});
   }
 
 }

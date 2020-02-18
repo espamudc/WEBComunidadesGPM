@@ -339,7 +339,9 @@ export class PersonaComponent implements OnInit,AfterViewInit {
             this._consultarPersonas();
             this._refrescarTabla();
             this._refrescarForm();
-          } else {
+          } else if (data['http']['codigo']=='500') {
+            this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+          }else {
             this.mensaje(data['http']['mensaje']);
           }
         },
@@ -427,6 +429,8 @@ export class PersonaComponent implements OnInit,AfterViewInit {
           this._refrescarTabla();
           // this.table.dataSource = this._listaPersonas;
           // this.table.renderRows()
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
           this.mensaje(data['http']['mensaje'])
           console.log(data);

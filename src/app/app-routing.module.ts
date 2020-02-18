@@ -17,6 +17,7 @@ import { PanelAdministracionComponent } from './components/panel-administracion/
 import { TipoUsuarioComponent } from './components/tipo-usuario/tipo-usuario.component';
 import { CuestionarioGenericoComponent } from './components/cuestionario-generico/cuestionario-generico.component';
 import { EstructuraCuestionarioGenericoComponent } from './components/estructura-cuestionario-generico/estructura-cuestionario-generico.component';
+import { EncajonarPreguntaComponent } from "./components/encajonar-pregunta/encajonar-pregunta.component";
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -48,6 +49,10 @@ const routes: Routes = [
       },
       {
         path: 'estructura-cuestionario-generico', component: EstructuraCuestionarioGenericoComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      }, 
+      {
+        path: 'encajonar-pregunta', component: EncajonarPreguntaComponent,
         // canActivate: [ValidarUsuarioGuard]
       },
     ]

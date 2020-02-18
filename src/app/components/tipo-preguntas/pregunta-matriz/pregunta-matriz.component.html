@@ -20,7 +20,7 @@
         </form>
         <br>
         
-        <table mat-table [dataSource]="_listaOpcionUnoMatriz" class="mat-elevation-z8 gpm-table">
+        <table mat-table [dataSource]="_listaOpcionUnoMatriz" class="mat-elevation-z7 gpm-table">
             
             <!-- Weight Column -->
             <ng-container matColumnDef="descripcion">
@@ -69,7 +69,8 @@
             </button>  
         </form>
         <br>
-        <table mat-table [dataSource]="ColumnsOpcionDosMatriz" class="mat-elevation-z8 gpm-table">
+        <div class="example-container mat-elevation-z7">
+        <table  mat-table [dataSource]="ColumnsOpcionDosMatriz" >
             
             <!-- Weight Column -->
             <ng-container matColumnDef="descripcion">
@@ -97,12 +98,13 @@
             <tr mat-header-row *matHeaderRowDef="Columns"></tr>
             <tr mat-row *matRowDef="let row; columns: Columns;"></tr>
         </table>
+        </div>
     </div>
 </div>
 <br>
 <div class="row">
     <div class="col-lg-12">
-        <mat-card class="mat-elevation-z8">
+        <mat-card class="mat-elevation-z7">
             <table class="table table-bordered">
                 <thead>
                   <tr>

@@ -163,7 +163,9 @@ export class CantonComponent implements OnInit,AfterViewInit {
           this._listaCantones=data['respuesta'];
           console.log(this._listaCantones);
 
-        }else{
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+        } else{
           console.log(data['http']);
         }
       })
@@ -190,6 +192,10 @@ export class CantonComponent implements OnInit,AfterViewInit {
         this._validar=true;
         this._validarBoton();
         // this._validarFormulario();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -215,6 +221,8 @@ export class CantonComponent implements OnInit,AfterViewInit {
         this._consultarCantones();
         this._consultarProvincias();
         this._limpiarForm();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -232,6 +240,8 @@ export class CantonComponent implements OnInit,AfterViewInit {
       if (data['http']['codigo']=='200') {
         this._consultarCantones();
         this._consultarProvincias();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
         console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
@@ -327,6 +337,8 @@ export class CantonComponent implements OnInit,AfterViewInit {
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaProvincias=data['respuesta'];
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
           console.log(data['http']);
         }
