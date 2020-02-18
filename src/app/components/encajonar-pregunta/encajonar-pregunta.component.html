@@ -2,14 +2,14 @@
 <br>
 <div class="container">
     <div class="row">
-        <div class="col-lg-5 col-md-5 mr-auto ">
+        <div class="col-lg-12 col-md-12 mr-auto ">
             <form [formGroup]="formEncajonarPregunta" (ngSubmit)="_validarForm()">
-                
-                <mat-card>
+                <mat-card class="mat-elevation-z7">
                     <div class="row">
                         <div class="col-12"> <h2 style="text-align: center;">Encajonar Pregunta</h2>  </div>
                     </div>
-                    <mat-form-field class="gpm-form-field col-lg-12">
+                    
+                    <mat-form-field class="gpm-form-field col-lg-4">
                         <mat-label>Seleccione un Cuestionario</mat-label>
                         <mat-select [formControl]="formEncajonarPregunta_cmbCuestionario"
                             (selectionChange)="_onChangeCmbCuestionariosGenericos($event)">
@@ -19,7 +19,7 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field *ngIf="formEncajonarPregunta_cmbCuestionario.valid" class="gpm-form-field col-lg-12">
+                    <mat-form-field *ngIf="formEncajonarPregunta_cmbCuestionario.valid" class="gpm-form-field col-lg-4">
                         <mat-label>Seleccione un Componente</mat-label>
                         <mat-select [formControl]="formEncajonarPregunta_cmbComponente"
                             (selectionChange)="_onChangeCmbComponentesCuestionarioGenerico($event)">
@@ -29,7 +29,7 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field *ngIf="formEncajonarPregunta_cmbComponente.valid" class="gpm-form-field col-lg-12">
+                    <mat-form-field *ngIf="formEncajonarPregunta_cmbComponente.valid" class="gpm-form-field col-lg-4">
                         <mat-label>Seleccione una Sección</mat-label>
                         <mat-select [formControl]="formEncajonarPregunta_cmbSeccion"
                             (selectionChange)="_onChangeCmbSeccionComponentesCuestionarioGenerico($event)">
@@ -39,8 +39,136 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
+                    <mat-form-field *ngIf="formEncajonarPregunta_cmbSeccion.valid" class="gpm-form-field col-lg-12">
+                        <mat-label>Seleccione una Pregunta</mat-label>
+                        <mat-select [formControl]="formEncajonarPregunta_cmbPregunta"
+                            (selectionChange)="_onChangeCmbPreguntasSeccionComponenteCuestionarioGenerico($event)">
+                            <mat-option *ngFor="let item of _listaPreguntasSeccionComponenteCuestionarioGenerico"
+                                [value]="item.IdPreguntaEncriptado">
+                                {{item.Descripcion}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
                 </mat-card>
+            
             </form>
+        </div>      
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 mr-auto">
+            
+            <mat-accordion >
+                
+                <mat-expansion-panel class="mat-elevation-z7" *ngFor="let element of _listaOpcionesPreguntaSeleccion ; let i = index" hideToggle>
+                    <mat-expansion-panel-header (click)="_consultarPreguntasEncajonadas(element)">
+                        <mat-panel-title>
+                            <!-- <mat-radio-group >  -->
+                                <mat-radio-button  value="1"></mat-radio-button>
+                            <!-- </mat-radio-group>  -->
+                            {{element.Descripcion}}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    
+                    <mat-form-field  class="gpm-form-field col-lg-11">
+                        <mat-label>Seleccione una Pregunta</mat-label>
+                        <mat-select [formControl]="formEncajonarPregunta_cmbPreguntaEncajonada"
+                            >
+                            <mat-option *ngFor="let item of _listaPreguntasSeccionComponenteCuestionarioGenerico2"
+                                [value]="item.IdPreguntaEncriptado">
+                                {{item.Descripcion}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button [disabled]="formEncajonarPregunta.invalid" mat-button type="submit" (click)="_insertarPreguntaEncajonada(element)" class="btn btn-primary col-lg-1" > <i class="fa fa-plus"></i> </button>
+
+                    <table #tablaPreguntasEncajonadas  *ngIf="formEncajonarPregunta_cmbPregunta.valid" mat-table [dataSource]="_listaPreguntaEncajonadas" class="mat-elevation-z7 gpm-table">
+
+                        <ng-container matColumnDef="icono">
+                        <th mat-header-cell *matHeaderCellDef> # </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <mat-radio-group > <!--*ngIf="item.TipoPregunta.Identificador==2"-->
+                                <mat-radio-button  value="1"></mat-radio-button>
+                            </mat-radio-group> <!--  -->
+                            <!-- <mat-checkbox *ngIf="item.TipoPregunta.Identificador==3"></mat-checkbox> -->
+                    
+                        </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="descripcion">
+                            <th mat-header-cell *matHeaderCellDef> Descripción </th>
+                            <td mat-cell *matCellDef="let element"> {{element.Pregunta.Descripcion}} </td>
+                        </ng-container>
+                        <!-- Symbol Column -->
+                        <ng-container matColumnDef="acciones">  
+                        <th  mat-header-cell *matHeaderCellDef> Acciones </th>
+                            <ng-container *matCellDef="let element">
+                            
+                            <td mat-cell *ngIf="element.Utilizado==0"> <!--*ngIf="element.Utilizado==0"-->
+                                <button mat-button class="btn btn-danger" (click)="_eliminarPreguntaEncajonada(element)"> <i class="fa fa-times"></i> </button>
+                            </td>
+                            </ng-container>
+                        </ng-container>
+                        
+                    
+                        <tr mat-header-row *matHeaderRowDef="Columns2"></tr>
+                        <tr mat-row *matRowDef="let row; columns: Columns2;"></tr>
+                    </table>
+
+
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+        
+    </div>
+    <br>
+    <div class="row" >
+        <div class="col-lg-12 col-md-12 mr-auto">
+
+
+            <table hidden *ngIf="formEncajonarPregunta_cmbPregunta.valid" mat-table [dataSource]="_listaOpcionesPreguntaSeleccion" class="mat-elevation-z7 gpm-table">
+
+
+
+                <ng-container matColumnDef="descripcion">
+                <th mat-header-cell *matHeaderCellDef> # </th>
+                <td mat-cell *matCellDef="let element"> 
+                    <mat-radio-group > <!--*ngIf="item.TipoPregunta.Identificador==2"-->
+                        <mat-radio-button  value="1"></mat-radio-button>
+                    </mat-radio-group> <!--  -->
+                    <!-- <mat-checkbox *ngIf="item.TipoPregunta.Identificador==3"></mat-checkbox> -->
+            
+                </td>
+                </ng-container>
+                <ng-container matColumnDef="orden">
+                    <th mat-header-cell *matHeaderCellDef> Opcion </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Descripcion}} </td>
+                </ng-container>
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="acciones">  
+                <th  mat-header-cell *matHeaderCellDef> Acciones </th>
+                <ng-container *matCellDef="let element">
+                    
+                    <td mat-cell *ngIf="element.Utilizado==0"> <!--*ngIf="element.Utilizado==0"-->
+                        <mat-form-field  class="gpm-form-field col-lg-12">
+                            <mat-label>Seleccione una Pregunta</mat-label>
+                            <mat-select [formControl]="formEncajonarPregunta_cmbPregunta"
+                                (selectionChange)="_on($event)">
+                                <mat-option *ngFor="let item of _listaPreguntasSeccionComponenteCuestionarioGenerico2"
+                                    [value]="item.IdPreguntaEncriptado">
+                                    {{item.Descripcion}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                    </ng-container>
+                </ng-container>
+                
+            
+                <tr mat-header-row *matHeaderRowDef="Columns"></tr>
+                <tr mat-row *matRowDef="let row; columns: Columns;"></tr>
+            </table>
+
         </div>
     </div>
 </div>
