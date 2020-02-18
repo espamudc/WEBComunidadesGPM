@@ -1,5 +1,5 @@
 
-<mat-dialog-content>
+<!-- <mat-dialog-content>
     <h1 mat-dialog-title style="text-align: center;">Datos de Persona</h1>
     <div class="form-group row">
         <div class="col-sm-12">
@@ -64,7 +64,96 @@
             <input matInput [(ngModel)]="data._persona.Direccion || _vacio" type="text" class="form-control" readonly>
         </div>
     </div>
+</mat-dialog-content> -->
+<h2 mat-dialog-title style="text-align: center;">Detalle</h2>
+<mat-dialog-content>
+    
+    <form [formGroup]="formPersona">
+
+        <!-- <mat-card class="mat-elevation-z7"> -->
+            <!-- <div class="row">
+                <div class="col-12"> <h2 style="text-align: center;">Persona</h2>  </div>
+            </div> -->
+            
+            <mat-form-field class="gpm-universal-width">
+                <input matInput placeholder="Primer Nombre" [formControl]="formPersona_primerNombre" >
+            </mat-form-field>
+
+            <mat-form-field class="gpm-universal-width">
+                <input matInput placeholder="Segundo Nombre" [formControl]="formPersona_segundoNombre" >
+                
+            </mat-form-field>
+
+            <mat-form-field class="gpm-universal-width">
+                <input matInput placeholder="Primer Apellido" [formControl]="formPersona_primerApellido" >
+                
+            </mat-form-field>
+
+            <mat-form-field class="gpm-universal-width">
+                <input matInput placeholder="Segundo Apellido" [formControl]="formPersona_segundoApellido" >
+            </mat-form-field>
+
+                
+            <mat-form-field class="gpm-universal-width">
+                <input matInput placeholder="Segundo Apellido" [formControl]="formPersona_segundoApellido" >
+            </mat-form-field>
+
+            <mat-form-field class="gpm-universal-width">
+                <input matInput placeholder="Sexo" [formControl]="formPersona_cmbSexo" >
+            </mat-form-field>
+
+
+            <mat-form-field class="gpm-universal-width">
+                <input matInput placeholder="Telefono" [formControl]="formPersona_telefono" >
+                
+            </mat-form-field>
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header (click)="_consultarTipoIdentificacion()" >
+                        <mat-panel-title>Identificación</mat-panel-title>
+                    </mat-expansion-panel-header>
+                    
+                    
+                    <mat-form-field class="gpm-universal-width">
+                        <input matInput placeholder="Tipo de Identificación" [formControl]="formPersona_cmbTipoIdentificacion" >
+                    </mat-form-field>
+                    <mat-form-field class="gpm-universal-width">
+                        <input matInput placeholder="Número de Identificación" [formControl]="formPersona_numeroIdentificacion" >     
+                    </mat-form-field>
+
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header (click)="_consultarProvincias()">
+                        <mat-panel-title>Dirección</mat-panel-title>
+                    </mat-expansion-panel-header>
+                    
+
+                    <mat-form-field class="gpm-universal-width">
+                        <input matInput placeholder="Provincia" [formControl]="formPersona_cmbProvincia" >                       
+                    </mat-form-field>
+                    <mat-form-field class="gpm-universal-width">
+                        <input matInput placeholder="Cantón" [formControl]="formPersona_cmbCanton" >                       
+                    </mat-form-field>
+                    <mat-form-field class="gpm-universal-width">
+                        <input matInput placeholder="Parroquia" [formControl]="formPersona_cmbParroquia" >                       
+                    </mat-form-field>
+
+                    <mat-form-field class="gpm-universal-width">
+                        <input matInput placeholder="Dirección" [formControl]="formPersona_direccion" >                       
+                    </mat-form-field>
+                    
+
+                </mat-expansion-panel>
+            </mat-accordion>
+            <!-- <mat-accordion>
+                
+            </mat-accordion> -->
+           
+            
+        <!-- </mat-card> -->
+    </form>
 </mat-dialog-content>
+
 <mat-dialog-actions>
     <button mat-button mat-dialog-close type="button" class="btn-block btn-primary">
         Cerrar
