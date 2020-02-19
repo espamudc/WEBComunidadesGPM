@@ -89,5 +89,18 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
     });
   }
 
+  _pregunta_consultarpornoencajonadasporopcionpreguntaseleccion(_idOpcionPreguntaSeleccionEncriptado){
+    const _body = new HttpParams();
+    
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'pregunta_consultarpornoencajonadasporopcionpreguntaseleccion?_idOpcionPreguntaSeleccionEncriptado='+_idOpcionPreguntaSeleccionEncriptado,_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+
+  }
 
 }

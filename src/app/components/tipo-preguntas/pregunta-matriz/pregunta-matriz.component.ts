@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { PreguntaMatrizService } from 'src/app/services/tipo-preguntas/pregunta-matriz.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatTable } from '@angular/material';
 
 export interface OpcionUnoMatriz{
   IdOpcionUnoMatriz:number;
@@ -150,7 +150,8 @@ export class PreguntaMatrizComponent implements OnInit {
     });
   }
   
-  
+
+  // @ViewChild('tablaOpcionUno',{static:false}) tablaOpcionUno:MatTable<any>
   _listaPreguntaConfigurarMatriz:any[]=[];
   _consultarPreguntaConfigurarMatriz(){
     console.log(this.item.IdPreguntaEncriptado);
@@ -181,6 +182,7 @@ export class PreguntaMatrizComponent implements OnInit {
         if (data['http']['codigo']=='200') {
           this.formPreguntaOpcionDosMatriz.reset();
           this.formPreguntaOpcionUnoMatriz.reset();
+          this._consultarOpcionUnoMatriz();
           this._consultarPreguntaConfigurarMatriz();
           //this._vistaPreguntaConfigurarMatriz();
         }else if (data['http']['codigo']=='500') {
@@ -231,6 +233,7 @@ export class PreguntaMatrizComponent implements OnInit {
 
     console.log("unicosOpcionDos",unicosOpcionDos);
     
+    // this.tablaOpcionUno.renderRows();
 
     // let sinRepetidos = this.FilaOpcionUnoMatriz.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
     // this.FilaOpcionUnoMatriz= sinRepetidos;
