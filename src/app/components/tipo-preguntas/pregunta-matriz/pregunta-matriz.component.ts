@@ -151,7 +151,7 @@ export class PreguntaMatrizComponent implements OnInit {
   }
   
 
-  @ViewChild('tablaOpcionUno',{static:false}) tablaOpcionUno:MatTable<any>
+  // @ViewChild('tablaOpcionUno',{static:false}) tablaOpcionUno:MatTable<any>
   _listaPreguntaConfigurarMatriz:any[]=[];
   _consultarPreguntaConfigurarMatriz(){
     console.log(this.item.IdPreguntaEncriptado);
@@ -233,7 +233,7 @@ export class PreguntaMatrizComponent implements OnInit {
 
     console.log("unicosOpcionDos",unicosOpcionDos);
     
-    this.tablaOpcionUno.renderRows();
+    // this.tablaOpcionUno.renderRows();
 
     // let sinRepetidos = this.FilaOpcionUnoMatriz.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
     // this.FilaOpcionUnoMatriz= sinRepetidos;

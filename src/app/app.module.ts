@@ -58,6 +58,7 @@ import { PreguntaAbiertaComponent } from './components/tipo-preguntas/pregunta-a
 import { PreguntaSeleccionComponent } from './components/tipo-preguntas/pregunta-seleccion/pregunta-seleccion.component';
 import { PreguntaMatrizComponent } from './components/tipo-preguntas/pregunta-matriz/pregunta-matriz.component';
 import { EncajonarPreguntaComponent } from './components/encajonar-pregunta/encajonar-pregunta.component';
+import { CuestionarioGenericoDetalleComponent } from './components/cuestionario-generico-detalle/cuestionario-generico-detalle.component';
 // import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
@@ -93,6 +94,7 @@ import { EncajonarPreguntaComponent } from './components/encajonar-pregunta/enca
     PreguntaSeleccionComponent,
     PreguntaMatrizComponent,
     EncajonarPreguntaComponent,
+    CuestionarioGenericoDetalleComponent,
     // MessageBoxComponent,
   ],
   imports: [
