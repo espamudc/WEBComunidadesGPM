@@ -49,9 +49,11 @@
                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker #picker2></mat-datepicker>
             </mat-form-field>
+            
+            <button [disabled]="formPreguntaTipoAbierta.invalid || (_listaOpcionesPreguntasAbiertas.length > 0)" mat-button class="btn btn-primary col-lg-1">  
                 
-            <button [disabled]="formPreguntaTipoAbierta.invalid " mat-button class="btn btn-primary col-lg-1">  
-                <mat-icon >add</mat-icon>
+                <i class="fa fa-plus"></i>
+                <!-- <mat-icon >add</mat-icon> -->
             </button>  
         </form>
         <br>

@@ -15,7 +15,8 @@
             </mat-form-field>
             <!-- </mat-card> -->
             <button [disabled]="formPreguntaOpcionUnoMatriz.invalid || _listaPreguntaConfigurarMatriz.length !=0" mat-button class="btn btn-primary col-lg-2">  
-                <mat-icon >add</mat-icon>
+                <i class="fa fa-plus"></i>
+                <!-- <mat-icon >add</mat-icon> -->
             </button>  
         </form>
         <br>
@@ -39,7 +40,8 @@
                         class="btn btn-sm btn-outline-danger" value="{{element.IdOpcionUnoMatrizEncriptado}}"
                         (click)=_eliminarPreguntaOpcionUno(element)>
                         <!-- <i class="fa fa-trash" aria-hidden="true"></i> -->
-                        <mat-icon>clear</mat-icon>
+                        <i class="fa fa-times"></i>
+                        <!-- <mat-icon>clear</mat-icon> -->
                     </button>
                 </td>
                
@@ -65,7 +67,8 @@
             </mat-form-field>
             <!-- </mat-card> -->
             <button mat-button class="btn btn-primary col-lg-2">  
-                <mat-icon >add</mat-icon>
+                <i class="fa fa-plus"></i>
+                <!-- <mat-icon >add</mat-icon> -->
             </button>  
         </form>
         <br>

@@ -20,7 +20,7 @@
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field   class="gpm-form-field col-lg-4">
-                        <mat-label>Seleccione un Componente</mat-label>
+                        <mat-label>Componente</mat-label>
                         <mat-select [disabled]="formEncajonarPregunta_cmbCuestionario.invalid" [formControl]="formEncajonarPregunta_cmbComponente"
                             (selectionChange)="_onChangeCmbComponentesCuestionarioGenerico($event)">
                             <mat-option *ngFor="let item of _listaComponentesCuestionarioGenerico"
@@ -30,7 +30,7 @@
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field  class="gpm-form-field col-lg-4">
-                        <mat-label>Seleccione una Sección</mat-label>
+                        <mat-label>Sección</mat-label>
                         <mat-select [disabled]="formEncajonarPregunta_cmbComponente.invalid" [formControl]="formEncajonarPregunta_cmbSeccion"
                             (selectionChange)="_onChangeCmbSeccionComponentesCuestionarioGenerico($event)">
                             <mat-option *ngFor="let item of _listaSeccionesComponenteCuestionarioGenerico"
@@ -40,7 +40,7 @@
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field  class="gpm-form-field col-lg-12">
-                        <mat-label>Seleccione una Pregunta</mat-label>
+                        <mat-label>Pregunta</mat-label>
                         <mat-select [disabled]="formEncajonarPregunta_cmbSeccion.invalid" [formControl]="formEncajonarPregunta_cmbPregunta"
                             (selectionChange)="_onChangeCmbPreguntasSeccionComponenteCuestionarioGenerico($event)">
                             <mat-option value="0"> -- seleccione una Pregunta </mat-option>

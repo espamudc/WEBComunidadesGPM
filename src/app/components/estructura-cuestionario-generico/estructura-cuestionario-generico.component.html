@@ -244,18 +244,20 @@
                                 </mat-icon>
                             </button> -->
                             <button mat-button *ngIf="element.Utilizado==0">
-                                <mat-icon (click)="_eliminarSeccionComponenteCuestionarioGenerico(element)">clear
-                                </mat-icon>
+                                <button mat-button class="btn" (click)="_eliminarSeccionComponenteCuestionarioGenerico(element)"> <i class="fa fa-times"></i> </button>
+                                <!-- <mat-icon (click)="_eliminarSeccionComponenteCuestionarioGenerico(element)">clear</mat-icon> -->
                             </button>
-                            <button mat-button *ngIf="_listaSeccionesComponenteCuestionarioGenerico.length >1">
+                            <!-- <button mat-button *ngIf="_listaSeccionesComponenteCuestionarioGenerico.length >1">
+                                
                                 <mat-icon *ngIf="i > 0" (click)="_subirSeccionComponenteCuestionarioGenerico(element)">
                                     arrow_drop_up</mat-icon>
                                 <mat-icon *ngIf="(i+1) != _listaSeccionesComponenteCuestionarioGenerico.length"
                                     (click)="_bajarSeccionComponenteCuestionarioGenerico(element)">arrow_drop_down
                                 </mat-icon>
-                            </button>
-    
-    
+                            </button> -->
+                            <button nat-button *ngIf="i > 0"> <i class="fa fa-sort-up"></i> </button>
+                            <button nat-button *ngIf="(i+1) != _listaSeccionesComponenteCuestionarioGenerico.length"> <i class="fa fa-sort-down"></i> </button>
+                            
     
     
                             <!-- <mat-slide-toggle *ngIf="element.Estado==0" checked="false">Activar!</mat-slide-toggle>
@@ -304,23 +306,31 @@
                             </mat-panel-description>
                             <!-- <mat-icon>edit</mat-icon> -->
      
-                            <button mat-button *ngIf="item.Utilizado==0" tooltip="Editar" placement="top">
-                                <mat-icon (click)="_prepararPreguntaSeccionDeComponenteDeCuestionarioGenerico(item)">edit
-                                </mat-icon>
+                            <button mat-button *ngIf="item.Utilizado==0" tooltip="Editar" placement="top"
+                                (click)="_prepararPreguntaSeccionDeComponenteDeCuestionarioGenerico(item)">
+                                <i class="fa fa-edit"></i>
+                                <!-- <mat-icon (click)="_prepararPreguntaSeccionDeComponenteDeCuestionarioGenerico(item)">edit
+                                </mat-icon> -->
                             </button>
-                            <button mat-button *ngIf="item.Utilizado==0" tooltip="Eliminar" placement="top">
-                                <mat-icon (click)="_eliminarPreguntaSeccionComponenteCuestionarioGenerico(item)">clear
-                                </mat-icon>
+                            <button mat-button *ngIf="item.Utilizado==0" tooltip="Eliminar" placement="top"
+                                (click)="_eliminarPreguntaSeccionComponenteCuestionarioGenerico(item)">
+                                <i class="fa fa-times"></i>
+                                <!-- <mat-icon (click)="_eliminarPreguntaSeccionComponenteCuestionarioGenerico(item)">clear
+                                </mat-icon> -->
                             </button>
-                            <button mat-button *ngIf="i > 0" tooltip="Cambiar el orden : Subir" placement="top">
-                                <mat-icon *ngIf="i > 0" (click)="_subirPreguntaSeccionComponenteCuestionarioGenerico(item)">
+                            <button mat-button *ngIf="i > 0" tooltip="Cambiar el orden : Subir" placement="top"
+                                (click)="_subirPreguntaSeccionComponenteCuestionarioGenerico(item)">
+                                <i class="fa fa-sort-up"></i>
+                                <!-- <mat-icon *ngIf="i > 0" (click)="_subirPreguntaSeccionComponenteCuestionarioGenerico(item)">
                                     arrow_drop_up
-                                </mat-icon>
+                                </mat-icon> -->
                             </button>
-                            <button mat-button *ngIf="(i+1) != _listaPreguntasSeccionComponenteCuestionarioGenerico.length" tooltip="Cambiar el orden : Bajar" placement="top">
-                                <mat-icon *ngIf="(i+1) != _listaPreguntasSeccionComponenteCuestionarioGenerico.length"
+                            <button mat-button *ngIf="(i+1) != _listaPreguntasSeccionComponenteCuestionarioGenerico.length" tooltip="Cambiar el orden : Bajar" placement="top"
+                                (click)="_bajarPreguntaSeccionComponenteCuestionarioGenerico(item)">
+                                <i class="fa fa-sort-down"></i>
+                                <!-- <mat-icon *ngIf="(i+1) != _listaPreguntasSeccionComponenteCuestionarioGenerico.length"
                                     (click)="_bajarPreguntaSeccionComponenteCuestionarioGenerico(item)">arrow_drop_down
-                                </mat-icon>
+                                </mat-icon> -->
                             </button>
                            
                         </mat-expansion-panel-header>

@@ -129,7 +129,7 @@ export class PreguntaAbiertaComponent implements OnInit {
             console.log("item",item.TipoDato.Descripcion );
 
           });
-
+          
           // this._listaOpcionesPreguntasAbiertas.push(data['respuesta']);
           // console.log("sfasdasd",this._listaOpcionesPreguntasAbiertas);
 
