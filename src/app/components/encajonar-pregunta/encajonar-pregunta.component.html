@@ -19,9 +19,9 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field *ngIf="formEncajonarPregunta_cmbCuestionario.valid" class="gpm-form-field col-lg-4">
+                    <mat-form-field   class="gpm-form-field col-lg-4">
                         <mat-label>Seleccione un Componente</mat-label>
-                        <mat-select [formControl]="formEncajonarPregunta_cmbComponente"
+                        <mat-select [disabled]="formEncajonarPregunta_cmbCuestionario.invalid" [formControl]="formEncajonarPregunta_cmbComponente"
                             (selectionChange)="_onChangeCmbComponentesCuestionarioGenerico($event)">
                             <mat-option *ngFor="let item of _listaComponentesCuestionarioGenerico"
                                 [value]="item.IdComponenteEncriptado">
@@ -29,9 +29,9 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field *ngIf="formEncajonarPregunta_cmbComponente.valid" class="gpm-form-field col-lg-4">
+                    <mat-form-field  class="gpm-form-field col-lg-4">
                         <mat-label>Seleccione una Sección</mat-label>
-                        <mat-select [formControl]="formEncajonarPregunta_cmbSeccion"
+                        <mat-select [disabled]="formEncajonarPregunta_cmbComponente.invalid" [formControl]="formEncajonarPregunta_cmbSeccion"
                             (selectionChange)="_onChangeCmbSeccionComponentesCuestionarioGenerico($event)">
                             <mat-option *ngFor="let item of _listaSeccionesComponenteCuestionarioGenerico"
                                 [value]="item.IdSeccionEncriptado">
@@ -39,10 +39,11 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field *ngIf="formEncajonarPregunta_cmbSeccion.valid" class="gpm-form-field col-lg-12">
+                    <mat-form-field  class="gpm-form-field col-lg-12">
                         <mat-label>Seleccione una Pregunta</mat-label>
-                        <mat-select [formControl]="formEncajonarPregunta_cmbPregunta"
+                        <mat-select [disabled]="formEncajonarPregunta_cmbSeccion.invalid" [formControl]="formEncajonarPregunta_cmbPregunta"
                             (selectionChange)="_onChangeCmbPreguntasSeccionComponenteCuestionarioGenerico($event)">
+                            <mat-option value="0"> -- seleccione una Pregunta </mat-option>
                             <mat-option *ngFor="let item of _listaPreguntasSeccionComponenteCuestionarioGenerico"
                                 [value]="item.IdPreguntaEncriptado">
                                 {{item.Descripcion}}

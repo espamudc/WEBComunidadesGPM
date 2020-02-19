@@ -56,7 +56,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     this.formPreguntaSeccionComponenteCuestionarioGenerico = new FormGroup({
       _idPreguntaEncriptado : new FormControl(''),
       _cmbTipoPregunta : new FormControl('',[Validators.required]),
-      _cmbSeccion : new FormControl('',[Validators.required]),
+      _cmbSeccion : new FormControl(''),
       _obligatorio : new FormControl('',[Validators.required]),
       _descripcion : new FormControl('',[Validators.required]),
       _orden : new FormControl(''),
@@ -188,7 +188,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
   // @ViewChild('formSeccion',{static:false})                                    ElementRef_formSeccion                                   : ElementRef;
   // @ViewChild('tablaSeccionesComponentesCuestionarioGenerico',{static:false})  ElementRef_tablaSeccionesComponentesCuestionarioGenerico : ElementRef;
 
-  logica_componentes=false;
+  logica_componentes=true;
   logica_secciones= false;
   logica_preguntas= false;
   _btnAccionC="Guardar";
@@ -232,6 +232,10 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
      // this.formCuestionarioGenerico.get("_cmbCuestionarioGenerico").reset();
      this.formCuestionarioGenerico.get("_cmbComponenteCuestionarioGenerico").reset();
      this.formCuestionarioGenerico.get("_cmbSeccionComponenteCuestionarioGenerico").reset();
+    this._listaComponentesCuestionarioGenerico = null;
+    this._listaSeccionesComponenteCuestionarioGenerico = null;
+    this._listaPreguntasSeccionComponenteCuestionarioGenerico=null;
+
 
     console.log(event.value);
     this.formCuestionarioGenerico.get("_cmbComponenteCuestionarioGenerico").reset();
@@ -314,6 +318,15 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
   _insertarComponenteCuestionarioGenerico(){
 
     // var item = this._listaComponentesCuestionarioGenerico.find();
+    
+    if (this._listaComponentesCuestionarioGenerico.length==0) {
+      
+      this.formComponenteCuestionarioGenerico.get("_orden").setValue(1);
+    } else {
+      let orden = this._listaComponentesCuestionarioGenerico[this._listaComponentesCuestionarioGenerico.length-1].Orden+1;
+      this.formComponenteCuestionarioGenerico.get("_orden").setValue(orden);
+    }
+    console.log("orden:",this.formComponenteCuestionarioGenerico.get("_orden").value);
     
     this.formComponenteCuestionarioGenerico.get("_idCuestionarioGenericoEncriptado").setValue( this.formCuestionarioGenerico.get("_cmbCuestionarioGenerico").value);
 

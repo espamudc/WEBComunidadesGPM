@@ -34,15 +34,20 @@
                     </div> 
                     <div *ngIf="_btnAccion=='Modificar'" class="row">
                         <div class="col">
-                            <button  type="submit" class="btn-primary btn-block" mat-raised-button [disabled]="formCuestionarioGenerico.invalid">{{ _btnAccion }}</button>
+                            <button  type="submit" class="btn-primary btn-block" mat-raised-button [disabled]="formCuestionarioGenerico.invalid">
+                              <i class="fa fa-edit"></i>
+                            </button>
                         </div>
                         <div class="col">
                             <button  type="button" mat-raised-button
-                                class="btn-secondary btn-block" (click)="_limpiarForm()">Refrescar <i class="fa fa-refresh" aria-hidden="true"></i>
+                                class="btn-secondary btn-block" (click)="_limpiarForm()">
+                                 <i class="fa fa-refresh" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
-                    <button *ngIf="_btnAccion=='Guardar'" type="submit" class="btn-primary btn-block" mat-raised-button [disabled]="formCuestionarioGenerico.invalid">{{ _btnAccion }}</button>
+                    <button *ngIf="_btnAccion=='Guardar'" type="submit" class="btn-primary btn-block" mat-raised-button [disabled]="formCuestionarioGenerico.invalid">
+                      <i class="fa fa-plus"></i>
+                    </button>
                   </form>                  
             </mat-card>
         </div>

@@ -9,29 +9,32 @@
                 <h3 style="text-align: center;">Estructura </h3>
                 <form [formGroup]="formCuestionarioGenerico">
                     <mat-form-field class="gpm-form-field col-lg-12">
-                        <mat-label>Seleccione un Cuestionario</mat-label>
+                        <mat-label>Cuestionario</mat-label>
                         <mat-select [formControl]="_cmbCuestionarioGenerico"
                             (selectionChange)="_onChangeCmbCuestionariosGenericos($event)">
+                            <mat-option value="0"> --Seleccione una opción-- </mat-option>
                             <mat-option *ngFor="let item of _listaCuestionariosGenericos"
                                 [value]="item.CuestionarioGenerico.IdCuestionarioGenericoEncriptado">
                                 {{item.CuestionarioGenerico.Nombre}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field *ngIf="_cmbCuestionarioGenerico.valid" class="gpm-form-field col-lg-12">
-                        <mat-label>Seleccione un Componente</mat-label>
-                        <mat-select [formControl]="_cmbComponenteCuestionarioGenerico"
+                    <mat-form-field  class="gpm-form-field col-lg-12">
+                        <mat-label> Componente</mat-label>
+                        <mat-select [disabled]="_cmbCuestionarioGenerico.invalid" [formControl]="_cmbComponenteCuestionarioGenerico"
                             (selectionChange)="_onChangeCmbComponentesCuestionarioGenerico($event)">
+                            <mat-option value="0"> --Seleccione una opción-- </mat-option>
                             <mat-option *ngFor="let item of _listaComponentesCuestionarioGenerico"
                                 [value]="item.IdComponenteEncriptado">
                                 {{item.Descripcion}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field *ngIf="_cmbComponenteCuestionarioGenerico.valid" class="gpm-form-field col-lg-12">
-                        <mat-label>Seleccione una Sección</mat-label>
-                        <mat-select [formControl]="_cmbSeccionComponenteCuestionarioGenerico"
+                    <mat-form-field  class="gpm-form-field col-lg-12">
+                        <mat-label>Sección</mat-label>
+                        <mat-select [disabled]="_cmbComponenteCuestionarioGenerico.invalid" [formControl]="_cmbSeccionComponenteCuestionarioGenerico"
                             (selectionChange)="_onChangeCmbSeccionComponentesCuestionarioGenerico($event)">
+                            <mat-option value="0"> --Seleccione una opción-- </mat-option>
                             <mat-option *ngFor="let item of _listaSeccionesComponenteCuestionarioGenerico"
                                 [value]="item.IdSeccionEncriptado">
                                 {{item.Descripcion}}
@@ -50,7 +53,7 @@
                 <form [formGroup]="formComponenteCuestionarioGenerico"
                     (ngSubmit)="_validarAccionFormComponenteCuestionarioGenerico()">
 
-                    <mat-form-field class="gpm-form-field">
+                    <mat-form-field  class="gpm-form-field">
                         <input matInput placeholder="Nombre del nuevo Componente" [formControl]="_descripcion" required>
                         <mat-error
                             *ngIf="_descripcion.hasError('required') || _descripcion.invalid || (_descripcion.dirty || _descripcion.touched ) ">
@@ -63,11 +66,11 @@
                     </button> -->
 
                     <!-- <mat-card-actions> -->
-                        <button [disabled]="_cmbCuestionarioGenerico.invalid" class=" btn btn-primary btn-block" mat-button type="submit">
-                            <mat-icon *ngIf="_btnAccionC=='Guardar'" aria-hidden="false" aria-label="Example home icon">add
-                            </mat-icon>
-                            <mat-icon *ngIf="_btnAccionC=='Actualizar'" aria-hidden="false" aria-label="Example home icon">
-                                edit</mat-icon>
+                        <button [disabled]=" _descripcion.invalid || (_cmbCuestionarioGenerico.value==0)" class=" btn btn-primary btn-block" mat-button type="submit">
+                            <i *ngIf="_btnAccionC=='Guardar'" class="fa fa-plus"></i>
+                            <i *ngIf="_btnAccionC=='Actualizar'" class="fa fa-edit"></i>
+                            <!-- <mat-icon *ngIf="_btnAccionC=='Guardar'" aria-hidden="false" aria-label="Example home icon">add </mat-icon> -->
+                            <!-- <mat-icon *ngIf="_btnAccionC=='Actualizar'" aria-hidden="false" aria-label="Example home icon"> edit</mat-icon> -->
                         </button>
                     <!-- </mat-card-actions> -->
 
@@ -91,13 +94,11 @@
                         </mat-form-field>
                     </mat-card-content>
                     <mat-card-actions>
-                        <button [disabled]="_cmbComponenteCuestionarioGenerico.invalid" class="btn btn-primary btn-block" mat-button type="submit">
-                            <mat-icon *ngIf="_btnAccionS=='Guardar'" aria-hidden="false" aria-label="Example home icon">
-                                add
-                            </mat-icon>
-                            <mat-icon *ngIf="_btnAccionS=='Actualizar'" aria-hidden="false" aria-label="Example home icon">
-                                edit
-                            </mat-icon>
+                        <button [disabled]=" _cmbComponenteCuestionarioGenerico.value ==0 || _descripcionSeccion.invalid" class="btn btn-primary btn-block" mat-button type="submit">
+                            <i class="fa fa-plus" *ngIf="_btnAccionS=='Guardar'"></i>
+                            <i class="fa fa-edit" *ngIf="_btnAccionS=='Actualizar'"></i>
+                            <!-- <mat-icon *ngIf="_btnAccionS=='Guardar'" aria-hidden="false" aria-label="Example home icon"> add </mat-icon> -->
+                            <!-- <mat-icon *ngIf="_btnAccionS=='Actualizar'" aria-hidden="false" aria-label="Example home icon">  edit </mat-icon> -->
                         </button>
                     </mat-card-actions>
                     
@@ -146,22 +147,14 @@
                        
                     </mat-radio-group>
                     
-                    <!-- </div> -->
-                    <!-- <mat-form-field class="gpm-form-field col-lg-11 col-sm-10"> -->
-                  
-                    <!-- <input type="radio"  placeholder="Descripción de la Pregunta" [formControl]="_obligatorio" value="SI" required>
-                        <input type="radio"  placeholder="Descripción de la Pregunta" [formControl]="_obligatorio"  value="NO" required>
-                        <mat-error *ngIf="_obligatorio.hasError('required') || _obligatorio.invalid || (_obligatorio.dirty || _obligatorio.touched ) ">
-                        Este dato es <strong>obligatorio</strong>
-                        </mat-error> -->
-                    <!-- </mat-form-field> -->
                     <!-- <mat-card-actions> -->
-                        <button [disabled]="_cmbComponenteCuestionarioGenerico.invalid && formPreguntaSeccionComponenteCuestionarioGenerico.invalid"
+                        <button [disabled]=" (_cmbComponenteCuestionarioGenerico.value==0) || formPreguntaSeccionComponenteCuestionarioGenerico.invalid"
                             class=" btn btn-primary btn-block"  mat-button type="submit">
-                            <mat-icon *ngIf="_btnAccionP=='Guardar'" aria-hidden="false" aria-label="Example home icon">add
-                            </mat-icon>
-                            <mat-icon *ngIf="_btnAccionP=='Actualizar'" aria-hidden="false" aria-label="Example home icon">
-                                edit</mat-icon>
+                            
+                            <i class="fa fa-plus" *ngIf="_btnAccionP=='Guardar'"></i>
+                            <i class="fa fa-edit" *ngIf="_btnAccionP=='Actualizar'"></i>
+                            <!-- <mat-icon *ngIf="_btnAccionP=='Guardar'" aria-hidden="false" aria-label="Example home icon">add </mat-icon> -->
+                            <!-- <mat-icon *ngIf="_btnAccionP=='Actualizar'" aria-hidden="false" aria-label="Example home icon"> edit</mat-icon> -->
                         </button>
                     <!-- </mat-card-actions> -->
                     
@@ -192,17 +185,24 @@
     
     
     
-                            <button mat-button *ngIf="element.Utilizado==0">
-                                <mat-icon (click)="_prepararComponenteCuestionarioGenerico(element)">edit</mat-icon>
+                            <button mat-button *ngIf="element.Utilizado==0" (click)="_prepararComponenteCuestionarioGenerico(element)">
+                                <i class="fa fa-edit"> </i>
+                                <!-- <mat-icon (click)="_prepararComponenteCuestionarioGenerico(element)">edit</mat-icon> -->
                             </button>
-                            <button mat-button *ngIf="element.Utilizado==0">
-                                <mat-icon (click)="_eliminarComponenteCuestionarioGenerico(element)">clear</mat-icon>
+                            <button mat-button *ngIf="element.Utilizado==0" (click)="_eliminarComponenteCuestionarioGenerico(element)">
+                                <i class="fa fa-times"> </i>
+                                <!-- <mat-icon (click)="_eliminarComponenteCuestionarioGenerico(element)">clear</mat-icon> -->
                             </button>
-                            <button mat-button *ngIf="_listaComponentesCuestionarioGenerico.length >1">
-                                <mat-icon *ngIf="i > 0" (click)="_subirComponenteCuestionarioGenerico(element)">
-                                    arrow_drop_up</mat-icon>
-                                <mat-icon *ngIf="(i+1) != _listaComponentesCuestionarioGenerico.length"
-                                    (click)="_bajarComponenteCuestionarioGenerico(element)">arrow_drop_down</mat-icon>
+                            <button mat-button *ngIf="(i+1) != _listaComponentesCuestionarioGenerico.length">
+                                
+                                <i class="fa fa-sort-down" *ngIf="(i+1) != _listaComponentesCuestionarioGenerico.length"></i>
+                                <!-- <mat-icon *ngIf="i > 0" (click)="_subirComponenteCuestionarioGenerico(element)"> 
+                                    arrow_drop_up</mat-icon>-->
+                                <!-- <mat-icon *ngIf="(i+1) != _listaComponentesCuestionarioGenerico.length"
+                                    (click)="_bajarComponenteCuestionarioGenerico(element)">arrow_drop_down</mat-icon> -->
+                            </button>
+                            <button mat-button  *ngIf="i > 0"> 
+                                <i class="fa fa-sort-up"   *ngIf="i > 0"  (click)="_subirComponenteCuestionarioGenerico(element)"></i>
                             </button>
     
     
