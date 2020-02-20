@@ -382,7 +382,7 @@ export class EncajonarPreguntaComponent implements OnInit {
     
     this.preguntaService._pregunta_consultarpornoencajonadasporopcionpreguntaseleccion(_idOpcionPreguntaSeleccionEncriptado)
       .then(data=>{
-        if (data['http']['200']=='200') {
+        if (data['http']['codigo']=='200') {
           
           console.log(" combopregunta2 --->",data['respuesta']);
           
@@ -392,7 +392,8 @@ export class EncajonarPreguntaComponent implements OnInit {
            
         }
       }).catch(error=>{
-
+        console.log(error);
+        
       }).finally(()=>{
 
       });
