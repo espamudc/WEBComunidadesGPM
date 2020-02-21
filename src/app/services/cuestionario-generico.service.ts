@@ -87,6 +87,19 @@ export class CuestionarioGenericoService {
     });
   }
 
-  
+  _cuestionariogenerico_consultarporidconcomponenteconseccionconpregunta(IdCuestionarioGenericoEncriptado)
+  {
+    
+    const _body = new HttpParams()
+     ;
+     return new Promise((resolve, reject) => {
+      this.http.post(url+'cuestionariogenerico_consultarporidconcomponenteconseccionconpreguntas?_idCuestionarioGenericoEncriptado='+IdCuestionarioGenericoEncriptado,_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
 
 }

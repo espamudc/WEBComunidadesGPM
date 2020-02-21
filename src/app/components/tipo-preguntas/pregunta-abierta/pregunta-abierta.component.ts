@@ -11,6 +11,7 @@ import { PreguntaAbiertaService } from 'src/app/services/tipo-preguntas/pregunta
 export class PreguntaAbiertaComponent implements OnInit {
 
   @Input() item : any={};
+  @Input() oculto : any=0;
 
   constructor(private snackBarComponent: MatSnackBar,
     private preguntaAbiertaService : PreguntaAbiertaService) {

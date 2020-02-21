@@ -18,6 +18,7 @@ import { TipoUsuarioComponent } from './components/tipo-usuario/tipo-usuario.com
 import { CuestionarioGenericoComponent } from './components/cuestionario-generico/cuestionario-generico.component';
 import { EstructuraCuestionarioGenericoComponent } from './components/estructura-cuestionario-generico/estructura-cuestionario-generico.component';
 import { EncajonarPreguntaComponent } from "./components/encajonar-pregunta/encajonar-pregunta.component";
+import { CuestionarioGenericoDetalleComponent } from './components/cuestionario-generico-detalle/cuestionario-generico-detalle.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -53,6 +54,10 @@ const routes: Routes = [
       }, 
       {
         path: 'encajonar-pregunta', component: EncajonarPreguntaComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+      {
+        path: 'cuestionario-generico-detalle', component: CuestionarioGenericoDetalleComponent,
         // canActivate: [ValidarUsuarioGuard]
       },
     ]
