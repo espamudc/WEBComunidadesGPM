@@ -46,16 +46,11 @@ export class UsuarioComponent implements OnInit {
     private personaService: PersonaService,
     private snackBarComponent:MatSnackBar
   ) {
-    this.myForm = new FormGroup({
-      _numeroIdentificacion : new FormControl('', [Validators.required]),
-      _nombres : new FormControl('', [Validators.required]),
-      _apellidos : new FormControl('', [Validators.required]),
-      _valorUsuario: new FormControl('', [Validators.required]),
-      _contrasena: new FormControl('', [Validators.required])
-    });
+
 
     this.formUsuario = new FormGroup({
       _idUsuarioEncriptado : new FormControl(''),
+      _idPersonaEncriptado : new FormControl(''),
       _numeroIdentificacion : new FormControl('', [Validators.required]),
       _nombres : new FormControl('', [Validators.required]),
       _apellidos : new FormControl('', [Validators.required]),
@@ -70,6 +65,9 @@ export class UsuarioComponent implements OnInit {
 
   get formUsuario_idUsuarioEncriptado(){
     return this.formUsuario.get('_idUsuarioEncriptado');
+  }
+  get formUsuario_idPersonaEncriptado(){
+    return this.formUsuario.get('_idPersonaEncriptado');
   }
   get formUsuario_numeroIdentificacion(){
     return this.formUsuario.get('_numeroIdentificacion');
@@ -86,6 +84,7 @@ export class UsuarioComponent implements OnInit {
   get formUsuario_clave (){
     return this.formUsuario.get('_clave');
   }
+  
   
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
 
@@ -108,13 +107,67 @@ export class UsuarioComponent implements OnInit {
     let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
   }
 
-  get _valorUsuario() {
-    return this.myForm.get('_valorUsuario');
+  validarForm(){
+    if (this._refrescar==true) {
+      this._modificarUsuario2();
+    } else {
+      this._insertarUsuario2();
+    }
+  }
+  _refrescarForm2(){
+    this.formUsuario.reset();
+    this._refrescar=false;
   }
 
-  get _contrasena() {
-    return this.myForm.get('_contrasena');
+  _insertarUsuario2(){
+    
+    this.usuarioService._insertarUsuario(
+      this.formUsuario_idPersonaEncriptado.value,
+      this.formUsuario_usuario.value,
+      this.formUsuario_clave.value
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+          this._consultarUsuarios();
+          this.formUsuario.reset();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+      }else{
+        console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
+
+      }
+    }).catch(error=>{
+      console.log(error);
+    });
   }
+
+  _modificarUsuario2(){
+    
+    this.usuarioService._modificarUsuario(
+      this.formUsuario_idUsuarioEncriptado.value,
+      this.formUsuario_idPersonaEncriptado.value,
+      this.formUsuario_usuario.value,
+      this.formUsuario_clave.value
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+          this._consultarUsuarios();
+          this._refrescarForm2();
+        
+          
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+      }else{
+        console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
+
+      }
+    }).catch(error=>{
+      this.mensaje("Verifique si faltan por completar")
+      console.log(error);
+    });
+  }
+
+  ///---------------------------------------------------------------------------
 
   botonInsertar = 'insertar';
   cedula = '';
@@ -145,11 +198,7 @@ export class UsuarioComponent implements OnInit {
     }
   }
 
-  onChangeInputUsuario() {
-   
-    this._validarCompletos();
-  }
-
+ 
 
 
 
@@ -164,6 +213,7 @@ export class UsuarioComponent implements OnInit {
   //--------------------------------------------------------------------------------------------
   _listaUsuarios:any[]=[];
   @ViewChild(MatTable,{static:false}) MATtableUsuarios: MatTable<any>;
+
 
   _consultarUsuarios(){
     this.usuarioService._cosultarUsuarios()
@@ -180,88 +230,21 @@ export class UsuarioComponent implements OnInit {
       });
   }
 
-  _IdPersonaEncriptado:string="0";
-  _insertarUsuario(){
-    console.log(this._IdPersonaEncriptado);
-    
-    this.usuarioService._insertarUsuario(
-      this._IdPersonaEncriptado,
-      this.myForm.get('_valorUsuario').value,
-      this.myForm.get('_contrasena').value
-    ).then(data=>{
-      if (data['http']['codigo']=='200') {
-          this._consultarUsuarios();
-          this._refrescarForm();
-      }else if (data['http']['codigo']=='500') {
-        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
-      }else{
-        console.log(data['http']);
-        this.mensaje(data['http']['mensaje']);
-
-      }
-    }).catch(error=>{
-      console.log(error);
-    });
-  }
-
-  _IdUsuarioEncriptado:string="0";
   _prepararUsuario(_usuario:any){
-    console.log(_usuario);
-    
-    this.testInput.nativeElement.disabled = false;
-    this.nuevoUsuario = 'Modificar Usuario';
+ 
 
-    this._IdUsuarioEncriptado = _usuario.IdUsuarioEncriptado;
-    // debugger
-    this._IdPersonaEncriptado = _usuario.Persona.IdPersonaEncriptado;
-    this.myForm.get('_valorUsuario').setValue(_usuario.Correo);
-    // this.myForm.get('_contrasena').setValue(_usuario.ClaveEncriptada) ;
-    this.cedula = _usuario.Persona.NumeroIdentificacion;
-    this.nombres = _usuario.Persona.PrimerNombre +" "+_usuario.Persona.SegundoNombre;
-    this.apellidos = _usuario.Persona.PrimerApellido +" "+_usuario.Persona.SegundoApellido;
-    this._refrescar = true;
-    this._validar=false;
-    this.testButton.nativeElement.value = "modificar";
+    this.formUsuario_idUsuarioEncriptado.setValue( _usuario.IdUsuarioEncriptado);
+    this.formUsuario_idPersonaEncriptado.setValue(_usuario.Persona.IdPersonaEncriptado);
+    this.formUsuario_nombres.setValue( _usuario.Persona.PrimerNombre +" "+_usuario.Persona.SegundoNombre );
+    this.formUsuario_apellidos.setValue( _usuario.Persona.PrimerApellido +" "+_usuario.Persona.SegundoApellido );
+    this.formUsuario_numeroIdentificacion.setValue( _usuario.Persona.NumeroIdentificacion);
+    this.formUsuario_usuario.setValue( _usuario.Correo);
+    this._refrescar=true;
 
   }
-  _modificarUsuario(){
 
-
-    console.log(this._IdPersonaEncriptado);
-    
-    this.usuarioService._modificarUsuario(
-      this._IdUsuarioEncriptado,
-      this._IdPersonaEncriptado,
-      this.myForm.get('_valorUsuario').value,
-      this.myForm.get('_contrasena').value
-    ).then(data=>{
-      if (data['http']['codigo']=='200') {
-          this._consultarUsuarios();
-          this._refrescarForm();
-          console.log(data);
-          
-      }else if (data['http']['codigo']=='500') {
-        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
-      }else{
-        console.log(data['http']);
-        this.mensaje(data['http']['mensaje']);
-
-      }
-    }).catch(error=>{
-      this.mensaje("Verifique si faltan por completar")
-      console.log(error);
-    });
-  }
   _refrescar:boolean=false;
-  _refrescarForm(){
-    this.myForm.reset();
-    this.cedula="Numero de Identificación"
-    this.nombres="Nombres";
-    this.apellidos="Apellidos";
-    this._refrescar = false;
-    this.nuevoUsuario = 'Nuevo Usuario';
-    this.testButton.nativeElement.value="insertar";
-  }
+  
 
   _eliminarUsuario(_item){
     console.log(_item.IdUsuarioEncriptado);
@@ -271,8 +254,8 @@ export class UsuarioComponent implements OnInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
           this._consultarUsuarios();
-          this._refrescarForm();
-          console.log(data);
+          this._refrescarForm2();
+         
           
           var obj= this._listaUsuarios.find(dato=>dato._IdUsuarioEncriptado===_item.IdUsuarioEncriptado);
           var indexOf = this._listaUsuarios.indexOf(obj);
@@ -312,43 +295,20 @@ export class UsuarioComponent implements OnInit {
       if (result) {
         this._persona = result;
         console.log(this._persona);
-        this._IdPersonaEncriptado = result.IdPersonaEncriptado;
-        this.nombres    = result.PrimerNombre+' '+result.SegundoNombre;
-        this.apellidos  = result.PrimerApellido+' '+result.SegundoApellido;
-        this.cedula     = result.NumeroIdentificacion;
+        this.formUsuario_idPersonaEncriptado.setValue(result.IdPersonaEncriptado); 
+        this.formUsuario_nombres.setValue( result.PrimerNombre+' '+result.SegundoNombre);
+        this.formUsuario_apellidos.setValue(result.PrimerApellido+' '+result.SegundoApellido);
+        this.formUsuario_numeroIdentificacion.setValue(result.NumeroIdentificacion);
+
+       
       }
     },error=>{},()=>{
-      this._validarCompletos();
+      
     }); 
   }
 
-  _validacionFormulario() {
-    console.log(this.testButton.nativeElement.value);
-    if (this.myForm.valid) {
-      if (this.testButton.nativeElement.value == "insertar") {
-        this._insertarUsuario();
-      } else if (this.testButton.nativeElement.value == "modificar") {
-        this._modificarUsuario();
-        this.testButton.nativeElement.value = "insertar";
-      }
-    }else{
-      this.mensaje("Verifique si los datos están completos.")
-    }
-  }
 
-  _validar=true;
-  _validarCompletos(){
-    
-    if (
-      this.nombres     !=""     && 
-      this.apellidos   !=""     &&
-      this.cedula      !=""     
-    ) {
-      this._validar=false;
-    }else{
-      this._validar=true;
-    }
-  }
+
 
 
 }

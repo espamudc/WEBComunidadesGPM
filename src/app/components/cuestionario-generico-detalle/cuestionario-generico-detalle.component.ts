@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CuestionarioGenericoService } from 'src/app/services/cuestionario-generico.service';
 import { ComponenteCuestionarioGenericoService } from 'src/app/services/componente-cuestionario-generico.service';
 import { SeccionComponenteCuestionarioGenericoService } from 'src/app/services/seccion-componente-cuestionario-generico.service';
@@ -38,7 +38,13 @@ export class CuestionarioGenericoDetalleComponent implements OnInit {
     private preguntaEncajonarService:PreguntaEncajonarService,
   ) {
     this.formCuestionarioGenericoDetalle = new FormGroup({
-      _cmbCuestinario : new FormControl('')
+      _cmbCuestinario : new FormControl('',[Validators.required]),
+      _idCabeceraVersionCuestionario : new FormControl(''),
+      _idAsignarResponsable : new FormControl(''),
+      _caracteristica : new FormControl(''),
+      _version : new FormControl(''),
+      _fechaCreacion : new FormControl(''),
+      _estado : new FormControl('')
     });
   }
 
@@ -49,6 +55,9 @@ export class CuestionarioGenericoDetalleComponent implements OnInit {
   formCuestionarioGenericoDetalle : FormGroup;
   get formCuestionarioGenericoDetalle_cmbCuestinario(){
     return this.formCuestionarioGenericoDetalle.get("_cmbCuestinario");
+  }
+  get formCuestionarioGenericoDetalle_caracteristica(){
+    return this.formCuestionarioGenericoDetalle.get("_caracteristica");
   }
 
   _listaCuestionariosGenericos:any[]=[];
@@ -88,6 +97,7 @@ export class CuestionarioGenericoDetalleComponent implements OnInit {
           // 
           this._listaCuestionariosGenericos=[];
           this._listaCuestionariosGenericos = data['respuesta'];
+          console.log("mis cuestionarios",this._listaCuestionariosGenericos);
           
           // data['respuesta'].map(item=>{
           //   console.log(item.CuestionarioGenerico);
@@ -245,7 +255,7 @@ export class CuestionarioGenericoDetalleComponent implements OnInit {
 
   _cargarCuestionarioGenerico:any={};
   _cuestionariogenerico_consultarporidconcomponenteconseccionconpregunta(_IdCuestionarioGenericoEncriptado){
-    
+    this._cargarCuestionarioGenerico = {};
     this.cuestionarioGenericoService._cuestionariogenerico_consultarporidconcomponenteconseccionconpregunta(_IdCuestionarioGenericoEncriptado)
       .then(data=>{
         
