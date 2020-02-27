@@ -134,13 +134,13 @@
                     </mat-accordion> -->
                    
                     <br>
-                    <button *ngIf="_btnAccion==='Guardar'" mat-button class="btn btn-primary btn-block"> <i class="fa fa-plus"></i> </button>
+                    <button [disabled]="formPersona.invalid" *ngIf="_btnAccion==='Guardar'" mat-button class="btn btn-primary btn-block"> <i class="fa fa-plus"></i> </button>
                     <div class="row" *ngIf="_btnAccion==='Modificar'">
                         <div class="col-6">
-                            <button mat-button class="btn btn-primary btn-block"> <i class="fa fa-edit"></i> </button>
+                            <button [disabled]="formPersona.invalid" mat-button class="btn btn-primary btn-block"> <i class="fa fa-edit"></i> </button>
                         </div>
                         <div class="col-6">
-                            <button (click)="_refrescarForm()" type="button" mat-button class="btn btn-light btn-block"> <i class="fa fa-refresh"></i> </button>
+                            <button  (click)="_refrescarForm()" type="button" mat-button class="btn btn-light btn-block"> <i class="fa fa-refresh"></i> </button>
                         </div>
                     </div>
 

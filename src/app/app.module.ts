@@ -60,6 +60,8 @@ import { PreguntaMatrizComponent } from './components/tipo-preguntas/pregunta-ma
 import { EncajonarPreguntaComponent } from './components/encajonar-pregunta/encajonar-pregunta.component';
 import { CuestionarioGenericoDetalleComponent } from './components/cuestionario-generico-detalle/cuestionario-generico-detalle.component';
 import { CuestionarioGenericoVersionesComponent } from './components/cuestionario-generico-versiones/cuestionario-generico-versiones.component';
+import { CuestionarioGenericoPublicarComponent } from './components/cuestionario-generico-publicar/cuestionario-generico-publicar.component';
+import { ModalCuestionarioGenericoVersionDetalleComponent } from './components/modal-cuestionario-generico-version-detalle/modal-cuestionario-generico-version-detalle.component';
 // import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
@@ -97,6 +99,8 @@ import { CuestionarioGenericoVersionesComponent } from './components/cuestionari
     EncajonarPreguntaComponent,
     CuestionarioGenericoDetalleComponent,
     CuestionarioGenericoVersionesComponent,
+    CuestionarioGenericoPublicarComponent,
+    ModalCuestionarioGenericoVersionDetalleComponent,
     // MessageBoxComponent,
   ],
   imports: [
@@ -138,7 +142,7 @@ import { CuestionarioGenericoVersionesComponent } from './components/cuestionari
     ModalLugarRepresentanteComponent, //
     ModalAsignarTipoUsuarioModuloPrivilegioComponent,
     ModalAsignarResponsableCuestionarioGenericoComponent,
-    
+    ModalCuestionarioGenericoVersionDetalleComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

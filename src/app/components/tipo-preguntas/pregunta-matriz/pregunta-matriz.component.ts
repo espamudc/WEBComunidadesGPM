@@ -233,18 +233,6 @@ export class PreguntaMatrizComponent implements OnInit {
 
     console.log("unicosOpcionDos",unicosOpcionDos);
     
-    // this.tablaOpcionUno.renderRows();
-
-    // let sinRepetidos = this.FilaOpcionUnoMatriz.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
-    // this.FilaOpcionUnoMatriz= sinRepetidos;
-    
-    // let unicos = new Set(this.FilaOpcionUnoMatriz.);
-    // console.log("unicos",unicos);
-    
-    // console.log("FilasOpcionUnoMatriz",this.FilaOpcionUnoMatriz);
-    // this._listaPreguntaConfigurarMatriz.map((element,index)=>{
-    //   this.ColumnsOpcionDosMatriz.push(element.OpcionDosMatriz.Descripcion);
-    // });
 
     
   }

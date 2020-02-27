@@ -1,13 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Inject, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CuestionarioGenericoService } from 'src/app/services/cuestionario-generico.service';
 import { ComponenteCuestionarioGenericoService } from 'src/app/services/componente-cuestionario-generico.service';
 import { SeccionComponenteCuestionarioGenericoService } from 'src/app/services/seccion-componente-cuestionario-generico.service';
 import { PreguntaSeccionComponenteCuestionarioGenericoService } from 'src/app/services/pregunta-seccion-componente-cuestionario-generico.service';
 import { PreguntaAbiertaService } from 'src/app/services/tipo-preguntas/pregunta-abierta.service';
-import { MatTable } from '@angular/material';
+import { MatTable, MatSnackBar, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { PreguntaSeleccionService } from 'src/app/services/tipo-preguntas/pregunta-seleccion.service';
 import { PreguntaEncajonarService } from 'src/app/services/pregunta-encajonar.service';
+import { PreguntaMatrizService } from 'src/app/services/tipo-preguntas/pregunta-matriz.service';
+import { CabeceraVersionCuestionarioService } from 'src/app/services/cabecera-version-cuestionario.service';
 
 export interface Seccion{
   _preguntas ?: any[];
@@ -25,7 +27,7 @@ export interface CuestionarioGenerico{
   templateUrl: './cuestionario-generico-detalle.component.html',
   styleUrls: ['./cuestionario-generico-detalle.component.css']
 })
-export class CuestionarioGenericoDetalleComponent implements OnInit {
+export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewInit {
 
   constructor(
     private cuestionarioGenericoService :CuestionarioGenericoService,
@@ -36,28 +38,61 @@ export class CuestionarioGenericoDetalleComponent implements OnInit {
     private preguntaAbiertaService : PreguntaAbiertaService,
     private preguntaSeleccionService:PreguntaSeleccionService,
     private preguntaEncajonarService:PreguntaEncajonarService,
+    private preguntaMatrizService:PreguntaMatrizService,
+
+    private cabeceraVersionCuestionarioService:CabeceraVersionCuestionarioService,
+
+    private snackBarComponent:MatSnackBar,
+
+   
   ) {
+    
+
+
+
     this.formCuestionarioGenericoDetalle = new FormGroup({
       _cmbCuestinario : new FormControl('',[Validators.required]),
       _idCabeceraVersionCuestionario : new FormControl(''),
-      _idAsignarResponsable : new FormControl(''),
+      _idAsignarResponsableEncriptado : new FormControl('',[Validators.required]),
       _caracteristica : new FormControl(''),
-      _version : new FormControl(''),
+      _version : new FormControl('',[Validators.min(1)]),
       _fechaCreacion : new FormControl(''),
       _estado : new FormControl('')
     });
+    
   }
+
+
 
   ngOnInit() {
     this._cargarMisCuestionariosGenericos();
+    //console.log("modaldata",this.ModalData);
+    
+  }
+  
+  ngAfterViewInit(){
+    // try {
+    //   console.log("modaldata",this.ModalData);
+      
+      
+    //   this.verform = false;
+    // } catch (ex) {
+    //   //this.verform = true;
+    // }
   }
 
-  formCuestionarioGenericoDetalle : FormGroup;
+   formCuestionarioGenericoDetalle : FormGroup;
   get formCuestionarioGenericoDetalle_cmbCuestinario(){
     return this.formCuestionarioGenericoDetalle.get("_cmbCuestinario");
   }
   get formCuestionarioGenericoDetalle_caracteristica(){
     return this.formCuestionarioGenericoDetalle.get("_caracteristica");
+  }
+  get formCuestionarioGenericoDetalle_version(){
+    return this.formCuestionarioGenericoDetalle.get("_version");
+  }
+  get formCuestionarioGenericoDetalle_idAsignarResponsableEncriptado(){
+    return this.formCuestionarioGenericoDetalle.get("_idAsignarResponsableEncriptado");
   }
 
   _listaCuestionariosGenericos:any[]=[];
@@ -72,8 +107,28 @@ export class CuestionarioGenericoDetalleComponent implements OnInit {
   _listaOpcionesPreguntaSeleccion:any[]=[];
   _listaPreguntaEncajonadas:any[]=[];
 
- 
+  mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
 
+    
+    if (_duracion==null) {
+       _duracion=3000;
+    }
+    if (_opcion==1) {
+      _mensaje="Datos ingresados correctamente";
+    }
+    if (_opcion==2) {
+      _mensaje="Datos modificados correctamente";
+    }
+    if (_opcion==3) {
+      _mensaje="Datos eliminados correctamente";
+    }
+    if (_color==null) {
+      _color ="gpm-danger";
+    }
+    let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
+  }
+
+  // @Input() ModalData ={};
   @ViewChild('tablaOpcionesPreguntaAbierta',{static:false}) tablaOpcionesPreguntaAbierta : MatTable<any>;
   @ViewChild('tablaPreguntasEncajonadas',{static:false}) tablaPreguntasEncajonadas : MatTable<any>;
 
@@ -81,7 +136,18 @@ export class CuestionarioGenericoDetalleComponent implements OnInit {
 
   _onChangeCmbCuestionariosGenericos(event){
     // this._consultarComponentesDeCuestionario(event.value);
+    if (event.value==0) {
+      
+    } else {
+      const obj=  this._listaCuestionariosGenericos.find(data=>data.CuestionarioGenerico.IdCuestionarioGenericoEncriptado===event.value);
+      const index = this._listaCuestionariosGenericos.indexOf(obj);
+
+      this.formCuestionarioGenericoDetalle_idAsignarResponsableEncriptado.setValue(obj.IdAsignarResponsableEncriptado); 
+      console.log("idAsignarResponsable:",this.formCuestionarioGenericoDetalle_idAsignarResponsableEncriptado.value);
+    
+    }
     this._cuestionariogenerico_consultarporidconcomponenteconseccionconpregunta(event.value);
+    
   }
 
   _cargarMisCuestionariosGenericos(){
@@ -189,6 +255,7 @@ export class CuestionarioGenericoDetalleComponent implements OnInit {
       this._consultarOpcionesPreguntaSeleccion(_pregunta.IdPreguntaEncriptado);
     }else if (_pregunta.TipoPregunta.Identificador==4) {
       
+      this._consultaOpcionesPreguntaConfigurarMatriz(_pregunta.IdPreguntaEncriptado);
     }
   }
 
@@ -253,6 +320,65 @@ export class CuestionarioGenericoDetalleComponent implements OnInit {
       });
   }
 
+  _listaPreguntaConfigurarMatriz:any[]=[];
+  _consultaOpcionesPreguntaConfigurarMatriz(_IdPreguntaEncriptado){
+    console.log(_IdPreguntaEncriptado);
+    
+    this.preguntaMatrizService._consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado)
+      .then(data=>{
+        if (data['http']['codigo']=='200') {
+          console.log("matriz-->",data['respuesta']);
+          this._listaPreguntaConfigurarMatriz=data['respuesta'];
+          this._vistaPreguntaConfigurarMatriz();
+        } else {
+          
+        }
+      }).catch(error=>{
+
+      }).finally(()=>{
+        this._vistaPreguntaConfigurarMatriz();
+      });
+  }
+
+  FilaOpcionUnoMatriz: any[] = [];
+  ColumnsOpcionDosMatriz: any[] = [];
+  _vistaPreguntaConfigurarMatriz(){
+    this._listaPreguntaConfigurarMatriz.map((element,index)=>{
+      this.FilaOpcionUnoMatriz.push(element.OpcionUnoMatriz);
+    });
+    let unicosOpcionUno = [ ];
+    
+    this.FilaOpcionUnoMatriz.map((element,index)=>{
+      let x= unicosOpcionUno.find(data=>data.IdOpcionUnoMatrizEncriptado===element.IdOpcionUnoMatrizEncriptado);
+      if (unicosOpcionUno.indexOf( x ) == -1){
+        unicosOpcionUno.push(element);
+      }
+    });
+
+    this.FilaOpcionUnoMatriz = unicosOpcionUno;
+    //------------------------------------------------------------------------------------
+    this._listaPreguntaConfigurarMatriz.map((element,index)=>{
+      this.ColumnsOpcionDosMatriz.push(element.OpcionDosMatriz);
+    });
+
+    let unicosOpcionDos = [ ];
+
+    this.ColumnsOpcionDosMatriz.map((element,index)=>{
+      let x= unicosOpcionDos.find(data=>data.IdOpcionDosMatrizEncriptado===element.IdOpcionDosMatrizEncriptado);
+      if (unicosOpcionDos.indexOf( x ) == -1){
+        unicosOpcionDos.push(element);
+      }
+    });
+    
+
+    this.ColumnsOpcionDosMatriz = unicosOpcionDos;
+
+    console.log("unicosOpcionDos",unicosOpcionDos);
+    
+
+    
+  }
+
   _cargarCuestionarioGenerico:any={};
   _cuestionariogenerico_consultarporidconcomponenteconseccionconpregunta(_IdCuestionarioGenericoEncriptado){
     this._cargarCuestionarioGenerico = {};
@@ -271,6 +397,29 @@ export class CuestionarioGenericoDetalleComponent implements OnInit {
       }).finally(()=>{
 
       });
+  }
+
+  _insertarCabeceraVersionCuestionario(){
+    this.cabeceraVersionCuestionarioService._insertarCabeceraVersionCuestionario(
+      this.formCuestionarioGenericoDetalle_idAsignarResponsableEncriptado.value,
+      this.formCuestionarioGenericoDetalle_caracteristica.value,
+      this.formCuestionarioGenericoDetalle_version.value
+    ).then(data=>{
+      if (data['http']['codigo']=="500") {
+        this.mensaje(data['http']['mensaje']);
+      } else if(data['http']['codigo']=="200") {
+        this.mensaje("Cuestionario versionado correctamente");
+      }else{
+        this.mensaje(data['http']['mensaje'],3000,0,'primary');
+      }
+    }).catch(error=>{
+
+    }).finally(()=>{})
+  }
+
+  _validarForm(){
+    
+    this._insertarCabeceraVersionCuestionario();
   }
 
 }

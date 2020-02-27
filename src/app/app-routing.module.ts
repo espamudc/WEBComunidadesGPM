@@ -19,6 +19,8 @@ import { CuestionarioGenericoComponent } from './components/cuestionario-generic
 import { EstructuraCuestionarioGenericoComponent } from './components/estructura-cuestionario-generico/estructura-cuestionario-generico.component';
 import { EncajonarPreguntaComponent } from "./components/encajonar-pregunta/encajonar-pregunta.component";
 import { CuestionarioGenericoDetalleComponent } from './components/cuestionario-generico-detalle/cuestionario-generico-detalle.component';
+import { CuestionarioGenericoPublicarComponent } from './components/cuestionario-generico-publicar/cuestionario-generico-publicar.component';
+import { CuestionarioGenericoVersionesComponent } from './components/cuestionario-generico-versiones/cuestionario-generico-versiones.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -58,6 +60,14 @@ const routes: Routes = [
       },
       {
         path: 'cuestionario-generico-detalle', component: CuestionarioGenericoDetalleComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+      {
+        path: 'cuestionario-generico-versiones', component: CuestionarioGenericoVersionesComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+      {
+        path: 'cuestionario-generico-publicar', component: CuestionarioGenericoPublicarComponent,
         // canActivate: [ValidarUsuarioGuard]
       },
     ]
