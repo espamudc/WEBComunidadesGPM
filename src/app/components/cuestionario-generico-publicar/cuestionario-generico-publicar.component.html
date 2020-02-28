@@ -1,19 +1,23 @@
 <!-- <p>cuestionario-generico-publicar works!</p> -->
 <br>
-<div class="container" >
+<div class="container">
     <div class="row">
-        <div class="col-lg-12 col-md-12 mr-auto ">
+        <div class="col-lg-5 col-md-5 mr-auto">
             <form [formGroup]="formCuestionarioGenericoPublicar">
-                <mat-card>
+                <mat-card class="mat-elevation-z7">
                     <div class="row">
-                        <div class="col-12"> <h2 style="text-align: center;">Publicar Cuestionario Genérico</h2>  </div>
+                        <div class="col-12"> <h2 style="text-align: center;">Publicar Cuestionario Versionado</h2>  </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-4">
+                    <mat-accordion>
+
+                        <!-- <mat-expansion-panel expanded>
+                            <mat-expansion-panel-header (click)="_onExpandPanelUbicacion()" >
+                                <mat-panel-title>UBICACIÓN</mat-panel-title>
+                            </mat-expansion-panel-header>
                             <mat-form-field class="gpm-universal-width ">
                                 <mat-label>Provincia</mat-label>
                                 <mat-select [formControl]="formCuestionarioGenericoPublicar_cmbProvincia"
-                                (selectionChange)="_cantonesDeUnaProvincia($event.value)"> <!--(selectionChange)=""-->
+                                (selectionChange)="_cantonesDeUnaProvincia($event.value)"> 
                                     <mat-option *ngFor="let item of _listaProvincias"
                                         [value]="item.IdProvinciaEncriptado">
                                         {{item.NombreProvincia}}
@@ -23,7 +27,7 @@
                             <mat-form-field class="gpm-universal-width ">
                                 <mat-label>Cantón</mat-label>
                                 <mat-select [formControl]="formCuestionarioGenericoPublicar_cmbCanton"
-                                    (selectionChange)="_parroquiasDeUnCanton($event.value)"> <!--(selectionChange)=""-->
+                                    (selectionChange)="_parroquiasDeUnCanton($event.value)"> 
                                     <mat-option *ngFor="let item of _listaCantones"
                                         [value]="item.IdCantonEncriptado">
                                         {{item.NombreCanton}}
@@ -33,7 +37,7 @@
                             <mat-form-field class="gpm-universal-width ">
                                 <mat-label>Parroquia</mat-label>
                                 <mat-select [formControl]="formCuestionarioGenericoPublicar_cmbParroquia"
-                                    (selectionChange)="_comunidadesDeUnaParroquia($event.value)"> <!--(selectionChange)=""-->
+                                    (selectionChange)="_comunidadesDeUnaParroquia($event.value)">
                                     <mat-option *ngFor="let item of _listaParroquias"
                                         [value]="item.IdParroquiaEncriptado">
                                         {{item.NombreParroquia}}
@@ -43,15 +47,20 @@
                             <mat-form-field class="gpm-universal-width ">
                                 <mat-label>Comunidad</mat-label>
                                 <mat-select [formControl]="formCuestionarioGenericoPublicar_cmbComunidad"
-                                    > <!--(selectionChange)=""-->
+                                    > 
                                     <mat-option *ngFor="let item of _listaComunidades"
                                         [value]="item.IdComunidadEncriptado">
                                         {{item.NombreComunidad}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </div>
-                        <div class="col-lg-4">
+                        </mat-expansion-panel> -->
+
+                        <mat-expansion-panel expanded>
+                            <mat-expansion-panel-header (click)="_onExpandPanelCuestionario()" >
+                                <mat-panel-title>CUESTIONARIO</mat-panel-title>
+                            </mat-expansion-panel-header>
+
                             <mat-form-field class="gpm-form-field ">
                                 <mat-label>Cuestionario</mat-label>
                                 <mat-select [formControl]="formCuestionarioGenericoPublicar_cmbCuestionario"
@@ -66,80 +75,286 @@
                             <mat-form-field class="gpm-form-field ">
                                 <mat-label>Versiones</mat-label>
                                 <mat-select [formControl]="formCuestionarioGenericoPublicar_cmbCabeceraVersionCuestionario"
-                                    (selectionChange)="_onChangeCmbCuestionariosGenericos($event)">
+                                    > <!--(selectionChange)="_onChangeCmbCuestionariosGenericos($event)"-->
                                     <mat-option value="0"> -- seleccione una opción --</mat-option>
-                                    <mat-option *ngFor="let item of _listaCuestionariosGenericos"
-                                        [value]="item.CuestionarioGenerico.IdCuestionarioGenericoEncriptado">
-                                        {{item.CuestionarioGenerico.Nombre}}
+                                    <mat-option *ngFor="let item of _listaVersionesCuestionario"
+                                        [value]="item.IdCabeceraVersionCuestionarioEncriptado">
+                                        {{item.FechaCreacion}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
-                            <mat-form-field class="gpm-form-field ">
-                                <mat-label>Técnico</mat-label>
-                                <mat-select [formControl]="formCuestionarioGenericoPublicar_cmbTecnico"
-                                    (selectionChange)="_onChangeCmbCuestionariosGenericos($event)">
-                                    <mat-option value="0"> -- seleccione una opción --</mat-option>
-                                    <mat-option *ngFor="let item of _listaCuestionariosGenericos"
-                                        [value]="item.CuestionarioGenerico.IdCuestionarioGenericoEncriptado">
-                                        {{item.CuestionarioGenerico.Nombre}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-4">
-                            <mat-form-field class="gpm-form-field ">
-                                <mat-label>Fecha de Inicio</mat-label>
-                                <input matInput type="date" [formControl]="formCuestionarioGenericoPublicar_fechaInicio">
-                            </mat-form-field>
-                            <mat-form-field class="gpm-form-field ">
-                                <mat-label>Fecha de Fin</mat-label>
-                                <input matInput type="date" [formControl]="formCuestionarioGenericoPublicar_fechaFin">
-                            </mat-form-field>
-                        </div>
 
-                    </div>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header (click)="_onExpandPanelPeriodo()" >
+                                <mat-panel-title>PERIODO</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            
+                            <mat-form-field class="gpm-form-field ">
+                                <mat-label>Periodo</mat-label>
+                                <mat-select [formControl]="formCuestionarioGenericoPublicar_cmbPeriodo"
+                                    > <!--(selectionChange)="_onChangeCmbCuestionariosGenericos($event)"-->
+                                    <mat-option value="0"> -- seleccione una opción --</mat-option>
+                                    <mat-option *ngFor="let item of _listaPeriodos"
+                                        [value]="item.IdPeriodoEncriptado">
+                                        {{item.Descripcion}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </mat-expansion-panel>
+
+                    </mat-accordion>
+                    <br>
+                    <button mat-button class="btn btn-primary btn-block">
+                        <i class="fa fa-plus"></i>
+                        <!-- <i class="fa fa-edit"></i> -->
+                    </button>
                 </mat-card>
             </form>
         </div>
-    </div>
-    <br>
+        <div class="col-lg-7 col-md-7">
+            <div style="height: 100% !important;" class="mat-elevation-z7">
+                <br>
+                <div class="col-12">
+                    <mat-form-field class="gpm-input">
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+                    </mat-form-field>
+                </div>
+                
 
-    <!-- <div class="row" *ngIf="_listaVersionesCuestionario.length>0">
-
-        <div class="col-lg-12">
-            
-            
-
-            <table #tablaOpcionesPreguntaAbierta mat-table [dataSource]="_listaVersionesCuestionario" class="mat-elevation-z7 gpm-table">
-
-              
-                <ng-container matColumnDef="caracteristica">
-                    <th mat-header-cell *matHeaderCellDef> Caracteristica </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Caracteristica}} </td>
-                </ng-container>
-                <ng-container matColumnDef="version">
-                    <th mat-header-cell *matHeaderCellDef> Version </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Version}} </td>
-                </ng-container>
-                <ng-container matColumnDef="fecha_creacion">
-                    <th mat-header-cell *matHeaderCellDef> Fecha de  Creacion </th>
-                    <td mat-cell *matCellDef="let element"> {{element.FechaCreacion}} </td>
-                </ng-container>
-                <ng-container matColumnDef="acciones">
-                    <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                    <td mat-cell *matCellDef="let element">  
-                        <div class="row" >
-                            <button class="btn btn-info" mat-button> <i class="fa fa-edit"></i> </button>
-                            <button *ngIf="element.Utilizado==0" class="btn btn-danger" mat-button> <i class="fa fa-remove"></i> </button>
-                        </div>
-                    </td>
-                </ng-container>
-               
-                <tr mat-header-row *matHeaderRowDef="Columns"></tr>
-                <tr mat-row *matRowDef="let row; columns: Columns;"></tr>
-            </table>
-
-            
+                <table mat-table [dataSource]="_listaCuestionariosPublicados">
+                    <ng-container matColumnDef="periodo">
+                        <th mat-header-cell *matHeaderCellDef> PERIODO </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.Periodo.Descripcion }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="fecha_publicacion">
+                        <th mat-header-cell *matHeaderCellDef> FECHA DE PUBLICACIÓN </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.FechaPublicacion | date: 'yyyy-MM-dd' }} 
+                            </td>
+                    </ng-container>
+                    <ng-container matColumnDef="cuestionario">
+                        <th mat-header-cell *matHeaderCellDef> CUESTIONARIO </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.CabeceraVersionCuestionario.AsignarResponsable.CuestionarioGenerico.Nombre }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="cuestionario_version">
+                        <th mat-header-cell *matHeaderCellDef> VERSIÓN </th>
+                        <td mat-cell *matCellDef="let element"> {{element.CabeceraVersionCuestionario.Version}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="acciones">
+                        <th colspan="1" mat-header-cell *matHeaderCellDef> ACCIONES </th>
+                        <ng-container *matCellDef="let element">
+                            <ng-container >
+                                <!-- <td mat-cell>
+                                    <button tooltip="Ver Información" placement="top"
+                                        class="btn btn-sm btn-outline-primary separacion-botones"
+                                        value="{{element.IdPersonaEncriptado}}"
+                                        (click)="_verPersona(element)">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </button>
+                                </td> -->
+                                <!-- <td mat-cell>
+                                    <button tooltip="Modificar" placement="top"
+                                        class="btn btn-sm btn-outline-info separacion-botones"
+                                        value="{{element.IdPersonaEncriptado}}"
+                                        (click)="_prepararPersona(element)">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    </button>
+                                </td> -->
+                                <td mat-cell>
+                                    <button tooltip="Eliminar" placement="top" *ngIf="element.Utilizado==0"
+                                        class="btn btn-sm btn-outline-danger separacion-botones"
+                                        value="{{element.IdPersonaEncriptado}}" (click)="_eliminarPersona(element)">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="Columns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: Columns;"></tr>
+                </table>
+            </div>
         </div>
-    </div>    -->
+    </div>
+</div>
+<br>
+<div class="container">
+    <mat-accordion>
+        <mat-expansion-panel class="mat-elevation-z7">
+            <mat-expansion-panel-header (click)="_onExpandPanelCuestionario()" >
+                <mat-panel-title>ASIGNAR ENCUESTADO</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row">
+                <div class="col-lg-5 col-md-5 mr-auto">
+                    <form [formGroup]="formAsignarEncuestado">
+                        <mat-card class="mat-elevation-z7">
+                            <div class="row">
+                                <div class="col-12"> <h2 style="text-align: center;">Asignar Encuestado</h2>  </div>
+                            </div>
+                            <mat-accordion>
+        
+                                <mat-expansion-panel expanded>
+                                    <mat-expansion-panel-header (click)="_onExpandPanelUbicacion()" >
+                                        <mat-panel-title>UBICACIÓN</mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <mat-form-field class="gpm-universal-width ">
+                                        <mat-label>Provincia</mat-label>
+                                        <mat-select [formControl]="formAsignarEncuestado_cmbProvincia"
+                                        (selectionChange)="_cantonesDeUnaProvincia($event.value)"> 
+                                            <mat-option *ngFor="let item of _listaProvincias"
+                                                [value]="item.IdProvinciaEncriptado">
+                                                {{item.NombreProvincia}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field class="gpm-universal-width ">
+                                        <mat-label>Cantón</mat-label>
+                                        <mat-select [formControl]="formAsignarEncuestado_cmbCanton"
+                                            (selectionChange)="_parroquiasDeUnCanton($event.value)"> 
+                                            <mat-option *ngFor="let item of _listaCantones"
+                                                [value]="item.IdCantonEncriptado">
+                                                {{item.NombreCanton}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field class="gpm-universal-width ">
+                                        <mat-label>Parroquia</mat-label>
+                                        <mat-select [formControl]="formAsignarEncuestado_cmbParroquia"
+                                            (selectionChange)="_comunidadesDeUnaParroquia($event.value)">
+                                            <mat-option *ngFor="let item of _listaParroquias"
+                                                [value]="item.IdParroquiaEncriptado">
+                                                {{item.NombreParroquia}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field class="gpm-universal-width ">
+                                        <mat-label>Comunidad</mat-label>
+                                        <mat-select [formControl]="formAsignarEncuestado_cmbComunidad"
+                                            > 
+                                            <mat-option *ngFor="let item of _listaComunidades"
+                                                [value]="item.IdComunidadEncriptado">
+                                                {{item.NombreComunidad}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </mat-expansion-panel>
+        
+                                <mat-expansion-panel >
+                                    <mat-expansion-panel-header (click)="_onExpandPanelCuestionario()" >
+                                        <mat-panel-title>CUESTIONARIO</mat-panel-title>
+                                    </mat-expansion-panel-header>
+        
+                                    <mat-form-field class="gpm-form-field ">
+                                        <input  matInput type="text" placeholder="Cuestionario">
+                                    </mat-form-field>
+                                    <mat-form-field class="gpm-form-field ">
+                                        <input  matInput type="text" placeholder="Version">
+                                    </mat-form-field>
+                                    <mat-form-field class="gpm-form-field ">
+                                        <mat-label>Técnico</mat-label>
+                                        <mat-select [formControl]="formAsignarEncuestado_cmbTecnico"
+                                            (selectionChange)="_onChangeCmbCuestionariosGenericos($event)">
+                                            <mat-option value="0"> -- seleccione una opción --</mat-option>
+                                            <mat-option *ngFor="let item of _listaTecnicos"
+                                                [value]="item.IdAsignarUsuarioTipoUsuarioEncriptado">
+                                                {{item.Usuario.Persona.PrimerNombre}} {{item.Usuario.Persona.PrimerApellido}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+        
+                                </mat-expansion-panel>
+        
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header  >
+                                        <mat-panel-title>FECHA</mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    
+                                    <mat-form-field class="gpm-form-field ">
+                                        <mat-label>Fecha de Inicio</mat-label>
+                                        <input [formControl]="formAsignarEncuestado_fechaInicio" matInput type="date">
+                                    </mat-form-field>
+                                    <mat-form-field class="gpm-form-field ">
+                                        <mat-label>Fecha de Fin</mat-label>
+                                        <input [formControl]="formAsignarEncuestado_fechaFin" matInput type="date">
+                                    </mat-form-field>
+                                </mat-expansion-panel>
+        
+                            </mat-accordion>
+                            <br>
+                            <button mat-button class="btn btn-primary btn-block">
+                                <i class="fa fa-plus"></i>
+                                <!-- <i class="fa fa-edit"></i> -->
+                            </button>
+                        </mat-card>
+                    </form>
+                </div>
+                <div class="col-lg-7 col-md-7">
+                    <div style="height: 100% !important;" class="mat-elevation-z7">
+                        <br>
+                        <div class="col-12">
+                            <mat-form-field class="gpm-input">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+                            </mat-form-field>
+                        </div>
+                        
+        
+                        <table mat-table [dataSource]="_listaCuestionariosPublicados">
+                            <ng-container matColumnDef="periodo">
+                                <th mat-header-cell *matHeaderCellDef> PERIODO </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.Periodo.Descripcion }} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="fecha_publicacion">
+                                <th mat-header-cell *matHeaderCellDef> FECHA DE PUBLICACIÓN </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.FechaPublicacion | date: 'yyyy-MM-dd' }} 
+                                    </td>
+                            </ng-container>
+                            <ng-container matColumnDef="cuestionario">
+                                <th mat-header-cell *matHeaderCellDef> CUESTIONARIO </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.CabeceraVersionCuestionario.AsignarResponsable.CuestionarioGenerico.Nombre }} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="cuestionario_version">
+                                <th mat-header-cell *matHeaderCellDef> VERSIÓN </th>
+                                <td mat-cell *matCellDef="let element"> {{element.CabeceraVersionCuestionario.Version}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="acciones">
+                                <th colspan="1" mat-header-cell *matHeaderCellDef> ACCIONES </th>
+                                <ng-container *matCellDef="let element">
+                                    <ng-container >
+                                        <!-- <td mat-cell>
+                                            <button tooltip="Ver Información" placement="top"
+                                                class="btn btn-sm btn-outline-primary separacion-botones"
+                                                value="{{element.IdPersonaEncriptado}}"
+                                                (click)="_verPersona(element)">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </td> -->
+                                        <!-- <td mat-cell>
+                                            <button tooltip="Modificar" placement="top"
+                                                class="btn btn-sm btn-outline-info separacion-botones"
+                                                value="{{element.IdPersonaEncriptado}}"
+                                                (click)="_prepararPersona(element)">
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            </button>
+                                        </td> -->
+                                        <td mat-cell>
+                                            <button tooltip="Eliminar" placement="top" *ngIf="element.Utilizado==0"
+                                                class="btn btn-sm btn-outline-danger separacion-botones"
+                                                value="{{element.IdPersonaEncriptado}}" (click)="_eliminarPersona(element)">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="Columns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: Columns;"></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+    
 </div>

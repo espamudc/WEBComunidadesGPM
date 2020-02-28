@@ -1,52 +1,39 @@
-
 <br>
 <div class="container">
-    
     <div class="row">
         <div class="col-lg-5 col-md-5 mr-auto">
-            <mat-card>
-                <div class="row">
-                    <div class="col-12"> <h2 style="text-align: center;">Provincia</h2>  </div>
-                </div>
-                <form #frmProvincia="ngForm" (ngSubmit)="_validarFormulario()" >
-                        
-
-                    <div class="form-group"> 
-                        <input  required [(ngModel)]="_codigoProvincia" [ngModelOptions]="{standalone: true}" name="_codigoProvincia" type="text" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Código de la Provincia">
-                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                    </div> 
-                    <div class="form-group"> 
-                        <input required [(ngModel)]="_nombreProvincia" [ngModelOptions]="{standalone: true}" name="_nombreProvincia" type="text" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Nombre">
-                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                    </div> 
-                    <div class="form-group"> 
-                        <input [(ngModel)]="_descripcionProvincia" [ngModelOptions]="{standalone: true}" name="_descripcionProvincia" type="text"  class="form-control"  aria-describedby="emailHelp" placeholder="Descripción"> <!-- (keyup)="_validarCompletos($event)"-->
-                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                    </div> 
-                       
-                    <div class="form-group">
-                        <button type="submit" [disabled]="_validar" *ngIf="_btnAccion==='Guardar'"
-                            class="form-control btn-success" >{{_btnAccion}}
-                        </button>
+            <form > 
+                <mat-card class="mat-elevation-z7">
+                    <div class="row">
+                        <div class="col-12"> <h2 style="text-align: center;">Provincia</h2>  </div>
                     </div>
-                    <div class="form-group" *ngIf="_btnAccion==='Modificar'">
-                        <div class="row">
-                            <div class="col-6">
-                                <button  type="submit" [disabled]="_validar" 
-                                    class="form-control btn-success" >{{_btnAccion}}
-                                </button>
-                            </div>
-                            <div class="col-6">
-                                <button  type="button" 
-                                    class="form-control btn-secondary" (click)="_limpiarForm()">Refrescar <i class="fa fa-refresh" aria-hidden="true"></i>
-                                </button>
-                            </div>    
-                            
-                        </div>
-                    </div>
-                </form>
-            </mat-card>
-           
+                    <mat-form-field class="gpm-universal-width ">
+                        <!-- <mat-label>Provincia</mat-label> -->
+                        <input matInput type="text" placeholder="Código de la Provincia" [formControl]="formProvincia_codigo" required>
+                        <mat-error *ngIf="formProvincia_codigo.hasError('required') || formProvincia_codigo.invalid || (formProvincia_codigo.dirty || formProvincia_codigo.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="gpm-universal-width ">
+                        <!-- <mat-label>Provincia</mat-label> -->
+                        <input matInput type="text" placeholder="Nombre" [formControl]="formProvincia_nombre" required>
+                        <mat-error *ngIf="formProvincia_nombre.hasError('required') || formProvincia_nombre.invalid || (formProvincia_nombre.dirty || formProvincia_nombre.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="gpm-universal-width ">
+                        <!-- <mat-label>Provincia</mat-label> -->
+                        <input matInput type="text" placeholder="Descripción" [formControl]="formProvincia_descripcion" required>
+                        <mat-error *ngIf="formProvincia_descripcion.hasError('required') || formProvincia_descripcion.invalid || (formProvincia_descripcion.dirty || formProvincia_descripcion.touched ) ">
+                            Este dato es <strong>obligatorio</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    <button mat-button class="btn btn-primary btn-block"> 
+                        <i *ngIf="_btnAccion==='Guardar'" class="fa fa-plus"></i> 
+                        <i *ngIf="_btnAccion==='Modificar'" class="fa fa-edit"></i> 
+                    </button>
+                </mat-card>
+            </form>
         </div>
         <div class="col-lg-7 col-md-7">
 
@@ -102,5 +89,57 @@
             </div>
 
         </div>
+    </div>
+</div>
+<br>
+<div hidden class="container">
+    
+    <div class="row" >
+        <div class="col-lg-5 col-md-5 mr-auto">
+            <mat-card>
+                <div class="row">
+                    <div class="col-12"> <h2 style="text-align: center;">Provincia</h2>  </div>
+                </div>
+                <form #frmProvincia="ngForm" (ngSubmit)="_validarFormulario()" >
+                        
+
+                    <div class="form-group"> 
+                        <input  required [(ngModel)]="_codigoProvincia" [ngModelOptions]="{standalone: true}" name="_codigoProvincia" type="text" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Código de la Provincia">
+                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                    </div> 
+                    <div class="form-group"> 
+                        <input required [(ngModel)]="_nombreProvincia" [ngModelOptions]="{standalone: true}" name="_nombreProvincia" type="text" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Nombre">
+                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                    </div> 
+                    <div class="form-group"> 
+                        <input [(ngModel)]="_descripcionProvincia" [ngModelOptions]="{standalone: true}" name="_descripcionProvincia" type="text"  class="form-control"  aria-describedby="emailHelp" placeholder="Descripción"> <!-- (keyup)="_validarCompletos($event)"-->
+                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                    </div> 
+                       
+                    <div class="form-group">
+                        <button type="submit" [disabled]="_validar" *ngIf="_btnAccion==='Guardar'"
+                            class="form-control btn-success" >{{_btnAccion}}
+                        </button>
+                    </div>
+                    <div class="form-group" *ngIf="_btnAccion==='Modificar'">
+                        <div class="row">
+                            <div class="col-6">
+                                <button  type="submit" [disabled]="_validar" 
+                                    class="form-control btn-success" >{{_btnAccion}}
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button  type="button" 
+                                    class="form-control btn-secondary" (click)="_limpiarForm()">Refrescar <i class="fa fa-refresh" aria-hidden="true"></i>
+                                </button>
+                            </div>    
+                            
+                        </div>
+                    </div>
+                </form>
+            </mat-card>
+           
+        </div>
+
     </div>
 </div>

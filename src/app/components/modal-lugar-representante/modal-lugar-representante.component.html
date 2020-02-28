@@ -79,28 +79,28 @@
                                         <button tooltip="Eliminar" placement="top" *ngIf="element.EstadoPrefecto!=0"
                                             class="btn btn-sm btn-outline-danger" value="{{element.IdPrefectoEncriptado}}"
                                             (click)=_eliminarRepresentante(element)>
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            <i class="fa fa-remove" aria-hidden="true"></i>
                                         </button>
                                     </td>
                                     <td mat-cell *ngIf="data.lugar_tipo=='canton'">
                                         <button tooltip="Eliminar" placement="top" *ngIf="element.EstadoPrefecto!=0"
                                             class="btn btn-sm btn-outline-danger" value="{{element.IdAlcaldeEncriptado}}"
                                             (click)=_eliminarRepresentante(element)>
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            <i class="fa fa-remove" aria-hidden="true"></i>
                                         </button>
                                     </td>
                                     <td mat-cell *ngIf="data.lugar_tipo=='parroquia'">
                                         <button tooltip="Eliminar" placement="top" *ngIf="element.EstadoPrefecto!=0"
                                             class="btn btn-sm btn-outline-danger" value="{{element.IdPresidenteJuntaParroquialEncriptado}}"
                                             (click)=_eliminarRepresentante(element)>
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            <i class="fa fa-remove" aria-hidden="true"></i>
                                         </button>
                                     </td>
                                     <td mat-cell *ngIf="data.lugar_tipo=='comunidad'">
                                         <button tooltip="Eliminar" placement="top" *ngIf="element.EstadoPrefecto!=0"
                                             class="btn btn-sm btn-outline-danger" value="{{element.IdLiderComunitarioEncriptado}}"
                                             (click)=_eliminarRepresentante(element)>
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            <i class="fa fa-remove" aria-hidden="true"></i>
                                         </button>
                                     </td>
                                     <!--<button [mat-dialog-close]="_persona" class="btn btn-sm btn-outline-warning separacion-botones"

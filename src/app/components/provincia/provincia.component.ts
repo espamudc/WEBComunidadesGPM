@@ -24,15 +24,36 @@ export class ProvinciaComponent implements OnInit {
     private modalLugarRepresentante:MatDialog,
     private snackBarComponent:MatSnackBar
   ) {
-    // this.myForm = new FormGroup({
-    //   _provincia: new FormControl('', [Validators.required])
-    // })
+    this.formProvincia = new FormGroup({
+      _idProvinciaEncriptado  : new FormControl(''),
+      _codigo                 : new FormControl('',[Validators.required]),
+      _nombre                 : new FormControl('',[Validators.required]),
+      _descripcion            : new FormControl('',[Validators.required]),
+    });
   }
 
   ngOnInit() {
     
    this._consultarProvincias();
   }
+
+  //-----------------------------------------------------------------------------------------
+  formProvincia : FormGroup;
+
+  get formProvincia_idProvinciaEncriptado(){
+    return this.formProvincia.get("_idProvinciaEncriptado");
+  }
+  get formProvincia_codigo(){
+    return this.formProvincia.get("_codigo");
+  }
+  get formProvincia_nombre(){
+    return this.formProvincia.get("_nombre");
+  }
+  get formProvincia_descripcion(){
+    return this.formProvincia.get("_descripcion");
+  }
+  //-----------------------------------------------------------------------------------------
+  
 
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
 
