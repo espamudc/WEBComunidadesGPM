@@ -10,52 +10,6 @@
                     </div>
                     <mat-accordion>
 
-                        <!-- <mat-expansion-panel expanded>
-                            <mat-expansion-panel-header (click)="_onExpandPanelUbicacion()" >
-                                <mat-panel-title>UBICACIÓN</mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <mat-form-field class="gpm-universal-width ">
-                                <mat-label>Provincia</mat-label>
-                                <mat-select [formControl]="formCuestionarioGenericoPublicar_cmbProvincia"
-                                (selectionChange)="_cantonesDeUnaProvincia($event.value)"> 
-                                    <mat-option *ngFor="let item of _listaProvincias"
-                                        [value]="item.IdProvinciaEncriptado">
-                                        {{item.NombreProvincia}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <mat-form-field class="gpm-universal-width ">
-                                <mat-label>Cantón</mat-label>
-                                <mat-select [formControl]="formCuestionarioGenericoPublicar_cmbCanton"
-                                    (selectionChange)="_parroquiasDeUnCanton($event.value)"> 
-                                    <mat-option *ngFor="let item of _listaCantones"
-                                        [value]="item.IdCantonEncriptado">
-                                        {{item.NombreCanton}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <mat-form-field class="gpm-universal-width ">
-                                <mat-label>Parroquia</mat-label>
-                                <mat-select [formControl]="formCuestionarioGenericoPublicar_cmbParroquia"
-                                    (selectionChange)="_comunidadesDeUnaParroquia($event.value)">
-                                    <mat-option *ngFor="let item of _listaParroquias"
-                                        [value]="item.IdParroquiaEncriptado">
-                                        {{item.NombreParroquia}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <mat-form-field class="gpm-universal-width ">
-                                <mat-label>Comunidad</mat-label>
-                                <mat-select [formControl]="formCuestionarioGenericoPublicar_cmbComunidad"
-                                    > 
-                                    <mat-option *ngFor="let item of _listaComunidades"
-                                        [value]="item.IdComunidadEncriptado">
-                                        {{item.NombreComunidad}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </mat-expansion-panel> -->
-
                         <mat-expansion-panel expanded>
                             <mat-expansion-panel-header (click)="_onExpandPanelCuestionario()" >
                                 <mat-panel-title>CUESTIONARIO</mat-panel-title>
@@ -172,7 +126,7 @@
                             </ng-container>
                         </ng-container>
                     </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="Columns; sticky: true"></tr>
+                    <tr mat-header-row *matHeaderRowDef="Columns; "></tr>
                     <tr mat-row *matRowDef="let row; columns: Columns;"></tr>
                 </table>
             </div>

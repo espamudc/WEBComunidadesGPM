@@ -83,16 +83,16 @@
             <div class="tablaUsuarios mat-elevation-z5 gpm-universal-heigth">
                 <table mat-table [dataSource]="_listaUsuarios">
                     <ng-container matColumnDef="usuario">
-                        <th mat-header-cell *matHeaderCellDef> Usuario </th>
+                        <th mat-header-cell *matHeaderCellDef> USUARIO </th>
                         <td mat-cell *matCellDef="let element"> {{element.Correo}} </td>
                     </ng-container>
                     <ng-container matColumnDef="nombres">
-                        <th mat-header-cell *matHeaderCellDef> Nombres </th>
+                        <th mat-header-cell *matHeaderCellDef> NOMBRES </th>
                         <td mat-cell *matCellDef="let element"> {{ element.Persona.PrimerNombre }} {{ element.Persona.SegundoNombre }} {{ element.Persona.PrimerApellido }}
                             {{ element.Persona.SegundoApellido }} </td>
                     </ng-container>
                     <ng-container matColumnDef="acciones">
-                        <th colspan="2" mat-header-cell *matHeaderCellDef> Acciones </th>
+                        <th colspan="3" mat-header-cell *matHeaderCellDef> ACCIONES </th>
                         <ng-container *matCellDef="let element">
                             <ng-container *ngIf="element.Estado">
                                 <td mat-cell>
@@ -119,7 +119,7 @@
                             </ng-container>
                         </ng-container>
                     </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="tablaUsuarios; sticky: true"></tr>
+                    <tr mat-header-row *matHeaderRowDef="tablaUsuarios; "></tr> <!--sticky: true-->
                     <tr mat-row *matRowDef="let row; columns: tablaUsuarios;"></tr>
                 </table>
             </div>

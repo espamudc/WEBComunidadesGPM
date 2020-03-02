@@ -31,9 +31,43 @@ export class CantonComponent implements OnInit,AfterViewInit {
     private modalLugarRepresentante:MatDialog,
     private snackBarComponent:MatSnackBar
   ) {
-
+    this.formCanton = new FormGroup({
+      _idCantonEncriptado : new FormControl(''),
+      _idProvinciaEncriptado : new FormControl('',[Validators.required]),
+      _provincia : new FormControl('',[Validators.required]),
+      _nombre : new FormControl('',[Validators.required]),
+      _codigo : new FormControl('',[Validators.required]),
+      _descripcion : new FormControl('')
+    });
+    
   }
 
+  //---------------------------------------------------------------
+  formCanton:FormGroup;
+  get formCanton_idCantonEncriptado(){
+    return this.formCanton.get("_idCantonEncriptado");
+  }
+  get formCanton_idProvinciaEncriptado(){
+    return this.formCanton.get("_idProvinciaEncriptado");
+  }
+  get formCanton_provincia(){
+    return this.formCanton.get("_provincia");
+  }
+  get formCanton_nombre(){
+    return this.formCanton.get("_nombre");
+  }
+  get formCanton_codigo(){
+    return this.formCanton.get("_codigo");
+  }
+  get formCanton_descripcion(){
+    return this.formCanton.get("_descripcion");
+  }
+  //---------------------------------------------------------------
+  _validarForm(){
+    console.log("submit");
+    
+  }
+  //------------------------------------------------------
 
   ngOnInit() {
     //this.provinciaComponent._listaProvincias
@@ -72,6 +106,8 @@ export class CantonComponent implements OnInit,AfterViewInit {
 
 
   _idProvinciaEncriptado=""; _nombreProvincia=""; _listaProvincias:any[]=[]; // la provincia que se escoje
+
+  //--------------------------------------------------------------------------------
 
   _validar=true;
   _idCantonEncriptado="";

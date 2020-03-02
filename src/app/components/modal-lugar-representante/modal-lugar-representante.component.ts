@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatTable, MatSnackBar } from '@angular/material';
 import { LugaresService } from 'src/app/services/lugares.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-modal-lugar-representante',
@@ -13,7 +14,38 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
     @Inject(MAT_DIALOG_DATA) public data:any,
     private lugaresService:LugaresService,
     private snackBarComponent:MatSnackBar
-  ) { }
+  ) { 
+    this.formLugarRepresentante = new FormGroup({
+      _tipoLugar : new FormControl(''),
+      _idLugarEcriptado : new FormControl('',[Validators.required]),
+      _nombreLugar : new FormControl('',[Validators.required]),
+      _representante : new FormControl('',[Validators.required]),
+      _fechaIngreso : new FormControl('',[Validators.required]),
+      _fechaSalida : new FormControl('',[Validators.required]),
+    });
+  }
+
+  //------------------------------------------------------------------------------------------
+  formLugarRepresentante:FormGroup;
+  get formLugarRepresentante_tipoLugar(){
+    return this.formLugarRepresentante.get("_tipoLugar");
+  }
+  get formLugarRepresentante_idLugarEcriptado(){
+    return this.formLugarRepresentante.get("_idLugarEcriptado");
+  }
+  get formLugarRepresentante_nombreLugar(){
+    return this.formLugarRepresentante.get("_nombreLugar");
+  }
+  get formLugarRepresentante_representante(){
+    return this.formLugarRepresentante.get("_representante");
+  }
+  get formLugarRepresentante_fechaIngreso(){
+    return this.formLugarRepresentante.get("_fechaIngreso");
+  }
+  get formLugarRepresentante_fechaSalida(){
+    return this.formLugarRepresentante.get("_fechaSalida");
+  }
+  //------------------------------------------------------------------------------------------
 
   ngOnInit() {
     this._cargartabla();
@@ -152,26 +184,33 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
   _cargartabla(){
     console.log(this.data);
     if (this.data.lugar_tipo=="provincia") {
+      //==========================================================
+      this.formLugarRepresentante_tipoLugar.setValue("Provincia");
+      //==========================================================
       this._titulo_representante="PREFECTO";
       this._nombreLugar=this.data.lugar_data.NombreProvincia;
       this._idLugarEcriptado = this.data.lugar_data.IdProvinciaEncriptado;
       this._cargarRepresentanteProvincia();
     }else if(this.data.lugar_tipo=="canton"){
+      this.formLugarRepresentante_tipoLugar.setValue( "Cantón");
       this._titulo_representante="ALCALDE";
       this._nombreLugar=this.data.lugar_data.NombreCanton;
       this._idLugarEcriptado = this.data.lugar_data.IdCantonEncriptado;
       this._cargarRepresentanteCanton();
     }else if(this.data.lugar_tipo=="parroquia"){
+      this.formLugarRepresentante_tipoLugar.setValue( "Parroquia");
       this._titulo_representante="PRESIDENTE DE LA JUNTA PARROQUIAL";
       this._nombreLugar=this.data.lugar_data.NombreParroquia;
       this._idLugarEcriptado = this.data.lugar_data.IdParroquiaEncriptado;
       this._cargarRepresentanteParroquia();
     }else if(this.data.lugar_tipo=="comunidad"){
+      this.formLugarRepresentante_tipoLugar.setValue( "Comunidad");
       this._titulo_representante="LIDER COMUNITARIO";
       this._nombreLugar=this.data.lugar_data.NombreComunidad;
       this._idLugarEcriptado = this.data.lugar_data.IdComunidadEncriptado;
       this._cargarRepresentanteComunidad();
     }
+    this.formLugarRepresentante_idLugarEcriptado.setValue(this._idLugarEcriptado);
     
   }
   _eliminarRepresentante(_item){
