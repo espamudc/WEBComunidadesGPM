@@ -64,6 +64,18 @@ export class CuestionarioPublicadoService {
     });
 
   }
+
+  _consultar_cuestionarioPublicado(){
+    const _body = new HttpParams();
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'cuestionariopublicado_consultar',_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
   
 
 }

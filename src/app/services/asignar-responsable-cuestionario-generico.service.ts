@@ -12,12 +12,12 @@ export class AsignarResponsableCuestionarioGenericoService {
   private _header = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
   _consultarAsignarResponsableCuestionarioGenerico(
-    _IdCuestionarioGenericoEncriptado:any
+    _idCuestionarioPublicadoEncriptado:any
   ){
     const _body = new HttpParams();
     
     return new Promise((resolve, reject) => {
-      this.http.post(url+'asignarresponsable_consultarporidcuestionariogenerico?_idCuestionarioGenericoEncriptado='+_IdCuestionarioGenericoEncriptado,_body.toString(),{headers:this._header})
+      this.http.post(url+'asignarencuestado_consultarporidcuestionariopublicado?_idCuestionarioPublicadoEncriptado='+_idCuestionarioPublicadoEncriptado,_body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{
