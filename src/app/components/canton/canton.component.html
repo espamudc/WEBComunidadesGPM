@@ -17,17 +17,30 @@
                         <input type="text" matInput [formControl]="formCanton_nombre" placeholder="Nombre" required>
                     </mat-form-field>
                     <mat-form-field class="gpm-form-field">
-                        <input type="text" matInput [formControl]="formCanton_descripcion" placeholder="Descripción" required>
+                        <input type="text" matInput [formControl]="formCanton_descripcion" placeholder="Descripción" >
                     </mat-form-field>
-                    <button mat-button class="btn btn-primary btn-block">
-                        <i *ngIf="_btnAccion=='Guardar'" class="fa fa-plus"></i>
-                        <i *ngIf="_btnAccion=='Modificar'" class="fa fa-edit"></i>
+                    <button *ngIf="_btnAccion=='Guardar'" mat-button class="btn btn-primary btn-block" [disabled]="formCanton.invalid">
+                        <i  class="fa fa-plus"></i>
+                        <!-- <i *ngIf="_btnAccion=='Modificar'" class="fa fa-edit"></i> -->
                     </button>
+                    <div class="row" *ngIf="_btnAccion=='Modificar'">
+                        <div class="col-6">
+                            <button mat-button class="btn btn-primary btn-block">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button mat-button class="btn btn-light btn-block" (click)="formCanton.reset(); _btnAccion='Guardar'">
+                                <i class="fa fa-refresh"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
                 </mat-card>
             </form>
         </div>
         <div class="col-lg-7 col-md-7">
-            <div class="tablaCantones mat-elevation-z5" style="height: 100% !important;">
+            <div class="tablaCantones mat-elevation-z5">
                 <table mat-table [dataSource]="_listaCantones">
                     <ng-container matColumnDef="codigo">
                         <th mat-header-cell *matHeaderCellDef> Código </th>

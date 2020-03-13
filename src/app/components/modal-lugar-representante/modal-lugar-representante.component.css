@@ -1,7 +1,12 @@
 table {
     width: 100%;
+    overflow: auto;
 }
 
 /* mat-dialog-content{
     width: 100%;
 } */
+
+.tablaRepresentantes{
+    height: 313.433px !important;
+}

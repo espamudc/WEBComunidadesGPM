@@ -37,7 +37,8 @@ export class CantonComponent implements OnInit,AfterViewInit {
       _provincia : new FormControl('',[Validators.required]),
       _nombre : new FormControl('',[Validators.required]),
       _codigo : new FormControl('',[Validators.required]),
-      _descripcion : new FormControl('')
+      _descripcion : new FormControl(''),
+      _rutaLogo : new FormControl(''),
     });
     
   }
@@ -62,9 +63,20 @@ export class CantonComponent implements OnInit,AfterViewInit {
   get formCanton_descripcion(){
     return this.formCanton.get("_descripcion");
   }
+  get formCanton_rutaLogo(){
+    return this.formCanton.get("_rutaLogo");
+  }
   //---------------------------------------------------------------
   _validarForm(){
     console.log("submit");
+    if (this._btnAccion==="Guardar") {
+      // this.frmPersona.valid = true;
+     this._ingresarCanton2();
+    } 
+    else if (this._btnAccion==="Modificar") {
+      // debugger
+      this._modificarCanton2();
+    }
     
   }
   //------------------------------------------------------
@@ -106,6 +118,87 @@ export class CantonComponent implements OnInit,AfterViewInit {
 
 
   _idProvinciaEncriptado=""; _nombreProvincia=""; _listaProvincias:any[]=[]; // la provincia que se escoje
+
+  //--------------------------------------------------------------------------------
+
+  _ingresarCanton2(){
+
+    if (
+      this.formCanton_descripcion.value == null || 
+      this.formCanton_descripcion.value == 'null' 
+    ) {
+      this.formCanton_descripcion.setValue('');
+    }
+    if (
+      this.formCanton_rutaLogo.value == null || 
+      this.formCanton_rutaLogo.value == 'null' 
+    ) {
+      this.formCanton_rutaLogo.setValue('');
+    }
+
+    this.lugaresService._insertarCanton(
+      this.formCanton_codigo.value,
+      this.formCanton_nombre.value,
+      this.formCanton_descripcion.value,
+      this.formCanton_rutaLogo.value,
+      this.formCanton_idProvinciaEncriptado.value
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+        this._consultarCantones();
+        this._consultarProvincias();
+        this.formCanton.reset();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+      }else{
+        console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
+      }
+    }).catch(error=>{
+
+    }).finally(()=>{
+
+    });
+  }
+
+  _modificarCanton2(){
+    if (
+      this.formCanton_descripcion.value == null || 
+      this.formCanton_descripcion.value == 'null' 
+    ) {
+      this.formCanton_descripcion.setValue('');
+    }
+    if (
+      this.formCanton_rutaLogo.value == null || 
+      this.formCanton_rutaLogo.value == 'null' 
+    ) {
+      this.formCanton_rutaLogo.setValue('');
+    }
+    this.lugaresService._modificarCanton(
+      this.formCanton_idCantonEncriptado.value,
+      this.formCanton_codigo,
+      this.formCanton_nombre.value,
+      this.formCanton_descripcion.value,
+      this.formCanton_rutaLogo.value,
+      this.formCanton_idProvinciaEncriptado.value
+    ).then(data=>{
+      // console.log(data);
+      
+      if (data['http']['codigo']=='200') {
+        this._consultarCantones();
+        this._consultarProvincias();
+        this._limpiarForm();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+      }else{
+        console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
+      }
+    }).catch(error=>{
+
+    }).finally(()=>{
+
+    });
+  }
 
   //--------------------------------------------------------------------------------
 
@@ -290,6 +383,15 @@ export class CantonComponent implements OnInit,AfterViewInit {
   }
   _provinciaQuitada:any="";
   _prepararCanton(_item){
+
+    this.formCanton_idProvinciaEncriptado .setValue(_item.Provincia.IdProvinciaEncriptado);
+    this.formCanton_provincia             .setValue(_item.Provincia.NombreProvincia);
+    this.formCanton_idCantonEncriptado    .setValue(_item.IdCantonEncriptado);
+    this.formCanton_codigo                .setValue(_item.CodigoCanton);
+    this.formCanton_nombre                .setValue(_item.NombreCanton);
+    this.formCanton_descripcion           .setValue(_item.DescripcionCanton);
+    this.formCanton_rutaLogo              .setValue(_item.RutaLogoCanton);
+    
 
     this._idProvinciaEncriptado = _item.Provincia.IdProvinciaEncriptado;
     this._nombreProvincia       = _item.Provincia.NombreProvincia;

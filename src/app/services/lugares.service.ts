@@ -61,6 +61,7 @@ export class LugaresService {
       _DescripcionProvincia:any,
       _RutaLogoProvincia:any
     ){
+      
     const _body = new HttpParams()
           .set('IdProvinciaEncriptado'  ,_IdProvinciaEncriptado)
           .set('CodigoProvincia'        ,_CodigoProvincia)
@@ -68,6 +69,9 @@ export class LugaresService {
           .set('DescripcionProvincia'   ,_DescripcionProvincia)
           .set('RutaLogoProvincia'      ,_RutaLogoProvincia)
     ;
+    // debugger
+    console.log(_body);
+    
     return new Promise ((resolve,reject)=>{
       // console.log("servicio:",_body.toString());
       this.http.post(url+'provincia_modificar', _body.toString(),{headers:this._header})

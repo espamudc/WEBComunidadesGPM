@@ -1,8 +1,10 @@
-.tablaProvincias {
-    /* height: 22rem; */
+.tabla {
+    height: 294.3px;
     overflow: auto;
 } 
 
 table {
     width: 100%;
+    /* overflow: auto; */
+    
 }

@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterContentInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, Form } from '@angular/forms';
 import { LugaresService } from 'src/app/services/lugares.service';
 // import { PersonaService } from 'src/app/services/persona.service';
 // import { Provincia } from 'src/app/interfaces/provincia/provincia';
 import sweetalert from 'sweetalert';
-import { MatTable, MatDialog, MatSnackBar } from '@angular/material';
+import { MatTable, MatDialog, MatSnackBar, MatButton } from '@angular/material';
 import { ModalLugarRepresentanteComponent } from '../modal-lugar-representante/modal-lugar-representante.component';
 // import { MatTable } from '@angular/material';
 
@@ -14,7 +14,7 @@ import { ModalLugarRepresentanteComponent } from '../modal-lugar-representante/m
   templateUrl: './provincia.component.html',
   styleUrls: ['./provincia.component.css']
 })
-export class ProvinciaComponent implements OnInit {
+export class ProvinciaComponent implements OnInit,AfterContentInit {
 
   // myForm: FormGroup;
   @ViewChild('testButton', { static: false }) testButton: ElementRef;
@@ -28,15 +28,20 @@ export class ProvinciaComponent implements OnInit {
       _idProvinciaEncriptado  : new FormControl(''),
       _codigo                 : new FormControl('',[Validators.required]),
       _nombre                 : new FormControl('',[Validators.required]),
-      _descripcion            : new FormControl('',[Validators.required]),
+      _descripcion            : new FormControl(''),
+      _rutaLogoProvincia      : new FormControl(''),
     });
   }
 
   ngOnInit() {
     
    this._consultarProvincias();
+   
   }
-
+  ngAfterContentInit(){
+    //this.btnAccionHtml._elementRef.nativeElement.addClass('col-6');
+  }
+  
   //-----------------------------------------------------------------------------------------
   formProvincia : FormGroup;
 
@@ -48,6 +53,9 @@ export class ProvinciaComponent implements OnInit {
   }
   get formProvincia_nombre(){
     return this.formProvincia.get("_nombre");
+  }
+  get formProvincia_rutaLogoProvincia(){
+    return this.formProvincia.get("_rutaLogoProvincia");
   }
   get formProvincia_descripcion(){
     return this.formProvincia.get("_descripcion");
@@ -76,6 +84,87 @@ export class ProvinciaComponent implements OnInit {
     let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
   }
 
+  _validarFormProvincia(){
+    if (this._btnAccion==="Guardar") {
+      this._ingresarProvincia2();
+    }else if (this._btnAccion==="Modificar") {
+      this._modificarProvincia2();
+    } 
+  }
+  _ingresarProvincia2(){
+
+    if (
+      this.formProvincia_descripcion.value == null || 
+      this.formProvincia_descripcion.value == 'null' 
+    ) {
+      this.formProvincia_descripcion.setValue('');
+    }
+    if (
+      this.formProvincia_rutaLogoProvincia.value == null || 
+      this.formProvincia_rutaLogoProvincia.value == 'null' 
+    ) {
+      this.formProvincia_rutaLogoProvincia.setValue('');
+    }
+
+    this.lugaresService._insertarProvincia(
+      this.formProvincia_codigo.value,
+      this.formProvincia_nombre.value,
+      this.formProvincia_descripcion.value,
+      this.formProvincia_rutaLogoProvincia.value,
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+        this._consultarProvincias();
+        this.formProvincia.reset();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+      }else{
+        console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
+      }
+    }).catch(error=>{
+      
+    }).finally(()=>{
+
+    });
+  }
+  _modificarProvincia2(){
+    if (
+      this.formProvincia_descripcion.value == null || 
+      this.formProvincia_descripcion.value == 'null' 
+    ) {
+      this.formProvincia_descripcion.setValue('');
+    }
+    if (
+      this.formProvincia_rutaLogoProvincia.value == null || 
+      this.formProvincia_rutaLogoProvincia.value == 'null' 
+    ) {
+      this.formProvincia_rutaLogoProvincia.setValue('');
+    }
+    
+    this.lugaresService._modificarProvincia(
+      this.formProvincia_idProvinciaEncriptado.value,
+      this.formProvincia_codigo.value,
+      this.formProvincia_nombre.value,
+      this.formProvincia_descripcion.value,
+      this.formProvincia_rutaLogoProvincia.value
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+        this._consultarProvincias();
+        this.formProvincia.reset();
+        this._btnAccion ="Modificar";
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+      }else{
+        console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
+      }
+    }).catch(error=>{
+      
+    }).finally(()=>{
+      
+    });
+  }
+  //-----------------------------------------------------------------------------------------
   _validar=true;
 
   tablaProvincias = ['codigo','provincia', 'acciones'];
@@ -152,6 +241,9 @@ export class ProvinciaComponent implements OnInit {
       
     }
   }
+
+
+
 
   _listaProvincias:any[]=[];
   _consultarProvincias(){
@@ -242,7 +334,13 @@ export class ProvinciaComponent implements OnInit {
 
   _prepararProvincia(_item){
     
-    
+    this.formProvincia_idProvinciaEncriptado.setValue(_item.IdProvinciaEncriptado);
+    this.formProvincia_codigo               .setValue(_item.CodigoProvincia);
+    this.formProvincia_nombre               .setValue(_item.NombreProvincia);
+    this.formProvincia_descripcion          .setValue(_item.DescripcionProvincia);
+    this.formProvincia_rutaLogoProvincia    .setValue(_item.RutaLogoProvincia);
+    // this.formProvincia_idProvinciaEncriptado.setValue(_item.IdProvinciaEncriptado);
+
 
     this._idProvinciaEncriptado =_item.IdProvinciaEncriptado;
     this._codigoProvincia       =_item.CodigoProvincia;
@@ -256,8 +354,6 @@ export class ProvinciaComponent implements OnInit {
     this._validarBoton();
 
   }
-
-
   
   _verRepresentante(_item){
     let dialogRef = this.modalLugarRepresentante.open(ModalLugarRepresentanteComponent, {
@@ -277,5 +373,7 @@ export class ProvinciaComponent implements OnInit {
     }); 
 
   }
+
+
 
 }

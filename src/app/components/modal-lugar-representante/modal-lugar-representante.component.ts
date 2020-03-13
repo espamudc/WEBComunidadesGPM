@@ -21,7 +21,8 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
       _nombreLugar : new FormControl('',[Validators.required]),
       _representante : new FormControl('',[Validators.required]),
       _fechaIngreso : new FormControl('',[Validators.required]),
-      _fechaSalida : new FormControl('',[Validators.required]),
+      _fechaSalida : new FormControl(''),
+      _tituloRepresentante : new FormControl('')
     });
   }
 
@@ -45,6 +46,9 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
   get formLugarRepresentante_fechaSalida(){
     return this.formLugarRepresentante.get("_fechaSalida");
   }
+  get formLugarRepresentante_tituloRepresentante(){
+    return this.formLugarRepresentante.get("_tituloRepresentante");
+  }
   //------------------------------------------------------------------------------------------
 
   ngOnInit() {
@@ -65,10 +69,13 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
       _mes = "0" + (_fecha.getMonth()+1);
     }
     _fecha_hoy = _fecha.getFullYear().toString() + '-' + _mes + '-' + _fecha.getDate().toString();
-    this._fechaIngreso_.nativeElement.value= _fecha_hoy;
-    this._fechaSalida_.nativeElement.value = _fecha_hoy;
+    
     console.log(_fecha.getFullYear().toString() + '-' + _mes + '-' + _fecha.getDate().toString());
     
+
+    this.formLugarRepresentante_fechaIngreso.setValue(_fecha_hoy);
+    this.formLugarRepresentante_fechaSalida.setValue(_fecha_hoy);
+    this.formLugarRepresentante_nombreLugar.disable();
   }
 
 
@@ -97,6 +104,192 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
   tablaRepresentantes = ['representante','fechaIngreso','fechaSalida', 'acciones'];
   _listaRepresentantes:any[]=[];
 
+  //--------------------------------------------------------------------------------
+  _validarFormulario2(){
+    console.log("submit");
+    
+    if (this._btnAccion==="Guardar") {
+      this._ingresarRepresentante();
+    }
+    if (this._btnAccion==="Modificar") {
+      //this._ingresarRepresentante();
+    }
+  }
+
+  _ingresarRepresentanteProvincia2(){
+
+    let __fechaIngreso = this.formLugarRepresentante_fechaIngreso.value + " 0:00:00";
+    let __fechaSalida = '';
+    if (
+      this.formLugarRepresentante_fechaSalida.value == null ||
+      this.formLugarRepresentante_fechaSalida.value == 'null' ||
+      this.formLugarRepresentante_fechaSalida.value == ''
+    ) {
+      
+      this.formLugarRepresentante_fechaSalida.setValue('');
+      __fechaSalida = this.formLugarRepresentante_fechaSalida.value;
+    }else{
+      
+      __fechaSalida = this.formLugarRepresentante_fechaSalida.value + " 0:00:00";
+    }
+    
+
+    this.lugaresService._insertarRepresentanteProvincia(
+      this.formLugarRepresentante_idLugarEcriptado.value,
+      this.formLugarRepresentante_representante.value,
+      __fechaIngreso,
+      __fechaSalida 
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+        this._cargarRepresentanteProvincia();
+        this.formLugarRepresentante_representante.reset();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+      }else{
+        console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
+      }
+    }).catch(error=>{
+      console.log(error);
+    }).finally(()=>{
+      
+    });
+
+
+  }
+
+  _ingresarRepresentanteCanton2(){
+    
+    let __fechaIngreso = this.formLugarRepresentante_fechaIngreso.value + " 0:00:00";
+    
+    let __fechaSalida = '';
+
+    if (
+      this.formLugarRepresentante_fechaSalida.value == null ||
+      this.formLugarRepresentante_fechaSalida.value == 'null' ||
+      this.formLugarRepresentante_fechaSalida.value == ''
+    ) {
+      
+      this.formLugarRepresentante_fechaSalida.setValue('');
+      __fechaSalida = this.formLugarRepresentante_fechaSalida.value;
+    }else{
+      
+      __fechaSalida = this.formLugarRepresentante_fechaSalida.value + " 0:00:00";
+    }
+
+    this.lugaresService._insertarRepresentanteCanton(
+      this.formLugarRepresentante_idLugarEcriptado.value,
+      this.formLugarRepresentante_representante.value,
+      __fechaIngreso,
+      __fechaSalida
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+        this._cargarRepresentanteCanton();
+        this.formLugarRepresentante_representante.reset();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+      }else{
+        console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
+      }
+    }).catch(error=>{
+      console.log(error);
+    }).finally(()=>{
+      
+    });
+
+
+  }
+
+  _ingresarRepresentanteParroquia2(){
+
+    let __fechaIngreso = this.formLugarRepresentante_fechaIngreso.value + " 0:00:00";
+    
+    let __fechaSalida = '';
+
+    if (
+      this.formLugarRepresentante_fechaSalida.value == null ||
+      this.formLugarRepresentante_fechaSalida.value == 'null' ||
+      this.formLugarRepresentante_fechaSalida.value == ''
+    ) {
+      
+      this.formLugarRepresentante_fechaSalida.setValue('');
+      __fechaSalida = this.formLugarRepresentante_fechaSalida.value;
+    }else{
+      
+      __fechaSalida = this.formLugarRepresentante_fechaSalida.value + " 0:00:00";
+    }
+
+    this.lugaresService._insertarRepresentanteParroquia(
+      this.formLugarRepresentante_idLugarEcriptado.value,
+      this.formLugarRepresentante_representante.value,
+      __fechaIngreso,
+      __fechaSalida
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+        this._cargarRepresentanteParroquia();
+        this.formLugarRepresentante_representante.reset();
+        
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+      }else{
+        console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
+      }
+    }).catch(error=>{
+      console.log(error);
+    }).finally(()=>{
+      
+    });
+
+
+  }
+
+  _ingresarRepresentanteComunidad2(){
+
+    let __fechaIngreso = this.formLugarRepresentante_fechaIngreso.value + " 0:00:00";
+    
+    let __fechaSalida = '';
+
+    if (
+      this.formLugarRepresentante_fechaSalida.value == null ||
+      this.formLugarRepresentante_fechaSalida.value == 'null' ||
+      this.formLugarRepresentante_fechaSalida.value == ''
+    ) {
+      
+      this.formLugarRepresentante_fechaSalida.setValue('');
+      __fechaSalida = this.formLugarRepresentante_fechaSalida.value;
+    }else{
+      
+      __fechaSalida = this.formLugarRepresentante_fechaSalida.value + " 0:00:00";
+    }
+    
+    this.lugaresService._insertarRepresentanteComunidad(
+      this.formLugarRepresentante_idLugarEcriptado.value,
+      this.formLugarRepresentante_representante.value,
+      __fechaIngreso,
+      __fechaSalida
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+        this._cargarRepresentanteComunidad();
+        this.formLugarRepresentante_representante.reset();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+      }else{
+        console.log(data['http']);
+        this.mensaje(data['http']['mensaje']);
+      }
+    }).catch(error=>{
+      console.log(error);
+    }).finally(()=>{
+      
+    });
+
+
+  }
+
+  //--------------------------------------------------------------------------------
+
   // //PROVINCIA-----------------------------------------
   // _idProvinciaEncriptado="";  _nombreProvincia="";
   // //CANTON--------------------------------------------
@@ -107,78 +300,10 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
   // _idComunidadEncriptado="";  _nombreComunidad="";
   // //--------------------------------------------------
 
-  _nombreLugar="";
-  _idLugarEcriptado;
-  _representante="";
-  _fechaIngreso="2020-01-27";
-  _fechaSalida="";
-  
-  @ViewChild('fechaIngreso',{static:false}) _fechaIngreso_  : ElementRef;
-  @ViewChild('fechaSalida',{static:false})  _fechaSalida_   : ElementRef;
-
-  _titulo_representante = "";
-  _validar=true;
   _btnAccion="Guardar";
 
-  _limpiarForm(){
 
-    this._representante="";
-    this._fechaIngreso="";
-    this._fechaSalida="";
 
-    this._btnAccion = "Guardar";
-    this._validar = true;
-  }
-
-  _validarCompletos(event){
-    if (event.target.value==="") {
-      event.target.classList.add("is-invalid");
-    }else{
-      event.target.classList.remove("is-invalid");
-    }
-
-    if (
-      this._nombreLugar      !="" &&
-      this._representante    !="" &&
-      this._fechaIngreso     !=""     
-    ) {
-      this._validar=false;
-    }else{
-      this._validar=true;
-    }
-
-  }
-
-  _validarBoton(){
-    if (
-      this._nombreLugar      !="" &&
-      this._representante    !="" &&
-      this._fechaIngreso     !=""    
-    ) {
-      this._validar=false;
-    }else{
-      this._validar=true;
-    }
-  }
-
-  _validarFormulario(){
-    
-    if (
-      this._nombreLugar      !="" &&
-      this._representante    !="" &&
-      this._fechaIngreso     !="" 
-    ) {
-      if (this._validar===false) {
-        if (this._btnAccion==="Guardar") {
-          this._ingresarRepresentante();
-        }
-        // else if (this._btnAccion==="Modificar") {
-        //   this._modificarProvincia();
-        // } 
-      }
-      
-    }
-  }
 
   @ViewChild(MatTable,{static:false}) MatTableRepresentantes: MatTable<any>;
   _cargartabla(){
@@ -186,31 +311,39 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
     if (this.data.lugar_tipo=="provincia") {
       //==========================================================
       this.formLugarRepresentante_tipoLugar.setValue("Provincia");
+      this.formLugarRepresentante_nombreLugar.setValue(this.data.lugar_data.NombreProvincia);
+      this.formLugarRepresentante_idLugarEcriptado.setValue(this.data.lugar_data.IdProvinciaEncriptado);
+      this.formLugarRepresentante_tituloRepresentante.setValue("PREFECTO");
       //==========================================================
-      this._titulo_representante="PREFECTO";
-      this._nombreLugar=this.data.lugar_data.NombreProvincia;
-      this._idLugarEcriptado = this.data.lugar_data.IdProvinciaEncriptado;
+      
       this._cargarRepresentanteProvincia();
     }else if(this.data.lugar_tipo=="canton"){
+      //==========================================================
       this.formLugarRepresentante_tipoLugar.setValue( "Cantón");
-      this._titulo_representante="ALCALDE";
-      this._nombreLugar=this.data.lugar_data.NombreCanton;
-      this._idLugarEcriptado = this.data.lugar_data.IdCantonEncriptado;
+      this.formLugarRepresentante_nombreLugar.setValue(this.data.lugar_data.NombreCanton);
+      this.formLugarRepresentante_idLugarEcriptado.setValue(this.data.lugar_data.IdCantonEncriptado);
+      this.formLugarRepresentante_tituloRepresentante.setValue("ALCALDE");
+      //==========================================================
       this._cargarRepresentanteCanton();
     }else if(this.data.lugar_tipo=="parroquia"){
-      this.formLugarRepresentante_tipoLugar.setValue( "Parroquia");
-      this._titulo_representante="PRESIDENTE DE LA JUNTA PARROQUIAL";
-      this._nombreLugar=this.data.lugar_data.NombreParroquia;
-      this._idLugarEcriptado = this.data.lugar_data.IdParroquiaEncriptado;
+      //==========================================================
+      this.formLugarRepresentante_tipoLugar.setValue("Parroquia");
+      this.formLugarRepresentante_nombreLugar.setValue(this.data.lugar_data.NombreParroquia);
+      this.formLugarRepresentante_idLugarEcriptado.setValue(this.data.lugar_data.IdParroquiaEncriptado);
+      this.formLugarRepresentante_tituloRepresentante.setValue("PRESIDENTE DE LA JUNTA PARROQUIAL");
+      //==========================================================
+      
       this._cargarRepresentanteParroquia();
     }else if(this.data.lugar_tipo=="comunidad"){
+      //==========================================================
       this.formLugarRepresentante_tipoLugar.setValue( "Comunidad");
-      this._titulo_representante="LIDER COMUNITARIO";
-      this._nombreLugar=this.data.lugar_data.NombreComunidad;
-      this._idLugarEcriptado = this.data.lugar_data.IdComunidadEncriptado;
+      this.formLugarRepresentante_nombreLugar.setValue(this.data.lugar_data.NombreComunidad);
+      this.formLugarRepresentante_idLugarEcriptado.setValue(this.data.lugar_data.IdComunidadEncriptado);
+      this.formLugarRepresentante_tituloRepresentante.setValue("LIDER COMUNITARIO");
+
+      //==========================================================
       this._cargarRepresentanteComunidad();
     }
-    this.formLugarRepresentante_idLugarEcriptado.setValue(this._idLugarEcriptado);
     
   }
   _eliminarRepresentante(_item){
@@ -229,13 +362,14 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
   _ingresarRepresentante(){
     
     if (this.data.lugar_tipo=="provincia") {
-      this._ingresarRepresentanteProvincia();
+      // this._ingresarRepresentanteProvincia();
+      this._ingresarRepresentanteProvincia2();
     }else if(this.data.lugar_tipo=="canton"){
-      this._ingresarRepresentanteCanton();
+      this._ingresarRepresentanteCanton2();
     }else if(this.data.lugar_tipo=="parroquia"){
-      this._ingresarRepresentanteParroquia();
+      this._ingresarRepresentanteParroquia2();
     }else if(this.data.lugar_tipo=="comunidad"){
-      this._ingresarRepresentanteComunidad();
+      this._ingresarRepresentanteComunidad2();
     }
   }
 
@@ -246,7 +380,8 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
 
   //PROVINCIA-------------------------------------------------------------------------------------------
   _cargarRepresentanteProvincia(){
-    this.lugaresService._consultarRepresentanteProvincia(this._idLugarEcriptado)
+    let id = this.formLugarRepresentante_idLugarEcriptado.value;
+    this.lugaresService._consultarRepresentanteProvincia(id)
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaRepresentantes = data['respuesta'];
@@ -266,34 +401,7 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
         this.MatTableRepresentantes.renderRows();
       });
   }
-  _ingresarRepresentanteProvincia(){
-    var _fecha = new Date();
-
-    let __fechaIngreso = this._fechaIngreso_.nativeElement.value +  " 0:00:00";
-    let __fechaSalida = this._fechaSalida_.nativeElement.value + " 0:00:00";
-
-    this.lugaresService._insertarRepresentanteProvincia(
-      this._idLugarEcriptado,
-      this._representante,
-      __fechaIngreso,
-      __fechaSalida 
-    ).then(data=>{
-      if (data['http']['codigo']=='200') {
-        this._cargarRepresentanteProvincia();
-      }else if (data['http']['codigo']=='500') {
-        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
-      }else{
-        console.log(data['http']);
-        this.mensaje(data['http']['mensaje']);
-      }
-    }).catch(error=>{
-      console.log(error);
-    }).finally(()=>{
-      
-    });
-
-
-  }
+ 
   _eliminarRepresentanteProvincia(_item){
 
     this.lugaresService._eliminarRepresentanteProvincia(
@@ -316,7 +424,9 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
   }
   //CANTON-------------------------------------------------------------------------------------------
   _cargarRepresentanteCanton(){
-    this.lugaresService._consultarRepresentanteCanton(this._idLugarEcriptado)
+    let id = this.formLugarRepresentante_idLugarEcriptado.value;
+
+    this.lugaresService._consultarRepresentanteCanton(id)
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaRepresentantes = data['respuesta'];
@@ -334,34 +444,7 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
         this.MatTableRepresentantes.renderRows();
       });
   }
-  _ingresarRepresentanteCanton(){
-    var _fecha = new Date();
 
-    let __fechaIngreso = this._fechaIngreso_.nativeElement.value +  " 0:00:00";
-    let __fechaSalida = this._fechaSalida_.nativeElement.value + " 0:00:00";
-
-    this.lugaresService._insertarRepresentanteCanton(
-      this._idLugarEcriptado,
-      this._representante,
-      __fechaIngreso,
-      __fechaSalida 
-    ).then(data=>{
-      if (data['http']['codigo']=='200') {
-        this._cargarRepresentanteCanton();
-      }else if (data['http']['codigo']=='500') {
-        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
-      }else{
-        console.log(data['http']);
-        this.mensaje(data['http']['mensaje']);
-      }
-    }).catch(error=>{
-      console.log(error);
-    }).finally(()=>{
-      
-    });
-
-
-  }
   _eliminarRepresentanteCanton(_item){
 
     this.lugaresService._eliminarRepresentanteCanton(
@@ -384,7 +467,9 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
   }
   //PARROQUIA-----------------------------------------------------------------------------------------
   _cargarRepresentanteParroquia(){
-    this.lugaresService._consultarRepresentanteParroquia(this._idLugarEcriptado)
+    let id = this.formLugarRepresentante_idLugarEcriptado.value;
+
+    this.lugaresService._consultarRepresentanteParroquia(id)
       .then(data=>{
         if (data['http']['codigo']=='200') {
           console.log(data['respuesta']);
@@ -404,35 +489,7 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
         this.MatTableRepresentantes.renderRows();
       });
   }
-  _ingresarRepresentanteParroquia(){
-    var _fecha = new Date();
 
-    let __fechaIngreso = this._fechaIngreso_.nativeElement.value +  " 0:00:00";
-    let __fechaSalida = this._fechaSalida_.nativeElement.value + " 0:00:00";
-
-    this.lugaresService._insertarRepresentanteParroquia(
-      this._idLugarEcriptado,
-      this._representante,
-      __fechaIngreso,
-      __fechaSalida 
-    ).then(data=>{
-      if (data['http']['codigo']=='200') {
-        this._cargarRepresentanteParroquia();
-        
-      }else if (data['http']['codigo']=='500') {
-        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
-      }else{
-        console.log(data['http']);
-        this.mensaje(data['http']['mensaje']);
-      }
-    }).catch(error=>{
-      console.log(error);
-    }).finally(()=>{
-      
-    });
-
-
-  }
   _eliminarRepresentanteParroquia(_item){
 
     this.lugaresService._eliminarRepresentanteParroquia(
@@ -455,7 +512,9 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
   }
   //COMUNIDAD---------------------------------------------------------------------------------
   _cargarRepresentanteComunidad(){
-    this.lugaresService._consultarRepresentanteComunidad(this._idLugarEcriptado)
+    let id = this.formLugarRepresentante_idLugarEcriptado.value;
+
+    this.lugaresService._consultarRepresentanteComunidad(id)
     .then(data=>{
       if (data['http']['codigo']=='200') {
         console.log(data['respuesta']);
@@ -475,34 +534,7 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
       this.MatTableRepresentantes.renderRows();
     });
   }
-  _ingresarRepresentanteComunidad(){
-    var _fecha = new Date();
 
-    let __fechaIngreso = this._fechaIngreso_.nativeElement.value +  " 0:00:00";
-    let __fechaSalida = this._fechaSalida_.nativeElement.value + " 0:00:00";
-
-    this.lugaresService._insertarRepresentanteComunidad(
-      this._idLugarEcriptado,
-      this._representante,
-      __fechaIngreso,
-      __fechaSalida 
-    ).then(data=>{
-      if (data['http']['codigo']=='200') {
-        this._cargarRepresentanteComunidad();
-      }else if (data['http']['codigo']=='500') {
-        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
-      }else{
-        console.log(data['http']);
-        this.mensaje(data['http']['mensaje']);
-      }
-    }).catch(error=>{
-      console.log(error);
-    }).finally(()=>{
-      
-    });
-
-
-  }
   _eliminarRepresentanteComunidad(_item){
 
     this.lugaresService._eliminarRepresentanteComunidad(

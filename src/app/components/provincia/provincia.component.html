@@ -2,7 +2,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-5 col-md-5 mr-auto">
-            <form [formGroup]="formProvincia" > 
+            <form [formGroup]="formProvincia" (ngSubmit)="_validarFormProvincia()"> 
                 <mat-card class="mat-elevation-z7">
                     <div class="row">
                         <div class="col-12"> <h2 style="text-align: center;">Provincia</h2>  </div>
@@ -23,22 +23,36 @@
                     </mat-form-field>
                     <mat-form-field class="gpm-universal-width ">
                         <!-- <mat-label>Provincia</mat-label> -->
-                        <input matInput type="text" placeholder="Descripción" [formControl]="formProvincia_descripcion" required>
-                        <mat-error *ngIf="formProvincia_descripcion.hasError('required') || formProvincia_descripcion.invalid || (formProvincia_descripcion.dirty || formProvincia_descripcion.touched ) ">
+                        <input matInput type="text" placeholder="Descripción" [formControl]="formProvincia_descripcion">
+                        <!-- <mat-error *ngIf="formProvincia_descripcion.hasError('required') || formProvincia_descripcion.invalid || (formProvincia_descripcion.dirty || formProvincia_descripcion.touched ) ">
                             Este dato es <strong>obligatorio</strong>
-                        </mat-error>
+                        </mat-error> -->
                     </mat-form-field>
-                    <button mat-button class="btn btn-primary btn-block"> 
-                        <i *ngIf="_btnAccion==='Guardar'" class="fa fa-plus"></i> 
-                        <i *ngIf="_btnAccion==='Modificar'" class="fa fa-edit"></i> 
+                    
+                    <button *ngIf="_btnAccion==='Guardar'" [disabled]="formProvincia.invalid" mat-button class="btn btn-primary btn-block"> 
+                        <i  class="fa fa-plus"></i> 
+                        <!-- <i *ngIf="_btnAccion==='Modificar'" class="fa fa-edit"></i>  -->
                     </button>
+                    <div class="row" *ngIf="_btnAccion==='Modificar'">
+                        <div class="col-6">
+                            <button  [disabled]="formProvincia.invalid" mat-button class="btn btn-primary btn-block">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button   mat-button class="btn btn-block btn-light " (click)="formProvincia.reset();_btnAccion='Guardar'">
+                                <i class="fa fa-refresh"></i>
+                            </button>
+                        </div>
+                        
+                        
+                    </div>
+                    
+
                 </mat-card>
             </form>
         </div>
-        <div class="col-lg-7 col-md-7" >
-
-
-
+        <div  class="col-lg-7 col-md-7 mr-auto" >
             <!-- <div class="form-group input-container">
                 <i class="fa fa-search icon"></i>
                 <input [(ngModel)]="filterProvincia" type="text" class="form-control input-field"
@@ -46,7 +60,7 @@
                 <i class="fa fa-refresh icon" (click)="_consultarProvincias()" aria-hidden="true"></i>
             </div> -->
 
-            <div class=" mat-elevation-z5" style="height: 100% !important;">
+            <div class=" mat-elevation-z5 tabla" >
                 <table mat-table [dataSource]="_listaProvincias" >
                     <ng-container matColumnDef="codigo">
                         <th mat-header-cell *matHeaderCellDef> CÓDIGO </th>
