@@ -40,6 +40,8 @@ import { ProvinciaComponent } from './components/provincia/provincia.component';
 import { ModalAsignacionUsuarioTiposUsuarioComponent } from './components/modal-asignacion-usuario-tipos-usuario/modal-asignacion-usuario-tipos-usuario.component';
 import { ModalDetalleUsuarioComponent } from './components/modal-detalle-usuario/modal-detalle-usuario.component';
 
+
+
 import { TooltipModule } from 'ng2-tooltip-directive';
 import Swal from 'sweetalert2';
 import { MatTableModule, MatNativeDateModule } from '@angular/material';
@@ -62,6 +64,7 @@ import { CuestionarioGenericoDetalleComponent } from './components/cuestionario-
 import { CuestionarioGenericoVersionesComponent } from './components/cuestionario-generico-versiones/cuestionario-generico-versiones.component';
 import { CuestionarioGenericoPublicarComponent } from './components/cuestionario-generico-publicar/cuestionario-generico-publicar.component';
 import { ModalCuestionarioGenericoVersionDetalleComponent } from './components/modal-cuestionario-generico-version-detalle/modal-cuestionario-generico-version-detalle.component';
+import { CaracterizacionComponent } from './components/caracterizacion/caracterizacion.component';
 // import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
@@ -101,6 +104,7 @@ import { ModalCuestionarioGenericoVersionDetalleComponent } from './components/m
     CuestionarioGenericoVersionesComponent,
     CuestionarioGenericoPublicarComponent,
     ModalCuestionarioGenericoVersionDetalleComponent,
+    CaracterizacionComponent,
     // MessageBoxComponent,
   ],
   imports: [

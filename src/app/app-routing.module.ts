@@ -21,6 +21,7 @@ import { EncajonarPreguntaComponent } from "./components/encajonar-pregunta/enca
 import { CuestionarioGenericoDetalleComponent } from './components/cuestionario-generico-detalle/cuestionario-generico-detalle.component';
 import { CuestionarioGenericoPublicarComponent } from './components/cuestionario-generico-publicar/cuestionario-generico-publicar.component';
 import { CuestionarioGenericoVersionesComponent } from './components/cuestionario-generico-versiones/cuestionario-generico-versiones.component';
+import { CaracterizacionComponent } from './components/caracterizacion/caracterizacion.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -70,6 +71,11 @@ const routes: Routes = [
         path: 'cuestionario-generico-publicar', component: CuestionarioGenericoPublicarComponent,
         // canActivate: [ValidarUsuarioGuard]
       },
+      {
+        path: 'cuestionario-caracterizacion', component: CaracterizacionComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+
     ]
   },
   { path: '**', component: Page404Component }
