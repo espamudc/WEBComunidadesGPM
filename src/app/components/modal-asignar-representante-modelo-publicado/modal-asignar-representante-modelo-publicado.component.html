@@ -1,0 +1,163 @@
+<mat-dialog-content>
+  <div *ngIf="cargandoModal"  id="coverScreen"  class="LockOn">
+  </div>
+  <div style="background-color:#e2e2e2;">
+    <h2 style="text-align: center;" mat-dialog-title>ASIGNAR RESPONSABLE DE LA CARACTERIZACIÓN
+      <h4> {{tituloEncabezado}} </h4>
+      <h6>{{version}}</h6>
+    </h2>
+    <div class="row">
+      <h6 style="text-align: left;padding-left: 40px;" class="col-sm-6">
+        PERIODO :
+        <span style="font-weight: bold;">
+          {{Periodo}}
+        </span>
+      </h6>
+      <h6 style="text-align: right;padding-right: 40px;" class="col-sm-6">
+        FECHA PUBLICACIÓN :
+        <span style="font-weight: bold;">
+          {{FechaPublicacion | date: 'yyyy-MM-dd'}}
+        </span>
+      </h6>
+    </div>
+  </div>
+  <br>
+  <mat-card class="mat-elevation-z9">
+      <form [formGroup]="formIngresoCaracterizacion" (ngSubmit)="guardarRepresentante()">
+        <div class="row">
+          <mat-form-field class="gpm-form-field col-sm-4">
+            <input type="text" placeholder="Seleccione una opción" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+            <!-- <mat-spinner *ngIf="autoComplete" diameter="20" matSuffix></mat-spinner> -->
+            <mat-autocomplete [displayWith]="displayFn.bind(this)" autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions | async" value="{{option.IdProvinciaEncriptado}}">
+                {{option.NombreProvincia}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error>
+              Este dato es <strong>obligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="gpm-form-field col-sm-4">
+            <mat-label>Cantón</mat-label>
+            <mat-select md-autofocus [formControl]="form_Canton" (selectionChange)="_parroquiasDeUnCanton($event.value)" required>
+              <mat-option *ngFor="let item of _listaCantones" [value]="item.IdCantonEncriptado">
+                {{item.NombreCanton}}
+              </mat-option>
+            </mat-select>
+            <mat-error>
+              Este dato es <strong>obligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="gpm-form-field col-sm-4">
+            <mat-label>Parroquia</mat-label>
+            <mat-select [formControl]="form_Parroquia" (selectionChange)="_cargarRepresentanteParroquia($event.value)" required>
+              <mat-option *ngFor="let item of _listaParroquias" [value]="item.IdParroquiaEncriptado">
+                {{item.NombreParroquia}}
+              </mat-option>
+            </mat-select>
+            <mat-error>
+              Este dato es <strong>obligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="gpm-form-field col-sm-5">
+            <mat-label>Presidente Junta Parroquial</mat-label>
+            <input readonly matInput placeholder="Ex. Pizza" [formControl]="form_Representante">
+            <mat-spinner *ngIf="cargandoRepresentante" diameter="20" matSuffix></mat-spinner>
+            <mat-error>
+              Este dato es <strong>obligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="gpm-form-field col-sm-3">
+            <mat-label>Fecha Inicio</mat-label>
+            <input name="tech" min="{{fechaBase | date: 'yyyy-MM-dd'}}" type="date" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" matInput [formControl]="form_FechaInicio">
+            <mat-error *ngIf="form_FechaInicio.hasError('required') || form_FechaInicio.invalid || (form_FechaInicio.dirty || form_FechaInicio.touched ) ">
+              Este dato es <strong>obligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="gpm-form-field col-sm-3">
+            <mat-label>Fecha Fin</mat-label>
+            <input min="{{fechaBase | date: 'yyyy-MM-dd'}}" type="date" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" matInput [formControl]="form_FechaFin">
+            <mat-error *ngIf="form_FechaFin.hasError('required') || form_FechaFin.invalid || (form_FechaFin.dirty || form_FechaFin.touched ) ">
+              Este dato es <strong>obligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+          <div style="padding-top: 15px;text-align: center;" class="gpm-form-field col-sm-1">
+            <button [disabled]="formIngresoCaracterizacion.invalid || formIngresoCaracterizacion.disabled" tooltip="Añadir" class="btn  btn-sm btn-primary btn-circle"><i class="fa fa-plus"></i></button>
+          </div>
+        </div>
+      </form>
+  </mat-card>
+  <br>
+  <mat-card class="mat-elevation-z9">
+      <div style="height: 100% !important;" class="mat-elevation-z7">
+        <br>
+        <div class="col-12">
+          <mat-form-field class="gpm-input">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+          </mat-form-field>
+        </div>
+        <table class="col-12" mat-table [dataSource]="_listaLugaresModeloPublicado">
+          <ng-container matColumnDef="estado">
+            <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef> ESTADO </th>
+            <td style="text-align: center;" mat-cell *matCellDef="let element">
+              <i tooltip="Activo" hide-delay="1" *ngIf="element.Estado"  style="color:green" class="fa fa-circle" aria-hidden="true"></i>
+              <i tooltip="Inactivo" hide-delay="1" *ngIf="!element.Estado"  style="color:red" class="fa fa-circle" aria-hidden="true"></i>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="lugar">
+            <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef> LUGAR </th>
+            <td tooltip="{{element.Representante}}" hide-delay="1" style="text-align: center" mat-cell *matCellDef="let element">
+              {{element.Parroquia.Canton.Provincia.NombreProvincia}} -> {{ element.Parroquia.Canton.NombreCanton}} -> {{ element.Parroquia.NombreParroquia}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="inicio">
+            <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef> INICIO </th>
+            <td style="text-align: center" mat-cell *matCellDef="let element">
+              {{element.FechaInicio | date: 'yyyy-MM-dd'}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="fin">
+            <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef> FIN </th>
+            <td style="text-align: center" mat-cell *matCellDef="let element">
+              {{element.FechaFin | date: 'yyyy-MM-dd'}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="acciones">
+            <th style="text-align:center;vertical-align: middle;font-weight: bold;" colspan="4" mat-header-cell *matHeaderCellDef> ACCIONES </th>
+            <ng-container *matCellDef="let element">
+              <ng-container>
+                <td style="text-align: center;" mat-cell>
+                  <button *ngIf="element.Utilizado == 0"  tooltip="Eliminar" hide-delay="1" placement="top" class="btn btn-sm btn-outline-danger separacion-botones" (click)="eliminarResponsable(element)">
+                    <i class="fa fa-remove" aria-hidden="true"></i>
+                  </button>
+                  <button tooltip="Ver Información" hide-delay="1" placement="top" class="btn btn-sm btn-outline-primary separacion-botones" (click)="_prepararModeloGenericoPublicado(element)">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                  </button>
+                  <ng-container *ngIf="data.ModeloPublicado.Estado" >
+                    <button *ngIf="element.Estado" tooltip="DesHabilitar" hide-delay="1" placement="top" class="btn btn-sm btn-outline-warning separacion-botones" (click)="_DesHabilitarAsignarResponsableModeloPublicado(element)">
+                      <i class="fa fa-minus-square" aria-hidden="true"></i>
+                    </button>
+                    <button *ngIf="!element.Estado" tooltip="Habilitar" hide-delay="1" placement="top" class="btn btn-sm btn-sm btn-outline-info separacion-botones" (click)="_HabilitarAsignarResponsableModeloPublicado(element)">
+                      <i class="fa fa-check-square" aria-hidden="true"></i>
+                    </button>
+                  </ng-container>
+                </td>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="['estado','lugar','inicio','fin','acciones']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['estado','lugar','inicio','fin','acciones'];"></tr>
+        </table>
+        <mat-paginator #paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+        <br>
+        <div align="center">
+          <img style="z-index:2;"*ngIf="cargaAsignacionParroquia"  width="23%" height="30%" src="https://gifimage.net/wp-content/uploads/2017/08/loading-gif-transparent-4.gif" alt="" />
+        </div>
+      </div>
+  </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button class="mat-raised-button mat-warn" (click)="close()">Cerrar</button>
+</mat-dialog-actions>

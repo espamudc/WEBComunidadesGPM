@@ -1,0 +1,116 @@
+<mat-dialog-content>
+  <mat-horizontal-stepper linear #stepper>
+    <mat-step *ngIf="mostrarTipoDatoMapa" [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Seleccione Mapa</ng-template>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <input *ngIf="mostrarAgregarImagen" style="align-self: center;" type="file" name="image" (change)="fileProgress($event)" formControlName="firstCtrl" />
+            </div>
+            <div *ngIf="mostrarAgregarImagen" style="text-align-last: end;" class="col-md-6">
+              <button mat-flat-button color="primary" (click)="verGaleria()">Galeria
+                <mat-icon>dashboard</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div style="align-self: center;" class="col-md-12">
+              <div class="form-group">
+                <div *ngIf="fileUploadProgress">
+                  Upload progress: {{ fileUploadProgress }}
+                </div>
+                <div class="image-preview container1 mb-3" *ngIf="previewUrl">
+                  <img class="image" [src]="previewUrl" height="300" />
+                  <div class="middle">
+                    <button mat-raised-button color="warn" (click)="eliminarImagen()">
+                      <mat-icon>delete_forever</mat-icon> ELIMINAR
+                    </button>
+                  </div>
+                </div>
+                <div class="mb-3" *ngIf="uploadedFilePath">
+                  {{uploadedFilePath}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step *ngIf="!mostrarTipoDatoMapa" [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Seleccione Datos</ng-template>
+        <div class="container">
+          <div class="row">
+            <div style="align-self: center;" class="col-md-12">
+              <div class="form-group">
+                <input *ngIf="mostrarAgregarImagen" style="align-self: center;" type="file" name="image" (change)="fileProgress($event)" formControlName="firstCtrl" />
+                <div *ngIf="fileUploadProgress">
+                  Upload progress: {{ fileUploadProgress }}
+                </div>
+                <div class="image-preview container1 mb-3" *ngIf="previewUrl">
+                  <img class="image" [src]="previewUrl" height="300" />
+                  <div class="middle">
+                    <button mat-raised-button color="warn" (click)="eliminarImagen()">
+                      <mat-icon>delete_forever</mat-icon> ELIMINAR
+                    </button>
+                  </div>
+                </div>
+                <div class="mb-3" *ngIf="uploadedFilePath">
+                  {{uploadedFilePath}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup" [optional]="isOptional">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Descripción</ng-template>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 mr-auto">
+            <mat-form-field class="gpm-form-field col-lg-12">
+              <mat-label>DESCRIPCIÓN</mat-label>
+              <textarea style="height: 270px;resize: none;" matInput formControlName="secondCtrl" (keyup)="inputDescripcion($event.target.value)"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Fianlizar</ng-template>
+      <br>
+      <div class="row" class="col-lg-2 col-md-2">
+        <button *ngIf="idContenidoDetalleComponenteCaracterizacion == '' "  mat-button class="btn btn-primary btn-block" (click)="guardarDescripcion()">
+          <i class="fa fa-floppy-o" aria-hidden="true"></i>
+        </button>
+        <button *ngIf="idContenidoDetalleComponenteCaracterizacion != '' "  mat-button class="btn btn-primary btn-block" (click)="actualizarDescripcion()">
+          <i class="fa fa-floppy-o" aria-hidden="true"></i>
+        </button>
+      </div>
+      <br>
+      <div class="row">
+        <div class="content2 col-lg-6 col-md-6 mr-auto mat-elevation-z7">
+          <!-- <img src="tu-imagen.png" width="50px" height="50px" /> -->
+          <img style="height: initial;" [src]="previewUrl" width="300px" height="300px"/>
+          <!-- height="300" -->
+        </div>
+        <mat-card class="col-lg-6 col-md-6 mr-auto mat-elevation-z7">
+          <mat-form-field class="gpm-form-field col-lg-12">
+            <mat-label>DESCRIPCIÓN</mat-label>
+            <textarea readonly style="height: 270px;resize: none;" matInput [(ngModel)]="dataTextArea" ></textarea>
+          </mat-form-field>
+        </mat-card>
+      </div>
+      <!-- <p>You are now done.</p> -->
+      <!-- <div> -->
+        <!-- <button mat-button matStepperPrevious>Back</button> -->
+        <!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
+      <!-- </div> -->
+    </mat-step>
+  </mat-horizontal-stepper>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button class="mat-raised-button mat-warn" (click)="close()">Cerrar</button>
+</mat-dialog-actions>

@@ -1,160 +1,248 @@
 <br>
-<br>
+<div *ngIf="cargandoPantallaPrincipal"  id="coverScreen"  class="LockOn">
+</div>
 <div class="container">
-    <div class="row">
+  <div class="row left col-lg-5 col-md-5 mr-auto">
+    <a routerLink="/inicio/cuestionario-lista-caracterizacion" class="btn1">Menú Principal <span class="arrow">❯</span></a>
+  </div>
+</div>
+<mat-tab-group>
+  <mat-tab label="CARACTERIZACIÓN">
+    <div class="container">
+      <br>
+      <div class="row">
         <div class="col-lg-5 col-md-5 mr-auto">
-            <form [formGroup]="formCaracterizacion">
-                <mat-card class="mat-elevation-z7">
-                    <div class="row">
-                        <div class="col-12">
-                            <h2 style="text-align: center;">Caracterización</h2>
-                        </div>
-                    </div>
-                    <mat-form-field class="gpm-universal-width ">
-                        <input matInput type="text" placeholder="Nombre" [formControl]="formCaracterizacion_Nombre">
-                        <mat-error
-                            *ngIf="formCaracterizacion_Nombre.hasError('required') || formCaracterizacion_Nombre.invalid || (formCaracterizacion_Nombre.dirty || formCaracterizacion_Nombre.touched ) ">
-                            Este dato es <strong>obligatorio</strong>
-                        </mat-error>
-                    </mat-form-field>
-                    <mat-form-field class="gpm-universal-width ">
-                        <input matInput type="text" placeholder="Descripción"
-                            [formControl]="formCaracterizacion_Descripcion">
-                        <mat-error
-                            *ngIf="formCaracterizacion_Descripcion.hasError('required') || formCaracterizacion_Descripcion.invalid || (formCaracterizacion_Descripcion.dirty || formCaracterizacion_Descripcion.touched ) ">
-                            Este dato es <strong>obligatorio</strong>
-                        </mat-error>
-                    </mat-form-field>
+          <mat-card class="mat-elevation-z7">
+            <form [formGroup]="formCaracterizacion" (ngSubmit)="validarForm()">
+              <div class="row">
+                <div class="col-12">
+                  <h2 style="text-align: center;">Caracterización</h2>
+                </div>
+              </div>
+              <div class="row">
+                <!-- <i (click)="vaciarComboModeloGenerico()" [hidden]="vaciarCmbModeloGenerico" class="fa fa-times" aria-hidden="true" style="padding-top: 5%; margin-left: 3%;"></i> -->
+                <mat-form-field class="col-lg-10 col-md-12">
+                  <mat-label>Caracterización</mat-label>
+                  <mat-spinner *ngIf="cargandoModeloGenerico" diameter="20" matSuffix></mat-spinner>
+                  <mat-select (selectionChange)="_onChangeCmbModeloGenerico($event)" [formControl]="form_cmbModeloGenerico">
+                    <mat-option value="0"> -- seleccione una opción --</mat-option>
+                    <mat-option [value]="item.IdModeloGenericoEncriptado" *ngFor="let item of _listaModeloGenerico">
+                      {{item.Nombre}}
+                    </mat-option>
+                  </mat-select>
+                  <!-- <button mat-button matSuffix mat-icon-button aria-label="Clear"> -->
 
-                    <!-- <mat-form-field class="gpm-universal-width ">
-                        <mat-label>Cuestionario</mat-label>
-                        <mat-select [formControl]="formEncajonarPregunta_cmbCuestionario"
-                            (selectionChange)="_onChangeCmbCuestionariosGenericos($event)">
-                            <mat-option value="0"> -- seleccione una opción --</mat-option>
-                            <mat-option *ngFor="let item of _listaCuestionariosGenericos"
-                                [value]="item.CuestionarioGenerico.IdCuestionarioGenericoEncriptado">
-                                {{item.CuestionarioGenerico.Nombre}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field> -->
-
-                    <button mat-button class="btn btn-primary btn-block">
-                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                    </button>
-                </mat-card>
+                  <i mat-button matSuffix mat-icon-button aria-label="Clear" (click)="vaciarComboModeloGenerico()" [hidden]="vaciarCmbModeloGenerico" class="fa fa-times" aria-hidden="true" style="padding-top: 5%; margin-left: 3%;"></i>
+                  <!-- </button> -->
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <mat-form-field class="col-lg-10 col-md-12">
+                  <input matInput type="text" placeholder="Nombre" [formControl]="formCaracterizacion_Nombre">
+                  <mat-error *ngIf="formCaracterizacion_Nombre.hasError('required') || formCaracterizacion_Nombre.invalid || (formCaracterizacion_Nombre.dirty || formCaracterizacion_Nombre.touched ) ">
+                    Este dato es <strong>obligatorio</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <mat-form-field class="col-lg-10 col-md-12">
+                  <input matInput type="text" placeholder="Descripción" [formControl]="formCaracterizacion_Descripcion">
+                  <mat-error *ngIf="formCaracterizacion_Descripcion.hasError('required') || formCaracterizacion_Descripcion.invalid || (formCaracterizacion_Descripcion.dirty || formCaracterizacion_Descripcion.touched ) ">
+                    Este dato es <strong>obligatorio</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="row" class="col-lg-10 col-md-12">
+                <button [hidden]="btnGuardarModeloGenerico" [disabled]="formCaracterizacion.invalid" mat-button class="btn btn-primary btn-block">
+                  <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                </button>
+              </div>
             </form>
+            <!-- <div class="row" style="padding-top:4%;text-align:center;vertical-align: middle;" class="col-lg-10 col-md-12">
+              <button (click)="vistaPrevia()" [hidden]="btnVistaPrevia" class="buttonView pulse">
+                <i class="fa fa-eye" aria-hidden="true">
+                  Vista previa
+                </i>
+              </button>
+            </div> -->
+            <div class="row" style="padding-top:4%;text-align:center;vertical-align: middle;" class="col-lg-10 col-md-12">
+              <button *ngIf="PermitirEliminarModeloGenerico" (click)="_eliminarModeloGenerico()" tooltip="Eliminar" placement="top" class="btn btn-sm btn-outline-danger separacion-botones">
+                <i class="fa fa-trash" aria-hidden="true"> ELIMINAR</i>
+              </button>
+            </div>
+          </mat-card>
         </div>
         <div class="col-lg-7 col-md-7 mr-auto ">
-            <div class="tablaUsuarios mat-elevation-z5 gpm-universal-heigth">
-                <br>
-                <mat-form-field class="col-lg-12 col-md-12 mr-auto">
-                    <mat-label>Cuestionario</mat-label>
-                    <mat-select [formControl]="formEncajonarPregunta_cmbCuestionario"
-                        (selectionChange)="_onChangeCmbCuestionariosGenericos($event)">
-                        <mat-option value="0"> -- seleccione una opción --</mat-option>
-                        <mat-option *ngFor="let item of _listaCuestionariosGenericos"
-                            [value]="item.CuestionarioGenerico.IdCuestionarioGenericoEncriptado">
-                            {{item.CuestionarioGenerico.Nombre}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <table mat-table [dataSource]="_listaComponentesCuestionarioGenerico">
-                    <ng-container matColumnDef="componente">
-                        <th mat-header-cell *matHeaderCellDef> COMPOENTES </th>
-                        <td mat-cell *matCellDef="let element"> sdsd </td>
-                    </ng-container>
-                    <ng-container matColumnDef="acciones">
-                        <th mat-header-cell *matHeaderCellDef> ACCIONES </th>
-                        <ng-container *matCellDef="let element">
-                            <td mat-cell>
-                                <button tooltip="Modificar" placement="top"
-                                    class="btn btn-sm btn-outline-info separacion-botones">
-                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                </button>
-                            </td>
-                        </ng-container>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="tablaComponentes; "></tr>
-                    <!--sticky: true-->
-                    <tr mat-row *matRowDef="let row; columns: tablaComponentes;"></tr>
-                </table>
+          <div id="page-container" class="tablaUsuarios mat-elevation-z5 gpm-universal-heigth">
+            <br>
+            <form class="col-lg-12 col-md-12 mr-auto">
+              <mat-form-field style="width: 100%;">
+                <input type="text" placeholder="Seleccione una opción" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                <mat-spinner *ngIf="cargandoAutocomplete" diameter="20" matSuffix></mat-spinner>
+                <mat-autocomplete [displayWith]="displayFn.bind(this)" autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredOptions | async" value="{{option.IdCuestionarioPublicadoEncriptado}}">
+                    {{option.CabeceraVersionCuestionario.AsignarResponsable.CuestionarioGenerico.Nombre}} VERSION {{option.CabeceraVersionCuestionario.Version}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </form>
+            <!-- </mat-form-field> -->
+            <!-- nuevo -->
+            <table mat-table [dataSource]="_listaComponentesCuestionarioGenerico">
+              <ng-container matColumnDef="componente">
+                <th mat-header-cell *matHeaderCellDef> COMPOENTES </th>
+                <td mat-cell *matCellDef="let element"> {{element.Descripcion}} </td>
+              </ng-container>
+              <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef> ACCIONES </th>
+                <ng-container *matCellDef="let element">
+                  <td mat-cell>
+                    <button (click)="AsignarCuestionarioModelo(element)" tooltip="Asignar" placement="top" class="btn btn-sm btn-outline-info separacion-botones">
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </ng-container>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="tablaComponentes; "></tr>
+              <tr mat-row *matRowDef="let row; columns: tablaComponentes;"></tr>
+            </table>
+            <footer id="footer">
+              <mat-paginator #paginator [pageSizeOptions]="[2]" showFirstLastButtons></mat-paginator>
+            </footer>
+            <div align="center">
+              <br>
+              <img *ngIf="tablaComponentesDeCuestionario" align="middle" style="z-index:2;" width="15%" height="20%" src="../../../assets/img/panel/loading-gif-transparent-4.gif" alt="" />
             </div>
+          </div>
         </div>
+      </div>
     </div>
     <br>
-    <br>
-
-    <mat-accordion style="margin-top: 15%;">
-        <mat-expansion-panel *ngFor="let element of _listaComponentesCuestionarioGenerico ; let i = index">
-            <mat-expansion-panel-header>
+  </mat-tab>
+  <mat-tab *ngIf="boolComponente" label="{{_NombreCaracterizacion}}">
+    <div class="container">
+      <div *ngIf="ListaComponentesCaracterizacion" align="center">
+        <img align="middle" style="z-index:2;" width="15%" height="20%" src="../../../assets/img/panel/loading-gif-transparent-4.gif" alt="" />
+      </div>
+      <br>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let element of _listaComponentesPorModeloGenerico ; let i = index" expanded>
+          <mat-expansion-panel-header style="background-color: #c9c8c8;" (click)="vaciarPanelExpansion()">
+            <mat-panel-title>
+              {{element.CuestionarioPublicado.CuestionarioGenerico.Nombre}}
+            </mat-panel-title>
+            <mat-panel-description>
+              VERSIÓN {{element.CuestionarioPublicado.CabeceraVersionCuestionario.Version}}
+            </mat-panel-description>
+            <button (click)="eliminarAsignarComponenteGenerico(element)" mat-button *ngIf="element._AsignarComponenteGenericoUtilizado == '0'">
+              <i style="color: red;" class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </mat-expansion-panel-header>
+          <br>
+          <mat-accordion>
+            <mat-expansion-panel *ngFor="let element1 of element.AsignarComponenteGenerico ; let index1 = i1">
+              <mat-expansion-panel-header style="background-color: #e2e2e2;" (click)="vaciarPanelExpansion()">
                 <mat-panel-title>
-                    {{element.Descripcion}}
+                  {{element1.Componente.Descripcion}}
                 </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div class="row">
-                <div class="col-lg-4 col-md-4 mr-auto ">
+                <button (click)="eliminarAsignarComponenteGenerico(element1)" mat-button *ngIf="element1.Utilizado == '0'">
+                  <i style="color: red;" class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+              </mat-expansion-panel-header>
+              <br>
+              <div class="row">
+                <div class="border border-secondary col-sm-5">
+                  <div>
+                    <mat-form-field class="gpm-universal-width">
+                      <input [(ngModel)]="Orden" matInput type="number" placeholder="Orden">
+                    </mat-form-field>
+                    <mat-error *ngIf="Orden=='' || !Orden">
+                      Este dato es <strong>obligatorio</strong>
+                    </mat-error>
+                    <mat-error *ngIf="Orden<=0 ">
+                      Este dato es <strong>incorrecto</strong>
+                    </mat-error>
+                  </div>
+                  <div>
                     <mat-form-field class="gpm-universal-width ">
-                        <input matInput type="number" placeholder="Orden">
+                      <mat-label>Tipo Elemento</mat-label>
+                      <mat-select [(ngModel)]="TipoElemento">
+                        <mat-option value="0"> -- seleccione una opción --</mat-option>
+                        <mat-option *ngFor="let item of _listaTipoElemento" [value]="item.IdTipoElementoEncriptado">
+                          {{item.Descripcion}}
+                        </mat-option>
+                      </mat-select>
                     </mat-form-field>
+                    <mat-error *ngIf="TipoElemento == 0">
+                      Este dato es <strong>obligatorio</strong>
+                    </mat-error>
+                  </div>
                 </div>
-
-                <div class="col-lg-2 col-md-2 mr-auto ">
-                    <mat-form-field>
-                        <mat-label>Tipo Elemento</mat-label>
-                        <mat-select [formControl]="formEncajonarPregunta_cmbCuestionario"
-                            (selectionChange)="_onChangeCmbCuestionariosGenericos($event)">
-                            <mat-option value="0"> -- seleccione una opción --</mat-option>
-                            <mat-option *ngFor="let item of _listaCuestionariosGenericos"
-                                [value]="item.CuestionarioGenerico.IdCuestionarioGenericoEncriptado">
-                                {{item.CuestionarioGenerico.Nombre}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                <div class="border border-secondary col-sm-5">
+                  <div class="centrarCheck">
+                    <mat-radio-group aria-label="Select an option">
+                      <div style="padding-top: 2%;">
+                        <mat-checkbox [(ngModel)]="_checkDescripcion">Descripcion obligatoria</mat-checkbox>
+                      </div>
+                      <div style="padding-top: 2%;">
+                        <mat-checkbox [(ngModel)]="_checkElemento">Tipo de elemento obligatorio</mat-checkbox>
+                      </div>
+                    </mat-radio-group>
+                  </div>
                 </div>
-                <div style="padding-top: 2%;" class="col-lg-2 col-md-2 mr-auto ">
-                    <mat-checkbox>Obligatorio</mat-checkbox>
+                <div class="border border-secondary col-sm-2">
+                  <div class="centrarBoton">
+                    <button style="width: 50%; height: 50%;" (click)="guardarDescripcionComponente(element1)" tooltip="Asignar" placement="top" class="btn btn-sm btn-outline-info center-block">
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                  </div>
                 </div>
-            </div>
-            
-            
-
-            <div class="col-lg-12 col-md-12 mr-auto ">
-                <div class="tablaUsuarios mat-elevation-z5 gpm-universal-heigth">
-                    <table mat-table [dataSource]="_listaComponentesCuestionarioGenerico" >
-                        <ng-container matColumnDef="tipoelemento">
-                            <th mat-header-cell *matHeaderCellDef> Tipo Elemento </th>
-                            <td mat-cell *matCellDef="let element"> sdsd </td>
-                        </ng-container>
-                        <ng-container matColumnDef="obligatorio">
-                            <th mat-header-cell *matHeaderCellDef> obligatorio </th>
-                            <td style="padding-top: 1%;" mat-cell *matCellDef="let element">
-                                <mat-checkbox></mat-checkbox>
-                            </td>
-                        </ng-container>
-                        <ng-container matColumnDef="acciones">
-                            <th mat-header-cell *matHeaderCellDef> ACCIONES </th>
-                            <ng-container *matCellDef="let element">
-                                <td mat-cell>
-                                    <button tooltip="Modificar" placement="top"
-                                        class="btn btn-sm btn-outline-danger separacion-botones">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                    </button>
-                                </td>
-                            </ng-container>
-                        </ng-container>
-                        <tr mat-header-row *matHeaderRowDef="tablaComponentesAccordion; "></tr>
-                        <tr mat-row *matRowDef="let row; columns: tablaComponentesAccordion;"></tr>
-                    </table>
+                <br>
+              </div>
+              <br>
+              <div class="col-lg-12 col-md-12 mr-auto ">
+                <div class="mat-elevation-z5 gpm-universal-heigth">
+                  <table mat-table id='{{element1.IdAsignarComponenteGenericoEncriptado}}' [attr.data-table-id]="index1" [dataSource]="element1.DescripcionComponente" class="table table-bordered">
+                    <ng-container matColumnDef="TipoElemento">
+                      <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef [attr.rowspan]="2">TIPO ELEMENTO</th>
+                      <td style="text-align: center;vertical-align: middle;" mat-cell *matCellDef="let data">{{data.AsignarDescripcionComponenteTipoElemento.TipoElemento.Descripcion}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="summer">
+                      <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef [attr.colspan]="2">OBLIGATORIOS</th>
+                    </ng-container>
+                    <ng-container matColumnDef="tipoElementoCheck">
+                      <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef>TIPO ELEMENTO</th>
+                      <td style="text-align: center;vertical-align: middle;font-weight: bold;" mat-cell *matCellDef="let data">
+                        <mat-checkbox disabled [checked]="data.AsignarDescripcionComponenteTipoElemento.Obligatorio"></mat-checkbox>
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="descripcionCheck">
+                      <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef>DESCRIPCIÓN</th>
+                      <td style="text-align: center;vertical-align: middle;font-weight: bold;" mat-cell *matCellDef="let data">
+                        <mat-checkbox disabled [checked]="data.Obligatorio"></mat-checkbox>
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="accion">
+                      <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef [attr.rowspan]="2">ACCIÓN</th>
+                      <td style="text-align: center;vertical-align: middle;font-weight: bold;" mat-cell *matCellDef="let data;  let j = index;">
+                        <button *ngIf="data.AsignarDescripcionComponenteTipoElemento.Utilizado==0" (click)="eliminarItemComponenteGenerico(data,j,element1.IdAsignarComponenteGenericoEncriptado)" tooltip="Eliminar" placement="top" class="btn btn-sm btn-outline-danger separacion-botones">
+                          <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                      </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="['TipoElemento','summer', 'accion']"></tr>
+                    <tr mat-header-row *matHeaderRowDef="['tipoElementoCheck', 'descripcionCheck']"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ['TipoElemento','tipoElementoCheck', 'descripcionCheck', 'accion']"></tr>
+                  </table>
+                  <!-- <div id="coverScreen" class="LockOn"> -->
+                    <!-- <img align="middle" style="z-index:2;" width="15%" height="20%" class="LockOn" alt="" /> -->
+                  <!-- </div> -->
                 </div>
-            </div>
-
-
-
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
         </mat-expansion-panel>
-    </mat-accordion>
-
-
-
-
-</div>
+      </mat-accordion>
+    </div>
+  </mat-tab>
+</mat-tab-group>

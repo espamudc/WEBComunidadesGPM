@@ -1,0 +1,80 @@
+<mat-dialog-content>
+  <div class="row">
+    <div style="background-color:#e2e2e2;border-bottom-width: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;" class="col-12 card-header">
+      <h1 style="text-align: center;font-family:helvética;">{{tituloEncabezado}}
+        <br>
+        <h5 style="text-align: center;">{{version}}</h5>
+        <h3 style="text-align: center;">{{descripcionEncabezado}}</h3>
+      </h1>
+      <div  *ngIf="Publicado == '1'"  style="background-color:rgb(133, 228, 112);margin-right: 0px;margin-left: 0px;" class="row">
+        <h6 class="col-md-6" style="text-align: left;font-weight: bold;">
+          PERIODO :
+          <span>
+            {{Periodo}}
+          </span>
+        </h6>
+        <h6 class="col-md-6" style="text-align: right;font-weight: bold;">
+          FECHA PUBLICACIÓN :
+          <span>
+            {{FechaPublicacion | date: 'yyyy-MM-dd'}}
+          </span>
+        </h6>
+      </div>
+    </div>
+  </div>
+  <br>
+  <!-- nuevo -->
+  <div align="center">
+    <br>
+    <img *ngIf="PaginaCargada" align="middle" style="z-index:2;" width="15%" height="20%" src="../../../assets/img/panel/loading-gif-transparent-4.gif" alt="" />
+  </div>
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let element of _listaComponentes ; let i = index">
+      <mat-expansion-panel-header style="background-color:#e2e2e2;font-family:helvética;font-weight: bold;">
+        <mat-panel-title>
+          COMPONENTE : {{element.Componente.Descripcion}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <br>
+      <div class="col-lg-12 col-md-12 mr-auto ">
+        <div class="mat-elevation-z5 gpm-universal-heigth">
+          <table mat-table [dataSource]="element.DescripcionComponente" class="table table-bordered">
+            <ng-container matColumnDef="TipoElemento">
+              <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef [attr.rowspan]="2">TIPO ELEMENTO</th>
+              <td style="text-align: center;vertical-align: middle;" mat-cell *matCellDef="let data">{{data.AsignarDescripcionComponenteTipoElemento.TipoElemento.Descripcion}}</td>
+            </ng-container>
+            <ng-container matColumnDef="summer">
+              <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef [attr.colspan]="2">OBLIGATORIOS</th>
+            </ng-container>
+            <ng-container matColumnDef="tipoElementoCheck">
+              <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef>TIPO ELEMENTO</th>
+              <td style="text-align: center;vertical-align: middle;font-weight: bold;" mat-cell *matCellDef="let data">
+                <mat-checkbox disabled [checked]="data.AsignarDescripcionComponenteTipoElemento.Obligatorio"></mat-checkbox>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="descripcionCheck">
+              <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef>DESCRIPCIÓN</th>
+              <td style="text-align: center;vertical-align: middle;font-weight: bold;" mat-cell *matCellDef="let data">
+                <mat-checkbox disabled [checked]="data.Obligatorio"></mat-checkbox>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="accion">
+              <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef [attr.rowspan]="2">ACCIÓN</th>
+              <td style="text-align: center;vertical-align: middle;font-weight: bold;" mat-cell *matCellDef="let data">
+                <button *ngIf="Publicado == '0'"  (click)="eliminarItemComponenteGenerico(data)" tooltip="Eliminar" placement="top" class="btn btn-sm btn-outline-danger separacion-botones">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['TipoElemento','summer', 'accion']"></tr>
+            <tr mat-header-row *matHeaderRowDef="['tipoElementoCheck', 'descripcionCheck']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['TipoElemento','tipoElementoCheck', 'descripcionCheck', 'accion']"></tr>
+          </table>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button class="mat-raised-button mat-warn" (click)="close()">Cerrar</button>
+</mat-dialog-actions>

@@ -180,25 +180,21 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
   }
   _onExpandPanelPeriodo(){
     console.log("_onExpandPanelPeriodo");
-
     this._consultarPeriodos();
   }
   _onExpandPanelCuestionario(){
     console.log("_onExpandPanelCuestionario");
-
     this._cargarMisCuestionariosGenericos();
     this._consultarTecnicos();
   }
   _onExpandPanelUbicacion(){
     console.log("_onExpandPanelUbicacion");
-
     this._consultarProvincias();
   }
   _onExpandPanelTecnico(){
     this._consultarTecnicos();
   }
   _onExpandPanelAsignarEncuestado(){
-    
     // if (this._verAsignarEncuestado == true) {
     //   this._verAsignarEncuestado=false;
     // } else {
@@ -207,7 +203,7 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
   }
   _ocultarPanelAsignarEncuestado(){
     console.log("OCULTAR");
-    
+
     this._verAsignarEncuestado=false;
   }
   _validarForm(){
@@ -343,20 +339,20 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
 
   _insertar_cuestionarioPublicado(){
     let _idAsignarUsuarioTipoUsuario = localStorage.getItem("IdAsignarUsuarioTipoUsuarioEncriptado");
-    
+
     console.log(
             "_idAsignarUsuarioTipoUsuario",_idAsignarUsuarioTipoUsuario,
             "this.formCuestionarioGenericoPublicar_cmbCabeceraVersionCuestionario.value",this.formCuestionarioGenericoPublicar_cmbCabeceraVersionCuestionario.value,
             "this.formCuestionarioGenericoPublicar_cmbPeriodo.value",this.formCuestionarioGenericoPublicar_cmbPeriodo.value
             );
-    
+
 
     this.cuestionarioPublicadoService._insertar_cuestionarioPublicado(
       _idAsignarUsuarioTipoUsuario,
       this.formCuestionarioGenericoPublicar_cmbCabeceraVersionCuestionario.value,
       this.formCuestionarioGenericoPublicar_cmbPeriodo.value
     ).then(data=>{
-    
+
       if (data['http']['codigo']=='500') {
         this.mensaje('Error en servidor, intente más tarde');
       }
@@ -407,7 +403,7 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
       "formAsignarEncuestado_fechaInicio",this.formAsignarEncuestado_fechaInicio.value +" 0:00:00",
       "formAsignarEncuestado_fechaFin",this.formAsignarEncuestado_fechaFin.value +" 0:00:00"
     );
-    
+
     this.asignarEncuestadoService._insertarAsignarEncuestado(
       this.formAsignarEncuestado_idCuestionarioPublicadoEncriptado.value,
       this.formAsignarEncuestado_cmbComunidad.value,
@@ -418,11 +414,11 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
       this.formAsignarEncuestado_fechaFin.value
     ).then(data=>{
       if (data['http']['codigo']=='500') {
-        
+
       } else if(data['http']['codigo']=='200'){
         this._consultar_poridcuestionariopublicado(this.formAsignarEncuestado_idCuestionarioPublicadoEncriptado.value);
       } else {
-        
+
       }
     }).catch(error=>{
 
@@ -436,7 +432,7 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
     this.asignarEncuestadoService._consultar_poridcuestionariopublicado(_idCuestionarioGenericoEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='500') {
-          
+
         } else if(data['http']['codigo']=='200') {
           this._listaAsignarEncuestados = data['respuesta'];
         }else{
@@ -446,7 +442,7 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
 
       }).finally(()=>{
         console.log("_listaAsignarEncuestados",this._listaAsignarEncuestados);
-        
+
       });
   }
 
@@ -456,11 +452,11 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
     this.asignarEncuestadoService._eliminarAsignarEncuestado(_item.IdAsignarEncuestadoEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='500') {
-          
+
         } else if(data['http']['codigo']=='200'){
           this._consultar_poridcuestionariopublicado(_item.CuestionarioPublicado.IdCuestionarioPublicadoEncriptado);
         } else {
-          
+
         }
       }).catch(error=>{
 

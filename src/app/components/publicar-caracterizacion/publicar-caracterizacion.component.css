@@ -1,28 +1,6 @@
-.LockOn {
-    display: block;
-    visibility: visible;
-    position: absolute;
-    z-index: 999;
-    top: 0px;
-    left: 0px;
-    width: 105%;
-    height: 105%;
-    background-color:white;
-    vertical-align:bottom;
-    padding-top: 20%;
-    filter: alpha(opacity=75);
-    opacity: 0.75;
-    font-size:large;
-    color:blue;
-    font-style:italic;
-    font-weight:400;
-    background-image: url("../../../assets/img/panel/loading-gif-transparent-4.gif");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
+::ng-deep .mat-expansion-panel-body{
+  padding-bottom: 0px !important;
 }
-
-
 #page-container {
   position: relative;
   min-height: 25vh;
@@ -35,7 +13,33 @@
   position: absolute;
   bottom: 0;
   height: 2.5rem;            /* Footer height */
+  display: flex !important ;
 }
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
 .left {
   text-align: left;
 }
@@ -75,33 +79,19 @@
 .btn1:active .arrow {
   margin-left: 1.5em;
 }
-
-
-
-.tablaUsuarios {
-    /* height: 25rem; */
-    overflow: auto;
-  }
-  table {
-    width: 100%;
-  }
-.centrarBoton{
-  text-align: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 40%;
-  transform: translateY(-50X);
+/* table {
+  border-collapse: collapse;
+} */
+/* .mat-header-cellTabla {
+  padding: 20px 0;
+  border: 1px solid rgba(110, 110, 110, 0.54);
 }
-.centrarCheck{
-  text-align: center;
-  position: absolute;
-  left:15%;
-  right: auto;
-  top: 25%;
-  transform: translateY(-50X);
-  text-align: left;
-}
+
+.rowTabla {
+  padding: 20px 0;
+  border: 1px solid rgba(110, 110, 110, 0.54);
+} */
+
 
 @keyframes pulse {
 	 0% {

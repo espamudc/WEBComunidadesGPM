@@ -22,7 +22,10 @@ import { CuestionarioGenericoDetalleComponent } from './components/cuestionario-
 import { CuestionarioGenericoPublicarComponent } from './components/cuestionario-generico-publicar/cuestionario-generico-publicar.component';
 import { CuestionarioGenericoVersionesComponent } from './components/cuestionario-generico-versiones/cuestionario-generico-versiones.component';
 import { CaracterizacionComponent } from './components/caracterizacion/caracterizacion.component';
-
+import { ListaCaracterizacionComponent  } from './components/lista-caracterizacion/lista-caracterizacion.component';
+import { VersionarCaracterizacionComponent } from './components/versionar-caracterizacion/versionar-caracterizacion.component';
+import { PublicarCaracterizacionComponent } from './components/publicar-caracterizacion/publicar-caracterizacion.component';
+import { LlenarCaracterizacionComponent } from './components/llenar-caracterizacion/llenar-caracterizacion.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
   { path: 'login', component: LoginComponent },
@@ -33,11 +36,11 @@ const routes: Routes = [
     children: [
       {
         path: 'roles', component: TipoUsuarioComponent,
-        // canActivate: [ValidarUsuarioGuard] 
+        // canActivate: [ValidarUsuarioGuard]
       },
       {
         path: 'usuarios', component: UsuarioComponent,
-        // canActivate: [ValidarUsuarioGuard] 
+        // canActivate: [ValidarUsuarioGuard]
       },
       {
         path: 'personas', component: PersonaComponent,
@@ -54,7 +57,7 @@ const routes: Routes = [
       {
         path: 'estructura-cuestionario-generico', component: EstructuraCuestionarioGenericoComponent,
         // canActivate: [ValidarUsuarioGuard]
-      }, 
+      },
       {
         path: 'encajonar-pregunta', component: EncajonarPreguntaComponent,
         // canActivate: [ValidarUsuarioGuard]
@@ -75,7 +78,22 @@ const routes: Routes = [
         path: 'cuestionario-caracterizacion', component: CaracterizacionComponent,
         // canActivate: [ValidarUsuarioGuard]
       },
-
+      {
+        path: 'cuestionario-lista-caracterizacion', component: ListaCaracterizacionComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+      {
+        path: 'cuestionario-version-caracterizacion', component: VersionarCaracterizacionComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+      {
+        path: 'cuestionario-publicar-caracterizacion', component: PublicarCaracterizacionComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+      {
+        path: 'caracterizacion-llenar', component: LlenarCaracterizacionComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
     ]
   },
   { path: '**', component: Page404Component }

@@ -14,7 +14,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatTabsModule } from "@angular/material/tabs";
-
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatStepperModule } from '@angular/material';
 // Components
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { LoginComponent } from './components/login/login.component';
@@ -39,7 +41,7 @@ import { ParroquiaComponent } from './components/parroquia/parroquia.component';
 import { ProvinciaComponent } from './components/provincia/provincia.component';
 import { ModalAsignacionUsuarioTiposUsuarioComponent } from './components/modal-asignacion-usuario-tipos-usuario/modal-asignacion-usuario-tipos-usuario.component';
 import { ModalDetalleUsuarioComponent } from './components/modal-detalle-usuario/modal-detalle-usuario.component';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 import { TooltipModule } from 'ng2-tooltip-directive';
@@ -65,6 +67,16 @@ import { CuestionarioGenericoVersionesComponent } from './components/cuestionari
 import { CuestionarioGenericoPublicarComponent } from './components/cuestionario-generico-publicar/cuestionario-generico-publicar.component';
 import { ModalCuestionarioGenericoVersionDetalleComponent } from './components/modal-cuestionario-generico-version-detalle/modal-cuestionario-generico-version-detalle.component';
 import { CaracterizacionComponent } from './components/caracterizacion/caracterizacion.component';
+import { ModalAsignacionOrdenComponent } from './components/modal-asignacion-orden/modal-asignacion-orden.component';
+import { ModalVistapreviaCaracterizacionComponent } from './components/modal-vistaprevia-caracterizacion/modal-vistaprevia-caracterizacion.component';
+import { ListaCaracterizacionComponent } from './components/lista-caracterizacion/lista-caracterizacion.component';
+import { VersionarCaracterizacionComponent } from './components/versionar-caracterizacion/versionar-caracterizacion.component';
+import { PublicarCaracterizacionComponent } from './components/publicar-caracterizacion/publicar-caracterizacion.component';
+import { ModalVersionarCaracterizacionComponent } from './components/modal-versionar-caracterizacion/modal-versionar-caracterizacion.component';
+import { ModalAsignarRepresentanteModeloPublicadoComponent } from './components/modal-asignar-representante-modelo-publicado/modal-asignar-representante-modelo-publicado.component';
+import { LlenarCaracterizacionComponent } from './components/llenar-caracterizacion/llenar-caracterizacion.component';
+import { ModalLlenarInformacionComponent } from './components/modal-llenar-informacion/modal-llenar-informacion.component';
+import { GaleriaComponent } from './components/galeria/galeria.component';
 // import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
@@ -105,6 +117,16 @@ import { CaracterizacionComponent } from './components/caracterizacion/caracteri
     CuestionarioGenericoPublicarComponent,
     ModalCuestionarioGenericoVersionDetalleComponent,
     CaracterizacionComponent,
+    ModalAsignacionOrdenComponent,
+    ModalVistapreviaCaracterizacionComponent,
+    ListaCaracterizacionComponent,
+    VersionarCaracterizacionComponent,
+    PublicarCaracterizacionComponent,
+    ModalVersionarCaracterizacionComponent,
+    ModalAsignarRepresentanteModeloPublicadoComponent,
+    LlenarCaracterizacionComponent,
+    ModalLlenarInformacionComponent,
+    GaleriaComponent,
     // MessageBoxComponent,
   ],
   imports: [
@@ -135,10 +157,14 @@ import { CaracterizacionComponent } from './components/caracterizacion/caracteri
     MatSlideToggleModule,
     MatRadioModule,
     MatCheckboxModule,
-    MatDatepickerModule,MatNativeDateModule
+    MatDatepickerModule,MatNativeDateModule,
+    MatPaginatorModule,
+    MatAutocompleteModule,
+    MatProgressSpinnerModule,
+    MatStepperModule
   ],
   exports:[],
-  entryComponents: [ 
+  entryComponents: [
     ModalDetallePersonaComponent,
     ModalAsignacionUsuarioPersonaComponent ,
     ModalAsignacionUsuarioTiposUsuarioComponent,
@@ -146,7 +172,13 @@ import { CaracterizacionComponent } from './components/caracterizacion/caracteri
     ModalLugarRepresentanteComponent, //
     ModalAsignarTipoUsuarioModuloPrivilegioComponent,
     ModalAsignarResponsableCuestionarioGenericoComponent,
-    ModalCuestionarioGenericoVersionDetalleComponent
+    ModalCuestionarioGenericoVersionDetalleComponent,
+    ModalAsignacionOrdenComponent,
+    ModalVistapreviaCaracterizacionComponent,
+    ModalVersionarCaracterizacionComponent,
+    ModalAsignarRepresentanteModeloPublicadoComponent,
+    ModalLlenarInformacionComponent,
+    GaleriaComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,91 @@
+.LockOn {
+    display: block;
+    visibility: visible;
+    position: absolute;
+    z-index: 999;
+    top: 0px;
+    left: 0px;
+    width: 105%;
+    height: 105%;
+    background-color:white;
+    vertical-align:bottom;
+    padding-top: 20%;
+    filter: alpha(opacity=75);
+    opacity: 0.75;
+    font-size:large;
+    color:blue;
+    font-style:italic;
+    font-weight:400;
+    background-image: url("../../../assets/img/panel/loading-gif-transparent-4.gif");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+.borderError{
+  color: red !important;
+}
+.bordeSucceful{
+  color: black !important;
+}
+.borderErrorRepresentante{
+  border: 1px solid red !important;
+  width: 86%;
+}
+.bordeSuccefulRepresentante{
+  border: 1px solid #ccc !important;
+  width: 86%;
+}
+input[type="date"]::-webkit-inner-spin-button {
+  opacity: 0
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: url(https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/calendar-16.png) center/80% no-repeat;
+  color: rgba(0, 0, 0, 0);
+  opacity: 0.5
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  background: url(https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/calendar-16.png) center/80% no-repeat;
+  opacity: 0.8
+}
+
+.btn-circle, .btn-circle-3d {
+  border-radius: 50% !important;
+}
+
+.btn-primary.btn-circle {
+  -webkit-box-shadow: 0px 0px 3px 1px #245580;
+  -moz-box-shadow: 0px 0px 3px 1px #245580;
+  box-shadow: 0px 0px 3px 1px #245580;
+}
+
+.btn-info.btn-circle {
+  -webkit-box-shadow: 0px 0px 3px 1px #28a4c9;
+  -moz-box-shadow: 0px 0px 3px 1px #28a4c9;
+  box-shadow: 0px 0px 3px 1px #28a4c9;
+}
+
+.btn-success.btn-circle {
+  -webkit-box-shadow: 0px 0px 3px 1px #3e8f3e;
+  -moz-box-shadow: 0px 0px 3px 1px #3e8f3e;
+  box-shadow: 0px 0px 3px 1px #3e8f3e;
+}
+
+.btn-danger.btn-circle {
+  -webkit-box-shadow: 0px 0px 3px 1px #b92c28;
+  -moz-box-shadow: 0px 0px 3px 1px #b92c28;
+  box-shadow: 0px 0px 3px 1px #b92c28;
+}
+
+.btn-warning.btn-circle {
+  -webkit-box-shadow: 0px 0px 3px 1px #e38d13;
+  -moz-box-shadow: 0px 0px 3px 1px #e38d13;
+  box-shadow: 0px 0px 3px 1px #e38d13;
+}
+
+.btn-default.btn-circle {
+  -webkit-box-shadow: 0px 0px 3px 1px #ccc;
+  -moz-box-shadow: 0px 0px 3px 1px #ccc;
+  box-shadow: 0px 0px 3px 1px #ccc;
+}

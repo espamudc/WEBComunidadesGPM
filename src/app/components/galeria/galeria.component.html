@@ -1,0 +1,25 @@
+<mat-dialog-content>
+  <div class="container">
+    <mat-card class="mat-elevation-z9">
+      <div class="row">
+        <div class="col-12">
+          <h4 style="text-align: center;">GALERÍA</h4>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div *ngFor="let item of _listaImagenes">
+            <div style="margin-right: 3px;margin-bottom: 7px;" class="box col-lg-12 col-md-12 container1">
+              <img width="300px" style="height: -webkit-fill-available;" [src]="item" alt="" />
+              <div class="middle">
+                <button class="btn btn-success" (click)="addImagen()">
+                  <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                  Add
+                </button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</mat-dialog-content>

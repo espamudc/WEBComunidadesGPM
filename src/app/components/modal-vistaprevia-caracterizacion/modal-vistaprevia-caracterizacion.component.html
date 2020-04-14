@@ -1,0 +1,170 @@
+<mat-dialog-content>
+  <div align="center">
+    <img align="middle" *ngIf="CargandoVistaPrevia" style="z-index:2;" width="23%" height="30%" src="../../../assets/img/panel/loading-gif-transparent-4.gif" alt="" />
+  </div>
+  <div>
+    <div class="row">
+      <div class="col-12 card-header">
+        <h1 style="text-align: center;font-family:helvética;">{{tituloEncabezado}}
+          <br>
+          <h5 style="text-align: center;">{{version}}</h5>
+          <h3 style="text-align: center;">{{descripcionEncabezado}}</h3>
+        </h1>
+        <div *ngIf="Publicado == '1'" style="background-color:rgb(133, 228, 112);" class="row">
+          <h6 class="col-md-6" style="text-align: left;font-weight: bold;">
+            PERIODO :
+            <span>
+              {{Periodo}}
+            </span>
+          </h6>
+          <h6 class="col-md-6" style="text-align: right;font-weight: bold;">
+            FECHA PUBLICACIÓN :
+            <span>
+              {{FechaPublicacion | date: 'yyyy-MM-dd'}}
+            </span>
+          </h6>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div style="background: rgba(0, 0, 0, 0.03);" class="border border-secondary col-sm-3">
+        PROVINCIA
+      </div>
+      <div class=" border border-secondary col-sm-3">
+        {{provincia}}
+      </div>
+      <div style="background: rgba(0, 0, 0, 0.03);" class="border border-secondary col-sm-3">
+        CANTÓN
+      </div>
+      <div class=" border border-secondary col-sm-3">
+        {{canton}}
+      </div>
+    </div>
+    <div class="row">
+      <div style="background: rgba(0, 0, 0, 0.03);" class="border border-secondary col-sm-3">
+        PARROQUIA
+      </div>
+      <div class=" border border-secondary col-sm-3">
+        {{parroquia}}
+      </div>
+      <div style="background: rgba(0, 0, 0, 0.03);" class="border border-secondary col-sm-3">
+        REPRESENTANTE
+      </div>
+      <div class=" border border-secondary col-sm-3">
+        {{nComunidades}}
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-12">
+        <div *ngFor="let element of listaComponentes ; let i = index">
+          <mat-card style="mat-elevation-z10 padding-top: 1px;padding-left: 1px;padding-bottom: 1px;padding-right: 1px;" class="example-card">
+            <mat-card-header>
+              <mat-card-title>CUESTIONARIO : {{element.CuestionarioPublicado.CuestionarioGenerico.Nombre}}</mat-card-title>
+              <mat-card-subtitle>VERSIÓN : {{element.CuestionarioPublicado.CabeceraVersionCuestionario.Version}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div style="padding-top: 15px;padding-left: 15px;padding-bottom: 15px;padding-right: 15px;" *ngFor="let element1 of element.AsignarComponenteGenerico ; let i1 = index1">
+                <div class="card">
+                  <div style="font-weight: bold;" class="card-header">
+                    COMPONENTE : {{element1.Componente.Descripcion}}
+                  </div>
+                  <div style="padding-top: 0px;padding-left: 0px;padding-bottom: 0px;padding-right: 0px;" class="card-body">
+                    <div *ngFor="let element2 of element1.Componente.DescripcionComponente ; let i2 = inde2" class="gpm-universal-heigth">
+                      <div class="container-fluid">
+                        <div class="row">
+                          <div style="text-align:center;" class="col-md-6 border border-secondary">
+                            DESCRIPCIÓN <br>
+                            OBLIGATORIO : <span style="font-weight: bold;" *ngIf="element2.Obligatorio">SI</span>
+                            <span style="font-weight: bold;" *ngIf="!element2.Obligatorio">NO</span>
+                          </div>
+                          <div style="text-align:center;" class="col-md-6 border border-secondary">
+                            {{element2.AsignarDescripcionComponenteTipoElemento.TipoElemento.Descripcion}}<br>
+                            OBLIGATORIO : <span style="font-weight: bold;" *ngIf="element2.AsignarDescripcionComponenteTipoElemento.Obligatorio">SI</span>
+                            <span style="font-weight: bold;" *ngIf="!element2.AsignarDescripcionComponenteTipoElemento.Obligatorio">NO</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="mostrarDataCaracterizacionVistaPreviaLugar" class="row">
+      <div class="col-12">
+        <div *ngFor="let element of listaComponentes1 ; let i = index">
+          <br>
+          <div style="text-align:center;vertical-align: middle;font-weight: bold;" class="row card-header">
+            COMPONENTE : {{element.Componente.Descripcion}}
+          </div>
+          <div *ngFor="let element1 of element.DescripcionComponente ; let i1 = index">
+            <div class="row">
+              <div style="vertical-align: middle" class="border border-secondary col-sm-5">
+                <!-- DESCRIPCIÓN <br>
+                OBLIGATORIO : <span style="font-weight: bold;" *ngIf="element1.Obligatorio">SI</span>
+                <span style="font-weight: bold;" *ngIf="!element1.Obligatorio">NO</span> -->
+                <br>
+                <span style="font-weight: bold;" *ngIf="element1.Obligatorio">OBLIGATORIO</span>
+                <span style="font-weight: bold;" *ngIf="!element1.Obligatorio">OPCIONAL</span>
+                <p style="text-align: justify;">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+              </div>
+              <div style="text-align:center;" class="border border-secondary col-sm-7">
+                <!-- {{element1.AsignarDescripcionComponenteTipoElemento.TipoElemento.Descripcion}}<br>
+                OBLIGATORIO : <span style="font-weight: bold;" *ngIf="element1.AsignarDescripcionComponenteTipoElemento.Obligatorio">SI</span>
+                <span style="font-weight: bold;" *ngIf="!element1.AsignarDescripcionComponenteTipoElemento.Obligatorio">NO</span> -->
+                <ng-container *ngIf="element1.AsignarDescripcionComponenteTipoElemento.TipoElemento.Identificador == 1">
+                  <strong *ngIf="element1.AsignarDescripcionComponenteTipoElemento.Obligatorio">{{element1.AsignarDescripcionComponenteTipoElemento.TipoElemento.Descripcion}} <span>(OBLIGATORIO)</span></strong>
+                  <strong *ngIf="!element1.AsignarDescripcionComponenteTipoElemento.Obligatorio">{{element1.AsignarDescripcionComponenteTipoElemento.TipoElemento.Descripcion}} <span>(OPCIONAL)</span></strong>
+                  <img style="width: inherit; height: inherit;" src="../../../assets/img/panel/tosagua.jpg" alt="" />
+                </ng-container>
+                <ng-container *ngIf="element1.AsignarDescripcionComponenteTipoElemento.TipoElemento.Identificador == 2">
+                  <br>
+                  <strong *ngIf="element1.AsignarDescripcionComponenteTipoElemento.Obligatorio">{{element1.AsignarDescripcionComponenteTipoElemento.TipoElemento.Descripcion}} <span>(OBLIGATORIO)</span></strong>
+                  <strong *ngIf="!element1.AsignarDescripcionComponenteTipoElemento.Obligatorio">{{element1.AsignarDescripcionComponenteTipoElemento.TipoElemento.Descripcion}} <span>(OPCIONAL)</span></strong>
+                  <mat-list style="vertical-align: middle !important;">
+                    <mat-divider></mat-divider>
+                    <mat-list-item>
+                      <strong style="font-size: smaller !important;">N° COMUNIDADES : </strong>
+                      ejem: 100
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item>
+                      <strong style="font-size: smaller !important;">N° HABITANTES : </strong>
+                      ejem: 50
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item>
+                      <strong style="font-size: smaller !important;">N° HOMBRE : </strong>
+                      ejem: 150
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item>
+                      <strong style="font-size: smaller !important;">N° MUJERES : </strong>
+                      ejem: 500
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                  </mat-list>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<!-- <mat-dialog-actions> -->
+<!-- <button class="mat-raised-button" (click)="close()">Close</button>
+  <button class="mat-raised-button mat-primary" (click)="save()">Save</button> -->
+<!-- </mat-dialog-actions> -->

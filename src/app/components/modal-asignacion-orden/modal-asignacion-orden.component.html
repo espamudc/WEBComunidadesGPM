@@ -1,0 +1,45 @@
+<mat-dialog-content>
+  <div *ngIf="cargandoGuardar"  id="coverScreen"  class="LockOn">
+  </div>
+    <div class="row">
+        <div class="col-12">
+            <h2 style="text-align: center;"> ORDEN</h2>
+        </div>
+    </div>
+    <br>
+    <form [formGroup]="formAsignarOrden" (ngSubmit)="validarForm()">
+        <mat-form-field class="gpm-universal-width ">
+            <mat-label>Componente</mat-label>
+            <textarea [formControl]="formAsignarOrden_ComponenteDescripcion" style="resize: none;" readonly matInput
+                placeholder="Componente"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="gpm-universal-width ">
+            <input [formControl]="formAsignarOrden_Orden" matInput type="number" min="1" placeholder="Orden">
+            <mat-error
+                *ngIf="formAsignarOrden_Orden.hasError('required') || formAsignarOrden_Orden.invalid || (formAsignarOrden_Orden.dirty || formAsignarOrden_Orden.touched) ">
+                Este dato es <strong>obligatorio</strong>
+            </mat-error>
+
+        </mat-form-field>
+        <!-- <br>
+        <br>
+        <div class="gpm-universal-width" >
+            <ng-container class=" ">
+                <mat-checkbox [formControl]="formAsignarOrden_checkObligatorio"> Obligatorio </mat-checkbox>
+            </ng-container>
+        </div>
+        <br> -->
+
+        <button mat-button class="btn btn-primary btn-block" [disabled]="formAsignarOrden.invalid">
+            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+        </button>
+    </form>
+    <br>
+    <button (click)="_cancelar()" mat-button class="btn btn-danger btn-block">
+        <i class="fa fa-times" aria-hidden="true"></i>
+        Cancelar
+    </button>
+</mat-dialog-content>
+<mat-dialog-actions>
+</mat-dialog-actions>

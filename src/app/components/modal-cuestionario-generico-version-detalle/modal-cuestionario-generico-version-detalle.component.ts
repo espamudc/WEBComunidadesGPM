@@ -23,13 +23,14 @@ export class ModalCuestionarioGenericoVersionDetalleComponent implements OnInit 
     this._cargarCuestionarioGenerico = {};
     this.cuestionarioGenericoService._cuestionariogenerico_consultarporidconcomponenteconseccionconpregunta(_IdCuestionarioGenericoEncriptado)
       .then(data=>{
-        
+
         if (data['http']['codigo']=='200') {
-          
+
           this._cargarCuestionarioGenerico = data['respuesta'];
+          console.log("componentes de una version",data['respuesta']);
 
         } else {
-          
+
         }
       }).catch(error=>{
 

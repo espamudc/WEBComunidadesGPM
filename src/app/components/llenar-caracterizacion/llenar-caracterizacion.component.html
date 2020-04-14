@@ -1,0 +1,212 @@
+<!-- <p>llenar-caracterizacion works!</p> -->
+<div *ngIf="cargandoIngresoInformacion"  id="coverScreen"  class="LockOn">
+</div>
+<br>
+<div class="container">
+  <div class="row left col-lg-5 col-md-5 mr-auto">
+    <a routerLink="/inicio/cuestionario-lista-caracterizacion" class="btn1">Menú Principal <span class="arrow">❯</span></a>
+  </div>
+</div>
+<mat-tab-group>
+  <mat-tab label="CARACTERIZACIÓN">
+    <br>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-4 mr-auto">
+          <mat-card class="mat-elevation-z9">
+            <div class="row">
+              <div class="col-12">
+                <h4 style="text-align: center;">CARACTERIZACIÓN</h4>
+              </div>
+            </div>
+            <br>
+            <form [formGroup]="formIngresoCaracterizacion" (ngSubmit)="buscarCaracterizaciones()">
+              <!-- <div class="row"> -->
+              <div class="row">
+                <mat-form-field class="gpm-form-field col-sm-12">
+                  <input type="text" placeholder="Seleccione una opción" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                  <mat-spinner *ngIf="cargandoProvincias" diameter="20" matSuffix></mat-spinner>
+                  <mat-autocomplete [displayWith]="displayFn.bind(this)" autoActiveFirstOption #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions | async" value="{{option.IdProvinciaEncriptado}}">
+                      {{option.NombreProvincia}}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error>
+                    Este dato es <strong>obligatorio</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <mat-form-field class="gpm-form-field col-sm-12">
+                  <mat-label>Cantón</mat-label>
+                  <mat-spinner *ngIf="cargandoCanton" diameter="20" matSuffix></mat-spinner>
+                  <mat-select md-autofocus [formControl]="form_Canton" (selectionChange)="_parroquiasDeUnCanton($event.value)" required>
+                    <mat-option *ngFor="let item of _listaCantones" [value]="item.IdCantonEncriptado">
+                      {{item.NombreCanton}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error>
+                    Este dato es <strong>obligatorio</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <mat-form-field class="gpm-form-field col-sm-12">
+                  <mat-label>Parroquia</mat-label>
+                  <mat-spinner *ngIf="cargandoParroquia" diameter="20" matSuffix></mat-spinner>
+                  <mat-select [formControl]="form_Parroquia" (selectionChange)="_cargarRepresentanteParroquia($event.value)" required>
+                    <mat-option *ngFor="let item of _listaParroquias" [value]="item.IdParroquiaEncriptado">
+                      {{item.NombreParroquia}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error>
+                    Este dato es <strong>obligatorio</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <!-- </div> -->
+              <div class="row">
+                <mat-form-field class="gpm-form-field col-sm-12">
+                  <mat-label>Presidente Junta Parroquial</mat-label>
+                  <input readonly matInput placeholder="Ex. Pizza" [formControl]="form_Representante">
+                  <mat-spinner *ngIf="cargandoRepresentante" diameter="20" matSuffix></mat-spinner>
+                  <mat-error>
+                    Este dato es <strong>obligatorio</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div style="padding-top: 15px;text-align: center;">
+                    <button [disabled]="formIngresoCaracterizacion.invalid || formIngresoCaracterizacion.disabled" tooltip="Buscar" class="btn  btn-sm btn-primary btn-circle">
+                      <i class="fa fa-search" aria-hidden="true"></i>
+                      BUSCAR
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </mat-card>
+        </div>
+        <div class="col-lg-8 col-md-8 mr-auto">
+          <mat-card style="height: 382px;" class="mat-elevation-z9">
+            <div id="page-container" style="height: 100% !important;" class="mat-elevation-z7">
+              <br>
+              <table class="col-12" mat-table [dataSource]="listaPublicacionesParroquia">
+                <ng-container matColumnDef="estado">
+                  <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef> ESTADO </th>
+                  <td style="text-align: center;" mat-cell *matCellDef="let element">
+                    <i tooltip="Activo" hide-delay="1" *ngIf="element.Estado"  style="color:green" class="fa fa-circle" aria-hidden="true"></i>
+                    <i tooltip="Inactivo" hide-delay="1" *ngIf="!element.Estado"  style="color:red" class="fa fa-circle" aria-hidden="true"></i>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="lugar">
+                  <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef> CARACTERIZACIÓN </th>
+                  <td style="text-align: center" mat-cell *matCellDef="let element">
+                    {{element.ModeloPublicado.CabeceraVersionModelo.ModeloGenerico.Nombre}} (VERSIÓN {{element.ModeloPublicado.CabeceraVersionModelo.Version}})
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="inicio">
+                  <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef> INICIO </th>
+                  <td style="text-align: center" mat-cell *matCellDef="let element">
+                    {{element.FechaInicio | date: 'yyyy-MM-dd'}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="fin">
+                  <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef> FIN </th>
+                  <td style="text-align: center" mat-cell *matCellDef="let element">
+                    {{element.FechaFin | date: 'yyyy-MM-dd'}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="acciones">
+                  <th style="text-align:center;vertical-align: middle;font-weight: bold;" colspan="2" mat-header-cell *matHeaderCellDef> ACCIONES </th>
+                  <ng-container *matCellDef="let element">
+                    <ng-container>
+                      <td style="text-align: center;" mat-cell>
+                        <!-- <button tooltip="Eliminar" hide-delay="1" placement="top" class="btn btn-sm btn-outline-danger separacion-botones" (click)="eliminarResponsable(element)">
+                          <i class="fa fa-remove" aria-hidden="true"></i>
+                        </button> -->
+                        <button *ngIf="element.Estado"  tooltip="Llenar Informacion" hide-delay="1" placement="top" class="btn btn-sm btn-outline-primary separacion-botones" (click)="_buscarCabeceraCaracterizacion(element)">
+                          <i class="fa fa-file-text" aria-hidden="true"></i>
+                        </button>
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="['estado','lugar','inicio','fin','acciones']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['estado','lugar','inicio','fin','acciones'];"></tr>
+              </table>
+              <div align="center">
+                <img *ngIf="CargandoTablaModeloPublicadosVerisonados" style="z-index:2;" width="23%" height="30%" src="../../../assets/img/panel/loading-gif-transparent-4.gif" alt="" />
+              </div>
+              <footer id="footer">
+                <mat-paginator #paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+              </footer>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+    <br>
+  </mat-tab>
+  <mat-tab *ngIf="cargarTab"  label="{{NombreCaracterizacion}}">
+    <br>
+    <div *ngIf="mostrarDataCaracterizacionVistaPreviaLugar" class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 mr-auto">
+          <mat-card class="mat-elevation-z9">
+            <div class="row">
+              <div class="col-12">
+                <div *ngFor="let element of listaComponentes1 ; let i = index">
+                  <br>
+                  <div style="text-align:center;vertical-align: middle;font-weight: bold;" class="row card-header">
+                    COMPONENTE : {{element.Componente.Descripcion}}
+                  </div>
+                  <div *ngFor="let element1 of element.DescripcionComponente ; let i1 = index">
+                    <div class="row">
+                      <!-- <div style="text-align:center;vertical-align: middle" class="border border-secondary col-sm-5">
+                        DESCRIPCIÓN <br>
+                        OBLIGATORIO : <span style="font-weight: bold;" *ngIf="element1.Obligatorio">SI</span>
+                        <span style="font-weight: bold;" *ngIf="!element1.Obligatorio">NO</span>
+                      </div> -->
+                      <ng-container *ngIf="element1.ContenidoDetalleComponente.length != 0">
+                        <div style="text-align:justify;vertical-align: middle" class="border border-secondary col-sm-7" *ngFor="let element2 of element1.ContenidoDetalleComponente ; let i2 = index2">
+                          <p>
+                            {{element2.Contenido}}
+                          </p>
+                        </div>
+                      </ng-container>
+                      <ng-container *ngIf="element1.ContenidoDetalleComponente.length == 0">
+                        <div style="text-align:justify;vertical-align: middle" class="border border-secondary col-sm-7">
+                          DESCRIPCIÓN <br>
+                          OBLIGATORIO : <span style="font-weight: bold;" *ngIf="element1.Obligatorio">SI</span>
+                          <span style="font-weight: bold;" *ngIf="!element1.Obligatorio">NO</span>
+                        </div>
+                      </ng-container>
+                      <div style="text-align:center;" class="border border-secondary col-sm-4">
+                        {{element1.AsignarDescripcionComponenteTipoElemento.TipoElemento.Descripcion}}<br>
+                        OBLIGATORIO : <span style="font-weight: bold;" *ngIf="element1.AsignarDescripcionComponenteTipoElemento.Obligatorio">SI</span>
+                        <span style="font-weight: bold;" *ngIf="!element1.AsignarDescripcionComponenteTipoElemento.Obligatorio">NO</span>
+                      </div>
+                      <div class="border border-secondary container1 center-h center-v col-sm-1">
+                        <div class="child">
+                          <button tooltip="Ingresar Informacion" hide-delay="1" placement="top" class="btn btn-sm btn-outline-primary separacion-botones" (click)="_ingresarInformacion(element1)">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+      <div align="center">
+        <br>
+        <img *ngIf="cargarDatos"  align="middle" style="z-index:2;" width="15%" height="20%" src="../../../assets/img/panel/loading-gif-transparent-4.gif" alt="" />
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>

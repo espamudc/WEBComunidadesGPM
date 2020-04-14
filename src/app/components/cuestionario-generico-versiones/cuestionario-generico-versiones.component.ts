@@ -18,7 +18,7 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
 
     private snackBarComponent:MatSnackBar,
     private cuestionario_generico_detalle_modalController:MatDialog,
-  ) { 
+  ) {
 
     this.formCuestionarioGenericoVersion = new FormGroup({
       _cmbCuestionario : new FormControl('',[Validators.required]),
@@ -57,7 +57,7 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
 
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
 
-    
+
     if (_duracion==null) {
        _duracion=3000;
     }
@@ -79,18 +79,18 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
   _onChangeCmbCuestionariosGenericos(event){
     // this._consultarComponentesDeCuestionario(event.value);
     if (event.value==0) {
-      
+
     } else {
 
       const obj=  this._listaCuestionariosGenericos.find(data=>data.CuestionarioGenerico.IdCuestionarioGenericoEncriptado===event.value);
       const index = this._listaCuestionariosGenericos.indexOf(obj);
 
-      this.formCuestionarioGenericoVersion_idAsignarResponsableEncriptado.setValue(obj.IdAsignarResponsableEncriptado); 
-      console.log("idAsignarResponsable:",this.formCuestionarioGenericoVersion_idAsignarResponsableEncriptado.value);
-    
+      this.formCuestionarioGenericoVersion_idAsignarResponsableEncriptado.setValue(obj.IdAsignarResponsableEncriptado);
+      //console.log("idAsignarResponsable:",this.formCuestionarioGenericoVersion_idAsignarResponsableEncriptado.value);
+
     }
     this._consultarCabeceraVersionCuestionario(event.value);
-    
+
   }
   _cargarMisCuestionariosGenericos(){
     // console.log(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado'));
@@ -102,22 +102,22 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
       .then(data=>{
         if (data['http']['codigo']=='200') {
           // console.log(data['respuesta']);
-          // 
+          //
           this._listaCuestionariosGenericos=[];
           this._listaCuestionariosGenericos = data['respuesta'];
           console.log("mis cuestionarios",this._listaCuestionariosGenericos);
-          
-         
-          console.log("lista",this._listaCuestionariosGenericos);
-          
-         
+
+
+          //console.log("lista",this._listaCuestionariosGenericos);
+
+
           
         }
-        
+
       }).catch(error=>{
 
       }).finally(()=>{
-        
+
         //this.MatTableCuestionariosGenericos.renderRows();
       });
   }
@@ -128,10 +128,10 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
     .then(data=>{
       if (data['http']['codigo']=='200') {
         this._listaVersionesCuestionario=data['respuesta'];
-      } 
-      
-      console.log("cabecera:", data);
-      
+      }
+
+      //console.log("cabecera:", data);
+
     }).catch(error=>{
 
     }).finally(()=>{
@@ -159,8 +159,8 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
   }
 
   _eliminarCabeceraVersionCuestionario(_item){
-    console.log(_item);
-    
+    //console.log(_item);
+
     this.cabeceraVersionCuestionarioService._eliminarCabeceraVersionCuestionario(_item.IdCabeceraVersionCuestionarioEncriptado)
       .then(data=>{
         this._consultarCabeceraVersionCuestionario(_item.AsignarResponsable.CuestionarioGenerico.IdCuestionarioGenericoEncriptado)
@@ -180,7 +180,7 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
   }
 
   _validarForm(){
-    
+
     this._insertarCabeceraVersionCuestionario();
   }
 
