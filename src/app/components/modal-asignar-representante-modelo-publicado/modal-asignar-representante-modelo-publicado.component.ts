@@ -106,7 +106,8 @@ export class ModalAsignarRepresentanteModeloPublicadoComponent implements OnInit
         console.log(error);
       }).finally(() => {
         this.cargandoRepresentante = false;
-        this.listaRepresentantes = lista.find(p => p.FechaSalida == null);
+        console.log(this.listaRepresentantes);
+        this.listaRepresentantes = lista.find(p => p.FechaSalida == '0001-01-01T00:00:00');
         if (this.listaRepresentantes != undefined) {
           this.form_Representante.setValue(this.listaRepresentantes['Representante']);
           this.formIngresoCaracterizacion.enable();

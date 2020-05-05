@@ -185,7 +185,7 @@ export class PreguntaAbiertaComponent implements OnInit {
 
       if (this.formPreguntaTipoAbierta.get("_valorMaximo").value < this.formPreguntaTipoAbierta.get("_valorMinimo").value) {
         this.mensaje("Ingrese un rango correcto");
-      } else if (this.formPreguntaTipoAbierta.get("_valorMaximo").value > this.formPreguntaTipoAbierta.get("_valorMinimo").value) {
+      } else if (this.formPreguntaTipoAbierta.get("_valorMaximo").value >= this.formPreguntaTipoAbierta.get("_valorMinimo").value) {
         this._insertarOpcionPreguntasAbiertas();
       }    
     } else {

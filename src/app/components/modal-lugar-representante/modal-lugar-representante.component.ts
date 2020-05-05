@@ -56,7 +56,7 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(){
 
-    var _fecha_hoy="";
+ /*    var _fecha_hoy="";
     var _fecha = new Date();
     var _mes ="";
 
@@ -74,7 +74,7 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
     
 
     this.formLugarRepresentante_fechaIngreso.setValue(_fecha_hoy);
-    this.formLugarRepresentante_fechaSalida.setValue(_fecha_hoy);
+    this.formLugarRepresentante_fechaSalida.setValue(_fecha_hoy); */
     this.formLugarRepresentante_nombreLugar.disable();
   }
 

@@ -447,20 +447,20 @@ export class CantonComponent implements OnInit,AfterViewInit {
     // var conta = this._listaProvincias.filter(dato=>dato.IdProvinciaEncriptado==_item.IdProvinciaEncriptado).length;
 
 
-    // if (this._provinciaQuitada!="") {
-    //   // this._consultarProvincias();
-    //   this._listaProvincias.push(this._provinciaQuitada);
+     if (this._provinciaQuitada!="") {
+       // this._consultarProvincias();
+       this._listaProvincias.push(this._provinciaQuitada);
 
-    // }
+     }
     
-    // var obj = this._listaProvincias.find(dato=>dato.IdProvinciaEncriptado==_item.IdProvinciaEncriptado);
-    // console.log(obj);
+    var obj = this._listaProvincias.find(dato=>dato.IdProvinciaEncriptado==_item.IdProvinciaEncriptado);
+    console.log(obj);
     
-    // var index = this._listaProvincias.indexOf(obj);
-    // console.log(index);
+    var index = this._listaProvincias.indexOf(obj);
+    console.log(index);
     
-    // this._listaProvincias.splice(index,1);
-    // this._provinciaQuitada = _item;
+    this._listaProvincias.splice(index,1);
+    this._provinciaQuitada = _item;
 
     this.MatTableProvincias.dataSource = this._listaProvincias;
     // this._listaProvincias.sort();
