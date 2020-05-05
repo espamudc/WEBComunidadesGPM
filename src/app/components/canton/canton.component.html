@@ -1,5 +1,5 @@
 <br>
-<div class="container">
+<div class="container" hidden>
     <div class="row">
         <div class="col-lg-5 col-md-5 mr-auto">
             <form [formGroup]="formCanton" (ngSubmit)="_validarForm()">
@@ -35,7 +35,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                 </mat-card>
             </form>
         </div>
@@ -79,7 +79,7 @@
                                     </button>
                                 </td>
                             </ng-container>
-                            
+
                         </ng-container>
                     </ng-container>
                     <tr mat-header-row *matHeaderRowDef="tablaCantones; sticky: true"></tr>
@@ -90,7 +90,7 @@
     </div>
 </div>
 <br>
-<div class="container" hidden>
+<div class="container">
     <div class="row">
         <div class="col-lg-4 col-md-5 mr-auto">
             <mat-card>
@@ -98,27 +98,27 @@
                     <div class="col-12"> <h2 style="text-align: center;">Cantón</h2>  </div>
                 </div>
                 <form #frmCanton="ngForm" (ngSubmit)="_validarFormulario()" >
-                    <div class="form-group"> 
+                    <div class="form-group">
                         <input disabled required [(ngModel)]="_nombreProvincia" [ngModelOptions]="{standalone: true}" name="_nombreProvincia" type="text" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Provincia">
                         <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                     </div>
-                    <div class="form-group"> 
+                    <div class="form-group">
                         <input  required [(ngModel)]="_codigoCanton" [ngModelOptions]="{standalone: true}" name="_codigoCanton" type="text" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Código de la Canton">
                         <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                    </div> 
-                    <div class="form-group"> 
+                    </div>
+                    <div class="form-group">
                         <input required [(ngModel)]="_nombreCanton" [ngModelOptions]="{standalone: true}" name="_nombreCanton" type="text" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Nombre">
                         <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                    </div> 
-                    <div class="form-group"> 
+                    </div>
+                    <div class="form-group">
                         <input [(ngModel)]="_descripcionCanton" [ngModelOptions]="{standalone: true}" name="_descripcionCanton" type="text"  class="form-control"  aria-describedby="emailHelp" placeholder="Descripción"> <!-- (keyup)="_validarCompletos($event)"-->
                         <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                    </div> 
-                    <!-- <div class="form-group"> 
+                    </div>
+                    <!-- <div class="form-group">
                         <input #rutaLogoCanton [(ngModel)]="_rutaLogoCanton" [ngModelOptions]="{standalone: true}" name="_rutaLogoCanton" type="file" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Telefono"> -->
                         <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                     <!-- </div>  -->
-                       
+
                     <div class="form-group">
                         <button type="submit" [disabled]="_validar" *ngIf="_btnAccion==='Guardar'"
                             class="form-control btn-success" >{{_btnAccion}}
@@ -127,16 +127,16 @@
                     <div class="form-group" *ngIf="_btnAccion==='Modificar'">
                         <div class="row">
                             <div class="col-6">
-                                <button  type="submit" [disabled]="_validar" 
+                                <button  type="submit" [disabled]="_validar"
                                     class="form-control btn-success" >{{_btnAccion}}
                                 </button>
                             </div>
                             <div class="col-6">
-                                <button  type="button" 
+                                <button  type="button"
                                     class="form-control btn-secondary" (click)="_limpiarForm()">Refrescar <i class="fa fa-refresh" aria-hidden="true"></i>
                                 </button>
-                            </div>    
-                            
+                            </div>
+
                         </div>
                     </div>
                 </form>
@@ -226,7 +226,7 @@
                                         </button>
                                     </td>
                                 </ng-container>
-                                
+
                             </ng-container>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="tablaCantones; sticky: true"></tr>
@@ -234,7 +234,7 @@
                     </table>
                 </div>
             <!-- </mat-card> -->
-           
+
         </div>
     </div>
 </div>
