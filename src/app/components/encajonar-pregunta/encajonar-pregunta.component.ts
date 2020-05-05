@@ -156,10 +156,21 @@ export class EncajonarPreguntaComponent implements OnInit {
 
   }else{
     this._consultarPreguntasSeccionComponenteCuestionarioGenerico(event.value);
-  }
-
-  
+  } 
    //this.formPreguntaSeccionComponenteCuestionarioGenerico.reset();
+ }
+
+ _onChangeCmbSeccionComponentesCuestionarioGenericoPorIdentificadorTipoPregunta(event?){
+
+  this._listaPreguntasSeccionComponenteCuestionarioGenerico = null;
+  this._listaPreguntasSeccionComponenteCuestionarioGenerico2 = null;
+
+  this.formEncajonarPregunta.get("_cmbPregunta").reset();
+  if(event.value=='0'){
+
+  }else{
+    this._consultarPreguntasSeccionComponenteCuestionarioGenericoPorIdentificadorTipoPregunta(event.value);
+  } 
  }
 
  _onChangeCmbPreguntasSeccionComponenteCuestionarioGenerico(event?){
@@ -245,17 +256,17 @@ export class EncajonarPreguntaComponent implements OnInit {
   _listaPreguntasTemporal:any[]=[];
   _listaPreguntasSeccionComponenteCuestionarioGenerico:any[]=[];
   _listaPreguntasSeccionComponenteCuestionarioGenerico2:any[]=[];
+
   _consultarPreguntasSeccionComponenteCuestionarioGenerico(idSeccionEncriptado){
     
-    this._listaPreguntasSeccionComponenteCuestionarioGenerico = null;
-    this._listaPreguntasSeccionComponenteCuestionarioGenerico2 = null;
+  //  this._listaPreguntasSeccionComponenteCuestionarioGenerico2 = null;
 
     let id = this.formEncajonarPregunta.get("_cmbSeccion").value;
     this.preguntaSeccionComponenteCuestionarioGenericoService._consultarPreguntasSeccionComponenteCuestionarioGenerico(idSeccionEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          console.log(data);
-          
+          console.log(data['respuesta']);          
+          this._listaPreguntasSeccionComponenteCuestionarioGenerico = [];
           this._listaPreguntasSeccionComponenteCuestionarioGenerico= data['respuesta'];
           //this._listaPreguntasSeccionComponenteCuestionarioGenerico2 = data['respuesta'];
           //this._listaPreguntasSeccionComponenteCuestionarioGenerico.sort(data=>data.Orden);
@@ -265,23 +276,45 @@ export class EncajonarPreguntaComponent implements OnInit {
         console.log(error);
         
       }).finally(()=>{
-        
-        for (let index = 0; index < this._listaPreguntasSeccionComponenteCuestionarioGenerico.length; index++) {
-          const element = this._listaPreguntasSeccionComponenteCuestionarioGenerico[index];
-          if (element.TipoPregunta.Identificador===2) {
-            console.log(element);
-            let obj = this._listaPreguntasTemporal.find(it=>it.IdPreguntaEncriptado === element.IdPreguntaEncriptado);
-            let ind = this._listaPreguntasTemporal.indexOf(obj);
-            if (ind == -1) {
-              this._listaPreguntasTemporal.push(element);
-            }
-            // let obj = this._listaPreguntasTemporal.find(data=>data.)
-            // this._listaPreguntasTemporal.push(element);
-          }
-        }
-        this._listaPreguntasSeccionComponenteCuestionarioGenerico = this._listaPreguntasTemporal;
+        //comenté estas líneas porque se cargaban las preguntas de otros cuestionarios,
+        // cuando ya habías cambiado de cuestionario 
+        // for (let index = 0; index < this._listaPreguntasSeccionComponenteCuestionarioGenerico.length; index++) {
+        //   const element = this._listaPreguntasSeccionComponenteCuestionarioGenerico[index];
+         //  if (element.TipoPregunta.Identificador===2) {
+         //    console.log(element);
+         //    let obj = this._listaPreguntasTemporal.find(it=>it.IdPreguntaEncriptado === element.IdPreguntaEncriptado);
+          //   let ind = this._listaPreguntasTemporal.indexOf(obj);
+          //   if (ind == -1) {
+          //     this._listaPreguntasTemporal.push(element);
+          //   }
+            //// let obj = this._listaPreguntasTemporal.find(data=>data.)
+            //// this._listaPreguntasTemporal.push(element);
+          // }
+         //}
+      //  this._listaPreguntasSeccionComponenteCuestionarioGenerico = this._listaPreguntasTemporal;
       });
   }
+  
+
+  _consultarPreguntasSeccionComponenteCuestionarioGenericoPorIdentificadorTipoPregunta(idSeccionEncriptado){
+       
+      let id = this.formEncajonarPregunta.get("_cmbSeccion").value;
+      this.preguntaSeccionComponenteCuestionarioGenericoService._consultarPreguntasSeleccionUnicaPorSeccion(idSeccionEncriptado)
+        .then(data=>{
+          if (data['http']['codigo']=='200') {
+            console.log(data['respuesta']);          
+            this._listaPreguntasSeccionComponenteCuestionarioGenerico = [];
+            this._listaPreguntasSeccionComponenteCuestionarioGenerico= data['respuesta'];
+  
+          }
+        }).catch(error=>{
+          console.log(error);
+          
+        }).finally(()=>{
+
+        });
+    }
+    
   
 
 
@@ -297,6 +330,7 @@ export class EncajonarPreguntaComponent implements OnInit {
     this.preguntaSeleccionService._consultarOpcionPreguntaSeleccion(
       _IdPreguntaSeleccionEncriptado
     ).then(data=>{
+      console.log(data)
       if (data['http']['codigo']=='200') {
         this._listaOpcionesPreguntaSeleccion = data['respuesta'];
       }else{
