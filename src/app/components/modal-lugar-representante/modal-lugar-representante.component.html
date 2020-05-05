@@ -3,7 +3,7 @@
 
     <div >
         <div class="row">
-            <div class="col-12"><h2 style="text-align: center;">{{formLugarRepresentante_tituloRepresentante.value}}</h2></div> 
+            <div class="col-12"><h2 style="text-align: center;">{{formLugarRepresentante_tituloRepresentante.value}}</h2></div>
         </div>
         <br>
         <div class="row">
@@ -22,7 +22,7 @@
                         </mat-form-field>
                         <mat-form-field class="gpm-universal-width">
                             <mat-label>Fecha de Salida</mat-label>
-                            <input matInput type="date" [formControl]="formLugarRepresentante_fechaSalida">
+                            <input min="{{fechaBase | date: 'yyyy-MM-dd'}}" matInput type="date" [formControl]="formLugarRepresentante_fechaSalida">
                         </mat-form-field>
                         <button [disabled]="formLugarRepresentante.invalid" *ngIf="_btnAccion=='Guardar'" mat-button class="btn btn-primary btn-block">
                             <i class="fa fa-plus"></i>
@@ -90,12 +90,18 @@
                                                 <i class="fa fa-remove" aria-hidden="true"></i>
                                             </button>
                                         </td>
+                                        <td mat-cell *ngIf="element.FechaSalida==null">
+                                            <button tooltip="Modificar" placement="top"
+                                                class="btn btn-sm btn-outline-info" (click)=_prepararRepresentante(element)>
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
                                         <!--<button [mat-dialog-close]="_persona" class="btn btn-sm btn-outline-warning separacion-botones"
                                             value="{{item.IdPersonaEncriptado}}" (click)="_asignarUsuarioaPersona(item)">
                                             <i class="fa fa-user-plus" aria-hidden="true"></i>
                                         </button>-->
                                     </ng-container>
-    
+
                                 </ng-container>
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="tablaRepresentantes; sticky: true"></tr>
