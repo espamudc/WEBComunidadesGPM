@@ -28,7 +28,7 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
    }
    //------------------------------
    formAsignarResponsableCuestionarioGenerico:FormGroup;
-   
+
    get _cmbTipoUsuario(){
      return this.formAsignarResponsableCuestionarioGenerico.get("_cmbTipoUsuario");
    }
@@ -36,15 +36,16 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
      return this.formAsignarResponsableCuestionarioGenerico.get("_cmbAsignarUsuarioTipoUsuario");
    }
    //-------------------------------
-   
+
   ngOnInit() {
+    console.log(this.data);
     this._consultarTiposUsuarios();
     this._consultarAsignados();
   }
 
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
 
-    
+
     if (_duracion==null) {
        _duracion=3000;
     }
@@ -71,25 +72,25 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
   @ViewChild(MatTable,{static:false}) MatTableAsignarResponsables : MatTable<any>;
 
   Columns: string[] = ['nombre','apellido','numeroidentificacion' ,'usuario', 'acciones'];
-  
+
   _validarAccionForm(){
     if (this._btnAccion=="Guardar") {
       this._insertarAsignarResponsableCuestionarioGenerico();
     }else if (this._btnAccion=="Modificar"){
-      
+
     }
   }
-  
-  
+
+
   _consultarTiposUsuarios(){
     var tipo;
     this.tipoUsuarioService._consultarTiposUsuarios()
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          
-          
+
+
           data['respuesta'].map(item=>{
-            
+
             if (item.Identificador==1) {
               console.log(item);
               tipo=item;
@@ -115,11 +116,11 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
         // this._listaTiposUsuarios = tipo;
       });
   }
-  
+
   _consultarNoAsinados(event?){
     // console.log(event.value);
     // console.log(this.data);
-    
+
     this.asignarUsuarioTipoUsuarioService._consultarAsignarUsuarioTipoUsuario_No_responsablesporcuestionariogenericoporidentificadortipousuario(
       this.data.IdCuestionarioGenericoEncriptado,
       this.formAsignarResponsableCuestionarioGenerico.get("_cmbTipoUsuario").value
@@ -127,14 +128,14 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
       .then(data=>{
         if (data['http']['codigo']=='200') {
           console.log(data['respuesta']);
-          
+
           this._listaUsuariosNoAsignados = data['respuesta'];
         }else{
           this.mensaje(data['http']['mensaje']);
         }
       }).catch(error=>{
         console.log(error);
-        
+
         // this.mensaje(error);
       }).finally(()=>{
 
@@ -142,14 +143,13 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
   }
 
   _consultarAsignados(){
-    console.log(this.data);
-    
+
     this.asignarResponsableCuestionarioGenericoService._consultarAsignarResponsableCuestionarioGenerico(
       this.data.IdCuestionarioGenericoEncriptado
     )
       .then(data=>{
         if (data['http']['codigo']=='200') {
- 
+
           console.log(
           data['respuesta']);
           this._listaUsuariosAsignados = data['respuesta'];
