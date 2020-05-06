@@ -432,7 +432,7 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
           console.log(data['respuesta']);
           ejecutado = true;
         }else{
-          console.log(data['http']);
+          this.mensaje(data['http']['mensaje']);
         }
       }).catch(error=>{
         console.log(error);
@@ -499,8 +499,8 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
         if (data['http']['codigo']=='200') {
           console.log(data['respuesta']);
           ejecutado = true;
-        }else{
-          console.log(data['http']);
+        }else{          
+          this.mensaje(data['http']['mensaje']);
         }
       }).catch(error=>{
         console.log(error);
@@ -569,8 +569,8 @@ export class ModalLugarRepresentanteComponent implements OnInit, AfterViewInit {
         if (data['http']['codigo']=='200') {
           console.log(data['respuesta']);
           ejecutado = true;
-        }else{
-          console.log(data['http']);
+        }else{          
+          this.mensaje(data['http']['mensaje']);
         }
       }).catch(error=>{
         console.log(error);

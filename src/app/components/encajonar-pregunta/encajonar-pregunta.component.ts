@@ -375,7 +375,6 @@ export class EncajonarPreguntaComponent implements OnInit {
         this.formEncajonarPregunta_cmbPreguntaEncajonada.value
       ).then(data=>{
         if (data['http']['codigo']=='200') {
-
           this._listaPreguntaEncajonadas.push(data['respuesta']);
         } else {
           this.mensaje(data['http']['mensaje']);
