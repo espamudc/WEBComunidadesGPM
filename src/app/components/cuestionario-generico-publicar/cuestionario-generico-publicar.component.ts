@@ -8,6 +8,7 @@ import { PeriodoService } from 'src/app/services/periodo.service';
 import { AsignarUsuarioTipoUsuarioService } from "src/app/services/asignar-usuario-tipo-usuario.service";
 import { CuestionarioPublicadoService } from "src/app/services/cuestionario-publicado.service";
 import { AsignarEncuestadoService } from 'src/app/services/asignar-encuestado.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-cuestionario-generico-publicar',
@@ -26,7 +27,8 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
     private periodoService : PeriodoService,
     private asignarUsuarioTipoUsuarioService: AsignarUsuarioTipoUsuarioService,
     private cuestionarioPublicadoService : CuestionarioPublicadoService,
-    private asignarEncuestadoService : AsignarEncuestadoService
+    private asignarEncuestadoService : AsignarEncuestadoService,
+    private datePipe: DatePipe
   ) {
 
     this.formCuestionarioGenericoPublicar = new FormGroup({
@@ -386,9 +388,10 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
     this.formAsignarEncuestado_idAsignarUsuarioTipoUsuarioEncriptado.setValue(localStorage.getItem("IdAsignarUsuarioTipoUsuarioEncriptado"));
     this.formAsignarEncuestado_idCuestionarioPublicadoEncriptado.setValue(_item.IdCuestionarioPublicadoEncriptado);
     this.formAsignarEncuestado_versionCuestionarioGenenico.setValue(_item.CabeceraVersionCuestionario.Version+" ("+_item.CabeceraVersionCuestionario.FechaCreacion +")");
-    this.formAsignarEncuestado_nombreCuestionarioGenenico.setValue(_item.CabeceraVersionCuestionario.AsignarResponsable.CuestionarioGenerico.Nombre);
+    this.formAsignarEncuestado_nombreCuestionarioGenenico.setValue(_item.CabeceraVersionCuestionario.AsignarResponsable.CuestionarioGenerico.Nombre);   
+    this.formAsignarEncuestado_fechaInicio.setValue(this.datePipe.transform(_item.Periodo.FechaInicio, 'yyyy-MM-dd'));
+    this.formAsignarEncuestado_fechaFin.setValue(this.datePipe.transform(_item.Periodo.FechaFin, 'yyyy-MM-dd'));
     this._verAsignarEncuestado=true;
-
     this._consultar_poridcuestionariopublicado(_item.IdCuestionarioPublicadoEncriptado);
 
   }
