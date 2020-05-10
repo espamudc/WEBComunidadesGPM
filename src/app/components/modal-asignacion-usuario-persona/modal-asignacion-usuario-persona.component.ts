@@ -52,11 +52,8 @@ export class ModalAsignacionUsuarioPersonaComponent implements OnInit {
 
   _persona = {};
 
-
   _asignarUsuarioaPersona(_item){
-    // console.log(_item);
     this.dialogRef.close(_item);
-    
   }
 
 

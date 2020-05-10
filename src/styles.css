@@ -11192,11 +11192,18 @@
  }
 
 
-
-
+ .msj-success {
+    background-color: rgb(4, 134, 47);
+    color: white;
+  }
+  .msj-info {
+    background-color: rgb(14, 171, 192);
+    color: white;
+  }
 
  .gpm-danger{
     background-color:  #e92631;
+    color: white;
   }
 
   .gpm-form-field{

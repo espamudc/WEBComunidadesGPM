@@ -1,79 +1,65 @@
 <br>
 <div class="container">
-    <div class="row" >
+    <div class="row">
         <div class="col-lg-5 col-md-5 mr-auto ">
-            <form [formGroup]="formUsuario" (ngSubmit)="validarForm()">
+            <form [formGroup]="formUsuario" (ngSubmit)="validarForm()"> 
                 <mat-card class="mat-elevation-z7">
                     <div class="row">
-                        <div class="col-12"> <h2 style="text-align: center;">Usuario</h2>  </div>
+                        <div class="col-12">
+                            <h2 style="text-align: center;">Usuario</h2>
+                        </div>
                     </div>
                     <div class="row">
-                        <div class="col-10 ">
+                        <div class="col-10">
                             <mat-form-field class="gpm-universal-width">
-                                <input readonly disabled matInput placeholder="Numero de Indentificacion" [formControl]="formUsuario_numeroIdentificacion" required>
-                                <mat-error *ngIf="formUsuario_numeroIdentificacion.hasError('required') || formUsuario_numeroIdentificacion.invalid || (formUsuario_numeroIdentificacion.dirty || formUsuario_numeroIdentificacion.touched ) ">
-                                    Este dato es <strong>obligatorio</strong>
-                                </mat-error>
+                                <input matInput placeholder="Numero de Identificacion"
+                                    [formControl]="formUsuario_numeroIdentificacion" required >
                             </mat-form-field>
                         </div>
-                        <div class="col-2" >
-                            <button [disabled]="_refrescar===true" class=" btn btn-warning btn-block" type="button" (click)="_abrirModalAsignacionUsuarioPersona()">
+                        <div class="col-2">
+                            <button [disabled]="_refrescar===true" class=" btn btn-warning btn-block" type="button"
+                                (click)="_abrirModalAsignacionUsuarioPersona()">
                                 <i class="fa fa-user-plus"></i>
                             </button>
                         </div>
                     </div>
-                    
-
                     <mat-form-field class="gpm-universal-width">
-                        <input readonly disabled matInput placeholder="Nombres" 
-                                [formControl]="formUsuario_nombres" required>
-                        <mat-error *ngIf="  formUsuario_nombres.hasError('required') || 
-                                            formUsuario_nombres.invalid || 
-                                            (formUsuario_nombres.dirty || 
-                                            formUsuario_nombres.touched ) ">
-                            Este dato es <strong>obligatorio</strong>
-                        </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field  class="gpm-universal-width">
-                        <input readonly matInput placeholder="Apellidos" 
-                                        [formControl]="formUsuario_apellidos" required>
-                        <mat-error *ngIf="  formUsuario_apellidos.hasError('required') || 
-                                            formUsuario_apellidos.invalid || 
-                                            (formUsuario_apellidos.dirty || 
-                                            formUsuario_apellidos.touched ) ">
-                            Este dato es <strong>obligatorio</strong>
-                        </mat-error>
+                        <input matInput placeholder="Nombres" [formControl]="formUsuario_nombres"
+                            required>
                     </mat-form-field>
 
                     <mat-form-field class="gpm-universal-width">
-                        <input matInput placeholder="Nombre de Usuario" 
-                                        [formControl]="formUsuario_usuario" required>
+                        <input matInput placeholder="Apellidos" [formControl]="formUsuario_apellidos" required>
+                    </mat-form-field>
+
+                    <mat-form-field class="gpm-universal-width" >
+                        <input matInput placeholder="Nombre de Usuario" [formControl]="formUsuario_usuario" required>
                         <mat-error *ngIf="  formUsuario_usuario.hasError('required') || 
                                             formUsuario_usuario.invalid || 
-                                            (formUsuario_usuario.dirty || 
-                                            formUsuario_usuario.touched ) ">
+                                            (formUsuario_usuario.dirty ) ">
                             Este dato es <strong>obligatorio</strong>
                         </mat-error>
                     </mat-form-field>
-
-                    <mat-form-field class="gpm-universal-width">
-                        <input matInput placeholder="Clave" 
-                                        [formControl]="formUsuario_clave" required>
+                   
+                    <mat-form-field class="gpm-universal-width" >
+                        <input matInput placeholder="Contraseña" [formControl]="formUsuario_clave" required>
                         <mat-error *ngIf="  formUsuario_clave.hasError('required') || 
                                             formUsuario_clave.invalid || 
-                                            (formUsuario_clave.dirty || 
-                                            formUsuario_clave.touched ) ">
+                                            (formUsuario_clave.dirty) ">
                             Este dato es <strong>obligatorio</strong>
                         </mat-error>
                     </mat-form-field>
-                    <button *ngIf="_refrescar==false"  mat-button class="btn btn-primary btn-block"> <i class="fa fa-plus"></i> </button>
+                    
+                    <button *ngIf="_refrescar==false" type="submit" [disabled]="formUsuario.invalid" mat-button class="btn btn-primary btn-block"> <i
+                            class="fa fa-plus"></i> </button>
+                   
                     <div *ngIf="_refrescar==true" class="row">
                         <div class="col-6">
-                            <button  mat-button class="btn btn-primary btn-block"> <i class="fa fa-edit"></i> </button>
+                            <button mat-button class="btn btn-primary btn-block"> <i class="fa fa-edit"></i> </button>
                         </div>
                         <div class="col-6">
-                            <button type="button" (click)="_refrescarForm2()" mat-button class="btn btn-block"> <i class="fa fa-refresh"></i> </button>
+                            <button type="button" (click)="_refrescarForm2()" mat-button class="btn btn-block"> <i
+                                    class="fa fa-refresh"></i> </button>
                         </div>
                     </div>
                 </mat-card>
@@ -88,7 +74,8 @@
                     </ng-container>
                     <ng-container matColumnDef="nombres">
                         <th mat-header-cell *matHeaderCellDef> NOMBRES </th>
-                        <td mat-cell *matCellDef="let element"> {{ element.Persona.PrimerNombre }} {{ element.Persona.SegundoNombre }} {{ element.Persona.PrimerApellido }}
+                        <td mat-cell *matCellDef="let element"> {{ element.Persona.PrimerNombre }}
+                            {{ element.Persona.SegundoNombre }} {{ element.Persona.PrimerApellido }}
                             {{ element.Persona.SegundoApellido }} </td>
                     </ng-container>
                     <ng-container matColumnDef="acciones">
@@ -103,15 +90,15 @@
                                     </button>
                                 </td>
                                 <td mat-cell>
-                                    <button tooltip="Modificar" placement="top" 
-                                        (click)="_prepararUsuario(element)"
+                                    <button tooltip="Modificar" placement="top" (click)="_prepararUsuario(element)"
                                         class="btn btn-sm btn-outline-info separacion-botones">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true">
                                         </i>
                                     </button>
                                 </td>
                                 <td mat-cell>
-                                    <button *ngIf="element.Utilizado==0" tooltip="Deshabilitar" placement="top" (click)="_eliminarUsuario(element)"
+                                    <button *ngIf="element.Utilizado==0" tooltip="Deshabilitar" placement="top"
+                                        (click)="_eliminarUsuario(element)"
                                         class="btn btn-sm btn-outline-danger separacion-botones">
                                         <i class="fa fa-user-times" aria-hidden="true"></i>
                                     </button>
@@ -119,7 +106,8 @@
                             </ng-container>
                         </ng-container>
                     </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="tablaUsuarios; "></tr> <!--sticky: true-->
+                    <tr mat-header-row *matHeaderRowDef="tablaUsuarios; "></tr>
+                    <!--sticky: true-->
                     <tr mat-row *matRowDef="let row; columns: tablaUsuarios;"></tr>
                 </table>
             </div>
