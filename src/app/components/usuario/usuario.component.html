@@ -2,7 +2,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-5 col-md-5 mr-auto ">
-            <form [formGroup]="formUsuario" (ngSubmit)="validarForm()"> 
+            <form [formGroup]="formUsuario" (ngSubmit)="validarForm()">
                 <mat-card class="mat-elevation-z7">
                     <div class="row">
                         <div class="col-12">
@@ -13,7 +13,7 @@
                         <div class="col-10">
                             <mat-form-field class="gpm-universal-width">
                                 <input matInput placeholder="Numero de Identificacion"
-                                    [formControl]="formUsuario_numeroIdentificacion" required >
+                                    [formControl]="formUsuario_numeroIdentificacion" required autocomplete="off">
                             </mat-form-field>
                         </div>
                         <div class="col-2">
@@ -24,35 +24,34 @@
                         </div>
                     </div>
                     <mat-form-field class="gpm-universal-width">
-                        <input matInput placeholder="Nombres" [formControl]="formUsuario_nombres"
-                            required>
+                        <input matInput placeholder="Nombres" [formControl]="formUsuario_nombres" required
+                            autocomplete="off">
                     </mat-form-field>
-
                     <mat-form-field class="gpm-universal-width">
-                        <input matInput placeholder="Apellidos" [formControl]="formUsuario_apellidos" required>
+                        <input matInput placeholder="Apellidos" [formControl]="formUsuario_apellidos" required
+                            autocomplete="off">
                     </mat-form-field>
-
-                    <mat-form-field class="gpm-universal-width" >
-                        <input matInput placeholder="Nombre de Usuario" [formControl]="formUsuario_usuario" required>
+                    <mat-form-field class="gpm-universal-width">
+                        <input matInput placeholder="Nombre de Usuario" [formControl]="formUsuario_usuario" required
+                            autocomplete="off">
                         <mat-error *ngIf="  formUsuario_usuario.hasError('required') || 
                                             formUsuario_usuario.invalid || 
                                             (formUsuario_usuario.dirty ) ">
                             Este dato es <strong>obligatorio</strong>
                         </mat-error>
                     </mat-form-field>
-                   
-                    <mat-form-field class="gpm-universal-width" >
-                        <input matInput placeholder="Contraseña" [formControl]="formUsuario_clave" required>
+                    <mat-form-field class="gpm-universal-width">
+                        <input matInput placeholder="Contraseña" [formControl]="formUsuario_clave" required
+                            autocomplete="off">
                         <mat-error *ngIf="  formUsuario_clave.hasError('required') || 
                                             formUsuario_clave.invalid || 
                                             (formUsuario_clave.dirty) ">
                             Este dato es <strong>obligatorio</strong>
                         </mat-error>
                     </mat-form-field>
-                    
-                    <button *ngIf="_refrescar==false" type="submit" [disabled]="formUsuario.invalid" mat-button class="btn btn-primary btn-block"> <i
-                            class="fa fa-plus"></i> </button>
-                   
+                    <button *ngIf="_refrescar==false" type="submit" [disabled]="formUsuario.invalid" mat-button
+                        class="btn btn-primary btn-block"> <i class="fa fa-plus"></i> </button>
+
                     <div *ngIf="_refrescar==true" class="row">
                         <div class="col-6">
                             <button mat-button class="btn btn-primary btn-block"> <i class="fa fa-edit"></i> </button>
@@ -67,19 +66,26 @@
         </div>
         <div class="col-lg-7 col-md-7 mr-auto ">
             <div class="tablaUsuarios mat-elevation-z5 gpm-universal-heigth">
-                <table mat-table [dataSource]="_listaUsuarios">
+                <br>
+                <div class="col-12">
+                    <mat-form-field class="gpm-input">
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar usuario..."
+                            autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <table mat-table [dataSource]="dataSource" matSort>
                     <ng-container matColumnDef="usuario">
-                        <th mat-header-cell *matHeaderCellDef> USUARIO </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> USUARIO </th>
                         <td mat-cell *matCellDef="let element"> {{element.Correo}} </td>
                     </ng-container>
                     <ng-container matColumnDef="nombres">
-                        <th mat-header-cell *matHeaderCellDef> NOMBRES </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRES </th>
                         <td mat-cell *matCellDef="let element"> {{ element.Persona.PrimerNombre }}
                             {{ element.Persona.SegundoNombre }} {{ element.Persona.PrimerApellido }}
                             {{ element.Persona.SegundoApellido }} </td>
                     </ng-container>
                     <ng-container matColumnDef="acciones">
-                        <th colspan="3" mat-header-cell *matHeaderCellDef> ACCIONES </th>
+                        <th colspan="3" mat-header-cell *matHeaderCellDef mat-sort-header> ACCIONES </th>
                         <ng-container *matCellDef="let element">
                             <ng-container *ngIf="element.Estado">
                                 <td mat-cell>
@@ -107,12 +113,10 @@
                         </ng-container>
                     </ng-container>
                     <tr mat-header-row *matHeaderRowDef="tablaUsuarios; "></tr>
-                    <!--sticky: true-->
                     <tr mat-row *matRowDef="let row; columns: tablaUsuarios;"></tr>
                 </table>
+                <mat-paginator [pageSizeOptions]="[4, 8, 16]" showFirstLastButtons></mat-paginator>
             </div>
         </div>
-
     </div>
-
 </div>

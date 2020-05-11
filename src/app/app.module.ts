@@ -5,7 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from '@angular/cdk/layout';
-
+import {MatSortModule} from '@angular/material/sort';
+ 
 // Material Components
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -139,6 +140,7 @@ import { GaleriaComponent } from './components/galeria/galeria.component';
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
+    MatSortModule,
     MatListModule,
     MatTableModule,
     MatFormFieldModule,

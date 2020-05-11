@@ -114,9 +114,7 @@ export class PersonaService {
     });
   }
   _consultarPersonas(_token:string){
-    // 
     const _body = new HttpParams().set('Token',_token);
-    
     return new Promise((resolve, reject) => {
       this.http.post(url+'persona_consultar',_body.toString(),{headers:this._header})
                 .subscribe(res=>{
@@ -126,6 +124,7 @@ export class PersonaService {
                 });
     });
   }
+
   _consultarPersonasSinUsuarios(_token:string=""){
     // 
     const _body = new HttpParams().set('Token',_token);

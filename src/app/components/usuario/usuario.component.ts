@@ -13,6 +13,9 @@ import { ModalAsignacionUsuarioPersonaComponent } from '../modal-asignacion-usua
 import { ModalAsignacionUsuarioTiposUsuarioComponent } from '../modal-asignacion-usuario-tipos-usuario/modal-asignacion-usuario-tipos-usuario.component';
 import { ModalDetalleUsuarioComponent } from '../modal-detalle-usuario/modal-detalle-usuario.component';
 import { MatTable, MatSnackBar, getMatTooltipInvalidPositionError } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort'; 
+import { MatPaginator } from '@angular/material/paginator';
 export interface DialogData {
   cedula: string;
   idPersona: string;
@@ -40,6 +43,9 @@ export class UsuarioComponent implements OnInit {
   formUsuario: FormGroup;
   @ViewChild('testButton', { static: false }) testButton: ElementRef;
   @ViewChild('testInput', { static: false }) testInput: ElementRef;
+  dataSource = new MatTableDataSource();
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   constructor(
     private modalAsignacionUsuarioPersona: MatDialog,
     private modalAsignacionUsuarioTiposUsuario: MatDialog,
@@ -59,8 +65,14 @@ export class UsuarioComponent implements OnInit {
       _clave: new FormControl('', [Validators.required])
     });
   }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
   ngOnInit() {
     this._consultarUsuarios();
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
   get formUsuario_idUsuarioEncriptado() {
     return this.formUsuario.get('_idUsuarioEncriptado');
@@ -106,6 +118,8 @@ export class UsuarioComponent implements OnInit {
   _refrescarForm2() {
     this.formUsuario.reset();
     this._refrescar = false;
+    this.clearMenssageError();
+    this.formUsuario.setErrors({ invalid: true });
   }
   _insertarUsuario2() {
     if (this.formUsuario_clave.value == null || this.formUsuario_usuario.value == null) {
@@ -133,7 +147,6 @@ export class UsuarioComponent implements OnInit {
       });
     }
   }
-
   _modificarUsuario2() {
     this.usuarioService._modificarUsuario(
       this.formUsuario_idUsuarioEncriptado.value,
@@ -189,6 +202,7 @@ export class UsuarioComponent implements OnInit {
       .then(data => {
         if (data['http']['codigo'] == '200') {
           this._listaUsuarios = data['respuesta'];
+          this.dataSource.data =  this._listaUsuarios
         } else {
         }
       })
