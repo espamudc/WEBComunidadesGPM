@@ -1,24 +1,21 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterContentInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators, Form } from '@angular/forms';
 import { LugaresService } from 'src/app/services/lugares.service';
-// import { PersonaService } from 'src/app/services/persona.service';
-// import { Provincia } from 'src/app/interfaces/provincia/provincia';
-import sweetalert from 'sweetalert';
 import { MatTable, MatDialog, MatSnackBar, MatButton } from '@angular/material';
 import { ModalLugarRepresentanteComponent } from '../modal-lugar-representante/modal-lugar-representante.component';
-// import { MatTable } from '@angular/material';
-
-
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 @Component({
   selector: 'app-provincia',
   templateUrl: './provincia.component.html',
   styleUrls: ['./provincia.component.css']
 })
-export class ProvinciaComponent implements OnInit,AfterContentInit {
-
-  // myForm: FormGroup;
+export class ProvinciaComponent implements OnInit {
   @ViewChild('testButton', { static: false }) testButton: ElementRef;
-
+  dataSource = new MatTableDataSource();
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   constructor(
     private lugaresService:LugaresService,
     private modalLugarRepresentante:MatDialog,
@@ -32,19 +29,17 @@ export class ProvinciaComponent implements OnInit,AfterContentInit {
       _rutaLogoProvincia      : new FormControl(''),
     });
   }
-
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
   ngOnInit() {
-    
    this._consultarProvincias();
-   
+   this.dataSource.paginator = this.paginator;
+   this.dataSource.sort = this.sort;
   }
-  ngAfterContentInit(){
-    //this.btnAccionHtml._elementRef.nativeElement.addClass('col-6');
-  }
-  
   //-----------------------------------------------------------------------------------------
   formProvincia : FormGroup;
-
   get formProvincia_idProvinciaEncriptado(){
     return this.formProvincia.get("_idProvinciaEncriptado");
   }
@@ -61,29 +56,15 @@ export class ProvinciaComponent implements OnInit,AfterContentInit {
     return this.formProvincia.get("_descripcion");
   }
   //-----------------------------------------------------------------------------------------
-  
-
-  mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
-
-    
-    if (_duracion==null) {
-       _duracion=3000;
+  mensaje(_mensaje: string, _duracion?: number, _color?: string) {
+    if (_duracion == null) {
+      _duracion = 3000;
     }
-    if (_opcion==1) {
-      _mensaje="Datos ingresados correctamente";
+    if (_color == null) {
+      _color = "gpm-danger";
     }
-    if (_opcion==2) {
-      _mensaje="Datos modificados correctamente";
-    }
-    if (_opcion==3) {
-      _mensaje="Datos eliminados correctamente";
-    }
-    if (_color==null) {
-      _color ="gpm-danger";
-    }
-    let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
+    let snackBarRef = this.snackBarComponent.open(_mensaje, null, { duration: _duracion, panelClass: [`${_color}`], verticalPosition: 'bottom', horizontalPosition: 'end' });
   }
-
   _validarFormProvincia(){
     if (this._btnAccion==="Guardar") {
       this._ingresarProvincia2();
@@ -91,41 +72,44 @@ export class ProvinciaComponent implements OnInit,AfterContentInit {
       this._modificarProvincia2();
     } 
   }
+  clearMenssageError() {
+    this.formProvincia.controls['_codigo'].setErrors(null);
+    this.formProvincia.controls['_nombre'].setErrors(null);
+    this.formProvincia.controls['_descripcion'].setErrors(null);
+  }
   _ingresarProvincia2(){
-
     if (
-      this.formProvincia_descripcion.value == null || 
-      this.formProvincia_descripcion.value == 'null' 
-    ) {
-      this.formProvincia_descripcion.setValue('');
-    }
+        this.formProvincia_descripcion.value == null || 
+        this.formProvincia_descripcion.value == 'null' 
+      ) {
+          this.formProvincia_descripcion.setValue('');
+        }
     if (
-      this.formProvincia_rutaLogoProvincia.value == null || 
-      this.formProvincia_rutaLogoProvincia.value == 'null' 
-    ) {
-      this.formProvincia_rutaLogoProvincia.setValue('');
-    }
-
-    this.lugaresService._insertarProvincia(
-      this.formProvincia_codigo.value,
-      this.formProvincia_nombre.value,
-      this.formProvincia_descripcion.value,
-      this.formProvincia_rutaLogoProvincia.value,
-    ).then(data=>{
-      if (data['http']['codigo']=='200') {
-        this._consultarProvincias();
-        this.formProvincia.reset();
-      }else if (data['http']['codigo']=='500') {
-        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
-      }else{
-        console.log(data['http']);
-        this.mensaje(data['http']['mensaje']);
+        this.formProvincia_rutaLogoProvincia.value == null || 
+        this.formProvincia_rutaLogoProvincia.value == 'null' 
+      ) {
+        this.formProvincia_rutaLogoProvincia.setValue('');
       }
-    }).catch(error=>{
-      
-    }).finally(()=>{
-
-    });
+      this.lugaresService._insertarProvincia(
+        this.formProvincia_codigo.value,
+        this.formProvincia_nombre.value,
+        this.formProvincia_descripcion.value,
+        this.formProvincia_rutaLogoProvincia.value,
+      ).then(data=>{
+        if (data['http']['codigo']=='200') {
+          this._consultarProvincias();
+          this.formProvincia.reset();
+          this.clearMenssageError();
+          this.formProvincia.setErrors({ invalid: true });
+          this.mensaje("Provincia registrada", null, 'msj-success');
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+        }else{
+          this.mensaje(data['http']['mensaje']);
+        }
+        }).catch(error=>{
+          this.mensaje(error);
+     });
   }
   _modificarProvincia2(){
     if (
@@ -140,7 +124,6 @@ export class ProvinciaComponent implements OnInit,AfterContentInit {
     ) {
       this.formProvincia_rutaLogoProvincia.setValue('');
     }
-    
     this.lugaresService._modificarProvincia(
       this.formProvincia_idProvinciaEncriptado.value,
       this.formProvincia_codigo.value,
@@ -152,228 +135,84 @@ export class ProvinciaComponent implements OnInit,AfterContentInit {
         this._consultarProvincias();
         this.formProvincia.reset();
         this._btnAccion ="Modificar";
+        this.clearMenssageError();
+        this.formProvincia.setErrors({ invalid: true });
+        this.mensaje("Registro modificado", null, 'msj-success');
       }else if (data['http']['codigo']=='500') {
         this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
-        console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
       }
-    }).catch(error=>{
-      
-    }).finally(()=>{
-      
+      }).catch(error=>{
+       this.mensaje(error);
     });
   }
   //-----------------------------------------------------------------------------------------
   _validar=true;
-
   tablaProvincias = ['codigo','provincia', 'acciones'];
-  
   _idProvinciaEncriptado="";
   _codigoProvincia="";
   _nombreProvincia="";
   _descripcionProvincia="";
   _rutaLogoProvincia="";
-
   _btnAccion="Guardar";
-
   @ViewChild('frmProvincia',{static:false}) frmProvincia:Form;
   @ViewChild(MatTable,{static:false})  MatTableProvincias : MatTable<any>;
-
-  _limpiarForm(){
-    this._idProvinciaEncriptado="";
-    this._codigoProvincia="";
-    this._nombreProvincia="";
-    this._descripcionProvincia="";
-    this._rutaLogoProvincia="";
-
-    this._btnAccion = "Guardar";
-    this._validar = true;
-  }
-
-  _validarCompletos(event){
-    if (event.target.value==="") {
-      event.target.classList.add("is-invalid");
-    }else{
-      event.target.classList.remove("is-invalid");
-    }
-
-    if (
-      this._codigoProvincia      !="" &&
-      this._nombreProvincia     
-      // this._descripcionProvincia !="" &&
-      // this._rutaLogoProvincia    !="" 
-    ) {
-      this._validar=false;
-    }else{
-      this._validar=true;
-    }
-
-  }
-
-  _validarBoton(){
-    if (
-      this._codigoProvincia      !="" &&
-      this._nombreProvincia     
-      // this._descripcionProvincia !="" &&
-      // this._rutaLogoProvincia    !="" 
-    ) {
-      this._validar=false;
-    }else{
-      this._validar=true;
-    }
-  }
-
-  _validarFormulario(){
-    if (
-      this._codigoProvincia      !="" &&
-      this._nombreProvincia      
-      // this._descripcionProvincia !="" &&
-      // this._rutaLogoProvincia    !="" 
-    ) {
-      if (this._validar===false) {
-        if (this._btnAccion==="Guardar") {
-          this._ingresarProvincia();
-        }else if (this._btnAccion==="Modificar") {
-          this._modificarProvincia();
-        } 
-      }
-      
-    }
-  }
-
-
-
-
   _listaProvincias:any[]=[];
   _consultarProvincias(){
-    //this.native_codigoProvincia.nativeElement.value;
     this.lugaresService._consultarProvincias()
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaProvincias=data['respuesta'];
-          console.log(data['respuesta']);
-          
-        }else{
-          console.log(data['http']);
+          this.dataSource.data = this._listaProvincias
         }
       })
       .catch(error=>{
-        console.log(error);
-      }).finally(()=>{
-
-      });
+        this.mensaje(error);
+      })
   }
-
-  _ingresarProvincia(){
-    this.lugaresService._insertarProvincia(
-      this._codigoProvincia,
-      this._nombreProvincia,
-      this._descripcionProvincia,
-      this._rutaLogoProvincia
-    ).then(data=>{
-      if (data['http']['codigo']=='200') {
-        this._consultarProvincias();
-        this._limpiarForm();
-        this._validar=true;
-        this._validarBoton();
-        // this._validarFormulario();
-      }else if (data['http']['codigo']=='500') {
-        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
-      }else{
-        console.log(data['http']);
-        this.mensaje(data['http']['mensaje']);
-      }
-    }).catch(error=>{
-      
-    }).finally(()=>{
-
-    });
-  }
-  _modificarProvincia(){
-    this.lugaresService._modificarProvincia(
-      this._idProvinciaEncriptado,
-      this._codigoProvincia,
-      this._nombreProvincia,
-      this._descripcionProvincia,
-      this._rutaLogoProvincia
-    ).then(data=>{
-      if (data['http']['codigo']=='200') {
-        this._consultarProvincias();
-        this._limpiarForm();
-      }else if (data['http']['codigo']=='500') {
-        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
-      }else{
-        console.log(data['http']);
-        this.mensaje(data['http']['mensaje']);
-      }
-    }).catch(error=>{
-      
-    }).finally(()=>{
-      
-    });
-  }
-  _eliminarProvincia(_item){
+  _eliminarProvincia(_item:any){
     this.lugaresService._eliminarProvincia(
       _item.IdProvinciaEncriptado
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._consultarProvincias();
+        this.formProvincia.reset();
+        this.clearMenssageError();
+        this.formProvincia.setErrors({ invalid: true });
+        this.mensaje("Registro Eliminado", null, 'msj-success');
       }else if (data['http']['codigo']=='500') {
         this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
-        console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
-      
-    }).finally(()=>{
-      
+      this.mensaje(error);
     });
   }
-
-  _prepararProvincia(_item){
-    
+  _prepararProvincia(_item:any){
     this.formProvincia_idProvinciaEncriptado.setValue(_item.IdProvinciaEncriptado);
     this.formProvincia_codigo               .setValue(_item.CodigoProvincia);
     this.formProvincia_nombre               .setValue(_item.NombreProvincia);
     this.formProvincia_descripcion          .setValue(_item.DescripcionProvincia);
     this.formProvincia_rutaLogoProvincia    .setValue(_item.RutaLogoProvincia);
-    // this.formProvincia_idProvinciaEncriptado.setValue(_item.IdProvinciaEncriptado);
-
-
-    this._idProvinciaEncriptado =_item.IdProvinciaEncriptado;
-    this._codigoProvincia       =_item.CodigoProvincia;
-    this._nombreProvincia       =_item.NombreProvincia;
-    this._descripcionProvincia  =_item.DescripcionProvincia;
     if (this._descripcionProvincia=='null') {
       this._descripcionProvincia="";
     }
     this._rutaLogoProvincia     =_item.RutaLogoProvincia;
     this._btnAccion = "Modificar";
-    this._validarBoton();
-
   }
-  
-  _verRepresentante(_item){
+   _verRepresentante(_item:any){
     let dialogRef = this.modalLugarRepresentante.open(ModalLugarRepresentanteComponent, {
       width: 'auto',
       height: 'auto',
       data: { lugar_tipo: 'provincia', lugar_data: _item }
     });
-    dialogRef.afterClosed().subscribe(result=>{
-      // console.log(result);
-      if (result) {
-        
-      }
-    },erro=>{
-
-    },()=>{
-      this._consultarProvincias();
-    }); 
-
+  } 
+  _refreshForm(){
+    this.formProvincia.reset();
+    this._btnAccion='Guardar';
+    this.clearMenssageError();
+    this.formProvincia.setErrors({ invalid: true });
   }
-
-
-
 }

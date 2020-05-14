@@ -2,78 +2,74 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-5 col-md-5 mr-auto">
-            <form [formGroup]="formProvincia" (ngSubmit)="_validarFormProvincia()"> 
+            <form [formGroup]="formProvincia" (ngSubmit)="_validarFormProvincia()">
                 <mat-card class="mat-elevation-z7">
                     <div class="row">
-                        <div class="col-12"> <h2 style="text-align: center;">Provincia</h2>  </div>
+                        <div class="col-12">
+                            <h2 style="text-align: center;">Provincia</h2>
+                        </div>
                     </div>
                     <mat-form-field class="gpm-universal-width ">
-                        <!-- <mat-label>Provincia</mat-label> -->
-                        <input matInput type="text" placeholder="Código de la Provincia" [formControl]="formProvincia_codigo" required>
-                        <mat-error *ngIf="formProvincia_codigo.hasError('required') || formProvincia_codigo.invalid || (formProvincia_codigo.dirty || formProvincia_codigo.touched ) ">
+                        <input matInput type="text" placeholder="Código de la Provincia"
+                            [formControl]="formProvincia_codigo" required autocomplete="off">
+                        <mat-error
+                            *ngIf="formProvincia_codigo.hasError('required') || formProvincia_codigo.invalid || (formProvincia_codigo.dirty || formProvincia_codigo.touched ) ">
                             Este dato es <strong>obligatorio</strong>
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field class="gpm-universal-width ">
-                        <!-- <mat-label>Provincia</mat-label> -->
-                        <input matInput type="text" placeholder="Nombre" [formControl]="formProvincia_nombre" required>
-                        <mat-error *ngIf="formProvincia_nombre.hasError('required') || formProvincia_nombre.invalid || (formProvincia_nombre.dirty || formProvincia_nombre.touched ) ">
+                        <input matInput type="text" placeholder="Nombre" [formControl]="formProvincia_nombre" required
+                            autocomplete="off">
+                        <mat-error
+                            *ngIf="formProvincia_nombre.hasError('required') || formProvincia_nombre.invalid || (formProvincia_nombre.dirty || formProvincia_nombre.touched ) ">
                             Este dato es <strong>obligatorio</strong>
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field class="gpm-universal-width ">
-                        <!-- <mat-label>Provincia</mat-label> -->
-                        <input matInput type="text" placeholder="Descripción" [formControl]="formProvincia_descripcion">
-                        <!-- <mat-error *ngIf="formProvincia_descripcion.hasError('required') || formProvincia_descripcion.invalid || (formProvincia_descripcion.dirty || formProvincia_descripcion.touched ) ">
-                            Este dato es <strong>obligatorio</strong>
-                        </mat-error> -->
+                        <input matInput type="text" placeholder="Descripción" [formControl]="formProvincia_descripcion"
+                            autocomplete="off">
                     </mat-form-field>
-                    
-                    <button *ngIf="_btnAccion==='Guardar'" [disabled]="formProvincia.invalid" mat-button class="btn btn-primary btn-block"> 
-                        <i  class="fa fa-plus"></i> 
-                        <!-- <i *ngIf="_btnAccion==='Modificar'" class="fa fa-edit"></i>  -->
+                    <button *ngIf="_btnAccion==='Guardar'" [disabled]="formProvincia.invalid" mat-button
+                        class="btn btn-primary btn-block">
+                        <i class="fa fa-plus"></i>
                     </button>
                     <div class="row" *ngIf="_btnAccion==='Modificar'">
                         <div class="col-6">
-                            <button  [disabled]="formProvincia.invalid" mat-button class="btn btn-primary btn-block">
+                            <button [disabled]="formProvincia.invalid" mat-button class="btn btn-primary btn-block">
                                 <i class="fa fa-edit"></i>
                             </button>
                         </div>
                         <div class="col-6">
-                            <button   mat-button class="btn btn-block btn-light " (click)="formProvincia.reset();_btnAccion='Guardar'">
+                            <button mat-button class="btn btn-block btn-light " (click)="_refreshForm();">
                                 <i class="fa fa-refresh"></i>
                             </button>
                         </div>
-                        
-                        
                     </div>
-                    
-
                 </mat-card>
             </form>
         </div>
-        <div  class="col-lg-7 col-md-7 mr-auto" >
-            <!-- <div class="form-group input-container">
-                <i class="fa fa-search icon"></i>
-                <input [(ngModel)]="filterProvincia" type="text" class="form-control input-field"
-                    placeholder="Ejem. Manabi">
-                <i class="fa fa-refresh icon" (click)="_consultarProvincias()" aria-hidden="true"></i>
-            </div> -->
-
-            <div class=" mat-elevation-z5 tabla" >
-                <table mat-table [dataSource]="_listaProvincias" >
+        <div class="col-lg-7 col-md-7 mr-auto">
+                <div style="height: 100% !important;" class="tablaPersonas mat-elevation-z5">
+                <br>
+                <div class="col-12">
+                    <mat-form-field class="gpm-input">
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar provincia..."
+                            autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <table mat-table [dataSource]="dataSource" matSort>
                     <ng-container matColumnDef="codigo">
-                        <th mat-header-cell *matHeaderCellDef> CÓDIGO </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> CÓDIGO </th>
                         <td mat-cell *matCellDef="let element"> {{element.CodigoProvincia}} </td>
                     </ng-container>
                     <ng-container matColumnDef="provincia">
-                        <th mat-header-cell *matHeaderCellDef> PROVINCIA </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> PROVINCIA </th>
                         <td mat-cell *matCellDef="let element"> {{element.NombreProvincia}} </td>
                     </ng-container>
                     <ng-container matColumnDef="acciones">
                         <th colspan="3" mat-header-cell *matHeaderCellDef> ACCIONES </th>
                         <ng-container *matCellDef="let element">
-                            <ng-container >
+                            <ng-container>
                                 <td mat-cell>
                                     <button tooltip="Asignar Representante" placement="top"
                                         class="btn btn-sm btn-outline-warning" value="{{element.IdProvinciaEncriptado}}"
@@ -82,80 +78,26 @@
                                     </button>
                                 </td>
                                 <td mat-cell>
-                                    <button tooltip="Modificar" placement="top"
-                                        class="btn btn-sm btn-outline-info" value="{{element.IdProvinciaEncriptado}}"
-                                        (click)=_prepararProvincia(element)>
+                                    <button tooltip="Modificar" placement="top" class="btn btn-sm btn-outline-info"
+                                        value="{{element.IdProvinciaEncriptado}}" (click)=_prepararProvincia(element)>
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     </button>
                                 </td>
                                 <td mat-cell>
                                     <button class="btn btn-sm btn-outline-danger" *ngIf="element.Utilizado==0"
-                                        value="{{element.IdProvinciaEncriptado}}"
-                                        (click)=_eliminarProvincia(element)>
+                                        value="{{element.IdProvinciaEncriptado}}" (click)=_eliminarProvincia(element)>
                                         <i class="fa fa-remove" aria-hidden="true"></i>
                                     </button>
                                 </td>
                             </ng-container>
-
                         </ng-container>
                     </ng-container>
                     <tr mat-header-row *matHeaderRowDef="tablaProvincias; sticky: true"></tr>
                     <tr mat-row *matRowDef="let row; columns: tablaProvincias;"></tr>
                 </table>
+                <mat-paginator [pageSizeOptions]="[3]" showFirstLastButtons></mat-paginator>
             </div>
-
         </div>
     </div>
 </div>
 <br>
-<div hidden class="container">
-    
-    <div class="row" >
-        <div class="col-lg-5 col-md-5 mr-auto">
-            <mat-card>
-                <div class="row">
-                    <div class="col-12"> <h2 style="text-align: center;">Provincia</h2>  </div>
-                </div>
-                <form #frmProvincia="ngForm" (ngSubmit)="_validarFormulario()" >
-                        
-
-                    <div class="form-group"> 
-                        <input  required [(ngModel)]="_codigoProvincia" [ngModelOptions]="{standalone: true}" name="_codigoProvincia" type="text" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Código de la Provincia">
-                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                    </div> 
-                    <div class="form-group"> 
-                        <input required [(ngModel)]="_nombreProvincia" [ngModelOptions]="{standalone: true}" name="_nombreProvincia" type="text" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Nombre">
-                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                    </div> 
-                    <div class="form-group"> 
-                        <input [(ngModel)]="_descripcionProvincia" [ngModelOptions]="{standalone: true}" name="_descripcionProvincia" type="text"  class="form-control"  aria-describedby="emailHelp" placeholder="Descripción"> <!-- (keyup)="_validarCompletos($event)"-->
-                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                    </div> 
-                       
-                    <div class="form-group">
-                        <button type="submit" [disabled]="_validar" *ngIf="_btnAccion==='Guardar'"
-                            class="form-control btn-success" >{{_btnAccion}}
-                        </button>
-                    </div>
-                    <div class="form-group" *ngIf="_btnAccion==='Modificar'">
-                        <div class="row">
-                            <div class="col-6">
-                                <button  type="submit" [disabled]="_validar" 
-                                    class="form-control btn-success" >{{_btnAccion}}
-                                </button>
-                            </div>
-                            <div class="col-6">
-                                <button  type="button" 
-                                    class="form-control btn-secondary" (click)="_limpiarForm()">Refrescar <i class="fa fa-refresh" aria-hidden="true"></i>
-                                </button>
-                            </div>    
-                            
-                        </div>
-                    </div>
-                </form>
-            </mat-card>
-           
-        </div>
-
-    </div>
-</div>

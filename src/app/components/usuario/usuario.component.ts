@@ -41,6 +41,7 @@ export class UsuarioComponent implements OnInit {
   estadoHidden: boolean = false;
   myForm: FormGroup;
   formUsuario: FormGroup;
+  clave:string;
   @ViewChild('testButton', { static: false }) testButton: ElementRef;
   @ViewChild('testInput', { static: false }) testInput: ElementRef;
   dataSource = new MatTableDataSource();
@@ -148,11 +149,15 @@ export class UsuarioComponent implements OnInit {
     }
   }
   _modificarUsuario2() {
+    debugger
+    if(this.formUsuario_clave.value){
+      this.clave=this.formUsuario_clave.value;
+    } 
     this.usuarioService._modificarUsuario(
       this.formUsuario_idUsuarioEncriptado.value,
       this.formUsuario_idPersonaEncriptado.value,
       this.formUsuario_usuario.value,
-      this.formUsuario_clave.value
+      this.clave
     ).then(data => {
       if (data['http']['codigo'] == '200') {
         this._consultarUsuarios();
@@ -210,13 +215,14 @@ export class UsuarioComponent implements OnInit {
       });
   }
   _prepararUsuario(_usuario: any) {
+    debugger
     this.formUsuario_idUsuarioEncriptado.setValue(_usuario.IdUsuarioEncriptado);
     this.formUsuario_idPersonaEncriptado.setValue(_usuario.Persona.IdPersonaEncriptado);
     this.formUsuario_nombres.setValue(_usuario.Persona.PrimerNombre + " " + _usuario.Persona.SegundoNombre);
     this.formUsuario_apellidos.setValue(_usuario.Persona.PrimerApellido + " " + _usuario.Persona.SegundoApellido);
     this.formUsuario_numeroIdentificacion.setValue(_usuario.Persona.NumeroIdentificacion);
     this.formUsuario_usuario.setValue(_usuario.Correo);
-    this.formUsuario_clave.setValue(_usuario.clave);
+    this.clave=_usuario.ClaveEncriptada;
     this._refrescar = true;
     this.formUsuario.controls['_clave'].setErrors(null);
   }
