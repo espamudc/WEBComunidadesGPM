@@ -55,7 +55,7 @@ export class CuestionarioPublicadoService {
     const _body = new HttpParams();
     
     return new Promise((resolve, reject) => {
-      this.http.post(url+'cuestionariopublicado_consultarporidasignarusuariotipousuario?_idAsignarUsuarioTipoUsuarioEncriptado='+_idAsignarUsuarioTipoUsuarioEncriptado,_body.toString(),{headers:this._header})
+      this.http.post(url+'cuestionariopublicado_consultarporidasingarusuariotipousuario?_idAsignarUsuarioTipoUsuarioEncriptado='+_idAsignarUsuarioTipoUsuarioEncriptado,_body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{
