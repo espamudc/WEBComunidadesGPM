@@ -269,18 +269,14 @@ export class PersonaComponent implements OnInit {
     this.personaService._eliminarPersona(_persona.IdPersonaEncriptado)
       .then(data => {
         if (data['http']['codigo'] == '200') {
-          var indexOf = this._listaPersonas.indexOf(_persona);
-          this._listaPersonas.splice(indexOf, 1);
+          this._consultarPersonas();
           this._refrescarTabla();
           this._refrescarForm();
-          this.clearMenssageError();
-          this.formPersona.setErrors({ invalid: true });
-          this.panelHidden();
           this.mensaje("Registro eliminado", null, 'msj-success');
         } else if (data['http']['codigo'] == '500') {
           this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         } else {
-          this.mensaje(data['http']['mensaje'])
+          this.mensaje(data['http']['mensaje']);
         }
       })
       .catch(error => {
