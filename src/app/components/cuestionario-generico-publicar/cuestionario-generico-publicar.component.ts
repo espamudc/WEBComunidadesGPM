@@ -163,6 +163,7 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
     let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
   }
 
+
   //------------------------------------------------
   _onChangeCmbCuestionariosGenericos(event){
     // this._consultarComponentesDeCuestionario(event.value);
@@ -216,6 +217,13 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
   }
 
   //------------------------------------------------
+
+  _limpiarForm()
+  {
+    console.log("dayaan");
+    this.formCuestionarioGenericoPublicar.reset();
+  }
+
   _consultar_cuestionarioPublicado(){
     this.cuestionarioPublicadoService._consultar_cuestionarioPublicado()
       .then(data=>{
@@ -360,6 +368,7 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
       }
       else if (data['http']['codigo']=='200') {
         this._consultar_cuestionarioPublicadoporidasignarusuariotipousuario();
+        this._limpiarForm();
       } else {
         this.mensaje(data['http']['mensaje']);
       }

@@ -17,7 +17,7 @@ export class AsignarResponsableCuestionarioGenericoService {
     const _body = new HttpParams();
     
     return new Promise((resolve, reject) => {
-      this.http.post(url+'asignarencuestado_consultarporidcuestionariopublicado?_idCuestionarioPublicadoEncriptado='+_idCuestionarioPublicadoEncriptado,_body.toString(),{headers:this._header})
+      this.http.post(url+'asignarresponsable_consultarporidcuestionariogenerico?_idCuestionarioGenericoEncriptado='+_idCuestionarioPublicadoEncriptado,_body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{

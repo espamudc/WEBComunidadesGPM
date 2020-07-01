@@ -87,18 +87,10 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
     this.tipoUsuarioService._consultarTiposUsuarios()
       .then(data=>{
         if (data['http']['codigo']=='200') {
-
-
           data['respuesta'].map(item=>{
-
             if (item.Identificador==1) {
-              console.log(item);
               tipo=item;
             }
-            // this._listaTiposUsuarios=tipo;
-            //  if (item.Identificador==1) {
-            //   this._listaTiposUsuarios = item;
-            //  }
           });
           this._listaTiposUsuarios.push(tipo);
           // this._listaTiposUsuarios = data['respuesta'];
