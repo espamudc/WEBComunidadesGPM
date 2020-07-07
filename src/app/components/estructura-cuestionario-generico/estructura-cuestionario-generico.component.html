@@ -193,17 +193,20 @@
                                 <i class="fa fa-times"> </i>
                                 <!-- <mat-icon (click)="_eliminarComponenteCuestionarioGenerico(element)">clear</mat-icon> -->
                             </button>
-                            <button mat-button *ngIf="(i+1) != _listaComponentesCuestionarioGenerico.length">
+
+                            <button mat-button  *ngIf="i > 0" tooltip="Cambiar el orden : Subir" placement="top" (click)="_subirComponenteCuestionarioGenerico(element)">
+                                <i class="fa fa-sort-up"></i>
+                            </button>
+
+                            <button mat-button *ngIf="(i+1) != _listaComponentesCuestionarioGenerico.length" tooltip="Cambiar el orden : Bajar" placement="top" (click)="_bajarComponenteCuestionarioGenerico(element)">
                                 
-                                <i class="fa fa-sort-down" *ngIf="(i+1) != _listaComponentesCuestionarioGenerico.length"></i>
+                                <i class="fa fa-sort-down"></i>
                                 <!-- <mat-icon *ngIf="i > 0" (click)="_subirComponenteCuestionarioGenerico(element)"> 
                                     arrow_drop_up</mat-icon>-->
                                 <!-- <mat-icon *ngIf="(i+1) != _listaComponentesCuestionarioGenerico.length"
                                     (click)="_bajarComponenteCuestionarioGenerico(element)">arrow_drop_down</mat-icon> -->
                             </button>
-                            <button mat-button  *ngIf="i > 0"> 
-                                <i class="fa fa-sort-up"   *ngIf="i > 0"  (click)="_subirComponenteCuestionarioGenerico(element)"></i>
-                            </button>
+                            
     
     
                             <!-- <mat-slide-toggle *ngIf="element.Estado==0" checked="false">Activar!</mat-slide-toggle>
@@ -255,8 +258,13 @@
                                     (click)="_bajarSeccionComponenteCuestionarioGenerico(element)">arrow_drop_down
                                 </mat-icon>
                             </button> -->
-                            <button nat-button *ngIf="i > 0"> <i class="fa fa-sort-up"></i> </button>
-                            <button nat-button *ngIf="(i+1) != _listaSeccionesComponenteCuestionarioGenerico.length"> <i class="fa fa-sort-down"></i> </button>
+                            <button mat-button  *ngIf="i > 0" tooltip="Cambiar el orden : Subir" placement="top" (click)="_subirSeccionCuestionarioGenerico(element)">
+                                <i class="fa fa-sort-up"></i>
+                            </button>
+
+                            <button mat-button *ngIf="(i+1) != _listaSeccionesComponenteCuestionarioGenerico.length" tooltip="Cambiar el orden : Bajar" placement="top" (click)="_bajarSeccionCuestionarioGenerico(element)">
+                                <i class="fa fa-sort-down"></i>
+                            </button>
                             
     
     

@@ -88,6 +88,109 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
                 });
     });
   }
+
+  _subirPreguntaSeccionComponenteCuestionarioGenerico(
+    _IdPreguntaEncriptado,
+  ){
+  const _body = new HttpParams()
+    .set("IdPreguntaEncriptado",_IdPreguntaEncriptado)
+  ;
+  
+  return new Promise((resolve, reject) => {
+    this.http.post(url+'subir_pregunta',_body.toString(),{headers:this._header})
+              .subscribe(res=>{
+                resolve(res);
+              },(err)=>{
+                reject(err);
+              });
+  });
+}
+
+_subirComponenteCuestionarioGenerico(
+  _IdComponenteEncriptado,
+){
+const _body = new HttpParams()
+  .set("IdComponenteEncriptado",_IdComponenteEncriptado)
+;
+
+return new Promise((resolve, reject) => {
+  this.http.post(url+'subir_componente',_body.toString(),{headers:this._header})
+            .subscribe(res=>{
+              resolve(res);
+            },(err)=>{
+              reject(err);
+            });
+});
+}
+
+_subirSeccionCuestionarioGenerico(
+  _IdSeccionEncriptado,
+){
+const _body = new HttpParams()
+  .set("IdSeccionEncriptado",_IdSeccionEncriptado)
+;
+
+return new Promise((resolve, reject) => {
+  this.http.post(url+'subir_seccion',_body.toString(),{headers:this._header})
+            .subscribe(res=>{
+              resolve(res);
+            },(err)=>{
+              reject(err);
+            });
+});
+}
+
+_bajarSeccionCuestionarioGenerico(
+  _IdSeccionEncriptado,
+){
+const _body = new HttpParams()
+  .set("IdSeccionEncriptado",_IdSeccionEncriptado)
+;
+
+return new Promise((resolve, reject) => {
+  this.http.post(url+'bajar_seccion',_body.toString(),{headers:this._header})
+            .subscribe(res=>{
+              resolve(res);
+            },(err)=>{
+              reject(err);
+            });
+});
+}
+
+_bajarComponenteCuestionarioGenerico(
+  _IdComponenteEncriptado,
+){
+const _body = new HttpParams()
+  .set("IdComponenteEncriptado",_IdComponenteEncriptado)
+;
+
+return new Promise((resolve, reject) => {
+  this.http.post(url+'bajar_componente',_body.toString(),{headers:this._header})
+            .subscribe(res=>{
+              resolve(res);
+            },(err)=>{
+              reject(err);
+            });
+});
+}
+
+_bajarPreguntaSeccionComponenteCuestionarioGenerico(
+  _IdPreguntaEncriptado,
+){
+const _body = new HttpParams()
+  .set("IdPreguntaEncriptado",_IdPreguntaEncriptado)
+;
+
+return new Promise((resolve, reject) => {
+  this.http.post(url+'bajar_pregunta',_body.toString(),{headers:this._header})
+            .subscribe(res=>{
+              resolve(res);
+            },(err)=>{
+              reject(err);
+            });
+});
+}
+
   _eliminarPreguntasSeccionComponenteCuestionarioGenerico(
     _IdPreguntaEncriptado
     ){

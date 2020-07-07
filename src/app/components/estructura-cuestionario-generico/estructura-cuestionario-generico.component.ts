@@ -489,34 +489,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
 
     });
   }
-  _subirComponenteCuestionarioGenerico(_item){
 
-    console.log("estoy en :", _item.Orden);
-    
-    var index = _item.Orden;
-    var superior = this._listaComponentesCuestionarioGenerico[(index-1)];
-    var inferior = _item.Orden;
-    console.log("vaoya en :",superior);
-    
-    // this.componenteCuestionarioGenericoService._modificarComponenteCuestionarioGenerico(
-    //   this.formComponenteCuestionarioGenerico.get("_idComponenteEncriptado").value,
-    //   this.formComponenteCuestionarioGenerico.get("_idCuestionarioGenericoEncriptado").value,
-    //   this.formComponenteCuestionarioGenerico.get("_descripcion").value,
-    //   this.formComponenteCuestionarioGenerico.get("_orden").value
-    // ).then(data=>{
-    //   if (data['http']['codigo']=='200') {
-    //     this._consultarComponentesDeCuestionario( this.formComponenteCuestionarioGenerico.get("_idCuestionarioGenericoEncriptado").value);
-    //     this.formComponenteCuestionarioGenerico.reset();
-    //     this._btnAccionC="Guardar";
-    //   }else{
-    //     this.mensaje(data['http']['mensaje']);
-    //   }
-    // }).catch(error=>{
-
-    // }).finally(()=>{
-
-    // });
-  }
 
   _btnAccionS="Guardar";
   _prepararSeccionDeComponenteDeCuestionarioGenerico(_item){
@@ -740,10 +713,131 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
   }
 
   _subirPreguntaSeccionComponenteCuestionarioGenerico(_item){
-    let element = this._listaPreguntasSeccionComponenteCuestionarioGenerico.find(data=>data.IdPreguntaEncriptado);
-    let index = this._listaPreguntasSeccionComponenteCuestionarioGenerico.indexOf(element);
-    // this._listaPreguntasSeccionComponenteCuestionarioGenerico[index].Orden-=1;
-    // this._listaPreguntasSeccionComponenteCuestionarioGenerico[index-1].Orden+=1;
+    this.preguntaSeccionComponenteCuestionarioGenericoService._subirPreguntaSeccionComponenteCuestionarioGenerico(_item.IdPreguntaEncriptado
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+        const index = this._listaPreguntasSeccionComponenteCuestionarioGenerico.findIndex((inc: any) => inc.IdPreguntaEncriptado === _item.IdPreguntaEncriptado);
+        var ElementoAnterior = this._listaPreguntasSeccionComponenteCuestionarioGenerico[index-1];
+        this._listaPreguntasSeccionComponenteCuestionarioGenerico[index-1] = this._listaPreguntasSeccionComponenteCuestionarioGenerico[index];   
+        this._listaPreguntasSeccionComponenteCuestionarioGenerico[index] = ElementoAnterior;
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+      }else {
+        this.mensaje(data['http']['mensaje']);
+      }
+    }).catch(error=>{
+
+    }).finally(()=>{
+
+    });
+
+  }
+
+  _bajarPreguntaSeccionComponenteCuestionarioGenerico(_item){
+    this.preguntaSeccionComponenteCuestionarioGenericoService._bajarPreguntaSeccionComponenteCuestionarioGenerico(_item.IdPreguntaEncriptado
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+        const index = this._listaPreguntasSeccionComponenteCuestionarioGenerico.findIndex((inc: any) => inc.IdPreguntaEncriptado === _item.IdPreguntaEncriptado);
+        var ElementoSiguiente = this._listaPreguntasSeccionComponenteCuestionarioGenerico[index+1];
+        this._listaPreguntasSeccionComponenteCuestionarioGenerico[index+1] = this._listaPreguntasSeccionComponenteCuestionarioGenerico[index];   
+        this._listaPreguntasSeccionComponenteCuestionarioGenerico[index] = ElementoSiguiente;
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+      }else {
+        this.mensaje(data['http']['mensaje']);
+      }
+    }).catch(error=>{
+
+    }).finally(()=>{
+
+    });
+
+  }
+
+  _subirComponenteCuestionarioGenerico(_item){
+
+    
+    this.preguntaSeccionComponenteCuestionarioGenericoService._subirComponenteCuestionarioGenerico(_item.IdComponenteEncriptado
+      ).then(data=>{
+        if (data['http']['codigo']=='200') {
+          const index = this._listaComponentesCuestionarioGenerico.findIndex((inc: any) => inc.IdComponenteEncriptado === _item.IdComponenteEncriptado);
+          var ElementoAnterior = this._listaComponentesCuestionarioGenerico[index-1];
+          this._listaComponentesCuestionarioGenerico[index-1] = this._listaComponentesCuestionarioGenerico[index];   
+          this._listaComponentesCuestionarioGenerico[index] = ElementoAnterior;
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+        }else {
+          this.mensaje(data['http']['mensaje']);
+        }
+      }).catch(error=>{
+  
+      }).finally(()=>{
+  
+      });
+  }
+
+  _subirSeccionCuestionarioGenerico(_item){
+    this.preguntaSeccionComponenteCuestionarioGenericoService._subirSeccionCuestionarioGenerico(_item.IdSeccionEncriptado
+      ).then(data=>{
+        if (data['http']['codigo']=='200') {
+          const index = this._listaSeccionesComponenteCuestionarioGenerico.findIndex((inc: any) => inc.IdSeccionEncriptado === _item.IdSeccionEncriptado);
+          var ElementoAnterior = this._listaSeccionesComponenteCuestionarioGenerico[index-1];
+          this._listaSeccionesComponenteCuestionarioGenerico[index-1] = this._listaSeccionesComponenteCuestionarioGenerico[index];   
+          this._listaSeccionesComponenteCuestionarioGenerico[index] = ElementoAnterior;
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+        }else {
+          this.mensaje(data['http']['mensaje']);
+        }
+      }).catch(error=>{
+  
+      }).finally(()=>{
+  
+      });
+  }
+
+  _bajarComponenteCuestionarioGenerico(_item){
+
+   
+    this.preguntaSeccionComponenteCuestionarioGenericoService._bajarComponenteCuestionarioGenerico(_item.IdComponenteEncriptado
+      ).then(data=>{
+        if (data['http']['codigo']=='200') {
+          const index = this._listaComponentesCuestionarioGenerico.findIndex((inc: any) => inc.IdComponenteEncriptado === _item.IdComponenteEncriptado);
+          var ElementoSiguiente = this._listaComponentesCuestionarioGenerico[index+1];
+          this._listaComponentesCuestionarioGenerico[index+1] = this._listaComponentesCuestionarioGenerico[index];   
+          this._listaComponentesCuestionarioGenerico[index] = ElementoSiguiente;
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+        }else {
+          this.mensaje(data['http']['mensaje']);
+        }
+      }).catch(error=>{
+  
+      }).finally(()=>{
+  
+      });
+  }
+
+  _bajarSeccionCuestionarioGenerico(_item){
+
+   
+    this.preguntaSeccionComponenteCuestionarioGenericoService._bajarSeccionCuestionarioGenerico(_item.IdSeccionEncriptado
+      ).then(data=>{
+        if (data['http']['codigo']=='200') {
+          const index = this._listaSeccionesComponenteCuestionarioGenerico.findIndex((inc: any) => inc.IdSeccionEncriptado === _item.IdSeccionEncriptado);
+          var ElementoSiguiente = this._listaSeccionesComponenteCuestionarioGenerico[index+1];
+          this._listaSeccionesComponenteCuestionarioGenerico[index+1] = this._listaSeccionesComponenteCuestionarioGenerico[index];   
+          this._listaSeccionesComponenteCuestionarioGenerico[index] = ElementoSiguiente;
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+        }else {
+          this.mensaje(data['http']['mensaje']);
+        }
+      }).catch(error=>{
+  
+      }).finally(()=>{
+  
+      });
   }
 
 }
