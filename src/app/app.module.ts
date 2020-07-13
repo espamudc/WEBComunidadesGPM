@@ -79,6 +79,7 @@ import { ModalAsignarRepresentanteModeloPublicadoComponent } from './components/
 import { LlenarCaracterizacionComponent } from './components/llenar-caracterizacion/llenar-caracterizacion.component';
 import { ModalLlenarInformacionComponent } from './components/modal-llenar-informacion/modal-llenar-informacion.component';
 import { GaleriaComponent } from './components/galeria/galeria.component';
+import { PreguntaArchivoComponent } from './components/tipo-preguntas/pregunta-archivo/pregunta-archivo.component';
 // import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
@@ -129,6 +130,7 @@ import { GaleriaComponent } from './components/galeria/galeria.component';
     LlenarCaracterizacionComponent,
     ModalLlenarInformacionComponent,
     GaleriaComponent,
+    PreguntaArchivoComponent,
     // MessageBoxComponent,
   ],
   imports: [

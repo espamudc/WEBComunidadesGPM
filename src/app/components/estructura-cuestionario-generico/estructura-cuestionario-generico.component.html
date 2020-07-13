@@ -353,6 +353,9 @@
                         <div *ngIf="item.TipoPregunta.Identificador==4">
                             <app-pregunta-matriz [item]="item"></app-pregunta-matriz>
                         </div>
+                        <div *ngIf="item.TipoPregunta.Identificador==5">
+                            <app-pregunta-archivo [item]="item"></app-pregunta-archivo>
+                        </div>
 
                        
                     </mat-expansion-panel>

@@ -1,13 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+//import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CuestionarioGenericoService } from 'src/app/services/cuestionario-generico.service';
 import { CabeceraVersionCuestionarioService } from 'src/app/services/cabecera-version-cuestionario.service';
-import { MatSnackBar } from '@angular/material';
+//import { MatSnackBar } from '@angular/material';
 import { LugaresService } from 'src/app/services/lugares.service';
 import { PeriodoService } from 'src/app/services/periodo.service';
 import { AsignarUsuarioTipoUsuarioService } from "src/app/services/asignar-usuario-tipo-usuario.service";
 import { CuestionarioPublicadoService } from "src/app/services/cuestionario-publicado.service";
 import { AsignarEncuestadoService } from 'src/app/services/asignar-encuestado.service';
+import { MatTable, MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -16,7 +21,10 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./cuestionario-generico-publicar.component.css']
 })
 export class CuestionarioGenericoPublicarComponent implements OnInit {
-
+  tablaCuestionarios = ['periodo', 'fecha_publicacion', 'cuestionario', 'cuestionario_version', 'acciones'];
+  dataSource = new MatTableDataSource();
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+ @ViewChild(MatSort, { static: true }) sort: MatSort;
   constructor(
     private cuestionarioGenericoService :CuestionarioGenericoService,
     private cabeceraVersionCuestionarioService:CabeceraVersionCuestionarioService,
@@ -74,8 +82,19 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
     this._consultarPeriodos();
     this._consultarTecnicos();
     this._consultar_cuestionarioPublicado();
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
     // this._consultar_cuestionarioPublicadoporidasignarusuariotipousuario();
   }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  // @ViewChild(MatTable, { static: false }) MatTablaCuestionarios: MatTable<any>;
+  // _refrescarTabla() {
+  //   this.MatTablaCuestionarios.renderRows();
+  // }
   //---------------------------------------------------------------------------------------
   formCuestionarioGenericoPublicar:FormGroup;
 
@@ -165,6 +184,8 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
 
 
   //------------------------------------------------
+
+
   _onChangeCmbCuestionariosGenericos(event){
     // this._consultarComponentesDeCuestionario(event.value);
     if (event.value==0) {
@@ -230,7 +251,8 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
         if (data['http']['codigo']=="200") {
           this._listaCuestionariosPublicados=[];
           this._listaCuestionariosPublicados=data['respuesta'];
-          console.log("_listaCuestionariosPublicados:",this._listaCuestionariosPublicados);
+          this.dataSource.data = this._listaCuestionariosPublicados
+          //console.log("_listaCuestionariosPublicados:",this._listaCuestionariosPublicados);
 
         } else {
 
@@ -250,8 +272,8 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
         if (data['http']['codigo']=="200") {
           this._listaCuestionariosPublicados=[];
           this._listaCuestionariosPublicados=data['respuesta'];
-          console.log("_listaCuestionariosPublicados:",this._listaCuestionariosPublicados);
-
+          this.dataSource.data = this._listaCuestionariosPublicados
+          //console.log("_listaCuestionariosPublicados:",this._listaCuestionariosPublicados);
         } else {
 
         }
@@ -368,6 +390,7 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
       }
       else if (data['http']['codigo']=='200') {
         this._consultar_cuestionarioPublicadoporidasignarusuariotipousuario();
+        //this._refrescarTabla();
         this._limpiarForm();
       } else {
         this.mensaje(data['http']['mensaje']);
@@ -382,6 +405,21 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
   _eliminar_cuestionarioPublicado(_item){
     console.log("_item eliminar",_item.IdCuestionarioPublicadoEncriptado);
     this.cuestionarioPublicadoService._eliminar_cuestionarioPublicado(_item.IdCuestionarioPublicadoEncriptado)
+      .then(data=>{
+        this._consultar_cuestionarioPublicadoporidasignarusuariotipousuario();
+        //this._refrescarTabla();
+      }).catch(error=>{
+
+      }).finally(()=>{
+
+      });
+  }
+
+  _deshabilitar_cuestionarioPublicado(_item){
+    if(_item.Estado==true){
+      this._verAsignarEncuestado=false;
+    }
+    this.cuestionarioPublicadoService._deshabilitar_cuestionarioPublicado(_item.IdCuestionarioPublicadoEncriptado)
       .then(data=>{
         this._consultar_cuestionarioPublicadoporidasignarusuariotipousuario();
       }).catch(error=>{
