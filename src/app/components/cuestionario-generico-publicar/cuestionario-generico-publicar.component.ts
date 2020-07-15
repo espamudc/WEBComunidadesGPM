@@ -20,6 +20,7 @@ import { DatePipe } from '@angular/common';
   templateUrl: './cuestionario-generico-publicar.component.html',
   styleUrls: ['./cuestionario-generico-publicar.component.css']
 })
+
 export class CuestionarioGenericoPublicarComponent implements OnInit {
   tablaCuestionarios = ['periodo', 'fecha_publicacion', 'cuestionario', 'cuestionario_version', 'acciones'];
   dataSource = new MatTableDataSource();
@@ -87,6 +88,7 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
     // this._consultar_cuestionarioPublicadoporidasignarusuariotipousuario();
   }
   applyFilter(event: Event) {
+    debugger
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -156,6 +158,7 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
   _listaPeriodos:any[]=[];
   _listaTecnicos:any[]=[];
   _listaCuestionariosPublicados:any[]=[];
+
   _listaAsignarEncuestados:any[]=[];
   idEncuestadoEncriptado= "";
 
@@ -255,9 +258,11 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
     this.cuestionarioPublicadoService._consultar_cuestionarioPublicado()
       .then(data=>{
         if (data['http']['codigo']=="200") {
-          this._listaCuestionariosPublicados=[];
-          this._listaCuestionariosPublicados=data['respuesta'];
-          this.dataSource.data = this._listaCuestionariosPublicados
+          
+         // this._listaCuestionariosPublicados= data['respuesta'];
+          this._listaCuestionariosPublicados = data['respuesta'];
+  
+          this.dataSource.data =  this._listaCuestionariosPublicados
           //console.log("_listaCuestionariosPublicados:",this._listaCuestionariosPublicados);
 
         } else {
