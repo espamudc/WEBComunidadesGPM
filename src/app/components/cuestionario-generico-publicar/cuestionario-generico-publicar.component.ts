@@ -157,6 +157,7 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
   _listaTecnicos:any[]=[];
   _listaCuestionariosPublicados:any[]=[];
   _listaAsignarEncuestados:any[]=[];
+  idEncuestadoEncriptado= "";
 
   Columns=['periodo','fecha_publicacion','cuestionario','cuestionario_version','acciones'];
   ColumnsAsignarEncuestado=['tecnico','fecha_inicio','fecha_fin','comunidad','cuestionario','cuestionario_version','acciones'];
@@ -234,14 +235,19 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
     this._insertar_cuestionarioPublicado();
   }
   _validarFormAsignarEncuestado(){
-    this._insertarAsignarEncuestado();
+    if(this.guardar == true){
+      this._insertarAsignarEncuestado();
+    }else{
+        this._editarAsignarEncuestado();
+        this.guardar = true;
+    }
   }
 
   //------------------------------------------------
 
   _limpiarForm()
   {
-    console.log("dayaan");
+    //console.log("dayaan");
     this.formCuestionarioGenericoPublicar.reset();
   }
 
@@ -430,19 +436,71 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
   }
 
   _prepararCuestionarioPublicado(_item){
-    console.log("_verCuestionarioPublicado",_item);
+    this.guardar = true;
+    //console.log("_verCuestionarioPublicado",_item);
     //this.cuestionarioPublicadoService._eliminar_cuestionarioPublicado()
     this.formAsignarEncuestado_idAsignarUsuarioTipoUsuarioEncriptado.setValue(localStorage.getItem("IdAsignarUsuarioTipoUsuarioEncriptado"));
     this.formAsignarEncuestado_idCuestionarioPublicadoEncriptado.setValue(_item.IdCuestionarioPublicadoEncriptado);
     this.formAsignarEncuestado_versionCuestionarioGenenico.setValue(_item.CabeceraVersionCuestionario.Version+" ("+_item.CabeceraVersionCuestionario.FechaCreacion +")");
+    this.formAsignarEncuestado_versionCuestionarioGenenico.disable();
     this.formAsignarEncuestado_nombreCuestionarioGenenico.setValue(_item.CabeceraVersionCuestionario.AsignarResponsable.CuestionarioGenerico.Nombre);   
+    this.formAsignarEncuestado_nombreCuestionarioGenenico.disable();
     this.formAsignarEncuestado_fechaInicio.setValue(this.datePipe.transform(_item.Periodo.FechaInicio, 'yyyy-MM-dd'));
     this.formAsignarEncuestado_fechaFin.setValue(this.datePipe.transform(_item.Periodo.FechaFin, 'yyyy-MM-dd'));
     this._verAsignarEncuestado=true;
+    this.formAsignarEncuestado_cmbProvincia.setValue("");
+    this.formAsignarEncuestado_cmbCanton.setValue("");
+    this.formAsignarEncuestado_cmbParroquia.setValue("");
+    this.formAsignarEncuestado_cmbComunidad.setValue("");
+    this.formAsignarEncuestado_cmbTecnico.setValue("");
+    this.formAsignarEncuestado_obligatorio.setValue("True");
     this._consultar_poridcuestionariopublicado(_item.IdCuestionarioPublicadoEncriptado);
 
   }
 
+  _prepararEncuestador(_item: any) {
+    this.guardar = false;
+    this.idEncuestadoEncriptado = _item.IdAsignarEncuestadoEncriptado;
+    //this.formLugarRepresentante_fechaSalida.setValidators([Validators.required]);
+    //this.formLugarRepresentante_fechaSalida.updateValueAndValidity();
+    // this.formAsignarEncuestado_nombreCuestionarioGenenico.setValidators([]);
+    // this.formAsignarEncuestado_nombreCuestionarioGenenico.updateValueAndValidity();
+    // this.formAsignarEncuestado_versionCuestionarioGenenico.setValidators([]);
+    // this.formAsignarEncuestado_versionCuestionarioGenenico.updateValueAndValidity();
+    // this.formAsignarEncuestado_cmbProvincia.setValidators([]);
+    // this.formAsignarEncuestado_cmbProvincia.updateValueAndValidity();
+    // this.formAsignarEncuestado_cmbCanton.setValidators([]);
+    // this.formAsignarEncuestado_cmbCanton.updateValueAndValidity();
+    // this.formAsignarEncuestado_cmbParroquia.setValidators([]);
+    // this.formAsignarEncuestado_cmbParroquia.updateValueAndValidity();
+    // this.formAsignarEncuestado_cmbComunidad.setValidators([]);
+    // this.formAsignarEncuestado_cmbComunidad.updateValueAndValidity();
+    // this.formAsignarEncuestado_cmbTecnico.setValidators([]);
+    // this.formAsignarEncuestado_cmbTecnico.updateValueAndValidity();
+   
+    
+    this._listaProvincias=[];
+    this._consultarProvincias();
+    this._listaCantones=[];
+    this._cantonesDeUnaProvincia(_item.Comunidad.Parroquia.Canton.Provincia.IdProvinciaEncriptado);
+    this._listaParroquias=[];
+    this._parroquiasDeUnCanton(_item.Comunidad.Parroquia.Canton.IdCantonEncriptado);
+    this._listaComunidades=[];
+    this._comunidadesDeUnaParroquia(_item.Comunidad.Parroquia.IdParroquiaEncriptado);
+    this._listaTecnicos=[];
+    this._consultarTecnicos();
+    this.formAsignarEncuestado_cmbProvincia.setValue(_item.Comunidad.Parroquia.Canton.Provincia.IdProvinciaEncriptado);
+    this.formAsignarEncuestado_cmbCanton.setValue(_item.Comunidad.Parroquia.Canton.IdCantonEncriptado);
+    this.formAsignarEncuestado_cmbParroquia.setValue(_item.Comunidad.Parroquia.IdParroquiaEncriptado);
+    this.formAsignarEncuestado_cmbComunidad.setValue(_item.Comunidad.IdComunidadEncriptado);
+    this.formAsignarEncuestado_cmbTecnico.setValue(_item.AsignarUsuarioTipoUsuarioTecnico.IdAsignarUsuarioTipoUsuarioEncriptado);
+    this.formAsignarEncuestado_fechaInicio.setValue(this.datePipe.transform(_item.FechaInicio, 'yyyy-MM-dd'));
+    this.formAsignarEncuestado_fechaFin.setValue(this.datePipe.transform(_item.FechaFin, 'yyyy-MM-dd'));
+    this.formAsignarEncuestado_obligatorio.setValue(_item.Obligatorio);
+
+    //console.log(this.idEncuestadoEncriptado)
+  }
+  guardar = true;
   _insertarAsignarEncuestado(){
     console.log(
       "formAsignarEncuestado_idCuestionarioPublicadoEncriptado",this.formAsignarEncuestado_idCuestionarioPublicadoEncriptado.value,
@@ -466,7 +524,9 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
       if (data['http']['codigo']=='500') {
 
       } else if(data['http']['codigo']=='200'){
+        
         this._consultar_poridcuestionariopublicado(this.formAsignarEncuestado_idCuestionarioPublicadoEncriptado.value);
+
       } else {
 
       }
@@ -478,7 +538,45 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
 
   }
 
+  _editarAsignarEncuestado(){
+
+    this.asignarEncuestadoService._editarAsignarEncuestado(
+      this.idEncuestadoEncriptado,
+      this.formAsignarEncuestado_idCuestionarioPublicadoEncriptado.value,
+      this.formAsignarEncuestado_cmbComunidad.value,
+      this.formAsignarEncuestado_cmbTecnico.value,
+      localStorage.getItem("IdAsignarUsuarioTipoUsuarioEncriptado"),
+      this.formAsignarEncuestado_obligatorio.value,
+      this.formAsignarEncuestado_fechaInicio.value,
+      this.formAsignarEncuestado_fechaFin.value
+    ).then(data=>{
+      if (data['http']['codigo']=='500') {
+
+      } else if(data['http']['codigo']=='200'){
+        
+        this._consultar_poridcuestionariopublicado(this.formAsignarEncuestado_idCuestionarioPublicadoEncriptado.value);
+        //this.formAsignarEncuestado.reset();
+        this.formAsignarEncuestado_cmbProvincia.setValue("");
+        this.formAsignarEncuestado_cmbCanton.setValue("");
+        this.formAsignarEncuestado_cmbParroquia.setValue("");
+        this.formAsignarEncuestado_cmbComunidad.setValue("");
+        this.formAsignarEncuestado_cmbTecnico.setValue("");
+        this.formAsignarEncuestado_obligatorio.setValue("True");
+      } else {
+
+      }
+    }).catch(error=>{
+
+    }).finally(()=>{
+
+    });
+
+    
+
+  }
+
   _consultar_poridcuestionariopublicado(_idCuestionarioGenericoEncriptado){
+    
     this.asignarEncuestadoService._consultar_poridcuestionariopublicado(_idCuestionarioGenericoEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='500') {

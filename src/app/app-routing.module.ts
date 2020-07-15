@@ -6,6 +6,7 @@ import { LoginComponent } from './components/login/login.component';
 import { NavComponent } from './nav/nav.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { PersonaComponent } from './components/persona/persona.component';
+import { PeriodoComponent } from './components/periodo/periodo.component';
 // import { InventarioComponent } from "./components/inventario/inventario.component";
 // import { CompraComponent } from "./components/compra/compra.component";
 // import { VentaComponent } from "./components/venta/venta.component";
@@ -48,6 +49,10 @@ const routes: Routes = [
       },
       {
         path: 'panel-administracion', component: PanelAdministracionComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+      {
+        path: 'periodo', component: PeriodoComponent,
         // canActivate: [ValidarUsuarioGuard]
       },
       {

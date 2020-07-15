@@ -266,7 +266,8 @@
                             <mat-checkbox [formControl]="formAsignarEncuestado_obligatorio">Obligatorio</mat-checkbox>
                             <br>
                             <button [disabled]="formAsignarEncuestado.invalid" mat-button class="btn btn-primary btn-block">
-                                <i class="fa fa-plus"></i>
+                                <i *ngIf="guardar"  class="fa fa-plus"> GUARDAR</i>
+                                <i *ngIf="!guardar" class="fa fa-pencil-square-o" aria-hidden="true"> MODIFICAR</i>
                                 <!-- <i class="fa fa-edit"></i> -->
                             </button>
                         </mat-card>
@@ -334,7 +335,7 @@
                                         <td mat-cell>
                                             <button tooltip="Modificar" placement="top"
                                                 class="btn btn-sm btn-outline-info separacion-botones"
-                                                value="{{element.IdAsignarEncuestadoEncriptado}}" (click)="_prepararPersona(element)">
+                                                value="{{element.IdAsignarEncuestadoEncriptado}}" (click)="_prepararEncuestador(element)">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </button>
                                         </td>

@@ -80,6 +80,7 @@ import { LlenarCaracterizacionComponent } from './components/llenar-caracterizac
 import { ModalLlenarInformacionComponent } from './components/modal-llenar-informacion/modal-llenar-informacion.component';
 import { GaleriaComponent } from './components/galeria/galeria.component';
 import { PreguntaArchivoComponent } from './components/tipo-preguntas/pregunta-archivo/pregunta-archivo.component';
+import { PeriodoComponent } from './components/periodo/periodo.component';
 // import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
@@ -131,6 +132,7 @@ import { PreguntaArchivoComponent } from './components/tipo-preguntas/pregunta-a
     ModalLlenarInformacionComponent,
     GaleriaComponent,
     PreguntaArchivoComponent,
+    PeriodoComponent,
     // MessageBoxComponent,
   ],
   imports: [
