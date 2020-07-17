@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, Validators, FormControl, Form } from '@angular/forms';
 // Services
 import { PersonaService } from "../../services/persona.service";
+import { PeriodoService } from "../../services/periodo.service";
 // Functional Components
 import { MatDialog } from "@angular/material/dialog";
 // Components
@@ -14,43 +15,37 @@ import { MatTable, MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-periodo',
   templateUrl: './periodo.component.html',
   styleUrls: ['./periodo.component.css']
 })
 export class PeriodoComponent implements OnInit {
-  _listaPersonas: any[] = [];
-  tablaPersonas = ['Nombres', 'Apellidos', 'TipoIdentidicacion', 'Identificacion', 'Acciones'];
+  _listaPeriodos: any[] = [];
+  tablaPeriodos = ['Descripcion', 'fechaInicio', 'fechaFin', 'Acciones'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   constructor(
     private lugaresService: LugaresService,
     private personaService: PersonaService,
+    private periodoService: PeriodoService,
     private sexoService: SexoService,
     private tipoIdentificacionService: TipoIdentificacionService,
     private dialog: MatDialog,
     private snackBarComponent: MatSnackBar,
+    private datePipe: DatePipe
   ) {
     this.formPeriodo = new FormGroup({
-      _idPersonaEncriptado: new FormControl(''),
+      _IdPeriodoEncriptado: new FormControl(''),
       _descripcion: new FormControl('', [Validators.required]),
       _fechaInicio: new FormControl('', [Validators.required]),
       _fechaFin: new FormControl('', [Validators.required]),
-      _segundoApellido: new FormControl('', [Validators.required]),
-      _cmbTipoIdentificacion: new FormControl('', [Validators.required]),
-      _numeroIdentificacion: new FormControl('', [Validators.required]),
-      _cmbSexo: new FormControl('', [Validators.required]),
-      _telefono: new FormControl(''),
-      _cmbProvincia: new FormControl('', [Validators.required]),
-      _cmbCanton: new FormControl('', [Validators.required]),
-      _cmbParroquia: new FormControl('', [Validators.required]),
-      _direccion: new FormControl('', [Validators.required])
     });
   }
   ngOnInit() {
-    this._consultarPersonas();
+    this._consultarPeriodos();
     this._consultarTipoIdentificacion();
     this._consultarSexos();
     this._consultarProvincias();
@@ -62,8 +57,8 @@ export class PeriodoComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   formPeriodo: FormGroup;
-  get formPeriodo_idPersonaEncriptado() {
-    return this.formPeriodo.get("_idPersonaEncriptado");
+  get formPeriodo_IdPeriodoEncriptado() {
+    return this.formPeriodo.get("_IdPeriodoEncriptado");
   }
   get formPeriodo_descripcion() {
     return this.formPeriodo.get("_descripcion");
@@ -74,33 +69,7 @@ export class PeriodoComponent implements OnInit {
   get formPeriodo_fechaFin() {
     return this.formPeriodo.get("_fechaFin");
   }
-  get formPeriodo_segundoApellido() {
-    return this.formPeriodo.get("_segundoApellido");
-  }
-  get formPeriodo_cmbTipoIdentificacion() {
-    return this.formPeriodo.get("_cmbTipoIdentificacion");
-  }
-  get formPeriodo_numeroIdentificacion() {
-    return this.formPeriodo.get("_numeroIdentificacion");
-  }
-  get formPeriodo_cmbSexo() {
-    return this.formPeriodo.get("_cmbSexo");
-  }
-  get formPeriodo_telefono() {
-    return this.formPeriodo.get("_telefono");
-  }
-  get formPeriodo_cmbProvincia() {
-    return this.formPeriodo.get("_cmbProvincia");
-  }
-  get formPeriodo_cmbCanton() {
-    return this.formPeriodo.get("_cmbCanton");
-  }
-  get formPeriodo_cmbParroquia() {
-    return this.formPeriodo.get("_cmbParroquia");
-  }
-  get formPeriodo_direccion() {
-    return this.formPeriodo.get("_direccion");
-  }
+  
   //-------------------------------------------------------------------------------------------
   _validar = true;
   _listaSexos: any[] = [];
@@ -110,7 +79,7 @@ export class PeriodoComponent implements OnInit {
   _cmbParroquia = "0";
   _cmbCanton = "0";
   _cmbProvincia = "0";
-  _IdPersonaEncriptado: any = "0";
+  _IdPeriodoEncriptado: any = "0";
   _descripcion = "";
   _fechaInicio = "";
   _fechaFin = "";
@@ -119,6 +88,7 @@ export class PeriodoComponent implements OnInit {
   _direccion = "";
   _numeroIdentificacion = "";
   panelOpenState: boolean = false;
+  myDate = Date.now();
   _btnAccion = "Guardar";
   panelState: boolean = false;
   panelState1: boolean = false;
@@ -128,17 +98,11 @@ export class PeriodoComponent implements OnInit {
   @ViewChild('ComboParroquias', { static: false }) ComboParroquias: ElementRef;
   _validarCompletos() {
     if (
-      this._cmbSexo != "0" &&
-      this._cmbTipoIdentificacion != "0" &&
-      this.ComboParroquias.nativeElement.value != "0" &&
-      this.ComboCantones.nativeElement.value != "0" &&
-      this.ComboProvincias.nativeElement.value != "0" &&
+     
       this._descripcion != "" &&
       this._fechaFin != "" &&
-      this._segundoApellido != "" &&
-      this._telefono != "" &&
-      this._direccion != "" &&
-      this._numeroIdentificacion != ""
+      this._fechaInicio != ""
+     
     ) {
       this._validar = false;
     } else {
@@ -147,72 +111,50 @@ export class PeriodoComponent implements OnInit {
   }
   _validarForm() {
     if (
-      this._cmbSexo != "0" &&
-      this._cmbTipoIdentificacion != "0" &&
-      this.ComboParroquias.nativeElement.value != "0" &&
-      this.ComboCantones.nativeElement.value != "0" &&
-      this.ComboProvincias.nativeElement.value != "0" &&
       this._descripcion != "" &&
       this._fechaFin != "" &&
-      this._segundoApellido != "" &&
-      this._telefono != "" &&
-      this._direccion != "" &&
-      this._numeroIdentificacion != ""
+      this._fechaInicio != "" 
+     
     ) {
       if (this._btnAccion === "Guardar") {
-        this._ingresarPersona2();
+        this._ingresarPeriodo2();
       }
       else if (this._btnAccion === "Modificar") {
-        this._modificarPersona2();
+        this._modificarPeriodo2();
       }
     }
   }
   _validarForm2() {
     if (this._btnAccion === "Guardar") {
-      this._ingresarPersona2();
+      this._ingresarPeriodo2();
     }
     else if (this._btnAccion === "Modificar") {
-      this._modificarPersona2();
+      this._modificarPeriodo2();
     }
   }
   clearMenssageError() {
     this.formPeriodo.controls['_descripcion'].setErrors(null);
     this.formPeriodo.controls['_fechaInicio'].setErrors(null);
     this.formPeriodo.controls['_fechaFin'].setErrors(null);
-    this.formPeriodo.controls['_fechaInicio'].setErrors(null);
-    this.formPeriodo.controls['_segundoApellido'].setErrors(null);
-    this.formPeriodo.controls['_cmbTipoIdentificacion'].setErrors(null);
-    this.formPeriodo.controls['_numeroIdentificacion'].setErrors(null);
-    this.formPeriodo.controls['_cmbSexo'].setErrors(null);
-    this.formPeriodo.controls['_cmbCanton'].setErrors(null);
-    this.formPeriodo.controls['_cmbParroquia'].setErrors(null);
-    this.formPeriodo.controls['_cmbProvincia'].setErrors(null);
-    this.formPeriodo.controls['_direccion'].setErrors(null);
   }
-  _ingresarPersona2() {
-    this.formPeriodo.controls['_telefono'].setValue(' ')
-    this.personaService._insertarPersona(
+  _ingresarPeriodo2() {
+
+
+    
+    this.periodoService._insertarPeriodo(
       this.formPeriodo_descripcion.value,
       this.formPeriodo_fechaInicio.value,
-      this.formPeriodo_fechaFin.value,
-      this.formPeriodo_segundoApellido.value,
-      this.formPeriodo_numeroIdentificacion.value,
-      this.formPeriodo_cmbTipoIdentificacion.value,
-      this.formPeriodo_telefono.value,
-      this.formPeriodo_cmbSexo.value,
-      this.formPeriodo_cmbParroquia.value,
-      this.formPeriodo_direccion.value,
-      'token'
+      this.formPeriodo_fechaFin.value
     ).then(
       data => {
         if (data['http']['codigo'] == '200') {
-          this._consultarPersonas();
+          this._consultarPeriodos();
           this._refrescarTabla();
           this._refrescarForm();
           this.clearMenssageError();
           this.formPeriodo.setErrors({ invalid: true });
           this.panelHidden();
-          this.mensaje("Persona registrada", null, 'msj-success');
+          this.mensaje("Periodo registrado", null, 'msj-success');
         } else {
           this.mensaje(data['http']['mensaje']);
         }
@@ -221,23 +163,15 @@ export class PeriodoComponent implements OnInit {
       .catch(err => { this.mensaje(err); }
       );
   }
-  _modificarPersona2() {
-    this.personaService._modificarPersona(
-      this.formPeriodo_idPersonaEncriptado.value,
+  _modificarPeriodo2() {
+    this.periodoService._modificarPeriodo(
+      this.formPeriodo_IdPeriodoEncriptado.value,
       this.formPeriodo_descripcion.value,
       this.formPeriodo_fechaInicio.value,
-      this.formPeriodo_fechaFin.value,
-      this.formPeriodo_segundoApellido.value,
-      this.formPeriodo_numeroIdentificacion.value,
-      this.formPeriodo_cmbTipoIdentificacion.value,
-      this.formPeriodo_telefono.value,
-      this.formPeriodo_cmbSexo.value,
-      this.formPeriodo_cmbParroquia.value,
-      this.formPeriodo_direccion.value,
-      'token'
+      this.formPeriodo_fechaFin.value
     ).then(ok => {
       if (ok['http']['codigo'] == '200') {
-        this._consultarPersonas();
+        this._consultarPeriodos();
         this._refrescarForm();
         this.clearMenssageError();
         this.formPeriodo.setErrors({ invalid: true });
@@ -255,22 +189,22 @@ export class PeriodoComponent implements OnInit {
     this.panelState1 = false;
     this.panelState = false;
   }
-  _consultarPersonas() {
-    this._listaPersonas = null;
-    this.personaService._consultarPersonas('token')
+  _consultarPeriodos() {
+    this._listaPeriodos = null;
+    this.periodoService._consultarPeriodos()
       .then(data => {
         if (data['http']['codigo'] == '200') {
-          this._listaPersonas = data['respuesta'];
-          this.dataSource.data = this._listaPersonas
+          this._listaPeriodos = data['respuesta'];
+          this.dataSource.data = this._listaPeriodos
         }
       }).catch(error => {
       });
   }
-  _eliminarPersona(_persona: any) {
-    this.personaService._eliminarPersona(_persona.IdPersonaEncriptado)
+  _eliminarPeriodo(_periodo: any) {
+    this.periodoService._eliminarPeriodo(_periodo.IdPeriodoEncriptado)
       .then(data => {
         if (data['http']['codigo'] == '200') {
-          this._consultarPersonas();
+          this._consultarPeriodos();
           this._refrescarTabla();
           this._refrescarForm();
           this.mensaje("Registro eliminado", null, 'msj-success');
@@ -315,44 +249,21 @@ export class PeriodoComponent implements OnInit {
       }
     });
   }
-  _prepararPersona(_persona: any) {
-    this._IdPersonaEncriptado = _persona.IdPersonaEncriptado;
-    this._descripcion = _persona.PrimerNombre;
-    this._fechaInicio = _persona.SegundoNombre;
-    this._fechaFin = _persona.PrimerApellido;
-    this._segundoApellido = _persona.SegundoApellido;
-    this._numeroIdentificacion = _persona.NumeroIdentificacion;
-    this._cmbTipoIdentificacion = _persona.TipoIdentificacion.IdTipoIdentificacionEncriptado;
-    this._telefono = _persona.Telefono;
-    this._cmbSexo = _persona.Sexo.IdSexoEncriptado;
-    this._direccion = _persona.Direccion;
-    if (this._telefono == 'null') {
-      this._telefono = '';
-    }
-    if (this._fechaInicio == 'null') {
-      this._fechaInicio = "";
-    }
-    this.lugaresService._consultarProvincias();
-    this._cantonesDeUnaProvincia(_persona.Parroquia.Canton.Provincia.IdProvinciaEncriptado);
-    this._parroquiasDeUnCanton(_persona.Parroquia.Canton.IdCantonEncriptado);
-    this.ComboProvincias.nativeElement.value = _persona.Parroquia.Canton.Provincia.IdProvinciaEncriptado;
-    this.ComboCantones.nativeElement.value = _persona.Parroquia.Canton.IdCantonEncriptado;
-    this.ComboParroquias.nativeElement.value = _persona.Parroquia.IdParroquiaEncriptado;
+  _prepararPeriodo(_periodo: any) {
+    this._IdPeriodoEncriptado = _periodo.IdPeriodoEncriptado;
+    this._descripcion = _periodo.Descripcion;
+    this._fechaInicio = _periodo.FechaInicio;
+    this._fechaFin = _periodo.FechaFin;
+   
+   
+  
     this._btnAccion = "Modificar";
     this._validarCompletos();
-    this.formPeriodo.get("_idPersonaEncriptado").setValue(_persona.IdPersonaEncriptado);
-    this.formPeriodo.get("_descripcion").setValue(_persona.PrimerNombre);
-    this.formPeriodo.get("_fechaInicio").setValue(_persona.SegundoNombre);
-    this.formPeriodo.get("_fechaFin").setValue(_persona.PrimerApellido);
-    this.formPeriodo.get("_segundoApellido").setValue(_persona.SegundoApellido);
-    this.formPeriodo.get("_cmbTipoIdentificacion").setValue(_persona.TipoIdentificacion.IdTipoIdentificacionEncriptado);
-    this.formPeriodo.get("_numeroIdentificacion").setValue(_persona.NumeroIdentificacion);
-    this.formPeriodo.get("_cmbSexo").setValue(_persona.Sexo.IdSexoEncriptado);
-    this.formPeriodo.get("_telefono").setValue(_persona.Telefono);
-    this.formPeriodo.get("_cmbProvincia").setValue(_persona.Parroquia.Canton.Provincia.IdProvinciaEncriptado);
-    this.formPeriodo.get("_cmbCanton").setValue(_persona.Parroquia.Canton.IdCantonEncriptado);
-    this.formPeriodo.get("_cmbParroquia").setValue(_persona.Parroquia.IdParroquiaEncriptado);
-    this.formPeriodo.get("_direccion").setValue(_persona.Direccion);
+    this.formPeriodo.get("_IdPeriodoEncriptado").setValue(_periodo.IdPeriodoEncriptado);
+    this.formPeriodo.get("_descripcion").setValue(_periodo.Descripcion);
+    this.formPeriodo.get("_fechaInicio").setValue(this.datePipe.transform(_periodo.FechaInicio, 'yyyy-MM-dd'));
+    this.formPeriodo.get("_fechaFin").setValue(this.datePipe.transform(_periodo.FechaFin, 'yyyy-MM-dd'));
+  
   }
   _refrescarForm() {
     this._cmbSexo = "0";
@@ -360,10 +271,7 @@ export class PeriodoComponent implements OnInit {
     this._cmbParroquia = "0";
     this._cmbCanton = "0";
     this._cmbProvincia = "0";
-    this.ComboParroquias.nativeElement.value = "0";
-    this.ComboCantones.nativeElement.value = "0";
-    this.ComboProvincias.nativeElement.value = "0";
-    this._IdPersonaEncriptado = "0";
+    this._IdPeriodoEncriptado = "0";
     this._descripcion = "";
     this._fechaInicio = "";
     this._fechaFin = "";
@@ -378,9 +286,9 @@ export class PeriodoComponent implements OnInit {
     this.formPeriodo.setErrors({ invalid: true });
     this.panelHidden();
   }
-  @ViewChild(MatTable, { static: false }) MatTablaPersonas: MatTable<any>;
+  @ViewChild(MatTable, { static: false }) MatTablaPeriodos: MatTable<any>;
   _refrescarTabla() {
-    this.MatTablaPersonas.renderRows();
+    this.MatTablaPeriodos.renderRows();
   }
   _listaProvincias: any[] = [];
   _consultarProvincias() {
@@ -400,8 +308,7 @@ export class PeriodoComponent implements OnInit {
   }
   _listaCantones: any[] = [];
   _cantonesDeUnaProvincia(event) {
-    this.ComboCantones.nativeElement.value = "0";
-    this.ComboParroquias.nativeElement.value = "0";
+   
     var id = event;
     if (id != "0") {
       this.lugaresService._consultarCantonesDe(id)
@@ -418,7 +325,7 @@ export class PeriodoComponent implements OnInit {
   }
   _listaParroquias: any[] = [];
   _parroquiasDeUnCanton(event) {
-    this.ComboParroquias.nativeElement.value = "0";
+    
     var id = event;
     if (id != "0") {
       this.lugaresService._consultarParroquiasDe(id)
