@@ -84,7 +84,7 @@
                 <table mat-table [dataSource]="dataSource" matSort>
                     <ng-container matColumnDef="periodo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> PERIODO </th>
-                        <td mat-cell *matCellDef="let element"> {{ element.Periodo.FechaFin }} </td>
+                        <td mat-cell *matCellDef="let element"> {{ element.Periodo.Descripcion }} </td>
                     </ng-container>
                     <ng-container matColumnDef="fecha_publicacion">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA DE PUBLICACIÓN </th>

@@ -131,13 +131,25 @@
                     </mat-form-field>
 
                     <mat-form-field class="gpm-form-field">
-                        <input matInput placeholder="Descripción de la Pregunta" [formControl]="_descripcionPregunta" required>
+                        <input matInput placeholder="Descripción de la Pregunta" [formControl]="_descripcionPregunta" required autocomplete="off">
                         <mat-error
                             *ngIf="_descripcionPregunta.hasError('required') || _descripcionPregunta.invalid || (_descripcionPregunta.dirty || _descripcionPregunta.touched ) ">
                             Este dato es <strong>obligatorio</strong>
                         </mat-error>
                     </mat-form-field>
-                   
+
+                    <mat-form-field class="gpm-form-field" *ngIf="agregarLeyendas">
+                        <input matInput placeholder="Leyenda Superior" [formControl]="_leyendaSuperior">
+                    </mat-form-field>
+                    <mat-form-field class="gpm-form-field" *ngIf="agregarLeyendas">
+                        <input matInput placeholder="Leyenda Lateral" [formControl]="_leyendaLateral">
+                    </mat-form-field>
+                    <section *ngIf="agregarLeyendas" class="example-section">
+                        <mat-checkbox [(ngModel)]="checked" [formControl]="_observacion" class="example-margin">Observación</mat-checkbox>
+                    </section>
+                      
+
+
                     <!-- <div class="row"> -->
                     
                     <mat-radio-group [(ngModel)]="_obligatorioPregunta" class="gpm-form-field" required [formControl]="_obligatorio" aria-label="Obligatoria">
@@ -246,9 +258,14 @@
                                 <mat-icon (click)="_prepararSeccionDeComponenteDeCuestionarioGenerico(element)">edit
                                 </mat-icon>
                             </button> -->
-                            <button mat-button *ngIf="element.Utilizado==0">
-                                <button mat-button class="btn" (click)="_eliminarSeccionComponenteCuestionarioGenerico(element)"> <i class="fa fa-times"></i> </button>
-                                <!-- <mat-icon (click)="_eliminarSeccionComponenteCuestionarioGenerico(element)">clear</mat-icon> -->
+                            <button mat-button *ngIf="element.Utilizado==0" tooltip="Editar" placement="top"
+                                (click)="_prepararSeccionDeComponenteDeCuestionarioGenerico(element)">
+                                <i class="fa fa-edit"></i>
+                            </button>
+
+                            <button mat-button *ngIf="element.Utilizado==0" tooltip="Eliminar" placement="top"
+                                (click)="_eliminarSeccionComponenteCuestionarioGenerico(element)">
+                                <i class="fa fa-times"></i>
                             </button>
                             <!-- <button mat-button *ngIf="_listaSeccionesComponenteCuestionarioGenerico.length >1">
                                 

@@ -44,6 +44,9 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
       _Descripcion,
       _Orden,
       _Obligatorio,
+      _leyendaSuperior,
+      _leyendaLateral,
+      _observacion
     ){
     const _body = new HttpParams()
     .set("TipoPregunta.IdTipoPreguntaEncriptado",_IdTipoPreguntaEncriptado)
@@ -51,6 +54,9 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
     .set("Descripcion",_Descripcion)
     .set("Obligatorio",_Obligatorio)
     .set("Orden",_Orden)
+    .set("leyendaSuperior",_leyendaSuperior)
+    .set("leyendaLateral",_leyendaLateral)
+    .set("Observacion",_observacion)
     ;
     
     return new Promise((resolve, reject) => {
@@ -67,6 +73,9 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
       _IdTipoPreguntaEncriptado,
       _IdSeccionEncriptado,
       _Descripcion,
+      _leyendaSuperior,
+      _leyendaLateral,
+      _Observacion,
       _Orden,
       _Obligatorio,
     ){
@@ -75,8 +84,12 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
       .set("TipoPregunta.IdTipoPreguntaEncriptado",_IdTipoPreguntaEncriptado)
       .set("Seccion.IdSeccionEncriptado",_IdSeccionEncriptado)
       .set("Descripcion",_Descripcion)
-      .set("Obligatorio",_Obligatorio)
+      .set("leyendaSuperior",_leyendaSuperior)
+      .set("leyendaLateral",_leyendaLateral)
+      .set("Observacion",_Observacion)
       .set("Orden",_Orden)
+      .set("Obligatorio",_Obligatorio)
+      
     ;
     
     return new Promise((resolve, reject) => {
