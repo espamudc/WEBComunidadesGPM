@@ -26,8 +26,8 @@
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field class="gpm-universal-width">
-                        <input matInput placeholder="Fecha Fin" [formControl]="formPeriodo_fechaFin" type="date"
-                            required autocomplete="off">
+                        <input matInput placeholder="Fecha Fin" [formControl]="formPeriodo_fechaFin" type="date" required
+                            autocomplete="off">
                         <mat-error
                             *ngIf="formPeriodo_fechaFin.hasError('required') || formPeriodo_fechaFin.invalid || (formPeriodo_fechaFin.dirty || formPeriodo_fechaFin.touched ) ">
                             Este dato es <strong>obligatorio</strong>
@@ -51,7 +51,7 @@
             </form>
         </div>
         <div class="col-lg-7 col-md-7 mr-auto ">
-            <div style="height: 100% !important;" class="tablaPersonas mat-elevation-z5">
+            <div style="height: 100% !important;" class="tablaPeriodos mat-elevation-z5">
                 <br>
                 <div class="col-12">
                     <mat-form-field class="gpm-input">
@@ -60,205 +60,49 @@
                     </mat-form-field>
                 </div>
                 <table mat-table [dataSource]="dataSource" matSort>
-                    <ng-container matColumnDef="Nombres">
+                    <ng-container matColumnDef="Descripcion">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPCIÓN </th>
-                        <td mat-cell *matCellDef="let element"> {{ element.PrimerNombre }} {{ element.SegundoNombre }}
+                        <td mat-cell *matCellDef="let element"> {{ element.Descripcion }}
                         </td>
                     </ng-container>
-                    <ng-container matColumnDef="Apellidos">
+                    <ng-container matColumnDef="fechaInicio">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA_INICIO </th>
-                        <td mat-cell *matCellDef="let element"> {{ element.PrimerApellido}} {{element.SegundoApellido}}
+                        <td mat-cell *matCellDef="let element"> {{ element.FechaInicio | date: 'yyyy-MM-dd'}}
                         </td>
                     </ng-container>
-                    <ng-container matColumnDef="TipoIdentidicacion">
+                    <ng-container matColumnDef="fechaFin">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA_FIN </th>
-                        <td mat-cell *matCellDef="let element"> {{ element.TipoIdentificacion.Descripcion }} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="Identificacion">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> NÚMERO </th>
-                        <td mat-cell *matCellDef="let element"> {{element.NumeroIdentificacion}} </td>
+                        <td mat-cell *matCellDef="let element"> {{ element.FechaFin | date: 'yyyy-MM-dd'}} </td>
                     </ng-container>
                     <ng-container matColumnDef="Acciones">
                         <th colspan="2" mat-header-cell *matHeaderCellDef mat-sort-header> ACCIONES </th>
                         <ng-container *matCellDef="let element">
                             <ng-container>
                                 <td mat-cell>
-                                    <button tooltip="Ver Información" placement="top"
-                                        class="btn btn-sm btn-outline-primary separacion-botones"
-                                        value="{{element.IdPersonaEncriptado}}" (click)="_verPersona(element)">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
-                                    </button>
-                                </td>
-                                <td mat-cell>
                                     <button tooltip="Modificar" placement="top"
                                         class="btn btn-sm btn-outline-info separacion-botones"
-                                        value="{{element.IdPersonaEncriptado}}" (click)="_prepararPersona(element)">
+                                        value="{{element.IdPeriodoEncriptado}}" (click)="_prepararPeriodo(element)">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     </button>
                                 </td>
                                 <td mat-cell>
                                     <button tooltip="Eliminar" placement="top" *ngIf="element.Utilizado==0"
                                         class="btn btn-sm btn-outline-danger separacion-botones"
-                                        value="{{element.IdPersonaEncriptado}}" (click)="_eliminarPersona(element)">
+                                        value="{{element.IdPeriodoEncriptado}}" (click)="_eliminarPeriodo(element)">
                                         <i class="fa fa-remove" aria-hidden="true"></i>
                                     </button>
                                 </td>
                             </ng-container>
                         </ng-container>
                     </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="tablaPersonas"></tr>
-                    <tr mat-row *matRowDef="let row; columns: tablaPersonas;"></tr>
+                    <tr mat-header-row *matHeaderRowDef="tablaPeriodos"></tr>
+                    <tr mat-row *matRowDef="let row; columns: tablaPeriodos;"></tr>
                 </table>
                 <mat-paginator [pageSizeOptions]="[8, 15, 30]" showFirstLastButtons></mat-paginator>
             </div>
         </div>
     </div>
     <br>
-    <form hidden #frmPersona="ngForm">
-        <div class="row">
-            <div class="col-lg-7">
-                <mat-card>
-                    <div class="row">
-                        <div class="col-12">
-                            <h2 style="text-align: center;">Persona</h2>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <input required type="text" [(ngModel)]="_primerNombre"
-                                    [ngModelOptions]="{standalone: true}" name="_primerNombre"
-                                    (keyup)="_validarCompletos()" class="form-control" aria-describedby="emailHelp"
-                                    placeholder="Primer Nombre">
-                            </div>
-                            <div class="col-lg-6">
-                                <input type="text" [(ngModel)]="_segundoNombre" [ngModelOptions]="{standalone: true}"
-                                    name="_segundoNombre" (keyup)="_validarCompletos()" class="form-control"
-                                    aria-describedby="emailHelp" placeholder="Segundo Nombre">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <input required type="text" [(ngModel)]="_primerApellido"
-                                    [ngModelOptions]="{standalone: true}" name="_primerApellido"
-                                    (keyup)="_validarCompletos()" class="form-control" aria-describedby="emailHelp"
-                                    placeholder="Primer Apellido">
-                            </div>
-                            <div class="col-lg-6">
-                                <input required type="text" [(ngModel)]="_segundoApellido"
-                                    [ngModelOptions]="{standalone: true}" name="_segundoApellido"
-                                    (keyup)="_validarCompletos()" class="form-control" aria-describedby="emailHelp"
-                                    placeholder="Segundo Apellido">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <select [(ngModel)]="_cmbTipoIdentificacion" [ngModelOptions]="{standalone: true}"
-                                    name="_cmbTipoIdentificacion" (change)="_validarCompletos()" class="form-control">
-                                    <option value="0" disabled>Seleccionar tipo de identificación</option>
-                                    <option *ngFor="let item of _listaTipoIdentificacion"
-                                        value="{{item.IdTipoIdentificacionEncriptado}}">{{ item.Descripcion }}</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-6">
-                                <input required [(ngModel)]="_numeroIdentificacion"
-                                    [ngModelOptions]="{standalone: true}" name="_numeroIdentificacion"
-                                    (keyup)="_validarCompletos()" type="text" class="form-control"
-                                    aria-describedby="emailHelp" placeholder="Número de identificación">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <select [(ngModel)]="_cmbSexo" [ngModelOptions]="{standalone: true}"
-                                    class="form-control" name="_cmbSexo" (change)="_validarCompletos()">
-                                    <option value="0" disabled>Seleccionar sexo</option>
-                                    <option *ngFor="let item of _listaSexos" value="{{item.IdSexoEncriptado}}">
-                                        {{ item.Descripcion }}</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <input required [(ngModel)]="_telefono" [ngModelOptions]="{standalone: true}"
-                                        name="_telefono" type="text" (keypress)="_validarSoloNumeros($event)"
-                                        (keyup)="_validarCompletos()" class="form-control" aria-describedby="emailHelp"
-                                        placeholder="Telefono">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button *ngIf="_btnAccion==='Guardar'" mat-button type="button" class="btn btn-primary btn-block"
-                        [disabled]="_validar" (click)="_validarForm()">{{_btnAccion}}</button>
-                    <div class="row" *ngIf="_btnAccion==='Modificar'">
-                        <div class="col-lg-6">
-                            <button mat-button type="button" class="btn btn-primary btn-block" [disabled]="_validar"
-                                (click)="_validarForm()">{{_btnAccion}}</button>
-                        </div>
-                        <div class="col-lg-6">
-                            <button mat-button *ngIf="_btnAccion==='Modificar'" type="button"
-                                class="btn btn-secondary btn-block" (click)="_refrescarForm()"
-                                style="float: right;">Refrescar <i class="fa fa-refresh"
-                                    aria-hidden="true"></i></button>
-                        </div>
-                    </div>
-                </mat-card>
-            </div>
-            <div class="col-lg-5">
-                <mat-card>
-                    <div class="row">
-                        <div class="col-12">
-                            <h2 style="text-align: center;">Ubicación</h2>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <select #ComboProvincias name="_provincia" class="form-control"
-                                    (change)="_cantonesDeUnaProvincia($event.target.value)">
-                                    <option value="0" disabled>Seleccionar Provincia</option>
-                                    <option *ngFor="let item of _listaProvincias"
-                                        value="{{item.IdProvinciaEncriptado}}">{{ item.NombreProvincia }}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <select #ComboCantones name="_canton" class="form-control"
-                                    (change)="_parroquiasDeUnCanton($event.target.value)">
-                                    <option value="0" disabled>Seleccionar Cantón</option>
-                                    <option *ngFor="let item of _listaCantones" value="{{item.IdCantonEncriptado}}">
-                                        {{ item.NombreCanton }}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <select #ComboParroquias name="_parroquia" class="form-control"
-                                    (change)="_comunidadesDeUnaParroquia($event.target.value)">
-                                    <option value="0" disabled>Seleccionar Parroquia</option>
-                                    <option *ngFor="let item of _listaParroquias"
-                                        value="{{item.IdParroquiaEncriptado}}">{{ item.NombreParroquia }}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input required [(ngModel)]="_direccion" [ngModelOptions]="{standalone: true}" name="_direccion"
-                            (keyup)="_validarCompletos()" type="text" class="form-control" aria-describedby="emailHelp"
-                            placeholder="Dirección">
-                    </div>
-                </mat-card>
-            </div>
-        </div>
-    </form>
+    
     <br>
 </div>
