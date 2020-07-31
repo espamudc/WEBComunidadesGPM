@@ -65,6 +65,7 @@ export class PreguntaSeleccionComponent implements OnInit {
   
   _listaOpcionesPreguntaSeleccion:any[]=[];
   _consultarPreguntasSeleccion(){
+    this.estado= "Ingresar";
     this.preguntaSeleccionService._consultarOpcionPreguntaSeleccion(
       this.item.IdPreguntaEncriptado
     ).then(data=>{
@@ -80,6 +81,14 @@ export class PreguntaSeleccionComponent implements OnInit {
     }).finally(()=>{
 
     });
+  }
+  _validarForm() {
+    if (this.estado === "Ingresar") {
+      this._insertarPreguntaSeleccion();
+    }
+    else if (this.estado === "Editar") {
+      this._editarPreguntaSeleccion();
+    }
   }
 
   _insertarPreguntaSeleccion(){
@@ -102,6 +111,28 @@ export class PreguntaSeleccionComponent implements OnInit {
       
     }).finally(()=>{});
   }
+
+  _editarPreguntaSeleccion() {
+    this.preguntaSeleccionService._editarOpcionPreguntaSeleccion(
+      this.formPreguntaTipoSeleccion.get("_idPreguntaEncriptado").value,
+      this.formPreguntaTipoSeleccion.get("_idOpcionPreguntaSeleccion").value,
+      this.formPreguntaTipoSeleccion.get("_descripcion").value
+    ).then(data=>{
+      
+      if (data['http']['codigo']=="200") {
+        this.formPreguntaTipoSeleccion.reset();
+        this._consultarPreguntasSeleccion();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+      }else{
+        this.mensaje(data['http']['mensaje']);
+      }
+    }).catch(error=>{
+      console.log(error);
+      
+    }).finally(()=>{});
+  }
+
   _eliminarPreguntasSeleccion(_item){
     // this.preguntaSeleccionService
     this.preguntaSeleccionService._eliminarOpcionPreguntaSeleccion(_item.IdOpcionPreguntaSeleccionEncriptado)
@@ -114,6 +145,21 @@ export class PreguntaSeleccionComponent implements OnInit {
           this.mensaje(data['http']['mensaje'])
         }
       }).catch(error=>{}).finally(()=>{});
+  }
+estado= "Ingresar";
+_IdPreguntaEncriptado= "";
+_Descripcion="";
+
+  _prepararPreguntasSeleccion(_item: any){
+    this.estado="Editar";
+    console.log(_item)
+
+    this._IdPreguntaEncriptado= _item.Pregunta.IdPreguntaEncriptado;
+    this._Descripcion= _item.Descripcion;
+    this.formPreguntaTipoSeleccion.get("_idPreguntaEncriptado").setValue(_item.Pregunta.IdPreguntaEncriptado);
+    this.formPreguntaTipoSeleccion.get("_idOpcionPreguntaSeleccion").setValue(_item.IdOpcionPreguntaSeleccionEncriptado);
+    this.formPreguntaTipoSeleccion.get("_descripcion").setValue(_item.Descripcion);
+
   }
 
 }

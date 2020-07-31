@@ -98,7 +98,6 @@ export class CuestionarioGenericoComponent implements OnInit {
 
   }
   applyFilter(event: Event) {
-    debugger
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -108,7 +107,6 @@ export class CuestionarioGenericoComponent implements OnInit {
     this.cuestionarioGenericoService._consultarCuestionarioGenerioco()
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          debugger
           this._listaCuestionariosGenericos = data['respuesta'];
           this.dataSource.data =  this._listaCuestionariosGenericos
           console.log(data['http']['codigo']);

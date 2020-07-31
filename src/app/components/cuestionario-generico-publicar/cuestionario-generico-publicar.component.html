@@ -120,7 +120,7 @@
                                 </td>
 
                                 <td mat-cell>
-                                    <button tooltip="Ver Información" placement="top" *ngIf="element.Estado==false"
+                                    <button style="color: red; border-color: red;" tooltip="Ver Información" placement="top" *ngIf="element.Estado==false"
                                         class="btn btn-sm btn-outline-primary separacion-botones" disabled
                                         value="{{element.IdCuestionarioPublicadoEncriptado}}"
                                         (click)="_prepararCuestionarioPublicado(element)">

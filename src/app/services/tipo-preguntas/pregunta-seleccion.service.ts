@@ -46,6 +46,29 @@ export class PreguntaSeleccionService {
     });
   }
 
+  _editarOpcionPreguntaSeleccion(
+    _IdPreguntaEncriptado:string,
+    _IdOpcionPreguntaEncriptado:string,
+    _Descripcion:string,
+   
+  ){ 
+    const _body = new HttpParams()
+          .set('Pregunta.IdPreguntaEncriptado'  ,_IdPreguntaEncriptado)
+          .set('IdOpcionPreguntaSeleccionEncriptado'  ,_IdOpcionPreguntaEncriptado)
+          .set('Descripcion'         ,_Descripcion)
+         
+
+    return new Promise ((resolve,reject)=>{
+     
+      this.http.post(url+'opcionpreguntaseleccion_editar', _body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
+
   _eliminarOpcionPreguntaSeleccion(
     _idOpcionPreguntaSeleccionEncriptado
   ){
