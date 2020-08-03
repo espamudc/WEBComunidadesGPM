@@ -321,14 +321,17 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
   }
 
   _listaPreguntaConfigurarMatriz:any[]=[];
+  _PreguntaConfigurarMatriz:any[];
   _consultaOpcionesPreguntaConfigurarMatriz(_IdPreguntaEncriptado){
     console.log(_IdPreguntaEncriptado);
     
     this.preguntaMatrizService._consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
+          
           console.log("matriz-->",data['respuesta']);
           this._listaPreguntaConfigurarMatriz=data['respuesta'];
+          this._PreguntaConfigurarMatriz = data['respuesta1'];
           this._vistaPreguntaConfigurarMatriz();
         } else {
           

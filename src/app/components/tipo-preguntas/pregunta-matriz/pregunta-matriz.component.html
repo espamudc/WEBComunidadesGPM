@@ -131,13 +131,13 @@
                   </tr>
                 </thead>
                 <tbody style="text-align: center">
-                    <tr>
+                  <tr>
                         <th style="text-align:center !important;writing-mode: vertical-lr;transform: rotate(270deg);" [attr.rowspan]="FilaOpcionUnoMatriz.length+1" scope="row">
                             <div style="width: min-content; min-width: max-content;" class="container">
                                 {{_PreguntaConfigurarMatriz.leyendaLateral}}
                             </div>
                         </th>
-                    </tr>
+                  </tr>
                   <tr *ngFor="let item of FilaOpcionUnoMatriz  ; let a = index1">
                     
 
@@ -146,10 +146,9 @@
                    
                     <td *ngFor="let item of ColumnsOpcionDosMatriz ; let i = index" scope="col">
                     
-                        <mat-radio-group aria-label="Select an option">
-                            <mat-radio-button value="1"></mat-radio-button>
-                           
-                        </mat-radio-group>                          
+                        <!-- <mat-radio-group aria-label="Select an option"> -->
+                            <mat-radio-button value="1" disabled></mat-radio-button>
+                        <!-- </mat-radio-group>                           -->
                     </td>
                     <th *ngIf="_PreguntaConfigurarMatriz.Observacion==1" scope="row"></th>
                   </tr>
