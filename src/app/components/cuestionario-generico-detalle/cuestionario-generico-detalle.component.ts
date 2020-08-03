@@ -321,17 +321,16 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
   }
 
   _listaPreguntaConfigurarMatriz:any[]=[];
-  _PreguntaConfigurarMatriz:any[];
   _consultaOpcionesPreguntaConfigurarMatriz(_IdPreguntaEncriptado){
+    this._listaPreguntaConfigurarMatriz=[];
     console.log(_IdPreguntaEncriptado);
-    
+ 
     this.preguntaMatrizService._consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          
           console.log("matriz-->",data['respuesta']);
+          
           this._listaPreguntaConfigurarMatriz=data['respuesta'];
-          this._PreguntaConfigurarMatriz = data['respuesta1'];
           this._vistaPreguntaConfigurarMatriz();
         } else {
           
@@ -339,13 +338,14 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
       }).catch(error=>{
 
       }).finally(()=>{
-        this._vistaPreguntaConfigurarMatriz();
+        //this._vistaPreguntaConfigurarMatriz();
       });
   }
 
   FilaOpcionUnoMatriz: any[] = [];
   ColumnsOpcionDosMatriz: any[] = [];
   _vistaPreguntaConfigurarMatriz(){
+
     this._listaPreguntaConfigurarMatriz.map((element,index)=>{
       this.FilaOpcionUnoMatriz.push(element.OpcionUnoMatriz);
     });
@@ -377,9 +377,6 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
     this.ColumnsOpcionDosMatriz = unicosOpcionDos;
 
     console.log("unicosOpcionDos",unicosOpcionDos);
-    
-
-    
   }
 
   _cargarCuestionarioGenerico:any={};
