@@ -1,7 +1,10 @@
+
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PreguntaSeleccionService } from 'src/app/services/tipo-preguntas/pregunta-seleccion.service';
 import { MatSnackBar } from '@angular/material';
+import { ModalEncajonamientoComponent } from "src/app/components/modal-encajonamiento/modal-encajonamiento.component";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: 'app-pregunta-seleccion',
@@ -11,6 +14,7 @@ import { MatSnackBar } from '@angular/material';
 export class PreguntaSeleccionComponent implements OnInit {
 
   constructor(
+    private dialog: MatDialog,
     private snackBarComponent: MatSnackBar,
     private preguntaSeleccionService:PreguntaSeleccionService) {
     this.formPreguntaTipoSeleccion = new FormGroup({
@@ -89,6 +93,16 @@ export class PreguntaSeleccionComponent implements OnInit {
     else if (this.estado === "Editar") {
       this._editarPreguntaSeleccion();
     }
+  }
+
+  encajonar(_seleccion: any) {
+    let dialogRef = this.dialog.open(ModalEncajonamientoComponent, {
+      width: '1000px',
+      height: 'auto',
+      data: {
+        _seleccion: _seleccion
+      }
+    });
   }
 
   _insertarPreguntaSeleccion(){

@@ -1,0 +1,80 @@
+<h2 mat-dialog-title style="text-align: center;">Encajonar preguntas</h2>
+<mat-dialog-content>
+<mat-form-field  class="gpm-form-field col-lg-11">
+    <mat-label>Seleccione una Pregunta</mat-label>
+    <mat-select [formControl]="formEncajonarPregunta_cmbPreguntaEncajonada" (selectionChange)="_onChangeCmbEncajonar($event)">
+        
+        <mat-option *ngFor="let item of _listaPreguntasSeccionComponenteCuestionarioGenerico2"
+            [value]="item.IdPreguntaEncriptado">
+            {{item.Descripcion}}
+        </mat-option>
+        
+        
+    </mat-select>
+    
+</mat-form-field>
+<mat-accordion >
+    <mat-expansion-panel class="mat-elevation-z7" *ngFor="let element of _listaPreguntaEncajonadas ; let i = index" hideToggle>
+        <mat-expansion-panel-header (click)="_consultarPreguntasSeleccion(element)">
+            <mat-panel-title>
+                {{element.Pregunta.Descripcion}}
+            </mat-panel-title>
+            <button style="border-color: transparent; color: red" tooltip="Eliminar" placement="top"
+                            class="btn btn-sm btn-outline-danger"
+                            value="{{element.IdPreguntaEncajonadaEncriptado}}" (click)="eliminarEncajonamiento(element)">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </mat-expansion-panel-header>
+
+        <table mat-table [dataSource]="_listaOpcionesPreguntaSeleccion" *ngIf="_listaOpcionesPreguntaSeleccion.length > 0" class="mat-elevation-z7 gpm-table">
+
+            <ng-container matColumnDef="OP" >
+            <th mat-header-cell *matHeaderCellDef> # </th>
+            <td mat-cell *matCellDef="let element"> 
+                <!-- <mat-radio-group *ngIf="item.TipoPregunta.Identificador==2"> -->
+                    <mat-radio-button  value="1" *ngIf="element.Pregunta.TipoPregunta.Identificador==2"></mat-radio-button>
+                <!-- </mat-radio-group> -->
+                <mat-checkbox *ngIf="element.Pregunta.TipoPregunta.Identificador==3"></mat-checkbox>
+        
+            </td>
+            </ng-container>
+            <ng-container matColumnDef="Descripcion">
+                <th mat-header-cell *matHeaderCellDef> Opcion </th>
+                <td mat-cell *matCellDef="let element"> {{element.Descripcion}} </td>
+            </ng-container>
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="Acciones">  
+            <th style="text-align: center;"  mat-header-cell *matHeaderCellDef> Acciones </th>
+                <ng-container *matCellDef="let element">
+                
+                    <td style="text-align: center;" mat-cell > <!--*ngIf="element.Utilizado==0"-->
+                        <button style="border-color: transparent;" tooltip="Encajonar" placement="top"
+                            class="btn btn-sm btn-outline-primary separacion-botones"
+                            value="{{element.IdOpcionPreguntaSeleccionEncriptado}}" (click)="encajonar(element)">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        </button>
+                       
+                    </td>
+                    
+             
+               
+                </ng-container>
+               
+            </ng-container>
+            
+        
+            <tr mat-header-row *matHeaderRowDef="Columns"></tr>
+            <tr mat-row *matRowDef="let row; columns: Columns;"></tr>
+        </table>
+       
+    </mat-expansion-panel>
+    
+    
+</mat-accordion>
+</mat-dialog-content>
+<br>
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close type="button" class="btn-block btn-primary">
+        Cerrar
+    </button>
+</mat-dialog-actions>

@@ -42,6 +42,11 @@
         <ng-container *matCellDef="let element">
         
             <td style="text-align: center;" mat-cell *ngIf="element.Utilizado==0"> <!--*ngIf="element.Utilizado==0"-->
+                <button style="border-color: transparent;" tooltip="Encajonar" placement="top"
+                    class="btn btn-sm btn-outline-primary separacion-botones"
+                    value="{{element.IdOpcionPreguntaSeleccionEncriptado}}" (click)="encajonar(element)">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                </button>
                 <button mat-button  tooltip="Editar" placement="top"
                     class="btn btn-sm" value="{{element.IdOpcionPreguntaSeleccionEncriptado}}"
                     (click)=_prepararPreguntasSeleccion(element)>

@@ -361,6 +361,7 @@ export class EncajonarPreguntaComponent implements OnInit {
 
       });
   }
+  
 
   _consultarPreguntasEncajonadas2(_item){
     console.log("opcion",_item);

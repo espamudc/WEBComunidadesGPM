@@ -38,6 +38,7 @@ export interface UserForm {
   styleUrls: ['./usuario.component.css']
 })
 export class UsuarioComponent implements OnInit {
+  hide = true;
   estadoHidden: boolean = false;
   myForm: FormGroup;
   formUsuario: FormGroup;
@@ -62,8 +63,8 @@ export class UsuarioComponent implements OnInit {
       _numeroIdentificacion: new FormControl({ value: '', disabled: true }, Validators.required),
       _nombres: new FormControl({ value: '', disabled: true }, [Validators.required]),
       _apellidos: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      _usuario: new FormControl('', [Validators.required]),
-      _clave: new FormControl('', [Validators.required])
+      _usuario: new FormControl('', [Validators.required,Validators.email]),
+      _clave: new FormControl('',[Validators.required,Validators.minLength(5)]),
     });
   }
   applyFilter(event: Event) {
@@ -149,7 +150,7 @@ export class UsuarioComponent implements OnInit {
     }
   }
   _modificarUsuario2() {
-    debugger
+   
     if(this.formUsuario_clave.value){
       this.clave=this.formUsuario_clave.value;
     } 
@@ -215,14 +216,14 @@ export class UsuarioComponent implements OnInit {
       });
   }
   _prepararUsuario(_usuario: any) {
-    debugger
+    
     this.formUsuario_idUsuarioEncriptado.setValue(_usuario.IdUsuarioEncriptado);
     this.formUsuario_idPersonaEncriptado.setValue(_usuario.Persona.IdPersonaEncriptado);
     this.formUsuario_nombres.setValue(_usuario.Persona.PrimerNombre + " " + _usuario.Persona.SegundoNombre);
     this.formUsuario_apellidos.setValue(_usuario.Persona.PrimerApellido + " " + _usuario.Persona.SegundoApellido);
     this.formUsuario_numeroIdentificacion.setValue(_usuario.Persona.NumeroIdentificacion);
     this.formUsuario_usuario.setValue(_usuario.Correo);
-    this.clave=_usuario.ClaveEncriptada;
+    this.formUsuario_clave.setValue(_usuario.Clave);
     this._refrescar = true;
     this.formUsuario.controls['_clave'].setErrors(null);
   }

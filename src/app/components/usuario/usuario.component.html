@@ -31,23 +31,28 @@
                         <input matInput placeholder="Apellidos" [formControl]="formUsuario_apellidos" required
                             autocomplete="off">
                     </mat-form-field>
-                    <mat-form-field class="gpm-universal-width">
-                        <input matInput placeholder="Nombre de Usuario" [formControl]="formUsuario_usuario" required
+                    <mat-form-field class="gpm-universal-width" type="email">
+                        <input matInput type="email" placeholder="Nombre de Usuario" [formControl]="formUsuario_usuario" required
                             autocomplete="off">
-                        <mat-error *ngIf="  formUsuario_usuario.hasError('required') || 
+                        <!-- <mat-error *ngIf="  formUsuario_usuario.hasError('required') || 
                                             formUsuario_usuario.invalid || 
                                             (formUsuario_usuario.dirty ) ">
                             Este dato es <strong>obligatorio</strong>
-                        </mat-error>
+                        </mat-error> -->
                     </mat-form-field>
-                    <mat-form-field class="gpm-universal-width">
-                        <input matInput placeholder="Contraseña" [formControl]="formUsuario_clave" required
+                    <mat-form-field class="gpm-universal-width" appearance="fill">
+                        <input matInput [type]="hide ? 'password' : 'text'"  placeholder="Contraseña" [formControl]="formUsuario_clave" required
                             autocomplete="off">
                         <mat-error *ngIf="  formUsuario_clave.hasError('required') || 
                                             formUsuario_clave.invalid || 
                                             (formUsuario_clave.dirty) ">
                             Este dato es <strong>obligatorio</strong>
                         </mat-error>
+                       
+                            <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                      
                     </mat-form-field>
                     <button *ngIf="_refrescar==false" type="submit" [disabled]="formUsuario.invalid" mat-button
                         class="btn btn-primary btn-block"> <i class="fa fa-plus"></i> </button>

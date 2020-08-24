@@ -81,23 +81,25 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
         });
   }
   _asignarTipoUsuario(){
-    console.log(this.testSelect.nativeElement.value);
-    this.asignarUsuarioTipoUsuarioService._insertarAsignarUsuarioTipoUsuario(
-      this.data._usuario.IdUsuarioEncriptado,
-      this.testSelect.nativeElement.value
-    ).then(data=>{
-      if (data['http']['codigo']=='200') {
-        this._consultarTiposUsuariosNoAsignados();
-        this._consultarTiposUsuariosAsignados();
-        this.testSelect.nativeElement.value="0";
-      }else if (data['http']['codigo']=='500') {
-        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
-      }else{
-        console.log(data['http']);
-      }
-    }).catch(error=>{
-
-    });
+    if(this.testSelect.nativeElement.value!=0){
+      this.asignarUsuarioTipoUsuarioService._insertarAsignarUsuarioTipoUsuario(
+        this.data._usuario.IdUsuarioEncriptado,
+        this.testSelect.nativeElement.value
+      ).then(data=>{
+        if (data['http']['codigo']=='200') {
+          this._consultarTiposUsuariosNoAsignados();
+          this._consultarTiposUsuariosAsignados();
+          this.testSelect.nativeElement.value="0";
+        }else if (data['http']['codigo']=='500') {
+          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+        }else{
+          console.log(data['http']);
+        }
+      }).catch(error=>{
+  
+      });
+    }
+    
 
   }
 

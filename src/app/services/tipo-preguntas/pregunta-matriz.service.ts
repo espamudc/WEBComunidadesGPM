@@ -74,7 +74,7 @@ export class PreguntaMatrizService {
     ;
 
     return new Promise((resolve, reject) => {
-      this.http.get(url+'configurarmatriz_consultarporidpregunta?_idPreguntaEncriptado='+_IdPreguntaEncriptado+'&_IdAsignarEncuestado='+null,_body.toString(),{headers:this._header})
+      this.http.get(url+'configurarmatriz_consultarporidpregunta?_idPreguntaEncriptado='+_IdPreguntaEncriptado+'&_IdAsignarEncuestado='+null)
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{

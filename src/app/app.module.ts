@@ -81,6 +81,10 @@ import { ModalLlenarInformacionComponent } from './components/modal-llenar-infor
 import { GaleriaComponent } from './components/galeria/galeria.component';
 import { PreguntaArchivoComponent } from './components/tipo-preguntas/pregunta-archivo/pregunta-archivo.component';
 import { PeriodoComponent } from './components/periodo/periodo.component';
+import { ModalEncajonamientoComponent } from './components/modal-encajonamiento/modal-encajonamiento.component';
+import { TreeViewComponent } from './components/tree-view/tree-view.component';
+import {MatTreeModule} from '@angular/material/tree';
+import {OverlayModule} from '@angular/cdk/overlay';
 // import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
@@ -133,6 +137,10 @@ import { PeriodoComponent } from './components/periodo/periodo.component';
     GaleriaComponent,
     PreguntaArchivoComponent,
     PeriodoComponent,
+    ModalEncajonamientoComponent,
+    TreeViewComponent,
+    
+    
     // MessageBoxComponent,
   ],
   imports: [
@@ -168,9 +176,16 @@ import { PeriodoComponent } from './components/periodo/periodo.component';
     MatPaginatorModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
-    MatStepperModule
+    MatStepperModule,
+    MatTreeModule,
+    OverlayModule,
+
+    
   ],
-  exports:[],
+  exports:[
+    MatTreeModule,
+    OverlayModule,
+  ],
   entryComponents: [
     ModalDetallePersonaComponent,
     ModalAsignacionUsuarioPersonaComponent ,
@@ -185,7 +200,8 @@ import { PeriodoComponent } from './components/periodo/periodo.component';
     ModalVersionarCaracterizacionComponent,
     ModalAsignarRepresentanteModeloPublicadoComponent,
     ModalLlenarInformacionComponent,
-    GaleriaComponent
+    GaleriaComponent,
+    ModalEncajonamientoComponent,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
