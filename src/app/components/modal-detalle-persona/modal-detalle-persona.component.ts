@@ -18,18 +18,18 @@ export class ModalDetallePersonaComponent implements OnInit,AfterViewInit {
     console.log(data);
     this.formPersona  = new FormGroup({
       _idPersonaEncriptado    : new FormControl(''),
-      _primerNombre           : new FormControl(''),
-      _segundoNombre          : new FormControl(''),
-      _primerApellido         : new FormControl(''),
-      _segundoApellido        : new FormControl(''),
-      _cmbTipoIdentificacion  : new FormControl(''),
-      _numeroIdentificacion   : new FormControl(''),
-      _cmbSexo                : new FormControl(''),
-      _telefono               : new FormControl(''),
-      _cmbProvincia           : new FormControl(''),
-      _cmbCanton              : new FormControl(''),
-      _cmbParroquia           : new FormControl(''),
-      _direccion              : new FormControl('')
+      _primerNombre           : new FormControl({ value:'', disabled: true }),
+      _segundoNombre          : new FormControl({ value:'', disabled: true }),
+      _primerApellido         : new FormControl({ value:'', disabled: true }),
+      _segundoApellido        : new FormControl({ value:'', disabled: true }),
+      _cmbTipoIdentificacion  : new FormControl({ value:'', disabled: true }),
+      _numeroIdentificacion   : new FormControl({ value:'', disabled: true }),
+      _cmbSexo                : new FormControl({ value:'', disabled: true }),
+      _telefono               : new FormControl({ value:'', disabled: true }),
+      _cmbProvincia           : new FormControl({ value:'', disabled: true }),
+      _cmbCanton              : new FormControl({ value:'', disabled: true }),
+      _cmbParroquia           : new FormControl({ value:'', disabled: true }),
+      _direccion              : new FormControl({ value:'', disabled: true })
     }); 
   }
 

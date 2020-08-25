@@ -65,7 +65,7 @@
         </div>
     </div>
 </mat-dialog-content> -->
-<h2 mat-dialog-title style="text-align: center;">Detalle</h2>
+<h2 mat-dialog-title style="text-align: center;">Detalle de Persona</h2>
 <mat-dialog-content>
     
     <form [formGroup]="formPersona">
@@ -75,24 +75,21 @@
                 <div class="col-12"> <h2 style="text-align: center;">Persona</h2>  </div>
             </div> -->
             
-            <mat-form-field class="gpm-universal-width">
-                <input matInput placeholder="Primer Nombre" [formControl]="formPersona_primerNombre" >
+            <mat-form-field class="gpm-form-field">
+                <input matInput placeholder="Primer Nombre" [formControl]="formPersona_primerNombre" [disabled]="true" type="text">
             </mat-form-field>
 
             <mat-form-field class="gpm-universal-width">
-                <input matInput placeholder="Segundo Nombre" [formControl]="formPersona_segundoNombre" >
-                
+                <input matInput placeholder="Segundo Nombre" [formControl]="formPersona_segundoNombre" disabled="true" type="text">
             </mat-form-field>
 
             <mat-form-field class="gpm-universal-width">
-                <input matInput placeholder="Primer Apellido" [formControl]="formPersona_primerApellido" >
-                
+                <input matInput placeholder="Primer Apellido" [formControl]="formPersona_primerApellido" disabled="true" type="text">
             </mat-form-field>
 
             <mat-form-field class="gpm-universal-width">
-                <input matInput placeholder="Segundo Apellido" [formControl]="formPersona_segundoApellido" >
+                <input matInput placeholder="Segundo Apellido" [formControl]="formPersona_segundoApellido" disabled="true" type="text">
             </mat-form-field>
-
                 
             <mat-form-field class="gpm-universal-width">
                 <input matInput placeholder="Segundo Apellido" [formControl]="formPersona_segundoApellido" >
@@ -102,11 +99,10 @@
                 <input matInput placeholder="Sexo" [formControl]="formPersona_cmbSexo" >
             </mat-form-field>
 
-
             <mat-form-field class="gpm-universal-width">
                 <input matInput placeholder="Telefono" [formControl]="formPersona_telefono" >
-                
             </mat-form-field>
+
             <mat-accordion>
                 <mat-expansion-panel>
                     <mat-expansion-panel-header (click)="_consultarTipoIdentificacion()" >

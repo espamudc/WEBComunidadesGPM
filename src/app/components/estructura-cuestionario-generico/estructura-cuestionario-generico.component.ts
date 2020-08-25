@@ -263,6 +263,8 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     this.formSeccionComponenteCuestionarioGenerico.reset();
     this.formPreguntaSeccionComponenteCuestionarioGenerico.reset();
     this._btnAccionC ="Guardar";
+    this._obligatorioPregunta=true;
+    this._obligatorioPregunta_true=true;
     // this.ElementRef_tablaComponentesCuestionarioGenerico.nativeElement.style          ="visible:visible";
     // this.ElementRef_formComponente.nativeElement.style                               ="visible:visible";
     // this.ElementRef_formSeccion.nativeElement.style                                  ="overflow: hidden";
@@ -284,6 +286,8 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     this._consultarSeccionesDeComponentesDeCuestionario(event.value);
     this.formSeccionComponenteCuestionarioGenerico.reset();
     this.formPreguntaSeccionComponenteCuestionarioGenerico.reset();
+    this._obligatorioPregunta=true;
+    this._obligatorioPregunta_true=true;
   }
 
   _onChangeCmbSeccionComponentesCuestionarioGenerico(event?){
@@ -294,6 +298,8 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     this._consultarTiposPreguntas();
     this._consultarPreguntasSeccionComponenteCuestionarioGenerico(event.value);
     this.formPreguntaSeccionComponenteCuestionarioGenerico.reset();
+    this._obligatorioPregunta=true;
+    this._obligatorioPregunta_true=true;
   }
 
   _listaComponentesCuestionarioGenerico:any[]=[];
@@ -585,6 +591,8 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
       }).finally(()=>{
 
       });
+      this._obligatorioPregunta=true;
+      this._obligatorioPregunta_true=true;
   }
 
   _validarAccionFormformPreguntaSeccionComponenteCuestionarioGenerico(){
@@ -635,6 +643,9 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     }).finally(()=>{
 
     });
+
+    this._obligatorioPregunta=true;
+    this._obligatorioPregunta_true=true;
   }
 
   _eliminarPreguntaSeccionComponenteCuestionarioGenerico(_item){
