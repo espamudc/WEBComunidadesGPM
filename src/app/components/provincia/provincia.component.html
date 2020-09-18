@@ -36,12 +36,12 @@
                     <div class="row" *ngIf="_btnAccion==='Modificar'">
                         <div class="col-6">
                             <button [disabled]="formProvincia.invalid" mat-button class="btn btn-primary btn-block">
-                                <i class="fa fa-edit"></i>
+                                Modificar <i class="fa fa-edit"></i>
                             </button>
                         </div>
                         <div class="col-6">
                             <button mat-button class="btn btn-block btn-light " (click)="_refreshForm();">
-                                <i class="fa fa-refresh"></i>
+                                Refrescar <i class="fa fa-refresh"></i>
                             </button>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
                     <tr mat-header-row *matHeaderRowDef="tablaProvincias; sticky: true"></tr>
                     <tr mat-row *matRowDef="let row; columns: tablaProvincias;"></tr>
                 </table>
-                <mat-paginator [pageSizeOptions]="[3]" showFirstLastButtons></mat-paginator>
+                <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
             </div>
         </div>
     </div>

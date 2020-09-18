@@ -1,4 +1,5 @@
 import { Injectable, Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { CaracterizacionService } from 'src/app/services/caracterizacion.service';
 import { FormGroup, FormControl, Validators, Form } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
@@ -26,6 +27,7 @@ export class VersionarCaracterizacionComponent implements OnInit {
     private CaracterizacionService: CaracterizacionService,
     private snackBarComponent: MatSnackBar,
     private dialog: MatDialog,
+    private router: Router
   ) {
     this.formVersionar = new FormGroup({
       _formVersionarCaracteristica: new FormControl('', [Validators.required]),
@@ -271,8 +273,13 @@ export class VersionarCaracterizacionComponent implements OnInit {
           );
         });
   }
+
+  tipoUsurio='';
   ngOnInit() {
-    //this.consultarModeloGenerico();
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     this.consultarModeloGenericoTodos();
   }
 

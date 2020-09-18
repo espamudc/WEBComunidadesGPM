@@ -1,0 +1,90 @@
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 mr-auto ">
+            <form [formGroup]="formCuestionarioGenericoVersion" (ngSubmit)="_validarForm()">
+                <mat-card>
+                    <div class="row">
+                        <div class="col-12"> <h2 style="text-align: center;">Preguntas Seleccionadas</h2>  </div>
+                    </div>
+                    <div class="row">
+                        <mat-form-field class="gpm-form-field col-lg-12">
+                            <mat-label>Cuestionario</mat-label>
+                            <mat-select [formControl]="formCuestionarioGenericoVersion_cmbCuestionario"
+                                (selectionChange)="_onChangeCmbCuestionariosGenericos($event)">
+                                <mat-option value="0"> -- seleccione una opción --</mat-option>
+                                <mat-option *ngFor="let item of _listaCuestionariosGenericos"
+                                    [value]="item.CuestionarioGenerico.IdCuestionarioGenericoEncriptado">
+                                    {{item.CuestionarioGenerico.Nombre}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    
+                    </div>
+                </mat-card>
+            </form>
+        </div>
+    </div>
+    <br>
+
+    <div class="row" *ngIf="_listaVersionesCuestionario.length>0">
+
+        <div class="col-lg-12">
+            
+            <!-- <app-pregunta-abierta [item]="pregunta"></app-pregunta-abierta> -->
+
+            <table #tablaOpcionesPreguntaAbierta mat-table [dataSource]="_listaVersionesCuestionario" class="mat-elevation-z7 gpm-table">
+
+                <!-- <ng-container matColumnDef="responsable">
+                    <th mat-header-cell *matHeaderCellDef> Responsable </th>
+                    <td mat-cell *matCellDef="let element"> {{element.AsignarResponsable.}} </td>
+                </ng-container> -->
+                <ng-container matColumnDef="descripcion">
+                    <th mat-header-cell *matHeaderCellDef> Descripcion </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Descripcion}} </td>
+                </ng-container>
+                <ng-container matColumnDef="tipo">
+                    <th mat-header-cell *matHeaderCellDef> Tipo </th>
+                    <td mat-cell *matCellDef="let element"> {{element.TipoPregunta.Descripcion}} </td>
+                </ng-container>
+                <!-- <ng-container matColumnDef="fecha_creacion">
+                    <th mat-header-cell *matHeaderCellDef> Componente </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Seccion.Componente.Descripcion}} </td>
+                </ng-container> -->
+                <ng-container matColumnDef="acciones">
+                    <th  colspan="1" mat-header-cell *matHeaderCellDef> Seleccionar </th>
+                    <ng-container *matCellDef="let element">
+                        <td mat-cell >
+                            
+
+                            <button  (click)="_seleccionarPreguntas(element)" tooltip="Seleccionada" placement="top" *ngIf="element.Reporte==true"
+                                class="btn btn-sm btn-outline-primary separacion-botones"
+                                value="0"
+                                >
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            </button>
+
+                            <button style="color: red; border-color: red; " (click)="_seleccionarPreguntas(element)" tooltip="No Seleccionada" placement="top" *ngIf="element.Reporte==false"
+                                class="btn btn-sm btn-outline-primary separacion-botones"
+                                value="0"
+                                >
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            </button>
+
+                            
+
+                        </td>
+                    </ng-container>
+                    
+                </ng-container>
+                <!-- Symbol Column -->
+                <tr mat-header-row *matHeaderRowDef="Columns"></tr>
+                <tr mat-row *matRowDef="let row; columns: Columns;"></tr>
+            </table>
+
+            
+        </div>
+    </div>   
+
+ 
+</div>

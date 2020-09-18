@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, Validators, FormControl, Form } from '@angular/forms';
+import { Router } from '@angular/router';
 // Services
 import { PersonaService } from "../../services/persona.service";
 // Functional Components
@@ -31,6 +32,7 @@ export class PersonaComponent implements OnInit {
     private tipoIdentificacionService: TipoIdentificacionService,
     private dialog: MatDialog,
     private snackBarComponent: MatSnackBar,
+    private router: Router
   ) {
     this.formPersona = new FormGroup({
       _idPersonaEncriptado: new FormControl(''),
@@ -48,7 +50,18 @@ export class PersonaComponent implements OnInit {
       _direccion: new FormControl('', [Validators.required])
     });
   }
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio!='MQAwADYAOAA='){
+      this.router.navigateByUrl("/inicio/inicio");
+    }
+
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
+
     this._consultarPersonas();
     this._consultarTipoIdentificacion();
     this._consultarSexos();
@@ -307,7 +320,7 @@ export class PersonaComponent implements OnInit {
   }
   _verPersona(_persona: any) {
     let dialogRef = this.dialog.open(ModalDetallePersonaComponent, {
-      width: 'auto',
+      width: '500px',
       height: 'auto',
       data: {
         _persona: _persona

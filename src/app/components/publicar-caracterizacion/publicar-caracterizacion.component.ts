@@ -1,4 +1,5 @@
 import { Injectable, Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { CaracterizacionService } from 'src/app/services/caracterizacion.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
@@ -26,6 +27,7 @@ export class PublicarCaracterizacionComponent extends MatPaginatorIntl implement
     private dialog: MatDialog,
     private periodoService: PeriodoService,
     private lugaresService: LugaresService,
+    private router: Router
   ) {
     super();
     this.formPublicarVersion = new FormGroup({
@@ -760,7 +762,14 @@ export class PublicarCaracterizacionComponent extends MatPaginatorIntl implement
     this._consultarVersioneSinPublicarDeUnModeloGenerico(index.IdModeloGenerico);
     return index.ModeloGenerico.Nombre;
   }
+
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     this._consultarModelosGenericosConVersioneSinPublicar();
     this._consultarPeriodos();
     this._consultarVersionesCaracterizacionPublicadas();

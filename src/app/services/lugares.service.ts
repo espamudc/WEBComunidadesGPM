@@ -291,7 +291,18 @@ export class LugaresService {
     _IdProvinciaEncriptado:any
   ){
 
-    const _body = new HttpParams()
+debugger
+
+/*     var fd: any = new FormData();
+    //fd.append('photo', _RutaLogoComunidad);
+    fd.append("Parroquia.IdParroquiaEncriptado"  ,_IdParroquiaEncriptado);
+    fd.append("Parroquia.Canton.IdCantonEncriptado"       ,_IdCantonEncriptado);
+    fd.append("Parroquia.Canton.Provincia.IdProvinciaEncriptado"       ,_IdProvinciaEncriptado);
+    fd.append("CodigoComunidad"        ,_CodigoComunidad);
+    fd.append("NombreComunidad"      ,_NombreComunidad);
+    fd.append("DescripcionComunidad"   ,_DescripcionComunidad);
+    fd.append("RutaLogoComunidad"      ,_RutaLogoComunidad); */
+     const _body = new HttpParams()
           // .set('IdComunidadEncriptado'  ,_IdComunidadEncriptado)
           .set('Parroquia.IdParroquiaEncriptado'  ,_IdParroquiaEncriptado)
           .set('Parroquia.Canton.IdCantonEncriptado'       ,_IdCantonEncriptado)
@@ -299,9 +310,10 @@ export class LugaresService {
           .set('CodigoComunidad'        ,_CodigoComunidad)
           .set('NombreComunidad'        ,_NombreComunidad)
           .set('DescripcionComunidad'   ,_DescripcionComunidad)
-          .set('RutaLogoComunidad'      ,_RutaLogoComunidad)
+          .append('RutaLogoComunidad'      ,_RutaLogoComunidad.name)
           // .set('EstadoComunidad'        ,_EstadoComunidad)
-    ;
+    ; 
+
     return new Promise ((resolve,reject)=>{
       // console.log("servicio:",_body.toString());
       this.http.post(url+'comunidad_insertar', _body.toString(),{headers:this._header})

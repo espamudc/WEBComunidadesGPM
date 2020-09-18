@@ -309,7 +309,7 @@
                 <h2 style="text-align: center;">Listado de Preguntas</h2>
                 <mat-form-field class="gpm-form-field">
                     <mat-label>Seleccione el criterio de agrupación</mat-label>
-                    <mat-select >
+                    <mat-select  (selectionChange)="_onChangeCmbFiltroPreguntas($event)">
                         <mat-option value="0">TODAS</mat-option>
                         <mat-option *ngFor="let item of _listaTipoPreguntaSeccionComponenteCuestionarioGenericoService"
                             [value]="item.IdTipoPreguntaEncriptado">
@@ -319,7 +319,7 @@
                 </mat-form-field>
                 <mat-accordion>
     
-                    <mat-expansion-panel *ngFor="let item of _listaPreguntasSeccionComponenteCuestionarioGenerico; let i=index"
+                    <mat-expansion-panel [expanded]="isOpen" *ngFor="let item of _listaPreguntasSeccionComponenteCuestionarioGenerico; let i=index"
                         hideToggle>
 
                         <mat-expansion-panel-header>

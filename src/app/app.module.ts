@@ -85,6 +85,8 @@ import { ModalEncajonamientoComponent } from './components/modal-encajonamiento/
 import { TreeViewComponent } from './components/tree-view/tree-view.component';
 import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
+import { InicioComponent } from './components/inicio/inicio.component';
+import { PreguntasSeleccionadasComponent } from './components/preguntas-seleccionadas/preguntas-seleccionadas.component';
 // import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
@@ -139,6 +141,8 @@ import {OverlayModule} from '@angular/cdk/overlay';
     PeriodoComponent,
     ModalEncajonamientoComponent,
     TreeViewComponent,
+    InicioComponent,
+    PreguntasSeleccionadasComponent,
     
     
     // MessageBoxComponent,

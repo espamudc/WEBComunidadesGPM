@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CuestionarioGenericoService } from 'src/app/services/cuestionario-generico.service';
 import { MatSnackBar, MatTable } from '@angular/material';
@@ -23,7 +24,8 @@ export class EncajonarPreguntaComponent implements OnInit {
     private preguntaSeccionComponenteCuestionarioGenericoService:PreguntaSeccionComponenteCuestionarioGenericoService,
     private seccionComponenteCuestionarioGenericoService:SeccionComponenteCuestionarioGenericoService,
     private componenteCuestionarioGenericoService : ComponenteCuestionarioGenericoService,
-    private cuestionarioGenericoService :CuestionarioGenericoService ) { 
+    private cuestionarioGenericoService :CuestionarioGenericoService,
+    private router: Router ) { 
     
     this.formEncajonarPregunta = new FormGroup({
       _idPreguntaEncriptado : new FormControl(''),
@@ -43,7 +45,12 @@ export class EncajonarPreguntaComponent implements OnInit {
     });
   }
 
+  tipoUsurio='';
   ngOnInit() {
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     this._cargarMisCuestionariosGenericos();
   }
 

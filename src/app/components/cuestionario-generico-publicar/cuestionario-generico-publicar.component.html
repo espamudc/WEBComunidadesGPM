@@ -223,7 +223,7 @@
                                     </mat-form-field>
                                     <mat-form-field class="gpm-universal-width ">
                                         <mat-label>Comunidad</mat-label>
-                                        <mat-select [formControl]="formAsignarEncuestado_cmbComunidad"
+                                        <mat-select multiple [formControl]="formAsignarEncuestado_cmbComunidad"
                                             > 
                                             <mat-option *ngFor="let item of _listaComunidades"
                                                 [value]="item.IdComunidadEncriptado">

@@ -52,6 +52,7 @@ export class LoadmoreDatabase {
   dataMap = new Map<string, string[]>();
 
   recibirData(componentes) {
+  
     this.rootLevelNodes = [];
   
     this.dataMap.set('', []);
@@ -144,8 +145,14 @@ export class TreeViewComponent implements OnInit {
         });
   
   }
-
+  
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     this._cargarMisCuestionariosGenericos();
   }
   formCuestionarioGenericoDetalle: FormGroup;
@@ -170,6 +177,8 @@ export class TreeViewComponent implements OnInit {
   }
 
   _onChangeCmbCuestionariosGenericos(event) {
+    
+    this.methodChange();
     if (event.value != 0) {
       const obj = this._listaCuestionariosGenericos.find(
         (data) =>
@@ -179,6 +188,7 @@ export class TreeViewComponent implements OnInit {
       const index = this._listaCuestionariosGenericos.indexOf(obj);
     }
     this.consultarDatos(event.value);
+    
   }
 
   nodeMap = new Map<string, LoadmoreFlatNode>();
@@ -212,9 +222,23 @@ export class TreeViewComponent implements OnInit {
       this.treeControl,
       this.treeFlattener
     );
-
-    _database.dataChange.subscribe((data) => {
+    this.methodChange();
+   
+  }
+  methodChange(){
+    
+    this._database.dataChange.subscribe((data) => {
       
+      //var kn=data[0].childrenChange.value;
+      this.dataSource = new MatTreeFlatDataSource(
+        this.treeControl,
+        this.treeFlattener
+      );
+      //this.treeControl.Nodes.Clear();
+      //this.treeControl.InvalidateLayout(); 
+      this.dataSource.data=[];
+      
+      //data.childrenchange._value=0 o []
       this.dataSource.data = data;
     });
   }

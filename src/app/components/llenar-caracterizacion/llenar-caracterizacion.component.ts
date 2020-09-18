@@ -1,4 +1,5 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormGroup, FormControl, Validators, Form, FormBuilder } from '@angular/forms';
 import { CaracterizacionService } from 'src/app/services/caracterizacion.service';
@@ -23,6 +24,7 @@ export class LlenarCaracterizacionComponent implements OnInit {
     private snackBarComponent: MatSnackBar,
     private lugaresService: LugaresService,
     private dialog: MatDialog,
+    private router: Router
   ) {
     this.formIngresoCaracterizacion = new FormGroup({
       _representante: new FormControl('', [Validators.required]),
@@ -285,7 +287,15 @@ export class LlenarCaracterizacionComponent implements OnInit {
     }, () => {
     });
   }
+
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
+
     setTimeout(() => {
       this._consultarProvincias()
     });

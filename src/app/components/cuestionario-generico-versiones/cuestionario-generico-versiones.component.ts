@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CuestionarioGenericoService } from 'src/app/services/cuestionario-generico.service';
 import { CabeceraVersionCuestionarioService } from 'src/app/services/cabecera-version-cuestionario.service';
 import { MatSnackBar, MatDialog } from '@angular/material';
@@ -18,6 +19,7 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
 
     private snackBarComponent:MatSnackBar,
     private cuestionario_generico_detalle_modalController:MatDialog,
+    private router: Router
   ) {
 
     this.formCuestionarioGenericoVersion = new FormGroup({
@@ -32,7 +34,13 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
 
   }
 
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     this._cargarMisCuestionariosGenericos();
   }
   //---------------------------------------------------------------------------------------
@@ -149,6 +157,7 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
         this.mensaje(data['http']['mensaje']);
       } else if(data['http']['codigo']=="200") {
         this._consultarCabeceraVersionCuestionario(this.formCuestionarioGenericoVersion_cmbCuestionario.value);
+  
         // this.mensaje("Cuestionario versionado correctamente");
       }else{
         this.mensaje(data['http']['mensaje'],3000,0,'primary');

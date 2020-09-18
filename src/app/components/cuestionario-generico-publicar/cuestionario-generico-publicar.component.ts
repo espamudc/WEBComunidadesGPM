@@ -1,5 +1,6 @@
 //import { Component, OnInit } from '@angular/core';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CuestionarioGenericoService } from 'src/app/services/cuestionario-generico.service';
 import { CabeceraVersionCuestionarioService } from 'src/app/services/cabecera-version-cuestionario.service';
@@ -37,7 +38,8 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
     private asignarUsuarioTipoUsuarioService: AsignarUsuarioTipoUsuarioService,
     private cuestionarioPublicadoService : CuestionarioPublicadoService,
     private asignarEncuestadoService : AsignarEncuestadoService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private router: Router
   ) {
 
     this.formCuestionarioGenericoPublicar = new FormGroup({
@@ -74,7 +76,13 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
 
   }
 
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
 
     this.formAsignarEncuestado_obligatorio.setValue(true);
 
@@ -497,7 +505,7 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
     this.formAsignarEncuestado_cmbProvincia.setValue(_item.Comunidad.Parroquia.Canton.Provincia.IdProvinciaEncriptado);
     this.formAsignarEncuestado_cmbCanton.setValue(_item.Comunidad.Parroquia.Canton.IdCantonEncriptado);
     this.formAsignarEncuestado_cmbParroquia.setValue(_item.Comunidad.Parroquia.IdParroquiaEncriptado);
-    this.formAsignarEncuestado_cmbComunidad.setValue(_item.Comunidad.IdComunidadEncriptado);
+    this.formAsignarEncuestado_cmbComunidad.setValue([_item.Comunidad.IdComunidadEncriptado]);
     this.formAsignarEncuestado_cmbTecnico.setValue(_item.AsignarUsuarioTipoUsuarioTecnico.IdAsignarUsuarioTipoUsuarioEncriptado);
     this.formAsignarEncuestado_fechaInicio.setValue(this.datePipe.transform(_item.FechaInicio, 'yyyy-MM-dd'));
     this.formAsignarEncuestado_fechaFin.setValue(this.datePipe.transform(_item.FechaFin, 'yyyy-MM-dd'));
@@ -517,29 +525,41 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
       "formAsignarEncuestado_fechaFin",this.formAsignarEncuestado_fechaFin.value +" 0:00:00"
     );
 
-    this.asignarEncuestadoService._insertarAsignarEncuestado(
-      this.formAsignarEncuestado_idCuestionarioPublicadoEncriptado.value,
-      this.formAsignarEncuestado_cmbComunidad.value,
-      this.formAsignarEncuestado_cmbTecnico.value,
-      localStorage.getItem("IdAsignarUsuarioTipoUsuarioEncriptado"),
-      this.formAsignarEncuestado_obligatorio.value,
-      this.formAsignarEncuestado_fechaInicio.value,
-      this.formAsignarEncuestado_fechaFin.value
-    ).then(data=>{
-      if (data['http']['codigo']=='500') {
+    this.formAsignarEncuestado_cmbComunidad.value.forEach(element => {
 
-      } else if(data['http']['codigo']=='200'){
-        
-        this._consultar_poridcuestionariopublicado(this.formAsignarEncuestado_idCuestionarioPublicadoEncriptado.value);
+      this.asignarEncuestadoService._insertarAsignarEncuestado(
+        this.formAsignarEncuestado_idCuestionarioPublicadoEncriptado.value,
+        element,
+        this.formAsignarEncuestado_cmbTecnico.value,
+        localStorage.getItem("IdAsignarUsuarioTipoUsuarioEncriptado"),
+        this.formAsignarEncuestado_obligatorio.value,
+        this.formAsignarEncuestado_fechaInicio.value,
+        this.formAsignarEncuestado_fechaFin.value
+      ).then(data=>{
+        if (data['http']['codigo']=='500') {
+  
+        } else if(data['http']['codigo']=='200'){
+          
+          this._consultar_poridcuestionariopublicado(this.formAsignarEncuestado_idCuestionarioPublicadoEncriptado.value);
+          this.formAsignarEncuestado_cmbProvincia.setValue("");
+          this.formAsignarEncuestado_cmbCanton.setValue("");
+          this.formAsignarEncuestado_cmbParroquia.setValue("");
+          this.formAsignarEncuestado_cmbComunidad.setValue("");
+          this.formAsignarEncuestado_cmbTecnico.setValue("");
+          this.formAsignarEncuestado_obligatorio.setValue("True");
+  
+        } else {
+  
+        }
+      }).catch(error=>{
+  
+      }).finally(()=>{
+        //this.formAsignarEncuestado.reset();
+      });
 
-      } else {
-
-      }
-    }).catch(error=>{
-
-    }).finally(()=>{
-
-    });
+    })
+    
+    
 
   }
 

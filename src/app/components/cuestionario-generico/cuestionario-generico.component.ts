@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 // Functional Components
 import { MatDialog } from "@angular/material/dialog";
 ///----------------------------------------------------
@@ -36,6 +37,7 @@ export class CuestionarioGenericoComponent implements OnInit {
     private modalControllerAsignarResponsableCuestionarioGenerico : MatDialog,
     private asignarResponsableCuestionarioGenericoService:AsignarResponsableCuestionarioGenericoService,
     private snackBarComponent: MatSnackBar,
+    private router: Router
   ) {
 
     this.formCuestionarioGenerico = new FormGroup({
@@ -47,8 +49,13 @@ export class CuestionarioGenericoComponent implements OnInit {
   }
   
   formCuestionarioGenerico:FormGroup;
-
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     this._cargarCuestionariosGenericos();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

@@ -59,12 +59,13 @@
                         <div class="form-group" *ngIf="_btnAccion==='Modificar'">
                             <div class="row">
                                 <div class="col-6">
-                                    <button type="submit" [disabled]="formParroquia.invalid"
+                                    <button mat-button type="submit" [disabled]="formParroquia.invalid"
                                         class="form-control btn-success">{{_btnAccion}}
+                                        <i class="fa fa-edit"></i>
                                     </button>
                                 </div>
                                 <div class="col-6">
-                                    <button type="button" class="form-control btn-secondary"
+                                    <button mat-button type="button" class="form-control btn-secondary"
                                         (click)="_limpiarForm()">Refrescar <i class="fa fa-refresh"
                                             aria-hidden="true"></i>
                                     </button>
@@ -128,7 +129,7 @@
                         <tr mat-header-row *matHeaderRowDef="tablaParroquias; sticky: true"></tr>
                         <tr mat-row *matRowDef="let row; columns: tablaParroquias;"></tr>
                     </table>
-                    <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+                    <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
                 </div>
             </div>
         </div>

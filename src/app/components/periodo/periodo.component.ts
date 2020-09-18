@@ -1,6 +1,7 @@
 
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, Validators, FormControl, Form } from '@angular/forms';
+import { Router } from '@angular/router';
 // Services
 import { PersonaService } from "../../services/persona.service";
 import { PeriodoService } from "../../services/periodo.service";
@@ -35,7 +36,8 @@ export class PeriodoComponent implements OnInit {
     private tipoIdentificacionService: TipoIdentificacionService,
     private dialog: MatDialog,
     private snackBarComponent: MatSnackBar,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private router: Router
   ) {
     this.formPeriodo = new FormGroup({
       _IdPeriodoEncriptado: new FormControl(''),
@@ -44,7 +46,19 @@ export class PeriodoComponent implements OnInit {
       _fechaFin: new FormControl('', [Validators.required]),
     });
   }
+
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio!='MQAwADYAOAA='){
+      this.router.navigateByUrl("/inicio/inicio");
+    }
+
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
+    
     this._consultarPeriodos();
     this._consultarTipoIdentificacion();
     this._consultarSexos();

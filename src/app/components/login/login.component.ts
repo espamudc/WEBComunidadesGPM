@@ -37,6 +37,10 @@ export class LoginComponent implements OnInit ,AfterViewInit{
   formValidarCorreo:FormGroup;
 
   ngOnInit() {
+
+    localStorage.setItem("_correo",'');
+    localStorage.setItem("_clave",'');
+    localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado','');
     // console.log(localStorage.getItem("_clave").length);
     // if(localStorage.getItem("_correo").length >0 && localStorage.getItem("_clave").length >0){
     //   console.log("u--p",localStorage.getItem("_clave").toString());
@@ -143,7 +147,7 @@ export class LoginComponent implements OnInit ,AfterViewInit{
               }else{
                 console.log("IdAsignarUsuarioTipoUsuarioEncriptado solo uno:",localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado'));
                 
-                this.router.navigateByUrl("/inicio");
+                this.router.navigateByUrl("/inicio/inicio");
               }
               
             }else if (this._misTiposUsuarios.length>1) {
@@ -173,7 +177,7 @@ export class LoginComponent implements OnInit ,AfterViewInit{
       if (localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado').length==0) {
                 
       }else{
-        this.router.navigateByUrl("/inicio");
+        this.router.navigateByUrl("/inicio/inicio");
       }
       console.log("IdAsignarUsuarioTipoUsuarioEncriptado: ",localStorage.getItem("IdAsignarUsuarioTipoUsuarioEncriptado"));
        

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 // Services
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { PersonaService } from 'src/app/services/persona.service';
@@ -52,7 +53,8 @@ export class UsuarioComponent implements OnInit {
     private modalAsignacionUsuarioPersona: MatDialog,
     private modalAsignacionUsuarioTiposUsuario: MatDialog,
     private usuarioService: UsuarioService,
-    private snackBarComponent: MatSnackBar
+    private snackBarComponent: MatSnackBar,
+    private router: Router
   ) {
     this.formulario();
   }
@@ -71,7 +73,19 @@ export class UsuarioComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio!='MQAwADYAOAA='){
+      this.router.navigateByUrl("/inicio/inicio");
+    }
+
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
+
     this._consultarUsuarios();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

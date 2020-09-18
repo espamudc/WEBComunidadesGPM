@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, Form } from '@angular/forms';
 import { LugaresService } from 'src/app/services/lugares.service';
 import { CantonComponent } from '../canton/canton.component';
@@ -34,8 +35,9 @@ export class ParroquiaComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   constructor(
     private lugaresService:LugaresService,
-    private modalLugarRepresentante:MatDialog
-    ,private snackBarComponent:MatSnackBar
+    private modalLugarRepresentante:MatDialog,
+    private snackBarComponent:MatSnackBar,
+    private router: Router
   ) {
     this.formParroquia = new FormGroup({
       _descripcionParroquia: new FormControl(''),
@@ -46,7 +48,14 @@ export class ParroquiaComponent implements OnInit {
       
     });
   }
+
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     this._consultarParroquias();
     this._consultarCantones();
     this.filtroCantones();

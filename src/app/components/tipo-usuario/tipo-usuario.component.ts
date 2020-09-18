@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TipoUsuarioService } from 'src/app/services/tipo-usuario.service';
 import { ModalAsignarTipoUsuarioModuloPrivilegioComponent } from '../modal-asignar-tipo-usuario-modulo-privilegio/modal-asignar-tipo-usuario-modulo-privilegio.component';
 import { MatDialog } from '@angular/material';
@@ -12,10 +13,17 @@ export class TipoUsuarioComponent implements OnInit {
 
   constructor(
     private tipoUsuarioService:TipoUsuarioService,
-    private modalAsignarTipoUsuarioModuloPrivilegio:MatDialog
+    private modalAsignarTipoUsuarioModuloPrivilegio:MatDialog,
+    private router: Router
   ) { }
-
+  
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     this._consultarTiposUsuarios();
   }
 

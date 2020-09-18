@@ -10,6 +10,7 @@ import { PreguntaSeleccionService } from 'src/app/services/tipo-preguntas/pregun
 import { PreguntaEncajonarService } from 'src/app/services/pregunta-encajonar.service';
 import { PreguntaMatrizService } from 'src/app/services/tipo-preguntas/pregunta-matriz.service';
 import { CabeceraVersionCuestionarioService } from 'src/app/services/cabecera-version-cuestionario.service';
+import { Router } from '@angular/router';
 
 export interface Seccion{
   _preguntas ?: any[];
@@ -43,6 +44,7 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
     private cabeceraVersionCuestionarioService:CabeceraVersionCuestionarioService,
 
     private snackBarComponent:MatSnackBar,
+    private router: Router
 
    
   ) {
@@ -63,8 +65,13 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
   }
 
 
-
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     this._cargarMisCuestionariosGenericos();
     //console.log("modaldata",this.ModalData);
     

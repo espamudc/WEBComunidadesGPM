@@ -11,6 +11,7 @@ import { CuestionarioPublicadoService } from "src/app/services/cuestionario-publ
 import { MatPaginator, MatTableDataSource, MatPaginatorIntl, MatAutocomplete, MatTable } from '@angular/material';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-caracterizacion',
   templateUrl: './caracterizacion.component.html',
@@ -25,6 +26,7 @@ export class CaracterizacionComponent implements OnInit {
     private CaracterizacionService: CaracterizacionService,
     private snackBarComponent: MatSnackBar,
     private dialog: MatDialog,
+    private router: Router
   ) {
     this.formCaracterizacion = new FormGroup({
       _nombre: new FormControl('', [Validators.required]),
@@ -773,7 +775,12 @@ export class CaracterizacionComponent implements OnInit {
       });
   }
 
+  tipoUsurio='';
   ngOnInit() {
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     this.consultarModeloGenericoTodos();
     // this.consultarModeloGenerico();
     this._consultarTipoElemento();

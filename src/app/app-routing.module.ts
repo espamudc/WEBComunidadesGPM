@@ -28,6 +28,9 @@ import { VersionarCaracterizacionComponent } from './components/versionar-caract
 import { PublicarCaracterizacionComponent } from './components/publicar-caracterizacion/publicar-caracterizacion.component';
 import { LlenarCaracterizacionComponent } from './components/llenar-caracterizacion/llenar-caracterizacion.component';
 import { TreeViewComponent } from './components/tree-view/tree-view.component';
+import { InicioComponent } from './components/inicio/inicio.component';
+import { PreguntasSeleccionadasComponent } from './components/preguntas-seleccionadas/preguntas-seleccionadas.component';
+
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
   { path: 'login', component: LoginComponent },
@@ -102,6 +105,14 @@ const routes: Routes = [
       },
       {
         path: 'tree-view', component: TreeViewComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+      {
+        path: 'inicio', component: InicioComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+      {
+        path: 'preguntas-seleccionadas', component: PreguntasSeleccionadasComponent,
         // canActivate: [ValidarUsuarioGuard]
       },
     ]

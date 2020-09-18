@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup} from '@angular/forms';
 import { MatSnackBar, MatTable, MatTableDataSource, MatDialog } from '@angular/material';
 import { CuestionarioGenericoService } from 'src/app/services/cuestionario-generico.service';
@@ -6,6 +7,8 @@ import { ComponenteCuestionarioGenericoService } from 'src/app/services/componen
 import { SeccionComponenteCuestionarioGenericoService } from 'src/app/services/seccion-componente-cuestionario-generico.service';
 import { TipoPreguntaSeccionComponenteCuestionarioGenericoService } from 'src/app/services/tipo-pregunta-seccion-componente-cuestionario-generico.service';
 import { PreguntaSeccionComponenteCuestionarioGenericoService } from 'src/app/services/pregunta-seccion-componente-cuestionario-generico.service';
+import {MatAccordion} from '@angular/material/expansion';
+
 
 // export interface OpcionPregunta{
 //   IdPregunta:number;
@@ -23,15 +26,17 @@ import { PreguntaSeccionComponenteCuestionarioGenericoService } from 'src/app/se
 
 
 export class EstructuraCuestionarioGenericoComponent implements OnInit {
-
+  
   constructor(
     private snackBarComponent: MatSnackBar,
     private cuestionarioGenericoService:CuestionarioGenericoService,
     private componenteCuestionarioGenericoService:ComponenteCuestionarioGenericoService,
     private seccionComponenteCuestionarioGenericoService:SeccionComponenteCuestionarioGenericoService,
     private tipoPreguntaSeccionComponenteCuestionarioGenericoService:TipoPreguntaSeccionComponenteCuestionarioGenericoService,
-    private preguntaSeccionComponenteCuestionarioGenericoService:PreguntaSeccionComponenteCuestionarioGenericoService
-  ) {
+    private preguntaSeccionComponenteCuestionarioGenericoService:PreguntaSeccionComponenteCuestionarioGenericoService,
+    private router: Router
+  ) 
+  {
 
     this.formCuestionarioGenerico = new FormGroup({
       _cmbCuestionarioGenerico : new FormControl('',[Validators.required]),
@@ -75,6 +80,9 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
 
     //this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_obligatorio").setValue("true");
    }
+   @ViewChild(MatAccordion, { static: true }) accordion: MatAccordion;
+
+   
    checked=true;
   formCuestionarioGenerico:FormGroup;
   formComponenteCuestionarioGenerico:FormGroup;
@@ -164,7 +172,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
   }
 
   //-------------------------------------------------------------
-
+ 
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
 
     
@@ -186,7 +194,13 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
   }
 
+  tipoUsurio='';
   ngOnInit() {
+    
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     this._cargarMisCuestionariosGenericos();
     
     //this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_obligatorio").setValue("true");
@@ -300,6 +314,17 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     this.formPreguntaSeccionComponenteCuestionarioGenerico.reset();
     this._obligatorioPregunta=true;
     this._obligatorioPregunta_true=true;
+    
+  }
+
+  _onChangeCmbFiltroPreguntas(event?){
+    this.logica_preguntas=true;
+    this.logica_componentes=false;
+    this.logica_secciones =false;
+    this._consultarTiposPreguntas();
+    this._consultarPreguntasSeccionComponenteCuestionarioGenericoFiltrado(event.value);
+    this.formPreguntaSeccionComponenteCuestionarioGenerico.reset();
+
   }
 
   _listaComponentesCuestionarioGenerico:any[]=[];
@@ -595,6 +620,30 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
       this._obligatorioPregunta_true=true;
   }
 
+  _consultarPreguntasSeccionComponenteCuestionarioGenericoFiltrado(idTipoPregunta){
+    
+    let idSeccion = this.formCuestionarioGenerico.get("_cmbSeccionComponenteCuestionarioGenerico").value;
+   
+    this.preguntaSeccionComponenteCuestionarioGenericoService._consultarPreguntasSeccionComponenteCuestionarioGenericoFiltrado(idSeccion, idTipoPregunta)
+      .then(data=>{
+        if (data['http']['codigo']=='200') {
+          console.log(data);
+          
+          this._listaPreguntasSeccionComponenteCuestionarioGenerico= data['respuesta'];
+
+          //this._listaPreguntasSeccionComponenteCuestionarioGenerico.sort(data=>data.Orden);
+
+        }
+      }).catch(error=>{
+        console.log(error);
+        
+      }).finally(()=>{
+
+      });
+      this._obligatorioPregunta=true;
+      this._obligatorioPregunta_true=true;
+  }
+
   _validarAccionFormformPreguntaSeccionComponenteCuestionarioGenerico(){
     if (this._btnAccionP=="Guardar") {
       this._insertarPreguntaSeccionComponenteCuestionarioGenerico();
@@ -762,7 +811,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
       this._OcultarcmbTipoPregunta=false;
     });
   }
-
+  expanded= false
   _subirPreguntaSeccionComponenteCuestionarioGenerico(_item){
     this.preguntaSeccionComponenteCuestionarioGenericoService._subirPreguntaSeccionComponenteCuestionarioGenerico(_item.IdPreguntaEncriptado
     ).then(data=>{
@@ -771,7 +820,8 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
         var ElementoAnterior = this._listaPreguntasSeccionComponenteCuestionarioGenerico[index-1];
         this._listaPreguntasSeccionComponenteCuestionarioGenerico[index-1] = this._listaPreguntasSeccionComponenteCuestionarioGenerico[index];   
         this._listaPreguntasSeccionComponenteCuestionarioGenerico[index] = ElementoAnterior;
-
+        this.accordion.closeAll();
+        this.expanded = !this.expanded;
          //this.allExpandState = !this.allExpandState; 
 
       }else if (data['http']['codigo']=='500') {
@@ -795,6 +845,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
         var ElementoSiguiente = this._listaPreguntasSeccionComponenteCuestionarioGenerico[index+1];
         this._listaPreguntasSeccionComponenteCuestionarioGenerico[index+1] = this._listaPreguntasSeccionComponenteCuestionarioGenerico[index];   
         this._listaPreguntasSeccionComponenteCuestionarioGenerico[index] = ElementoSiguiente;
+        this.accordion.closeAll();
       }else if (data['http']['codigo']=='500') {
         this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else {
