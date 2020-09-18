@@ -1,3 +1,40 @@
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.example-table-container {
+  position: relative;
+  max-height: 400px;
+  overflow: auto;
+}
+mat-card:hover,mat-expansion-panel:hover{
+  border:2px solid #a5f0c8;
+}
+.mat-header-cell {
+    font-weight: bold;
+    text-align: center;
+    color: #495057;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+td{
+    text-align: center;
+}
+mat-card-header{
+    place-content: center;
+    background-color: #e9ecef;
+}
+tr:hover {
+    background-color: #cefbe3;
+}
 #page-container {
   position: relative;
   min-height: 25vh;

@@ -1,45 +1,138 @@
 <mat-dialog-content>
-  <div *ngIf="cargandoGuardar"  id="coverScreen"  class="LockOn">
-  </div>
-    <div class="row">
-        <div class="col-12">
-            <h2 style="text-align: center;"> ORDEN</h2>
+  <div *ngIf="moduloCaracterizacion" >
+    <div *ngIf="mostrarCuestionarios">
+      <div class="col-12">
+        <mat-form-field class="gpm-input">
+          <input name="filtrarModeloGenerico" matInput (keyup)="applyFilter($event)" placeholder="Buscar" #input>
+          <mat-icon mat-icon-button matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+      <div class="example-table-container">
+        <div *ngIf="tablaCuestionariosPublicados" class="example-loading-shade">
+          <mat-spinner></mat-spinner>
         </div>
+        <table style="margin-bottom: 0rem !important;" mat-table [dataSource]="_listaCuestionarioPublicados" class="table table-bordered">
+          <ng-container matColumnDef="Cuestionario">
+            <th style="height:1px;width:360px;word-wrap: break-word;text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef [attr.rowspan]="2">CUESTIONARIO</th>
+            <td style="width:360px;word-wrap: break-word;text-align: center;vertical-align: middle;font-weight: bold;" mat-cell *matCellDef="let data">{{data.CabeceraVersionCuestionario.AsignarResponsable.CuestionarioGenerico.Nombre}}</td>
+          </ng-container>
+          <ng-container matColumnDef="PERIODO">
+            <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef [attr.colspan]="2">PERIODO</th>
+          </ng-container>
+          <ng-container matColumnDef="INICIO">
+            <th style="height:1px;text-align:center;vertical-align: middle;" mat-header-cell *matHeaderCellDef>INICIO</th>
+            <td style="text-align: center;vertical-align: middle;" mat-cell *matCellDef="let data">
+              {{data.Periodo.FechaInicio | date: 'yyyy-MM-dd'}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="FIN">
+            <th style="height:1px;text-align:center;vertical-align: middle;" mat-header-cell *matHeaderCellDef>FIN</th>
+            <td style="text-align: center;vertical-align: middle;" mat-cell *matCellDef="let data">
+              {{data.Periodo.FechaFin | date: 'yyyy-MM-dd'}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="VERSION">
+            <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef [attr.rowspan]="2">VERSIÓN</th>
+            <td style="text-align: center;vertical-align: middle;" mat-cell *matCellDef="let data">{{data.CabeceraVersionCuestionario.Version}}</td>
+          </ng-container>
+          <ng-container matColumnDef="ACCIONES">
+            <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef [attr.rowspan]="2"></th>
+            <td style="text-align: center;vertical-align: middle;" mat-cell *matCellDef="let data">
+              <button matTooltip="Seleccionar Cuestionario" mat-button matSuffix mat-icon-button type="button" (click)="asignarCuestionario(data)">
+                <mat-icon style="color: #f0ad4e;">playlist_add</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="['Cuestionario','PERIODO','VERSION','ACCIONES']"></tr>
+          <tr mat-header-row *matHeaderRowDef="['INICIO', 'FIN']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['Cuestionario','INICIO', 'FIN','VERSION','ACCIONES']"></tr>
+        </table>
+        <mat-paginator #paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+      </div>
     </div>
-    <br>
-    <form [formGroup]="formAsignarOrden" (ngSubmit)="validarForm()">
-        <mat-form-field class="gpm-universal-width ">
-            <mat-label>Componente</mat-label>
-            <textarea [formControl]="formAsignarOrden_ComponenteDescripcion" style="resize: none;" readonly matInput
-                placeholder="Componente"></textarea>
-        </mat-form-field>
-
-        <mat-form-field class="gpm-universal-width ">
-            <input [formControl]="formAsignarOrden_Orden" matInput type="number" min="1" placeholder="Orden">
-            <mat-error
-                *ngIf="formAsignarOrden_Orden.hasError('required') || formAsignarOrden_Orden.invalid || (formAsignarOrden_Orden.dirty || formAsignarOrden_Orden.touched) ">
-                Este dato es <strong>obligatorio</strong>
-            </mat-error>
-
-        </mat-form-field>
-        <!-- <br>
-        <br>
-        <div class="gpm-universal-width" >
-            <ng-container class=" ">
-                <mat-checkbox [formControl]="formAsignarOrden_checkObligatorio"> Obligatorio </mat-checkbox>
-            </ng-container>
-        </div>
-        <br> -->
-
-        <button mat-button class="btn btn-primary btn-block" [disabled]="formAsignarOrden.invalid">
-            <i class="fa fa-floppy-o" aria-hidden="true"></i>
-        </button>
-    </form>
-    <br>
-    <button (click)="_cancelar()" mat-button class="btn btn-danger btn-block">
-        <i class="fa fa-times" aria-hidden="true"></i>
-        Cancelar
-    </button>
+    <div *ngIf="!mostrarCuestionarios">
+        <form [formGroup]="form" (ngSubmit)="_insertarConfigurarComponente()" #demoForm="ngForm">
+          	<h3>{{Componente}}</h3>
+            <div>
+              <fieldset class="border p-2 gpm-universal-width">
+                <legend class="w-auto">Pregunta</legend>
+                <mat-form-field class="gpm-universal-width ">
+                  <mat-label>Pregunta</mat-label>
+                  <mat-spinner *ngIf="comboPregunta"  class="spinner" diameter="20" matSuffix></mat-spinner>
+                  <mat-select formControlName="selectPregunta" >
+                    <mat-option *ngIf="comboPregunta" value="0" disabled>Cargando....</mat-option>
+                    <mat-option *ngIf="!comboPregunta" value="0" disabled>seleccione una pregunta</mat-option>
+                    <div *ngIf="!comboPregunta">
+                      <mat-option *ngFor="let item of _listaPregunta" [value]="item.IdVersionamientoPreguntaEncriptado" (click)="setPregunta(item)">
+                        {{item.Pregunta.Descripcion}}
+                      </mat-option>
+                    </div>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Tipo Pregunta</mat-label>
+                  <input readonly formControlName="tipoPregunta" matInput placeholder="Placeholder">
+                </mat-form-field>
+                <button matTooltip="Añadir pregunta" mat-button matSuffix mat-icon-button type="button" (click)="anidarPregunta()">
+                  <mat-icon style="color: #f0ad4e;">playlist_add</mat-icon>
+                </button>
+              </fieldset>
+            </div>
+          	<label for="description">Description</label>
+            <form class="example-form" [formGroup]="formGroup" ngNativeValidate>
+              <mat-slide-toggle formControlName="Mapa">Mapa</mat-slide-toggle>
+            </form>
+            <form role="form" #myForm="ngForm" accept-charset="UTF-8" novalidate>
+              <div class="form-group has-feedback"
+                    [ngClass]="{ 'has-error': myckeditor.invalid && myckeditor.touched }">
+              </div>
+              <ckeditor [(ngModel)]="mycontent"
+                        #myckeditor="ngModel"
+                        name="myckeditor"
+                        required
+                        [config]="ckeConfig"
+                        debounce="500"
+                        (paste)="onPaste($event)"
+                        (change)="onChange($event)">
+              </ckeditor>
+            </form>
+            <button [disabled]="myForm.invalid" mat-raised-button color="primary">
+              <mat-icon>save</mat-icon>
+              GUARDAR
+            </button>
+        </form>
+    </div>
+  </div>
+  <div *ngIf="!moduloCaracterizacion">
+    <h3>CARACTERIZACIÓN</h3>
+    <div class="col-12">
+      <mat-form-field class="gpm-input">
+        <input name="filtrarModeloGenerico" matInput (keyup)="applyFilterCaracterizacion($event)" placeholder="Buscar" #input>
+      </mat-form-field>
+    </div>
+    <table style="width:100%" mat-table [dataSource]="_listaModeloGenerico">
+      <ng-container matColumnDef="No">
+        <th mat-header-cell *matHeaderCellDef fxFlex="100px"> No. </th>
+        <td mat-cell *matCellDef="let element;index as i;"> {{i+1}} </td>
+      </ng-container>
+      <ng-container matColumnDef="NOMBRE">
+        <th mat-header-cell *matHeaderCellDef> NOMBRE </th>
+        <td mat-cell *matCellDef="let element"> {{element.Nombre}} </td>
+      </ng-container>
+      <ng-container matColumnDef="ACCION">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button matTooltip="Seleccionar Caracterizacion" mat-button matSuffix mat-icon-button type="button" (click)="seleccionarCaracterizacion(element)">
+            <mat-icon style="color: #f0ad4e;">playlist_add</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="tablaModelosGenericos; "></tr>
+      <tr mat-row *matRowDef="let row; columns: tablaModelosGenericos;"></tr>
+    </table>
+    <mat-paginator #paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+    <div *ngIf="tablaComponentesDeCuestionario" align="center">
+      <img align="middle" style="z-index:2;" width="30%" height="20%" src="../../../assets/img/panel/loading-gif-transparent-4.gif" alt="" />
+    </div>
+  </div>
 </mat-dialog-content>
-<mat-dialog-actions>
-</mat-dialog-actions>

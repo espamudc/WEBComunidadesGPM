@@ -7,43 +7,39 @@
 <br>
 <div class="container">
   <div class="row">
-    <div class="col-lg-12 col-md-12 mr-auto ">
+    <div class="col-lg-12 col-md-12 mr-auto container">
       <form [formGroup]="formVersionar" (ngSubmit)="_validarForm()">
-        <mat-card>
+        <mat-card class="mat-elevation-z7">
           <div class="row">
             <div class="col-12">
               <h2 style="text-align: center;">Versionar Caracterizacion</h2>
             </div>
           </div>
           <div class="row">
-            <form class="col-lg-12 col-md-12 mr-auto">
-              <mat-form-field style="width: 100%;">
-                <input type="text" placeholder="Seleccione una opción" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
-                <mat-spinner *ngIf="cargandoAutocomplete" diameter="20" matSuffix></mat-spinner>
-                <mat-autocomplete [displayWith]="displayFn.bind(this)" autoActiveFirstOption #auto="matAutocomplete">
-                  <mat-option *ngFor="let option of filteredOptions | async" value="{{option.IdModeloGenericoEncriptado}}">
-                    {{option.Nombre}}
-                  </mat-option>
-                </mat-autocomplete>
-                <mat-error *ngIf="myControl.value !== 'object' || myControl.value === null">
-                  Este dato es <strong>obligatorio</strong>
-                </mat-error>
+            <form class="col-12">
+              <mat-form-field (click)="seleccionarCaracterizacion()" style="width: 100%;" class="example-full-width TextArea">
+                <input [formControl]="formVersionar_CmbCaracterizacion" readonly matInput type="text" name="Cuestionario" placeholder="Seleccione Caracterización" />
+                <button matTooltip="Seleccionar Caracterización" mat-button matSuffix mat-icon-button type="button">
+                  <mat-icon style="color: #f0ad4e;">person_add</mat-icon>
+                </button>
               </mat-form-field>
             </form>
-            <mat-form-field class="gpm-form-field col-lg-7">
+          </div>
+          <div class="row">
+            <mat-form-field class="gpm-form-field col-7">
               <input matInput placeholder="Característica" [formControl]="formVersionar_Caracteristica">
               <mat-error *ngIf="formVersionar_Caracteristica.hasError('required') || formVersionar_Caracteristica.invalid || (formVersionar_Caracteristica.dirty || formVersionar_Caracteristica.touched ) ">
                 Este dato es <strong>obligatorio</strong>
               </mat-error>
             </mat-form-field>
-            <mat-form-field class="gpm-form-field col-lg-4">
+            <mat-form-field class="gpm-form-field col-2">
               <input type="number" matInput placeholder="Versión" [formControl]="formVersionar_Version">
               <mat-error *ngIf="formVersionar_Version.hasError('required') || formVersionar_Version.invalid || (formVersionar_Version.dirty || formVersionar_Version.touched ) ">
                 Este dato es <strong>obligatorio</strong>
               </mat-error>
             </mat-form-field>
-            <div class="col-lg-1">
-              <button [disabled]="formVersionar.invalid" type="submit" mat-button class=" btn btn-primary btn-block"> <i class="fa fa-plus"></i> </button>
+            <div class="col-2">
+              <button style="width: auto;" [disabled]="formVersionar.invalid" type="submit" mat-button class=" btn btn-primary btn-block"> <i class="fa fa-plus"></i> </button>
             </div>
           </div>
         </mat-card>
@@ -52,56 +48,73 @@
   </div>
   <br>
   <div class="row">
-    <div class="col-lg-12">
-      <table mat-table [dataSource]="_VersionesPorCaracterizacion" class="mat-elevation-z7 gpm-table">
-        <ng-container matColumnDef="caracteristica">
-          <th mat-header-cell *matHeaderCellDef> Caracteristica </th>
-          <td mat-cell *matCellDef="let element"> {{element.Caracteristica}} </td>
-        </ng-container>
-        <ng-container matColumnDef="version">
-          <th mat-header-cell *matHeaderCellDef> Version </th>
-          <td mat-cell *matCellDef="let element"> {{element.Version}} </td>
-        </ng-container>
-        <ng-container matColumnDef="fecha_creacion">
-          <th mat-header-cell *matHeaderCellDef> Fecha de Creacion </th>
-          <td mat-cell *matCellDef="let element"> {{element.FechaCreacion}} </td>
-        </ng-container>
-        <ng-container matColumnDef="publicado">
-          <th mat-header-cell *matHeaderCellDef> Publicado </th>
-          <td mat-cell *matCellDef="let element">
-            <div style="color: rgb(2, 3, 136);font-weight: bold;" *ngIf="element.ModeloPublicado">
-              SI
-            </div>
-            <div style="color: rgb(255, 0, 0);font-weight: bold;" *ngIf="!element.ModeloPublicado">
-              NO
-            </div>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="acciones">
-          <th colspan="2" mat-header-cell *matHeaderCellDef> Acciones </th>
-          <ng-container *matCellDef="let element">
-            <td mat-cell>
-              <button (click)="_verModalDetalle(element)" tooltip="Ver detalles" placement="top" class="btn btn-sm btn-outline-info" value="0">
-                <i class="fa fa-edit" aria-hidden="true"></i>
-              </button>
-            </td>
-            <td mat-cell>
-              <button *ngIf="element.Utilizado==0" (click)="_eliminarCabeceraVersionModelo(element)" tooltip="Eliminar versión" placement="top" class="btn btn-sm btn-outline-danger" value="0">
-                <i class="fa fa-remove" aria-hidden="true"></i>
-              </button>
-            </td>
-          </ng-container>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="['caracteristica','version','fecha_creacion','publicado','acciones']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['caracteristica','version','fecha_creacion','publicado','acciones'];"></tr>
-      </table>
-      <div align="center">
-        <br>
-        <img *ngIf="ListaVersionesCarga" align="middle" style="z-index:2;" width="15%" height="20%" src="../../../assets/img/panel/loading-gif-transparent-4.gif" alt="" />
-      </div>
-      <footer>
-        <mat-paginator #paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
-      </footer>
+    <div class="col-lg-12 col-md-12 mr-auto container">
+      <mat-card class="mat-elevation-z7 table-responsive">
+        <mat-card-header class="col-12">
+          <mat-card-title>LISTA DE VERSIONES</mat-card-title>
+        </mat-card-header>
+        <div class="example-table-container">
+          <div *ngIf="ListaVersionesCarga" class="example-loading-shade">
+            <mat-spinner matSuffix></mat-spinner>
+          </div>
+          <table class="col-12" mat-table [dataSource]="_VersionesPorCaracterizacion">
+            <ng-container matColumnDef="caracteristica">
+              <th style="width:500px;word-wrap: break-word" mat-header-cell *matHeaderCellDef> Caracteristica </th>
+              <td mat-cell *matCellDef="let element">
+                <div style="width:500px;word-wrap: break-word">
+                  {{element.Caracteristica}}
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="version">
+              <th style="width:50px;word-wrap: break-word"  mat-header-cell *matHeaderCellDef> Version </th>
+              <td mat-cell *matCellDef="let element">
+                <div style="width:50px;word-wrap: break-word">
+                  {{element.Version}}
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="fecha_creacion">
+              <th style="width:150px;word-wrap: break-word" mat-header-cell *matHeaderCellDef> Fecha de Creacion </th>
+              <td mat-cell *matCellDef="let element">
+                <div style="width:150px;word-wrap: break-word">
+                  {{element.FechaCreacion | date: 'yyyy-MM-dd'}}
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="publicado">
+              <th style="width:100px;word-wrap: break-word" mat-header-cell *matHeaderCellDef> Publicado </th>
+              <td mat-cell *matCellDef="let element">
+                <div style="width:80px;word-wrap: break-word;color: rgb(2, 3, 136);font-weight: bold;" *ngIf="element.Publicado == '1' ">
+                  SI
+                </div>
+                <div style="width:80px;word-wrap: break-word;color: rgb(255, 0, 0);font-weight: bold;" *ngIf="element.Publicado == '0'">
+                  NO
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="acciones">
+              <th colspan="2" mat-header-cell *matHeaderCellDef> Acciones </th>
+              <ng-container *matCellDef="let element">
+                <td mat-cell>
+                  <button (click)="_verModalDetalle(element)" matTooltip="Ver detalles" placement="top" class="btn btn-sm btn-outline-info" value="0">
+                    <i class="fa fa-edit" aria-hidden="true"></i>
+                  </button>
+                </td>
+                <td mat-cell>
+                  <button *ngIf="element.Publicado == '0'" (click)="_eliminarCabeceraVersionModelo(element)" matTooltip="Eliminar versión" placement="top" class="btn btn-sm btn-outline-danger" value="0">
+                    <i class="fa fa-remove" aria-hidden="true"></i>
+                  </button>
+                </td>
+              </ng-container>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['caracteristica','version','fecha_creacion','publicado','acciones']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['caracteristica','version','fecha_creacion','publicado','acciones'];"></tr>
+          </table>
+          <mat-paginator #paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+        </div>
+      </mat-card>
     </div>
   </div>
 </div>

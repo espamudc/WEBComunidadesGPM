@@ -17,296 +17,115 @@ import { ModalLlenarInformacionComponent } from 'src/app/components/modal-llenar
   styleUrls: ['./llenar-caracterizacion.component.css']
 })
 export class LlenarCaracterizacionComponent implements OnInit {
-
+  formCaracterizacion: FormGroup;
   constructor(
     private CaracterizacionService: CaracterizacionService,
     private snackBarComponent: MatSnackBar,
     private lugaresService: LugaresService,
     private dialog: MatDialog,
   ) {
-    this.formIngresoCaracterizacion = new FormGroup({
-      _representante: new FormControl('', [Validators.required]),
-      _myControl: new FormControl('', [Validators.required]),
-      _Canton: new FormControl('', [Validators.required]),
-      _Parroquia: new FormControl('', [Validators.required]),
+    this.formCaracterizacion = new FormGroup({
+      _caracterizacion: new FormControl('', [Validators.required]),
+      _cuestionario: new FormControl('', [Validators.required]),
+      _version: new FormControl('', [Validators.required]),
+      _publicado: new FormControl('', [Validators.required]),
+      _cmbVersion: new FormControl('', [Validators.required]),
     });
   }
-  get form_Representante() {
-    return this.formIngresoCaracterizacion.get("_representante");
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  tablaCuestionariosRespondidos = ['No', 'TECNICO', 'PROVINCIA', 'CANTON', 'PARROQUIA', 'COMUNIDAD', 'FINALIZADO', 'ACCIONES'];
+  get formCaracterizacion_Caracterizacion() {
+    return this.formCaracterizacion.get("_caracterizacion");
   }
-  get myControl() {
-    return this.formIngresoCaracterizacion.get("_myControl");
+  get formCaracterizacion_Cuestionario() {
+    return this.formCaracterizacion.get("_cuestionario");
   }
-  get form_Canton() {
-    return this.formIngresoCaracterizacion.get("_Canton");
+  get formCaracterizacion_Version() {
+    return this.formCaracterizacion.get("_version");
   }
-  get form_Parroquia() {
-    return this.formIngresoCaracterizacion.get("_Parroquia");
+  get formCaracterizacion_Publicado() {
+    return this.formCaracterizacion.get("_publicado");
   }
-  @ViewChild('paginator', { static: false }) paginator: MatPaginator;
-  formIngresoCaracterizacion: FormGroup;
-
-  listaRepresentantes: any[] = [];
-  cargandoRepresentante = false;
-
-  _listaProvincias: any[] = [];
-  cargandoProvincias = false;
-  _consultarProvincias() {
-    this._listaProvincias = [];
-    this.myControl.disable();
-    this.cargandoProvincias = true;
-    this.lugaresService._consultarProvincias()
-      .then(
-        data => {
-          if (data['http']['codigo'] == '200') {
-            this._listaProvincias = data['respuesta'];
-          } else {
-            console.log(data);
-          }
-        }
-      ).catch(error => {
-        console.log(error);
-      }).finally(() => {
-        this.myControl.enable();
-        this.cargandoProvincias = false;
-        this.filteredOptions = this.myControl.valueChanges.pipe(
-          // startWith(''),
-          map(value => this._filter(value))
-        );
-      });
+  get formCaracterizacion_CmbVersion() {
+    return this.formCaracterizacion.get("_cmbVersion");
   }
-  _listaCantones: any[] = [];
-  cargandoCanton = false;
-  _cantonesDeUnaProvincia(idProvincia) {
-  this._listaCantones = [];
-    this.cargandoCanton = true;
-    this.cargarTab = false;
-    this.listaComponentes1 = [];
-    this.listaPublicacionesParroquia.data = [];
-    this.mostrarDataCaracterizacionVistaPreviaLugar=false;
-    this._listaParroquias = [];
-    this.form_Canton.reset();
-    this.form_Parroquia.reset();
-    this.form_Representante.setValue('');
-    this.lugaresService._consultarCantonesDe(idProvincia)
-      .then(data => {
-        if (data['http']['codigo'] == '200') {
-          this._listaCantones = data['respuesta'];
-        } else {
-          console.log(data);
-        }
-      }).catch(error => {
-        console.log(error);
-      }).finally(() => {
-        this.cargandoCanton = false;
-      });
+  getCaracterizacion(event) {
+    this.formCaracterizacion_Cuestionario.setValue(event.value.AsignarCuestionarioModelo[0].CuestionarioPublicado.CuestionarioGenerico.Nombre)
+    this.formCaracterizacion_Version.setValue(event.value.AsignarCuestionarioModelo[0].CuestionarioPublicado.CabeceraVersionCuestionario.Version);
+    const formattedDate = formatDate(new Date(event.value.AsignarCuestionarioModelo[0].CuestionarioPublicado.FechaPublicacion), 'yyyy-MM-dd', 'en-US');
+    this.formCaracterizacion_Publicado.setValue(formattedDate)
+    this._consultarCuestionariosPublicado(event.value.AsignarCuestionarioModelo[0].CuestionarioPublicado.IdCuestionarioPublicadoEncriptado)
+    this._consultarVersionesPublicadaActivos(event.value.IdModeloGenericoEncriptado);
   }
-  _listaParroquias: any[] = [];
-  cargandoParroquia = false;
-  _parroquiasDeUnCanton(idCanton) {
-    this._listaParroquias = [];
-    this.cargarTab = false;
-    this.listaComponentes1 = [];
-    this.mostrarDataCaracterizacionVistaPreviaLugar=false;
-    this.listaPublicacionesParroquia.data = [];
-    this.cargandoParroquia = true;
-    this.form_Parroquia.reset();
-    this.form_Representante.setValue('');
-    this.lugaresService._consultarParroquiasDe(idCanton)
-      .then(data => {
-        if (data['http']['codigo'] == '200') {
-          this._listaParroquias = data['respuesta'];
-        } else {
-          console.log(data);
-        }
-      }).catch(error => {
-        console.log(error);
-      }).finally(() => {
-        this.cargandoParroquia = false;
-      });
-  }
-  _cargarRepresentanteParroquia(idParroquia) {
-    this.cargarTab = false;
-    this.listaComponentes1 = [];
-    this.mostrarDataCaracterizacionVistaPreviaLugar=false;
-    this.listaPublicacionesParroquia.data = [];
-
-    this.cargandoRepresentante = true;
-    this.listaRepresentantes = [];
-    var lista: any[];
-    this.lugaresService._consultarRepresentanteParroquia(idParroquia)
-      .then(data => {
-        if (data['http']['codigo'] == '200') {
-          lista = data['respuesta'];
-        } else {
-          console.log(data['http']);
-        }
-      }).catch(error => {
-        console.log(error);
-      }).finally(() => {
-        this.cargandoRepresentante = false;
-        this.listaRepresentantes = lista.find(p => p.FechaSalida == '0001-01-01T00:00:00');
-        if (this.listaRepresentantes != undefined) {
-          this.form_Representante.setValue(this.listaRepresentantes['Representante']);
-        } else {
-          this.form_Representante.setValue('');
-        }
-      });
-  }
-  displayFn(IdProvinciaEncriptado) {
-    if (!IdProvinciaEncriptado) {
-      return '';
+  selectCaracterizacion = false;
+  listaCaracterizacionPublicadasActivas: any[] = [];
+  async _consultarCaracterizacionPublicadaActivos() {
+    this.selectCaracterizacion = true;
+    var respuesta = await this.CaracterizacionService.ModeloGenericoConVersionesActivas_Consultar();
+    if (respuesta['http']['codigo'] == "200") {
+      this.listaCaracterizacionPublicadasActivas = [];
+      this.listaCaracterizacionPublicadasActivas = respuesta['respuesta'];
+      this.formCaracterizacion_Caracterizacion.enable();
+    } else {
+      this.mensaje(respuesta['http']['mensaje']);
     }
-    this._cantonesDeUnaProvincia(IdProvinciaEncriptado);
-    let index = this._listaProvincias.find(state => state.IdProvinciaEncriptado === IdProvinciaEncriptado);
-    return index.NombreProvincia;
+    this.selectCaracterizacion = false;
   }
-  buscarCaracterizaciones(){
-    this.cargarTab = false;
-    this._consultarVersionesPublicadasDeUnaParroquia();
-    //console.log(this.form_Parroquia.value)
-  }
-  listaPublicacionesParroquia = new MatTableDataSource<Element[]>();
-  CargandoTablaModeloPublicadosVerisonados = false;
-  _consultarVersionesPublicadasDeUnaParroquia() {
-    this.listaPublicacionesParroquia.data = [];
-    this.CargandoTablaModeloPublicadosVerisonados = true;
-    this.CaracterizacionService.asignarresponsablemodelopublicado_consultarporparroquia(this.form_Parroquia.value)
-      .then(
-        data => {
-          if (data['http']['codigo'] == '200') {
-            this.listaPublicacionesParroquia.data = data['respuesta'];
-          } else {
-            console.log(data);
-          }
-        }
-      ).catch(error => {
-        console.log(error);
-      }).finally(() => {
-        this.CargandoTablaModeloPublicadosVerisonados = false;
-        this.listaPublicacionesParroquia.paginator = this.paginator;
-      });
-  }
-  _dataCabeceraCaracterizacion:any;
-  NombreCaracterizacion = '';
-  cargarTab = false;
-  _buscarCabeceraCaracterizacion(element?){
-    this.cargandoIngresoInformacion = true;
-    this.NombreCaracterizacion =  element.ModeloPublicado.CabeceraVersionModelo.ModeloGenerico.Nombre +" (VERSIÓN "+element.ModeloPublicado.CabeceraVersionModelo.Version+")";
-    console.log(element)
-    var ejecutado = false;
-    this._dataCabeceraCaracterizacion = "";
-    this.CaracterizacionService._cabeceracaracterizacion_consultarporidasignarresponsablemodelopublicado(element.IdAsignarResponsableModeloPublicadoEncriptado)
-      .then(data => {
-        if (data['http']['codigo'] == '200') {
-          ejecutado = true;
-          this._dataCabeceraCaracterizacion = data['respuesta']
-          //console.log(data['respuesta']);
-        } else {
-          console.log(data);
-        }
-      }).catch(error => {
-        console.log(error);
-      }).finally(() => {
-        if(ejecutado != false){
-          if(this._dataCabeceraCaracterizacion==null){
-            this._cabeceracaracterizacion_insertar(element);
-          }else{
-            this._prepararInformacion(this._dataCabeceraCaracterizacion.AsignarResponsableModeloPublicado.ModeloPublicado.CabeceraVersionModelo.IdCabeceraVersionModeloEncriptado)
-          }
-        }
-      });
-  }
-  _cabeceracaracterizacion_insertar(element?){
-    var ejecutado = false;
-    this.CaracterizacionService._cabeceracaracterizacion_insertar(element.IdAsignarResponsableModeloPublicadoEncriptado)
-      .then(data => {
-        if (data['http']['codigo'] == '200') {
-          ejecutado = true;
-          this._dataCabeceraCaracterizacion = data['respuesta'];
-        } else {
-          console.log(data);
-        }
-      }).catch(error => {
-        console.log(error);
-      }).finally(() => {
-        if(ejecutado != false){
-          this._prepararInformacion(this._dataCabeceraCaracterizacion.AsignarResponsableModeloPublicado.ModeloPublicado.CabeceraVersionModelo.IdCabeceraVersionModeloEncriptado)
-        }
-      });
-  }
-  listaComponentes1:any[]=[];
-  mostrarDataCaracterizacionVistaPreviaLugar = false;
-  cargandoIngresoInformacion = false;
-  cargarDatos = false;
-  _prepararInformacion(IdCabeceraVersionModeloEncriptado?){
-    this.cargarDatos = true;
-    if(this.cargandoIngresoInformacion == false){
-      this.cargandoIngresoInformacion = true;
+  _listaCuestionariosPublicados = new MatTableDataSource<Element[]>();
+  tablaCuestionarios = false;
+  async _consultarCuestionariosPublicado(_IdCuestionarioPublicado) {
+    this.tablaCuestionarios = true;
+    var respuesta = await this.CaracterizacionService._consultarCuestionariosPublicado(_IdCuestionarioPublicado);
+    if (respuesta['http']['codigo'] == "200") {
+      this._listaCuestionariosPublicados.data = [];
+      this._listaCuestionariosPublicados.data = respuesta['respuesta'];
+      this._listaCuestionariosPublicados.paginator = this.paginator;
+    } else {
+      this.mensaje(respuesta['http']['mensaje']);
     }
-    this.listaComponentes1 = [];
-    var ejecutado = false;
-    this.CaracterizacionService.cabeceraVersionModeloBodyConInformacion_consultar(IdCabeceraVersionModeloEncriptado)
-      .then(data => {
-        if (data['http']['codigo'] == '200') {
-          ejecutado = true;
-          this.cargarDatos = false;
-          this.listaComponentes1 = data['respuesta'][0].AsignarComponenteGenerico;
-        } else {
-          console.log(data['http']);
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      }).finally(() => {
-        if(ejecutado!=false){
-          this.mostrarDataCaracterizacionVistaPreviaLugar=true;
-          this.cargarTab = true;
-        }
-        if(this.cargandoIngresoInformacion == true){
-          this.cargandoIngresoInformacion = false;
-        }
-      });
+    this.tablaCuestionarios = false;
   }
-  _ingresarInformacion(element?){
-    let dialogRef = this.dialog.open(ModalLlenarInformacionComponent, {
-      width: '80%',
-      height: '80%',
-      data: {
-        data: element,
-        CabeceraCaracterizacion:this._dataCabeceraCaracterizacion
-      }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result == true){
-        this._prepararInformacion(this._dataCabeceraCaracterizacion.AsignarResponsableModeloPublicado.ModeloPublicado.CabeceraVersionModelo.IdCabeceraVersionModeloEncriptado);
-      }
-    }, error => {
-    }, () => {
-    });
+  generarReporte(element) {
+    console.log(this.formCaracterizacion_CmbVersion.value)
+    window.open("http://localhost:55585/Caracterizacion/Caracterizacion?Encuesta="+element.IdCabeceraRespuestaEncriptado+"&Caracterizacion="+this.formCaracterizacion_CmbVersion.value.CabeceraVersionModelo.IdCabeceraVersionModeloEncriptado);
+  }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this._listaCuestionariosPublicados.filter = filterValue.toUpperCase();
+  }
+  listaVersionesPublicadasActivas: any[] = [];
+  selectVersiones = false;
+  async _consultarVersionesPublicadaActivos(_idModeloGenericoEncriptada) {
+    this.selectVersiones = true;
+    this.formCaracterizacion_CmbVersion.reset();
+    var respuesta = await this.CaracterizacionService._consultarVersionesCaracterizacionPublicadasActivas(_idModeloGenericoEncriptada);
+    if (respuesta['http']['codigo'] == "200") {
+      this.listaVersionesPublicadasActivas = [];
+      this.listaVersionesPublicadasActivas = respuesta['respuesta'];
+    } else {
+      this.mensaje(respuesta['http']['mensaje']);
+    }
+    this.selectVersiones = false;
+  }
+  mensaje(_mensaje: string, _duracion?: number, _color?: string) {
+    if (_duracion == null) {
+      _duracion = 3000;
+    }
+    if (_color == null) {
+      _color = "gpm-danger";
+    }
+    let snackBarRef = this.snackBarComponent.open(_mensaje, null, { duration: _duracion, panelClass: [`${_color}`], verticalPosition: 'bottom', horizontalPosition: 'end' });
+  }
+  buscar() {
+    console.log(this.formCaracterizacion_CmbVersion.value)
   }
   ngOnInit() {
-    setTimeout(() => {
-      this._consultarProvincias()
-    });
-  }
-
-  filteredOptions: Observable<any[]>;
-  private _filter(value: string): any[] {
-    this.cargarTab = false;
-    this.listaComponentes1 = [];
-    this.mostrarDataCaracterizacionVistaPreviaLugar=false;
-    this.listaPublicacionesParroquia.data = [];
-    this._listaCantones = [];
-    this._listaParroquias = [];
-    this.form_Canton.reset();
-    this.form_Parroquia.reset();
-    this.form_Representante.setValue('');
-    value = value.toLowerCase();
-    if (value == '') {
-      return [];
-    } {
-      return this._listaProvincias.filter(option => option.NombreProvincia.toLowerCase().indexOf(value) === 0);
-    }
+    this._consultarCaracterizacionPublicadaActivos();
+    this._listaCuestionariosPublicados.filterPredicate = function(data, filter: string): boolean {
+      return (
+        data['AsignarEncuestado'].AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.PrimerApellido.toUpperCase()+" "+data['AsignarEncuestado'].AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.SegundoApellido.toUpperCase()+" "+
+        data['AsignarEncuestado'].AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.PrimerNombre.toUpperCase()+" "+data['AsignarEncuestado'].AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.SegundoNombre.toUpperCase()
+      ).includes(filter);
+    };
   }
 }

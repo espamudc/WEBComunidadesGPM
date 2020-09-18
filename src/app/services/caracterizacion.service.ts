@@ -23,6 +23,36 @@ export class CaracterizacionService {
                 });
     });
   }
+  _modificarModeloGenerico(idModeloGenerico,_Nombre,_Descripcion){
+    const _body = new HttpParams()
+    .set("Nombre",_Nombre)
+    .set("IdModeloGenericoEncriptado",idModeloGenerico)
+    .set("Descripcion",_Descripcion)
+    ;
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'ModeloGenerico_modificar',_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
+  _ConsultarPreguntasPorCuestionarioPublicadoComponente(_IdCuestionarioPublicado,_IdComponente){
+    const _body = new HttpParams()
+    .set("IdCuestionarioPublicado",_IdCuestionarioPublicado)
+    .set("AsignarComponenteGenerico[0].IdComponente",_IdComponente)
+    ;
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'ConsultarPreguntasPorCuestionarioPublicadoComponente',_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
+
   _eliminarModeloGenerico(_IdModeloGenerico){
     const _body = new HttpParams()
     .set("IdModeloGenericoEncriptado",_IdModeloGenerico)
@@ -93,14 +123,27 @@ export class CaracterizacionService {
     });
   }
 
-  _insertarAsignarComponenteGenerico(_IdAsignarCuestionarioModelo,_IdComponente,_Orden){
+  _insertarAsignarComponenteGenerico(_IdAsignarCuestionarioModelo,_IdComponente){
     const _body = new HttpParams()
     .set("IdAsignarCuestionarioModelo",_IdAsignarCuestionarioModelo)
     .set("IdComponente",_IdComponente)
-    .set("Orden",_Orden)
     ;
     return new Promise((resolve, reject) => {
       this.http.post(url+'AsignarComponenteGenerico_insertar',_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
+  _asignarComponenteGenerico_CambiarPosicion(_IdAsignarComponenteGenericoEncriptado,_Orden){
+    const _body = new HttpParams()
+    .set("IdAsignarComponenteGenericoEncriptado",_IdAsignarComponenteGenericoEncriptado)
+    .set("Orden",_Orden)
+    ;
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'AsignarComponenteGenerico_CambiarPosicion',_body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{
@@ -341,13 +384,26 @@ export class CaracterizacionService {
                 });
     });
   }
+  _consultarVersionPorPublicar(_IdModeloGenerico){
+    const _body = new HttpParams()
+    .set("IdModeloGenerico",_IdModeloGenerico)
+    ;
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'cabeceraVersionModeloParaPublicar_consultar',_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
 
   _consultarCabeceraVersionBody(_IdCabeceraVersionModeloEncriptado){
     const _body = new HttpParams()
     .set("IdCabeceraVersionModeloEncriptado",_IdCabeceraVersionModeloEncriptado)
     ;
     return new Promise((resolve, reject) => {
-      this.http.post(url+'cabeceraVersionModeloBody_consultar',_body.toString(),{headers:this._header})
+      this.http.post(url+'cabeceraVersionModeloPorVersion_consultar',_body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{
@@ -390,7 +446,7 @@ export class CaracterizacionService {
     .set("IdModeloPublicadoEncriptado",_IdModeloPublicadoEncriptado)
     ;
     return new Promise((resolve, reject) => {
-      this.http.post(url+'DesHabilitarModeloPublicad',_body.toString(),{headers:this._header})
+      this.http.post(url+'DesHabilitarModeloPublicado',_body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{
@@ -458,7 +514,7 @@ export class CaracterizacionService {
   _consultarModelosGenericosConVersioneSinPublicar(){
     const _body = new HttpParams();
     return new Promise((resolve, reject) => {
-      this.http.post(url+'ModelosGenericosConVersioneSinPublicar',_body.toString(),{headers:this._header})
+      this.http.post(url+'ConsultarModeloGenericoParaPublicar',_body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{
@@ -470,7 +526,7 @@ export class CaracterizacionService {
   _consultarVersionesCaracterizacionPublicadas(){
     const _body = new HttpParams();
     return new Promise((resolve, reject) => {
-      this.http.post(url+'ConsultarVersionesCaracterizacionPublicadas',_body.toString(),{headers:this._header})
+      this.http.post(url+'modeloPublicado_consultar',_body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{
@@ -479,6 +535,30 @@ export class CaracterizacionService {
     });
   }
 
+  _consultarVersionesCaracterizacionPublicadasActivas(_idModeloGenericoEncriptada){
+    const _body = new HttpParams()
+    .set("IdModeloGenericoEncriptado",_idModeloGenericoEncriptada)
+    ;
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'modeloPublicadoActivo_consultar',_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
+  ModeloGenericoConVersionesActivas_Consultar(){
+    const _body = new HttpParams();
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'ModeloGenericoConVersionesActivas_Consultar',_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
 
   _eliminarVersionamientoModelo(_IdVersionamientoModeloEncriptado){
     const _body = new HttpParams()
@@ -610,5 +690,46 @@ export class CaracterizacionService {
     });
   }
 
-
+  _insertarConfigurarComponente(_IdAsignacionTU,_IdAsignarComponenteGenerico,_Contenido,_Imagen){
+    const _body = new HttpParams()
+    .set("IdAsignacionTU",_IdAsignacionTU)
+    .set("IdAsignarComponenteGenerico",_IdAsignarComponenteGenerico)
+    .set("Contenido",_Contenido)
+    .set("Imagen",_Imagen)
+    ;
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'configurarComponente_insertar',_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
+  _consultarConfigurarComponentePorComponente(_IdAsignarComponenteGenerico){
+    const _body = new HttpParams()
+    .set("IdAsignarComponenteGenerico",_IdAsignarComponenteGenerico)
+    ;
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'consultarConfigurarComponentePorComponente',_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
+  _consultarCuestionariosPublicado(_IdCuestionarioPublicado){
+    const _body = new HttpParams()
+    .set("IdCuestionarioPublicadoEncriptado",_IdCuestionarioPublicado)
+    ;
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'CuestionarioFinalizado_consultar',_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
 }

@@ -6,7 +6,9 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from '@angular/cdk/layout';
 import {MatSortModule} from '@angular/material/sort';
- 
+import { DragDropModule } from '@angular/cdk/drag-drop';
+//import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { CKEditorModule } from 'ng2-ckeditor';
 // Material Components
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,6 +21,7 @@ import { MatTabsModule } from "@angular/material/tabs";
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatStepperModule } from '@angular/material';
+import { MatTooltipModule } from '@angular/material/tooltip';
 // Components
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { LoginComponent } from './components/login/login.component';
@@ -164,7 +167,10 @@ import { GaleriaComponent } from './components/galeria/galeria.component';
     MatPaginatorModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
-    MatStepperModule
+    MatStepperModule,
+    MatTooltipModule,
+    DragDropModule,
+     CKEditorModule,
   ],
   exports:[],
   entryComponents: [

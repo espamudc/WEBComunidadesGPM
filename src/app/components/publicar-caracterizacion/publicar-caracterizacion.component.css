@@ -1,3 +1,95 @@
+/* Structure */
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.example-table-container {
+  position: relative;
+  max-height: 400px;
+  overflow: auto;
+}
+mat-card:hover,mat-expansion-panel:hover{
+  border:2px solid #a5f0c8;
+}
+.mat-header-cell {
+    font-weight: bold;
+    text-align: center;
+    color: #495057;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+td{
+    text-align: center;
+}
+mat-card-header{
+    place-content: center;
+    background-color: #e9ecef;
+}
+tr:hover {
+    background-color: #cefbe3;
+}
+
+/* ejemplo */
+
+/* table {
+  width: 100%;
+} */
+
+/* tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+} */
+
+/* .example-element-row td {
+  border-bottom-width: 0;
+} */
+
+/* .example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+
 ::ng-deep .mat-expansion-panel-body{
   padding-bottom: 0px !important;
 }
@@ -7,12 +99,12 @@
 }
 
 #content-wrap {
-  padding-bottom: 2.5rem;    /* Footer height */
+  padding-bottom: 2.5rem;
 }
 #footer {
   position: absolute;
   bottom: 0;
-  height: 2.5rem;            /* Footer height */
+  height: 2.5rem;
   display: flex !important ;
 }
 
@@ -31,7 +123,6 @@
   border-radius: 6px;
   padding: 5px 0;
 
-  /* Position the tooltip */
   position: absolute;
   z-index: 1;
 }
@@ -79,19 +170,6 @@
 .btn1:active .arrow {
   margin-left: 1.5em;
 }
-/* table {
-  border-collapse: collapse;
-} */
-/* .mat-header-cellTabla {
-  padding: 20px 0;
-  border: 1px solid rgba(110, 110, 110, 0.54);
-}
-
-.rowTabla {
-  padding: 20px 0;
-  border: 1px solid rgba(110, 110, 110, 0.54);
-} */
-
 
 @keyframes pulse {
 	 0% {
@@ -157,4 +235,4 @@
 }
  .pulse:hover:before, .pulse:hover:after {
 	 display: none;
-}
+} */

@@ -6,7 +6,7 @@
 </div>
 <div class="container">
   <div class="row">
-    <div class="col-lg-5 col-md-5 mr-auto">
+    <div class="col-lg-5 col-md-5 mr-auto ">
       <mat-card class="mat-elevation-z7">
         <div class="row">
           <div class="col-12">
@@ -23,8 +23,8 @@
                 <input type="text" placeholder="Seleccione una opción" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
                 <mat-spinner *ngIf="autoComplete" diameter="20" matSuffix></mat-spinner>
                 <mat-autocomplete [displayWith]="displayFn.bind(this)" autoActiveFirstOption #auto="matAutocomplete">
-                  <mat-option *ngFor="let option of filteredOptions | async" value="{{option.IdModeloGenerico}}">
-                    {{option.ModeloGenerico.Nombre}}
+                  <mat-option *ngFor="let option of filteredOptions | async" value="{{option.IdModeloGenericoEncriptado}}">
+                    {{option.Nombre}}
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>
@@ -35,7 +35,7 @@
                 <mat-spinner *ngIf="loadingVersiones" diameter="20" matSuffix></mat-spinner>
                 <mat-select [(ngModel)]="cmbVersion">
                   <mat-option [disabled]="true" value="0"> -- seleccione una opción --</mat-option>
-                  <mat-option *ngFor="let item of versionsSinPublicarDeUnModeloGenerico" [value]="item.IdCabeceraVersionModeloEncriptado">
+                  <mat-option *ngFor="let item of _listaVersiones" [value]="item.IdCabeceraVersionModeloEncriptado">
                     {{item.Version}}
                   </mat-option>
                 </mat-select>
@@ -75,180 +75,72 @@
         </button>
       </mat-card>
     </div>
-    <div id="page-container" class="col-lg-7 col-md-7">
-      <div style="height: 100% !important;" class="mat-elevation-z7">
+    <div class="col-lg-7 col-md-7 mr-auto ">
+      <mat-card class="mat-elevation-z7 table-responsive">
+        <mat-card-header class="col-12">
+          <mat-card-title>CARACTERIZACIONES PUBLICADAS</mat-card-title>
+        </mat-card-header>
         <div class="col-12">
           <mat-form-field class="gpm-input">
             <input matInput (keyup)="applyFilter($event)" placeholder="Filtro">
+            <mat-icon mat-icon-button matSuffix>search</mat-icon>
           </mat-form-field>
         </div>
-        <table mat-table [dataSource]="_listaVersionesPublicadas">
-          <ng-container matColumnDef="periodo">
-            <th style="text-align:center;font-weight: bold;" class="mat-header-cellTabla" mat-header-cell *matHeaderCellDef width="1%"> ESTADO </th>
-            <td style="text-align:center;vertical-align: middle;" mat-cell *matCellDef="let element">
-              <i tooltip="Activo" hide-delay="1" *ngIf="element.ModeloPublicado.Estado"  style="color:green" class="fa fa-circle" aria-hidden="true"></i>
-              <i tooltip="Inactivo" hide-delay="1" *ngIf="!element.ModeloPublicado.Estado"  style="color:red" class="fa fa-circle" aria-hidden="true"></i>
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="modeloGenerico">
-            <th style="text-align:center;vertical-align: middle;font-weight: bold;" class="mat-header-cellTabla" mat-header-cell *matHeaderCellDef width="30%"> CARACTERIZACIÓN </th>
-            <td style="text-align:center;vertical-align: middle;" mat-cell *matCellDef="let element" tooltip="{{element.ModeloPublicado.Periodo.Descripcion}}" hide-delay="1" >
-               {{ element.ModeloGenerico.Nombre }}
-             </td>
-          </ng-container>
-          <ng-container matColumnDef="version">
-            <th style="text-align:center;vertical-align: middle;font-weight: bold;" class="mat-header-cellTabla" mat-header-cell *matHeaderCellDef width="10%"> VERSIÓN </th>
-            <td style="text-align:center;vertical-align: middle;" mat-cell *matCellDef="let element"> {{element.Version}} </td>
-          </ng-container>
-          <ng-container matColumnDef="acciones">
-            <th style="text-align:center;vertical-align: middle;font-weight: bold;" class="mat-header-cellTabla" mat-header-cell *matHeaderCellDef width="10%"> ACCIONES </th>
-              <td style="text-align:center;vertical-align: middle" mat-cell  *matCellDef="let element">
-                <button tooltip="Ver Información" hide-delay="1" placement="top" class="btn btn-sm btn-outline-primary separacion-botones" (click)="_prepararModeloGenericoPublicado(element)">
-                  <i class="fa fa-eye" aria-hidden="true"></i>
-                </button>
-                <button *ngIf="element.ModeloPublicado.Utilizado==0" tooltip="Eliminar" hide-delay="1" placement="top" class="btn btn-sm btn-outline-danger separacion-botones" (click)="_eliminarPublicacionVersionModelo(element)">
-                  <i class="fa fa-remove" aria-hidden="true"></i>
-                </button>
-                <button *ngIf="element.ModeloPublicado.CantidadAsignarParroquiaActivos == 0 && element.ModeloPublicado.Estado == true" tooltip="DesHabilitar" hide-delay="1" placement="top" class="btn btn-sm btn-outline-warning separacion-botones"
-                  (click)="_DesHabilitarModeloPublicad(element)">
-                  <i class="fa fa-minus-square" aria-hidden="true"></i>
-                </button>
-                <button *ngIf="!element.ModeloPublicado.Estado" tooltip="Habilitar" hide-delay="1" placement="top" class="btn btn-sm btn-sm btn-outline-info separacion-botones" (click)="_HabilitarModeloPublicado(element)">
-                  <i class="fa fa-check-square" aria-hidden="true"></i>
-                </button>
+        <div class="example-table-container">
+          <div *ngIf="CargandoTablaModeloPublicadosVerisonados" class="example-loading-shade">
+            <mat-spinner matSuffix></mat-spinner>
+          </div>
+          <table class="col-12" mat-table [dataSource]="_listaVersionesPublicadas">
+            <ng-container matColumnDef="periodo">
+              <th mat-header-cell *matHeaderCellDef> ESTADO </th>
+              <td mat-cell *matCellDef="let element">
+                <i matTooltip="Activo" hide-delay="1" *ngIf="element.Estado" style="color:green" class="fa fa-circle" aria-hidden="true"></i>
+                <i matTooltip="Inactivo" hide-delay="1" *ngIf="!element.Estado" style="color:red" class="fa fa-circle" aria-hidden="true"></i>
               </td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="['periodo','modeloGenerico','version','acciones']"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['periodo','modeloGenerico','version','acciones'];"></tr>
-        </table>
-        <div align="center">
-          <img *ngIf="CargandoTablaModeloPublicadosVerisonados" style="z-index:2;" width="23%" height="30%" src="../../../assets/img/panel/loading-gif-transparent-4.gif" alt="" />
-        </div>
-        <footer id="footer">
+            </ng-container>
+            <ng-container matColumnDef="modeloGenerico">
+              <th style="width:350px;word-wrap: break-word" mat-header-cell *matHeaderCellDef> CARACTERIZACIÓN </th>
+              <td mat-cell *matCellDef="let element" matTooltip="{{element.Periodo.Descripcion}}" hide-delay="1">
+                <div style="width:350px;word-wrap: break-word">
+                  {{ element.CabeceraVersionModelo.ModeloGenerico.Nombre }}
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="version">
+              <th style="width:50px;word-wrap: break-word" mat-header-cell *matHeaderCellDef> VERSIÓN </th>
+              <td mat-cell *matCellDef="let element">
+                <div style="text-align:center;width:50px;word-wrap: break-word">
+                  {{element.CabeceraVersionModelo.Version}}
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="acciones">
+              <th style="width:100px;word-wrap: break-word" mat-header-cell *matHeaderCellDef> ACCIONES </th>
+              <td mat-cell *matCellDef="let element">
+                <div style="width:100px;word-wrap: break-word">
+                  <button style="margin-right: 4px;" matTooltip="Ver Información" hide-delay="1" placement="top" class="btn btn-sm btn-outline-primary separacion-botones" (click)="_prepararModeloGenericoPublicado(element)">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                  </button>
+                  <button style="margin-right: 4px;" *ngIf="element.Utilizado==0" matTooltip="Eliminar" hide-delay="1" placement="top" class="btn btn-sm btn-outline-danger separacion-botones" (click)="_eliminarPublicacionVersionModelo(element)">
+                    <i class="fa fa-remove" aria-hidden="true"></i>
+                  </button>
+                  <button style="margin-right: 4px;" *ngIf="element.CantidadAsignarParroquiaActivos == 0 && element.Estado == true" matTooltip="DesHabilitar" hide-delay="1" placement="top" class="btn btn-sm btn-outline-warning separacion-botones"
+                    (click)="_DesHabilitarModeloPublicado(element)">
+                    <i class="fa fa-minus-square" aria-hidden="true"></i>
+                  </button>
+                  <button style="margin-right: 4px;" *ngIf="!element.Estado" matTooltip="Habilitar" hide-delay="1" placement="top" class="btn btn-sm btn-sm btn-outline-info separacion-botones" (click)="_HabilitarModeloPublicado(element)">
+                    <i class="fa fa-check-square" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['periodo','modeloGenerico','version','acciones']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['periodo','modeloGenerico','version','acciones'];"></tr>
+          </table>
           <mat-paginator #paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
-        </footer>
-      </div>
+        </div>
+      </mat-card>
     </div>
   </div>
 </div>
 <br>
-<div align="center">
-  <img style="z-index:2;" *ngIf="CargandoExpansionPanel" WIDTH="30%" HEIGHT="72" src="https://i.pinimg.com/originals/3f/2c/97/3f2c979b214d06e9caab8ba8326864f3.gif" alt="" />
-</div>
-<div *ngIf="MatAccordionParroquia" align="center">
-  <img align="middle" style="z-index:2;" width="15%" height="20%" src="../../../assets/img/panel/loading-horizontal.gif" alt="" />
-</div>
-<div class="container" *ngIf="_verAsignarParroquia">
-  <mat-accordion>
-    <mat-expansion-panel class="mat-elevation-z7" expanded>
-      <mat-expansion-panel-header>
-        <mat-panel-title>{{Caracterizacion}}</mat-panel-title>
-        <mat-panel-description>
-          PERIODO : {{Periodo}} (VERSION {{Version}} )
-        </mat-panel-description>
-        <mat-spinner *ngIf="CargandoExpansionPanelHeader" diameter="20" matSuffix></mat-spinner>
-      </mat-expansion-panel-header>
-      <div class="row">
-        <div class="col-lg-5 col-md-5 mr-auto">
-          <form [formGroup]="formLugares" (ngSubmit)="_insertarAsignarParroquiaVersionCaracterizacion()">
-            <mat-card class="mat-elevation-z7">
-              <mat-accordion>
-                <mat-expansion-panel expanded>
-                  <mat-expansion-panel-header>
-                    <mat-panel-title>ASIGNAR PARROQUIA</mat-panel-title>
-                  </mat-expansion-panel-header>
-                  <mat-form-field class="gpm-universal-width ">
-                    <mat-label>Provincia</mat-label>
-                    <mat-select [formControl]="formLugares_cmbProvincia" (selectionChange)="_cantonesDeUnaProvincia($event.value)">
-                      <mat-option *ngFor="let item of _listaProvincias" [value]="item.IdProvinciaEncriptado">
-                        {{item.NombreProvincia}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field class="gpm-universal-width ">
-                    <mat-label>Cantón</mat-label>
-                    <mat-select [formControl]="formLugares_cmbCanton" (selectionChange)="_parroquiasDeUnCanton($event.value)">
-                      <mat-option *ngFor="let item of _listaCantones" [value]="item.IdCantonEncriptado">
-                        {{item.NombreCanton}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field class="gpm-universal-width ">
-                    <mat-label>Parroquia</mat-label>
-                    <mat-select [formControl]="formLugares_cmbParroquia" (selectionChange)="_comunidadesDeUnaParroquia($event.value)">
-                      <mat-option *ngFor="let item of _listaParroquias" [value]="item.IdParroquiaEncriptado">
-                        {{item.NombreParroquia}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field class="gpm-universal-width ">
-                    <mat-label>N. COMUNIDADES</mat-label>
-                    <input type="text" readonly matInput placeholder="Numero Comunidades" [formControl]="formLugares_NComunidad">
-                  </mat-form-field>
-                </mat-expansion-panel>
-              </mat-accordion>
-              <br>
-              <button [disabled]="formLugares.invalid" mat-button class="btn btn-primary btn-block">
-                <i class="fa fa-plus"></i>
-              </button>
-            </mat-card>
-          </form>
-        </div>
-        <div class="col-lg-7 col-md-7 mr-auto">
-          <div style="height: 100% !important;" class="mat-elevation-z7">
-            <br>
-            <div class="col-12">
-              <mat-form-field class="gpm-input">
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
-              </mat-form-field>
-            </div>
-            <table class="col-12" mat-table [dataSource]="_ListaAsignarModeloGenericoParroquias">
-              <ng-container matColumnDef="lugar">
-                <th style="text-align:center;vertical-align: middle;font-weight: bold;" mat-header-cell *matHeaderCellDef> LUGAR </th>
-                <td mat-cell *matCellDef="let element">{{element.Parroquia.Canton.Provincia.NombreProvincia}} -> {{ element.Parroquia.Canton.NombreCanton}} -> {{ element.Parroquia.NombreParroquia}}</td>
-              </ng-container>
-              <ng-container matColumnDef="acciones">
-                <th style="text-align:center;vertical-align: middle;font-weight: bold;" colspan="4" mat-header-cell *matHeaderCellDef> ACCIONES </th>
-                <ng-container *matCellDef="let element">
-                  <ng-container>
-                    <td mat-cell>
-                      <button tooltip="Asignar Responsable" placement="top" class="btn btn-sm btn-outline-warning" (click)=asignarResponsable(element)>
-                        <i class="fa fa-user-o" aria-hidden="true"></i>
-                      </button>
-                    </td>
-                    <td mat-cell>
-                      <button tooltip="Eliminar" placement="top" class="btn btn-sm btn-outline-danger separacion-botones" (click)="_eliminarModeloVersionPublicadoParroquia(element)">
-                        <i class="fa fa-remove" aria-hidden="true"></i>
-                      </button>
-                    </td>
-                    <td mat-cell>
-                      <button tooltip="Vista Previa" placement="top" class="btn btn-sm btn-outline-primary separacion-botones" (click)="vistaPrevia(element)">
-                        <i class="fa fa-eye" aria-hidden="true">
-                        </i>
-                      </button>
-                    </td>
-                    <td mat-cell>
-                      <button *ngIf="element.Estado" tooltip="DesHabilitar" placement="top" class="btn btn-sm btn-outline-warning separacion-botones" (click)="_DesHabilitarModeloGenericoParroquia(element)">
-                        <i class="fa fa-minus-square" aria-hidden="true"></i>
-                      </button>
-                      <button *ngIf="!element.Estado && estadoVersionPublicada==true" tooltip="Habilitar" placement="top" class="btn btn-sm btn-outline-info separacion-botones" (click)="_HabilitarModeloGenericoParroquia(element)">
-                        <i class="fa fa-check-square" aria-hidden="true"></i>
-                      </button>
-                    </td>
-                  </ng-container>
-                </ng-container>
-              </ng-container>
-              <tr mat-header-row *matHeaderRowDef="['lugar','acciones']"></tr>
-              <tr mat-row *matRowDef="let row; columns: ['lugar','acciones'];"></tr>
-            </table>
-            <mat-paginator #paginator1 [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
-            <br>
-            <div align="center">
-              <img style="z-index:2;" *ngIf="CargandoTablaAsignarParroquiaModelo" width="23%" height="30%" src="https://gifimage.net/wp-content/uploads/2017/08/loading-gif-transparent-4.gif" alt="" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </mat-expansion-panel>
-  </mat-accordion>
-</div>

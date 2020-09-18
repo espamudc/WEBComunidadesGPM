@@ -1,23 +1,73 @@
-.LockOn {
-    display: block;
-    visibility: visible;
-    position: absolute;
-    z-index: 999;
-    top: 0px;
-    left: 0px;
-    width: 105%;
-    height: 105%;
-    background-color:white;
-    vertical-align:bottom;
-    padding-top: 20%;
-    filter: alpha(opacity=75);
-    opacity: 0.75;
-    font-size:large;
-    color:blue;
-    font-style:italic;
-    font-weight:400;
-    background-image: url("../../../assets/img/panel/loading-gif-transparent-4.gif");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.example-table-container {
+  position: relative;
+  max-height: 400px;
+  overflow: auto;
+}
+
+.mat-header-cell {
+    font-weight: bold;
+    text-align: center;
+    color: #495057;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+td{
+    text-align: center;
+}
+.mat-dialog-content {
+    display: contents !important;
+}
+:host ::ng-deep .ck-editor__editable_inline {
+    min-height: 250px;
+}
+.mat-dialog-container {
+  display: inline-table !important;
+}
+textarea {
+	font-family: monospace;
+}
+
+form {
+	background: #eee;
+	padding: 1em 1.5em;
+}
+tr:hover {
+    background-color: #cefbe3;
+}
+form label {
+	display: block;
+	font-weight: bold;
+}
+
+form input {
+	width: 30em;
+}
+
+form > div {
+	margin-bottom: 1em;
+}
+
+pre {
+	word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+p.alert {
+	color: orange;
+}
+
+p.alert::before {
+	content: "⚠️ ";
 }
