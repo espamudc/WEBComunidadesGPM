@@ -89,7 +89,7 @@ export class LlenarCaracterizacionComponent implements OnInit {
   }
   generarReporte(element) {
     console.log(this.formCaracterizacion_CmbVersion.value)
-    window.open("http://localhost:55585/Caracterizacion/Caracterizacion?Encuesta="+element.IdCabeceraRespuestaEncriptado+"&Caracterizacion="+this.formCaracterizacion_CmbVersion.value.CabeceraVersionModelo.IdCabeceraVersionModeloEncriptado);
+    window.open("http://localhost:55584/Caracterizacion/Caracterizacion?Encuesta="+element.IdCabeceraRespuestaEncriptado+"&Caracterizacion="+this.formCaracterizacion_CmbVersion.value.CabeceraVersionModelo.IdCabeceraVersionModeloEncriptado);
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
