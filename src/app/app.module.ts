@@ -186,7 +186,8 @@ import { PreguntasSeleccionadasComponent } from './components/preguntas-seleccio
     MatStepperModule,
     MatTooltipModule,
     DragDropModule,
-     CKEditorModule,
+    CKEditorModule,
+    MatTreeModule
   ],
   entryComponents: [
     ModalDetallePersonaComponent,
