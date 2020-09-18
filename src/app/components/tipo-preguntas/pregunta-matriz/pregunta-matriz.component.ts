@@ -37,20 +37,22 @@ export class PreguntaMatrizComponent implements OnInit {
       _idOpcionUnoMatriz : new FormControl(''),
       _idOpcionUnoMatrizEncriptado : new FormControl(''),
       _idPreguntaEncriptado : new FormControl('',[Validators.required]),
-      _descripcion : new FormControl('',[Validators.required]),
+      _descripcion : new FormControl('',[Validators.required,Validators.minLength(1)]),
     });
     this.formPreguntaOpcionDosMatriz = new FormGroup({
       _idOpcionDosMatriz : new FormControl(''),
       _idOpcionDosMatrizEncriptado : new FormControl(''),
       _idPreguntaEncriptado : new FormControl('',[Validators.required]),
-      _descripcion : new FormControl('',[Validators.required]),
+      _descripcion : new FormControl('',[Validators.required,Validators.minLength(1)]),
     });
   }
-
+  idPreguntaencriptada="";
   ngOnInit() {
     this._consultarPreguntaConfigurarMatriz();
     this._consultarOpcionUnoMatriz();
-    this.formPreguntaOpcionUnoMatriz.get("_idPreguntaEncriptado").setValue(this.item.IdPreguntaEncriptado);
+    this.idPreguntaencriptada = this.item.IdPreguntaEncriptado;
+    this.formPreguntaOpcionUnoMatriz.get("_idPreguntaEncriptado").setValue(this.idPreguntaencriptada);
+    this.formPreguntaOpcionDosMatriz.get("_idPreguntaEncriptado").setValue(this.idPreguntaencriptada);
   }
 
   @Input() item :any ={};
@@ -138,6 +140,8 @@ export class PreguntaMatrizComponent implements OnInit {
         this.formPreguntaOpcionUnoMatriz.reset();
         this._consultarOpcionUnoMatriz();
         this._consultarPreguntaConfigurarMatriz();
+        this.formPreguntaOpcionUnoMatriz.get("_idPreguntaEncriptado").setValue(this.idPreguntaencriptada);
+        this.formPreguntaOpcionDosMatriz.get("_idPreguntaEncriptado").setValue(this.idPreguntaencriptada);
       }else if (data['http']['codigo']=='500') {
         this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       } else {
@@ -149,23 +153,25 @@ export class PreguntaMatrizComponent implements OnInit {
 
     });
   }
-  
 
   // @ViewChild('tablaOpcionUno',{static:false}) tablaOpcionUno:MatTable<any>
   _listaPreguntaConfigurarMatriz:any[]=[];
+  _PreguntaConfigurarMatriz:any[];
   _consultarPreguntaConfigurarMatriz(){
-    console.log(this.item.IdPreguntaEncriptado);
-    
+
     this.preguntaMatrizService._consultarPreguntaConfigurarMatriz(this.item.IdPreguntaEncriptado)
       .then(data=>{
+    
         if (data['http']['codigo']=='200') {
-          console.log("matriz-->",data['respuesta']);
+       
+          this._PreguntaConfigurarMatriz = data['respuesta1'];
           this._listaPreguntaConfigurarMatriz=data['respuesta'];
           this._vistaPreguntaConfigurarMatriz();
         } else {
           
         }
       }).catch(error=>{
+     
 
       }).finally(()=>{
         this._vistaPreguntaConfigurarMatriz();
@@ -173,7 +179,6 @@ export class PreguntaMatrizComponent implements OnInit {
   }
 
   _insertarPreguntaConfigurarMatriz(){
-    // this._listaOpcionUnoMatriz.map((element,index)=>{
       
       this.preguntaMatrizService._insertarPreguntaConfigurarMatriz(
         this.item.IdPreguntaEncriptado,
@@ -184,7 +189,8 @@ export class PreguntaMatrizComponent implements OnInit {
           this.formPreguntaOpcionUnoMatriz.reset();
           this._consultarOpcionUnoMatriz();
           this._consultarPreguntaConfigurarMatriz();
-          //this._vistaPreguntaConfigurarMatriz();
+          this.formPreguntaOpcionUnoMatriz.get("_idPreguntaEncriptado").setValue(this.idPreguntaencriptada);
+          this.formPreguntaOpcionDosMatriz.get("_idPreguntaEncriptado").setValue(this.idPreguntaencriptada);
         }else if (data['http']['codigo']=='500') {
           this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
@@ -227,8 +233,7 @@ export class PreguntaMatrizComponent implements OnInit {
         unicosOpcionDos.push(element);
       }
     });
-    
-
+    console.log("sdasd",this.ColumnsOpcionDosMatriz)
     this.ColumnsOpcionDosMatriz = unicosOpcionDos;
 
     console.log("unicosOpcionDos",unicosOpcionDos);
@@ -236,7 +241,6 @@ export class PreguntaMatrizComponent implements OnInit {
 
     
   }
-  
   _eliminarPreguntaOpcionDos(_item){
     
     this.preguntaMatrizService._eliminarPreguntaMatrizOpcionDos(_item.IdOpcionDosMatrizEncriptado)
@@ -261,7 +265,6 @@ export class PreguntaMatrizComponent implements OnInit {
   }
 
   _eliminarPreguntaOpcionUno(_item){
-    // debugger
     this.preguntaMatrizService._eliminarPreguntaMatrizOpcionUno(_item.IdOpcionUnoMatrizEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {

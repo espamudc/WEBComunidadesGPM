@@ -1,7 +1,10 @@
+
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PreguntaSeleccionService } from 'src/app/services/tipo-preguntas/pregunta-seleccion.service';
 import { MatSnackBar } from '@angular/material';
+import { ModalEncajonamientoComponent } from "src/app/components/modal-encajonamiento/modal-encajonamiento.component";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: 'app-pregunta-seleccion',
@@ -11,6 +14,7 @@ import { MatSnackBar } from '@angular/material';
 export class PreguntaSeleccionComponent implements OnInit {
 
   constructor(
+    private dialog: MatDialog,
     private snackBarComponent: MatSnackBar,
     private preguntaSeleccionService:PreguntaSeleccionService) {
     this.formPreguntaTipoSeleccion = new FormGroup({
@@ -65,6 +69,7 @@ export class PreguntaSeleccionComponent implements OnInit {
   
   _listaOpcionesPreguntaSeleccion:any[]=[];
   _consultarPreguntasSeleccion(){
+    this.estado= "Ingresar";
     this.preguntaSeleccionService._consultarOpcionPreguntaSeleccion(
       this.item.IdPreguntaEncriptado
     ).then(data=>{
@@ -79,6 +84,24 @@ export class PreguntaSeleccionComponent implements OnInit {
 
     }).finally(()=>{
 
+    });
+  }
+  _validarForm() {
+    if (this.estado === "Ingresar") {
+      this._insertarPreguntaSeleccion();
+    }
+    else if (this.estado === "Editar") {
+      this._editarPreguntaSeleccion();
+    }
+  }
+
+  encajonar(_seleccion: any) {
+    let dialogRef = this.dialog.open(ModalEncajonamientoComponent, {
+      width: '1000px',
+      height: 'auto',
+      data: {
+        _seleccion: _seleccion
+      }
     });
   }
 
@@ -102,6 +125,28 @@ export class PreguntaSeleccionComponent implements OnInit {
       
     }).finally(()=>{});
   }
+
+  _editarPreguntaSeleccion() {
+    this.preguntaSeleccionService._editarOpcionPreguntaSeleccion(
+      this.formPreguntaTipoSeleccion.get("_idPreguntaEncriptado").value,
+      this.formPreguntaTipoSeleccion.get("_idOpcionPreguntaSeleccion").value,
+      this.formPreguntaTipoSeleccion.get("_descripcion").value
+    ).then(data=>{
+      
+      if (data['http']['codigo']=="200") {
+        this.formPreguntaTipoSeleccion.reset();
+        this._consultarPreguntasSeleccion();
+      }else if (data['http']['codigo']=='500') {
+        this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+      }else{
+        this.mensaje(data['http']['mensaje']);
+      }
+    }).catch(error=>{
+      console.log(error);
+      
+    }).finally(()=>{});
+  }
+
   _eliminarPreguntasSeleccion(_item){
     // this.preguntaSeleccionService
     this.preguntaSeleccionService._eliminarOpcionPreguntaSeleccion(_item.IdOpcionPreguntaSeleccionEncriptado)
@@ -114,6 +159,21 @@ export class PreguntaSeleccionComponent implements OnInit {
           this.mensaje(data['http']['mensaje'])
         }
       }).catch(error=>{}).finally(()=>{});
+  }
+estado= "Ingresar";
+_IdPreguntaEncriptado= "";
+_Descripcion="";
+
+  _prepararPreguntasSeleccion(_item: any){
+    this.estado="Editar";
+    console.log(_item)
+
+    this._IdPreguntaEncriptado= _item.Pregunta.IdPreguntaEncriptado;
+    this._Descripcion= _item.Descripcion;
+    this.formPreguntaTipoSeleccion.get("_idPreguntaEncriptado").setValue(_item.Pregunta.IdPreguntaEncriptado);
+    this.formPreguntaTipoSeleccion.get("_idOpcionPreguntaSeleccion").setValue(_item.IdOpcionPreguntaSeleccionEncriptado);
+    this.formPreguntaTipoSeleccion.get("_descripcion").setValue(_item.Descripcion);
+
   }
 
 }

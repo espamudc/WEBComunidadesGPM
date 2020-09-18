@@ -4,6 +4,9 @@ import { TipoUsuarioService } from 'src/app/services/tipo-usuario.service';
 import { AsignarUsuarioTipoUsuarioService } from 'src/app/services/asignar-usuario-tipo-usuario.service';
 import { FormGroup, FormControl,Validators } from '@angular/forms';
 import { AsignarResponsableCuestionarioGenericoService } from 'src/app/services/asignar-responsable-cuestionario-generico.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-modal-asignar-responsable-cuestionario-generico',
@@ -41,6 +44,13 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
     console.log(this.data);
     this._consultarTiposUsuarios();
     this._consultarAsignados();
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
@@ -72,6 +82,9 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
   @ViewChild(MatTable,{static:false}) MatTableAsignarResponsables : MatTable<any>;
 
   Columns: string[] = ['nombre','apellido','numeroidentificacion' ,'usuario', 'acciones'];
+  dataSource = new MatTableDataSource();
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   _validarAccionForm(){
     if (this._btnAccion=="Guardar") {
@@ -145,6 +158,7 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
           console.log(
           data['respuesta']);
           this._listaUsuariosAsignados = data['respuesta'];
+          this.dataSource.data = this._listaUsuariosAsignados
           this.MatTableAsignarResponsables.renderRows();
         }else{
           console.log(data['http']);

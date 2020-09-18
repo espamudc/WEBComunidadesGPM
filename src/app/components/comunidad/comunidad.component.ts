@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, Form, } from '@angular/forms';
 import { Parroquia } from 'src/app/interfaces/parroquia/parroquia';
 import { Comunidad } from 'src/app/interfaces/comunidad/comunidad';
@@ -6,9 +7,20 @@ import { PanelAdministracionService } from 'src/app/services/panel-administracio
 import { PersonaService } from 'src/app/services/persona.service';
 import sweetalert from 'sweetalert';
 import { ParroquiaComponent } from '../parroquia/parroquia.component';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 import { LugaresService } from 'src/app/services/lugares.service';
 import { MatTable, MatDialog, MatSnackBar } from '@angular/material';
 import { ModalLugarRepresentanteComponent } from '../modal-lugar-representante/modal-lugar-representante.component';
+import { toBase64String } from '@angular/compiler-cli/node_modules/source-map/lib/base64';
+import { encode } from 'punycode';
+import { utf8Encode } from '@angular/compiler/src/util';
+
+
 @Component({
   selector: 'app-comunidad',
   templateUrl: './comunidad.component.html',
@@ -16,18 +28,72 @@ import { ModalLugarRepresentanteComponent } from '../modal-lugar-representante/m
 })
 export class ComunidadComponent implements OnInit {
 
+  filterParroquia: string;
+  filteredParroquia: Observable<string[]>;
+  control = new FormControl();
+  parroquias: string[] = [];
+  imgFile:File;
+  dataSource = new MatTableDataSource();
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+ 
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+
   constructor(
     private lugaresService:LugaresService,
-    private modalLugarRepresentante:MatDialog
-    ,private snackBarComponent:MatSnackBar
+    private modalLugarRepresentante:MatDialog,
+    private snackBarComponent:MatSnackBar,
+    private router: Router
   ) {
     
   }
 
-
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     this._consultarParroquias();
     this._consultarComunidades();
+    this.filtroParroquias();
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  filtroParroquias() {
+    this.filteredParroquia = this.control.valueChanges.pipe(
+      startWith(''),
+      map(value => value.length >= 1 ? this._filter(value) : [])
+    );
+  }
+  private _filter(value: string): string[] {
+    const filterValue = this._normalizeValue(value);
+    return this.parroquias.filter(parroquia => this._normalizeValue(parroquia).includes(filterValue));
+  }
+
+  private _normalizeValue(value: string): string {
+    return value.toLowerCase().replace(/\s/g, '');
+  }
+
+  onSelectionChanged(event: MatAutocompleteSelectedEvent, nombre: any) {
+    this._listaParroquias.forEach(element => {
+      if (element.NombreParroquia == nombre) {
+          this._nombreProvincia=element.Canton.Provincia.NombreProvincia;
+          this._nombreCanton=element.Canton.NombreCanton;
+          this._nombreParroquia=element.NombreParroquia;
+          this._idCantonEncriptado=element.Canton.IdCantonEncriptado;
+          this._idProvinciaEncriptado=element.Canton.Provincia.IdProvinciaEncriptado;
+          this._idParroquiaEncriptado=element.IdParroquiaEncriptado;
+      }
+    });
   }
 
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
@@ -61,7 +127,7 @@ export class ComunidadComponent implements OnInit {
   _codigoComunidad="";
   _nombreComunidad="";
   _descripcionComunidad="";
-  _rutaLogoComunidad="";
+  _rutaLogoComunidad: FileReader;
 
   _btnAccion="Guardar";
 
@@ -83,7 +149,7 @@ export class ComunidadComponent implements OnInit {
     this._codigoComunidad="";
     this._nombreComunidad="";
     this._descripcionComunidad="";
-    this._rutaLogoComunidad="";
+    //this._rutaLogoComunidad="";
 
     this._btnAccion = "Guardar";
     this._validar = true;
@@ -153,7 +219,7 @@ export class ComunidadComponent implements OnInit {
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaComunidades=data['respuesta'];
-          console.log(this._listaComunidades);
+          this.dataSource.data = this._listaComunidades;
 
         }else if (data['http']['codigo']=='500') {
           this.mensaje("A ocurrido un error inesperado, intente más tarde.")
@@ -168,13 +234,58 @@ export class ComunidadComponent implements OnInit {
       });
   }
 
+  onChange(event) {
+    let file = event.srcElement.files;
+    let postData = {field1:"field1", field2:"field2"}; // Put your form data variable. This is only example.
+    console.log(event.base)
+    this.postWithFile(event.baseUrl + "add-update",postData,file).then(result => {
+        console.log(result);
+    });
+  }
+
+  postWithFile (url: string, postData: any, files: File[]) {
+
+    let headers = new Headers();
+    let formData:FormData = new FormData();
+    formData.append('files', files[0], files[0].name);
+    // For multiple files
+    // for (let i = 0; i < files.length; i++) {
+    //     formData.append(`files[]`, files[i], files[i].name);
+    // }
+
+    if(postData !=="" && postData !== undefined && postData !==null){
+      for (var property in postData) {
+          if (postData.hasOwnProperty(property)) {
+              formData.append(property, postData[property]);
+          }
+      }
+    }
+    var returnReponse = new Promise((resolve, reject) => {
+      
+    });
+    return returnReponse;
+  }
+
+  uploadFile(event) {
+    debugger
+   this.imgFile = (event.target as HTMLInputElement).files[0];
+   
+  }
+
   _ingresarComunidad(){
+   //const fd = new FormData();
+    //fd.append('File',  this._rutaLogoComunidad);
+  //  const request = new XMLHttpRequest();
+    // request.open('POST', '../../../../img/');
+    // request.send(fd);
+    debugger
+   // const file = (event.target as HTMLInputElement).files[0];
 
     this.lugaresService._insertarComunidad(
       this._codigoComunidad,
       this._nombreComunidad,
       this._descripcionComunidad,
-      this._rutaLogoComunidad,
+      this.imgFile,
       this._idParroquiaEncriptado,
       this._idCantonEncriptado,
       this._idProvinciaEncriptado,
@@ -197,6 +308,31 @@ export class ComunidadComponent implements OnInit {
     }).finally(()=>{
 
     });
+  }
+
+  // onFileChange(event) {
+  //   if (event.target.files.length > 0) {
+  //     const file = event.target.files[0];
+  //     this.file = file;
+  //   }
+  // }
+
+
+
+
+  dataURLtoFile(dataurl, filename) {
+ console.log(dataurl)
+      let arr = dataurl.split(','),
+          mime = arr[0].match(/:(.*?);/)[1],
+          bstr = atob(arr[1]), 
+          n = bstr.length, 
+          u8arr = new Uint8Array(n);
+          
+      while(n--){
+          u8arr[n] = bstr.charCodeAt(n);
+      }
+      
+      return new File([u8arr], filename, {type:mime});
   }
 
   _modificarComunidad(){
@@ -315,6 +451,11 @@ export class ComunidadComponent implements OnInit {
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaParroquias=data['respuesta'];
+          this.parroquias.length = 0;
+          for (let index = 0; index < this._listaParroquias.length; index++) {
+            this.parroquias.push(this._listaParroquias[index].NombreParroquia);
+          }
+          this.filtroParroquias();
         }else{
           console.log(data['http']);
         }
@@ -325,6 +466,8 @@ export class ComunidadComponent implements OnInit {
         // this._listaParroquias.sort();
       });
   }
+
+  
 
   _verRepresentante(_item){
     let dialogRef = this.modalLugarRepresentante.open(ModalLugarRepresentanteComponent, {

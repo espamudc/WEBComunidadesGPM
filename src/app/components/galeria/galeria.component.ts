@@ -1,4 +1,5 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormGroup, FormControl, Validators, Form, FormBuilder } from '@angular/forms';
 import { CaracterizacionService } from 'src/app/services/caracterizacion.service';
@@ -14,6 +15,7 @@ export class GaleriaComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
+    private router: Router,
     private dialogRef: MatDialogRef<GaleriaComponent>,
     private CaracterizacionService: CaracterizacionService,
     private snackBarComponent: MatSnackBar,
@@ -65,7 +67,13 @@ export class GaleriaComponent implements OnInit {
     }
     let snackBarRef = this.snackBarComponent.open(_mensaje, null, { duration: _duracion, panelClass: ['text-white', `${_color}`], data: {} });
   }
+
+  tipoUsurio='';
   ngOnInit() {
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     //var BrowserWindow = this._electronService.remote.BrowserWindow;
     this.mostrarCarpeta();
   }

@@ -11,6 +11,20 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
 
   private _header = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
+  
+  _consultarPreguntasCuestionario(_idCuestionarioEncriptado){
+    const _body = new HttpParams();
+   
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'pregunta_consultarporidcuestionario?_idCuestionarioEncriptado='+_idCuestionarioEncriptado,_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                }); 
+    });
+  }
+
   _consultarPreguntasSeccionComponenteCuestionarioGenerico(_idSeccionEncriptado){
     const _body = new HttpParams();
     //debugger
@@ -21,11 +35,40 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
                   resolve(res);
                 },(err)=>{
                   reject(err);
-                });
+                }); 
     });
   }
 
-  
+  _seleccionarPreguntas(
+    IdPreguntaEncriptado
+  ){
+    const _body = new HttpParams()
+     ;
+
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'seleccionar_preguntas?_IdPreguntaEncriptado='+IdPreguntaEncriptado,_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+
+  }
+
+  _consultarPreguntasSeccionComponenteCuestionarioGenericoFiltrado(idSeccion, idTipoPregunta){
+    const _body = new HttpParams();
+    //debugger
+   
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'pregunta_consultarporidseccionFiltrado?_idSeccionEncriptado='+idSeccion+'&_idTipoPreguntaEncriptado='+idTipoPregunta,_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
   _consultarPreguntasSeleccionUnicaPorSeccion(_idSeccionEncriptado){
     const _body = new HttpParams();   
     return new Promise((resolve, reject) => {
@@ -44,6 +87,9 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
       _Descripcion,
       _Orden,
       _Obligatorio,
+      _leyendaSuperior,
+      _leyendaLateral,
+      _observacion
     ){
     const _body = new HttpParams()
     .set("TipoPregunta.IdTipoPreguntaEncriptado",_IdTipoPreguntaEncriptado)
@@ -51,6 +97,9 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
     .set("Descripcion",_Descripcion)
     .set("Obligatorio",_Obligatorio)
     .set("Orden",_Orden)
+    .set("leyendaSuperior",_leyendaSuperior)
+    .set("leyendaLateral",_leyendaLateral)
+    .set("Observacion",_observacion)
     ;
     
     return new Promise((resolve, reject) => {
@@ -67,6 +116,9 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
       _IdTipoPreguntaEncriptado,
       _IdSeccionEncriptado,
       _Descripcion,
+      _leyendaSuperior,
+      _leyendaLateral,
+      _Observacion,
       _Orden,
       _Obligatorio,
     ){
@@ -75,8 +127,12 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
       .set("TipoPregunta.IdTipoPreguntaEncriptado",_IdTipoPreguntaEncriptado)
       .set("Seccion.IdSeccionEncriptado",_IdSeccionEncriptado)
       .set("Descripcion",_Descripcion)
-      .set("Obligatorio",_Obligatorio)
+      .set("leyendaSuperior",_leyendaSuperior)
+      .set("leyendaLateral",_leyendaLateral)
+      .set("Observacion",_Observacion)
       .set("Orden",_Orden)
+      .set("Obligatorio",_Obligatorio)
+      
     ;
     
     return new Promise((resolve, reject) => {
@@ -88,6 +144,109 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
                 });
     });
   }
+
+  _subirPreguntaSeccionComponenteCuestionarioGenerico(
+    _IdPreguntaEncriptado,
+  ){
+  const _body = new HttpParams()
+    .set("IdPreguntaEncriptado",_IdPreguntaEncriptado)
+  ;
+  
+  return new Promise((resolve, reject) => {
+    this.http.post(url+'subir_pregunta',_body.toString(),{headers:this._header})
+              .subscribe(res=>{
+                resolve(res);
+              },(err)=>{
+                reject(err);
+              });
+  });
+}
+
+_subirComponenteCuestionarioGenerico(
+  _IdComponenteEncriptado,
+){
+const _body = new HttpParams()
+  .set("IdComponenteEncriptado",_IdComponenteEncriptado)
+;
+
+return new Promise((resolve, reject) => {
+  this.http.post(url+'subir_componente',_body.toString(),{headers:this._header})
+            .subscribe(res=>{
+              resolve(res);
+            },(err)=>{
+              reject(err);
+            });
+});
+}
+
+_subirSeccionCuestionarioGenerico(
+  _IdSeccionEncriptado,
+){
+const _body = new HttpParams()
+  .set("IdSeccionEncriptado",_IdSeccionEncriptado)
+;
+
+return new Promise((resolve, reject) => {
+  this.http.post(url+'subir_seccion',_body.toString(),{headers:this._header})
+            .subscribe(res=>{
+              resolve(res);
+            },(err)=>{
+              reject(err);
+            });
+});
+}
+
+_bajarSeccionCuestionarioGenerico(
+  _IdSeccionEncriptado,
+){
+const _body = new HttpParams()
+  .set("IdSeccionEncriptado",_IdSeccionEncriptado)
+;
+
+return new Promise((resolve, reject) => {
+  this.http.post(url+'bajar_seccion',_body.toString(),{headers:this._header})
+            .subscribe(res=>{
+              resolve(res);
+            },(err)=>{
+              reject(err);
+            });
+});
+}
+
+_bajarComponenteCuestionarioGenerico(
+  _IdComponenteEncriptado,
+){
+const _body = new HttpParams()
+  .set("IdComponenteEncriptado",_IdComponenteEncriptado)
+;
+
+return new Promise((resolve, reject) => {
+  this.http.post(url+'bajar_componente',_body.toString(),{headers:this._header})
+            .subscribe(res=>{
+              resolve(res);
+            },(err)=>{
+              reject(err);
+            });
+});
+}
+
+_bajarPreguntaSeccionComponenteCuestionarioGenerico(
+  _IdPreguntaEncriptado,
+){
+const _body = new HttpParams()
+  .set("IdPreguntaEncriptado",_IdPreguntaEncriptado)
+;
+
+return new Promise((resolve, reject) => {
+  this.http.post(url+'bajar_pregunta',_body.toString(),{headers:this._header})
+            .subscribe(res=>{
+              resolve(res);
+            },(err)=>{
+              reject(err);
+            });
+});
+}
+
   _eliminarPreguntasSeccionComponenteCuestionarioGenerico(
     _IdPreguntaEncriptado
     ){

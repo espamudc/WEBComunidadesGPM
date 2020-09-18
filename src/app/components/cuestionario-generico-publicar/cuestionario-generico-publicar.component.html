@@ -70,40 +70,63 @@
                 </mat-card>
             </form>
         </div>
-        <div class="col-lg-7 col-md-7">
-            <div style="height: 100% !important;" class="mat-elevation-z7">
+        <div class="col-lg-7 col-md-7 mr-auto">
+            <div class="Columns mat-elevation-z5 gpm-universal-heigth">
                 <br>
                 <div class="col-12">
                     <mat-form-field class="gpm-input">
-                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar cuestionario..."
+                            autocomplete="off">
                     </mat-form-field>
                 </div>
+    
                 
 
-                <table mat-table [dataSource]="_listaCuestionariosPublicados">
+                <table mat-table [dataSource]="dataSource" matSort>
                     <ng-container matColumnDef="periodo">
-                        <th mat-header-cell *matHeaderCellDef> PERIODO </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> PERIODO </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.Periodo.FechaFin | date: 'yyyy-MM-dd'}} </td>
                         <td mat-cell *matCellDef="let element"> {{ element.Periodo.Descripcion }} </td>
                     </ng-container>
                     <ng-container matColumnDef="fecha_publicacion">
-                        <th mat-header-cell *matHeaderCellDef> FECHA DE PUBLICACIÓN </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA DE PUBLICACIÓN </th>
                         <td mat-cell *matCellDef="let element"> {{ element.FechaPublicacion | date: 'yyyy-MM-dd' }} 
                             </td>
                     </ng-container>
                     <ng-container matColumnDef="cuestionario">
-                        <th mat-header-cell *matHeaderCellDef> CUESTIONARIO </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> CUESTIONARIO </th>
                         <td mat-cell *matCellDef="let element"> {{ element.CabeceraVersionCuestionario.AsignarResponsable.CuestionarioGenerico.Nombre }} </td>
                     </ng-container>
                     <ng-container matColumnDef="cuestionario_version">
-                        <th mat-header-cell *matHeaderCellDef> VERSIÓN </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> VERSIÓN </th>
                         <td mat-cell *matCellDef="let element"> {{element.CabeceraVersionCuestionario.Version}} </td>
                     </ng-container>
                     <ng-container matColumnDef="acciones">
-                        <th colspan="2" mat-header-cell *matHeaderCellDef> ACCIONES </th>
+                        <th colspan="2" mat-header-cell *matHeaderCellDef mat-sort-header> ACCIONES </th>
                         <ng-container *matCellDef="let element">
                             <ng-container >
+
                                 <td mat-cell>
-                                    <button tooltip="Ver Información" placement="top"
+                                    <button tooltip="Deshabilitar" placement="top" *ngIf="element.Estado==true"
+                                        class="btn btn-sm btn-outline-primary separacion-botones"
+                                        value="{{element.IdCuestionarioPublicadoEncriptado}}" (click)="_deshabilitar_cuestionarioPublicado(element)">
+                                        <i class="fa fa-power-off" aria-hidden="true"></i>
+                                    </button>
+                                    <button tooltip="Habilitar" placement="top" *ngIf="element.Estado==false"
+                                        class="btn btn-sm btn-outline-primary separacion-botones"
+                                        value="{{element.IdCuestionarioPublicadoEncriptado}}" (click)="_deshabilitar_cuestionarioPublicado(element)">
+                                        <i class="fa fa-power-off" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+
+                                <td mat-cell>
+                                    <button style="color: red; border-color: red;" tooltip="Ver Información" placement="top" *ngIf="element.Estado==false"
+                                        class="btn btn-sm btn-outline-primary separacion-botones" disabled
+                                        value="{{element.IdCuestionarioPublicadoEncriptado}}"
+                                        (click)="_prepararCuestionarioPublicado(element)">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </button>
+                                    <button tooltip="Ver Información" placement="top" *ngIf="element.Estado==true"
                                         class="btn btn-sm btn-outline-primary separacion-botones"
                                         value="{{element.IdCuestionarioPublicadoEncriptado}}"
                                         (click)="_prepararCuestionarioPublicado(element)">
@@ -128,15 +151,16 @@
                             </ng-container>
                         </ng-container>
                     </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="Columns; "></tr>
-                    <tr mat-row *matRowDef="let row; columns: Columns;"></tr>
+                    <tr mat-header-row *matHeaderRowDef="tablaCuestionarios"></tr>
+                    <tr mat-row *matRowDef="let row; columns: tablaCuestionarios;"></tr>
                 </table>
+                <mat-paginator [pageSizeOptions]="[4, 8, 16]" showFirstLastButtons></mat-paginator>
             </div>
         </div>
     </div>
 </div>
 <br>
-<div class="container" *ngIf="_verAsignarEncuestado==true">
+<div class="container" *ngIf="_verAsignarEncuestado==true ">
     <mat-accordion>
         <mat-expansion-panel class="mat-elevation-z7" hideToggle>
             <mat-expansion-panel-header (click)="_onExpandPanelAsignarEncuestado()" >
@@ -156,11 +180,11 @@
                                     <mat-expansion-panel-header >
                                         <mat-panel-title>CUESTIONARIO</mat-panel-title>
                                     </mat-expansion-panel-header>
-                                    <mat-form-field class="gpm-form-field ">
-                                        <input [formControl]="formAsignarEncuestado_nombreCuestionarioGenenico" matInput type="text" placeholder="Cuestionario" > 
+                                    <mat-form-field class="gpm-form-field" >
+                                        <input [formControl]="formAsignarEncuestado_nombreCuestionarioGenenico" matInput disabled='true' type="text" placeholder="Cuestionario" > 
                                     </mat-form-field>
                                     <mat-form-field class="gpm-form-field ">
-                                        <input [formControl]="formAsignarEncuestado_versionCuestionarioGenenico" matInput type="text" placeholder="Version">
+                                        <input [formControl]="formAsignarEncuestado_versionCuestionarioGenenico" matInput disabled type="text" placeholder="Version">
                                     </mat-form-field>
                                 </mat-expansion-panel>
                                 <mat-expansion-panel >
@@ -199,7 +223,7 @@
                                     </mat-form-field>
                                     <mat-form-field class="gpm-universal-width ">
                                         <mat-label>Comunidad</mat-label>
-                                        <mat-select [formControl]="formAsignarEncuestado_cmbComunidad"
+                                        <mat-select multiple [formControl]="formAsignarEncuestado_cmbComunidad"
                                             > 
                                             <mat-option *ngFor="let item of _listaComunidades"
                                                 [value]="item.IdComunidadEncriptado">
@@ -244,7 +268,8 @@
                             <mat-checkbox [formControl]="formAsignarEncuestado_obligatorio">Obligatorio</mat-checkbox>
                             <br>
                             <button [disabled]="formAsignarEncuestado.invalid" mat-button class="btn btn-primary btn-block">
-                                <i class="fa fa-plus"></i>
+                                <i *ngIf="guardar"  class="fa fa-plus"> GUARDAR</i>
+                                <i *ngIf="!guardar" class="fa fa-pencil-square-o" aria-hidden="true"> MODIFICAR</i>
                                 <!-- <i class="fa fa-edit"></i> -->
                             </button>
                         </mat-card>
@@ -254,13 +279,14 @@
                     <div style="height: 100% !important;" class="mat-elevation-z7">
                         <br>
                         <div class="col-12">
-                            <mat-form-field class="gpm-input">
-                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
-                            </mat-form-field>
+                            <!-- <mat-form-field class="gpm-input">
+                                <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..."
+                                    autocomplete="off">
+                            </mat-form-field> -->
                         </div>
                         
         
-                        <table mat-table [dataSource]="_listaAsignarEncuestados">
+                        <table mat-table [dataSource]="_listaAsignarEncuestados" matSort>
                             <ng-container matColumnDef="tecnico">
                                 <th mat-header-cell *matHeaderCellDef> TÉCNICO </th>
                                 <td mat-cell *matCellDef="let element"> {{ element.AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.PrimerNombre }} {{ element.AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.PrimerApellido }}</td>
@@ -288,7 +314,7 @@
                                 <td mat-cell *matCellDef="let element"> {{element.CuestionarioPublicado.CabeceraVersionCuestionario.Version}} </td>
                             </ng-container>
                             <ng-container matColumnDef="acciones">
-                                <th colspan="1" mat-header-cell *matHeaderCellDef> ACCIONES </th>
+                                <th colspan="2" mat-header-cell *matHeaderCellDef> ACCIONES </th>
                                 <ng-container *matCellDef="let element">
                                     <ng-container >
                                         <!-- <td mat-cell>
@@ -307,6 +333,14 @@
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </button>
                                         </td> -->
+
+                                        <td mat-cell>
+                                            <button tooltip="Modificar" placement="top"
+                                                class="btn btn-sm btn-outline-info separacion-botones"
+                                                value="{{element.IdAsignarEncuestadoEncriptado}}" (click)="_prepararEncuestador(element)">
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
                                         <td mat-cell>
                                             <button tooltip="Eliminar" placement="top" *ngIf="element.Utilizado==0"
                                                 class="btn btn-sm btn-outline-danger separacion-botones"

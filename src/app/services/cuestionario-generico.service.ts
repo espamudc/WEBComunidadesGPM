@@ -102,4 +102,20 @@ export class CuestionarioGenericoService {
     });
   }
 
+  _cuestionariogenerico_consultarporversion(IdCuestionarioGenericoEncriptado, IdCabeceraVersionCuestionarioEncriptado)
+  {
+    
+    const _body = new HttpParams()
+          ;
+    
+     return new Promise((resolve, reject) => {
+      this.http.post(url+'cuestionariogenerico_consultarporversion?_idCuestionarioGenericoEncriptado='+IdCuestionarioGenericoEncriptado+'&IdCabeceraVersionCuestionarioEncriptado='+IdCabeceraVersionCuestionarioEncriptado,_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
+
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, Form } from '@angular/forms';
 import { LugaresService } from 'src/app/services/lugares.service';
 import { MatTable, MatDialog, MatSnackBar, MatButton } from '@angular/material';
@@ -19,7 +20,8 @@ export class ProvinciaComponent implements OnInit {
   constructor(
     private lugaresService:LugaresService,
     private modalLugarRepresentante:MatDialog,
-    private snackBarComponent:MatSnackBar
+    private snackBarComponent:MatSnackBar,
+    private router: Router
   ) {
     this.formProvincia = new FormGroup({
       _idProvinciaEncriptado  : new FormControl(''),
@@ -33,7 +35,14 @@ export class ProvinciaComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
    this._consultarProvincias();
    this.dataSource.paginator = this.paginator;
    this.dataSource.sort = this.sort;

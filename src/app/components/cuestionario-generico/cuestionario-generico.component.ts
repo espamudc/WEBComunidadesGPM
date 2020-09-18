@@ -1,14 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
+import { Router } from '@angular/router';
+// Functional Components
+import { MatDialog } from "@angular/material/dialog";
 ///----------------------------------------------------
 import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup} from '@angular/forms';
 // import {ErrorStateMatcher} from '@angular/material/core';
 import { CuestionarioGenericoService } from 'src/app/services/cuestionario-generico.service';
-import { MatSnackBar, MatTable, MatTableDataSource, MatDialog } from '@angular/material';
 import { ModalAsignarResponsableCuestionarioGenericoComponent } from '../modal-asignar-responsable-cuestionario-generico/modal-asignar-responsable-cuestionario-generico.component';
 import { AsignarResponsableCuestionarioGenericoService } from 'src/app/services/asignar-responsable-cuestionario-generico.service';
 //---------------------------------------
-
+import { MatTable, MatSnackBar, getMatTooltipInvalidPositionError } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort'; 
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-cuestionario-generico',
@@ -16,7 +20,9 @@ import { AsignarResponsableCuestionarioGenericoService } from 'src/app/services/
   styleUrls: ['./cuestionario-generico.component.css']
 })
 export class CuestionarioGenericoComponent implements OnInit {
-  
+  dataSource = new MatTableDataSource();
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   //------------------------------------------------------------------
   get _nombre(){
     return this.formCuestionarioGenerico.get("_nombre");
@@ -24,12 +30,14 @@ export class CuestionarioGenericoComponent implements OnInit {
   get _descripcion(){
     return this.formCuestionarioGenerico.get("_descripcion");
   }
+
   //-------------------------------------------------------------------
   constructor(
     private cuestionarioGenericoService:CuestionarioGenericoService,
     private modalControllerAsignarResponsableCuestionarioGenerico : MatDialog,
     private asignarResponsableCuestionarioGenericoService:AsignarResponsableCuestionarioGenericoService,
     private snackBarComponent: MatSnackBar,
+    private router: Router
   ) {
 
     this.formCuestionarioGenerico = new FormGroup({
@@ -39,11 +47,18 @@ export class CuestionarioGenericoComponent implements OnInit {
     });
 
   }
-
+  
   formCuestionarioGenerico:FormGroup;
-
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     this._cargarCuestionariosGenericos();
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
@@ -89,13 +104,9 @@ export class CuestionarioGenericoComponent implements OnInit {
     this._btnAccion = "Guardar";
 
   }
-  
-  applyFilter(filterValue: string){
-    // this._listaCuestionariosGenericos.find(data=>dato.) = filterValue.trim().toLocaleLowerCase();
-    //  = filterValue.trim().toLowerCase();
-    // const dataSource : MatTableDataSource<any> = this.MatTableCuestionariosGenericos.dataSource;
-    // dataSource.filter = filterValue.trim().toLowerCase();
-    // this.MatTableCuestionariosGenericos.dataSource = new MatTableDataSource() .filter = filterValue.trim().toLowerCase();
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   @ViewChild(MatTable,{static:false}) MatTableCuestionariosGenericos :MatTable<any>;
@@ -103,8 +114,8 @@ export class CuestionarioGenericoComponent implements OnInit {
     this.cuestionarioGenericoService._consultarCuestionarioGenerioco()
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          
           this._listaCuestionariosGenericos = data['respuesta'];
+          this.dataSource.data =  this._listaCuestionariosGenericos
           console.log(data['http']['codigo']);
           
         }

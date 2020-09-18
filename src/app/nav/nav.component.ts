@@ -25,4 +25,6 @@ export class NavComponent {
       filter(([a, b]) => b && a instanceof NavigationEnd)
     ).subscribe(_ => this.drawer.close());
   }
+
+   tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
 }

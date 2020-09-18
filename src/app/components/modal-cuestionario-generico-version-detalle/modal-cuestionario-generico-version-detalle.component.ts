@@ -15,13 +15,13 @@ export class ModalCuestionarioGenericoVersionDetalleComponent implements OnInit 
   ) { }
 
   ngOnInit() {
-    this._cuestionariogenerico_consultarporidconcomponenteconseccionconpregunta(this._modalData.AsignarResponsable.CuestionarioGenerico.IdCuestionarioGenericoEncriptado);
+    this._cuestionariogenerico_consultarporidconcomponenteconseccionconpregunta(this._modalData.AsignarResponsable.CuestionarioGenerico.IdCuestionarioGenericoEncriptado, this._modalData.IdCabeceraVersionCuestionarioEncriptado);
   }
 
   _cargarCuestionarioGenerico:any={};
-  _cuestionariogenerico_consultarporidconcomponenteconseccionconpregunta(_IdCuestionarioGenericoEncriptado){
+  _cuestionariogenerico_consultarporidconcomponenteconseccionconpregunta(_IdCuestionarioGenericoEncriptado, IdCabeceraVersionCuestionarioEncriptado){
     this._cargarCuestionarioGenerico = {};
-    this.cuestionarioGenericoService._cuestionariogenerico_consultarporidconcomponenteconseccionconpregunta(_IdCuestionarioGenericoEncriptado)
+    this.cuestionarioGenericoService._cuestionariogenerico_consultarporversion(_IdCuestionarioGenericoEncriptado, IdCabeceraVersionCuestionarioEncriptado)
       .then(data=>{
 
         if (data['http']['codigo']=='200') {

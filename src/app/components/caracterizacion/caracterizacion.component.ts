@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { map, startWith } from 'rxjs/operators';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-caracterizacion',
   templateUrl: './caracterizacion.component.html',
@@ -34,6 +35,7 @@ export class CaracterizacionComponent implements OnInit {
     private CaracterizacionService: CaracterizacionService,
     private snackBarComponent: MatSnackBar,
     private dialog: MatDialog,
+    private router: Router
   ) {
     this.formCaracterizacion = new FormGroup({
       _nombre: new FormControl('', [Validators.required]),
@@ -334,7 +336,13 @@ export class CaracterizacionComponent implements OnInit {
       return false;
     }
   }
+
+  tipoUsurio='';
   ngOnInit() {
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     this.consultarModeloGenericoTodos();
     //this._consultarTipoElemento();
     //this._consultar_cuestionarioPublicado();

@@ -6,6 +6,7 @@ import { LoginComponent } from './components/login/login.component';
 import { NavComponent } from './nav/nav.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { PersonaComponent } from './components/persona/persona.component';
+import { PeriodoComponent } from './components/periodo/periodo.component';
 // import { InventarioComponent } from "./components/inventario/inventario.component";
 // import { CompraComponent } from "./components/compra/compra.component";
 // import { VentaComponent } from "./components/venta/venta.component";
@@ -26,6 +27,10 @@ import { ListaCaracterizacionComponent  } from './components/lista-caracterizaci
 import { VersionarCaracterizacionComponent } from './components/versionar-caracterizacion/versionar-caracterizacion.component';
 import { PublicarCaracterizacionComponent } from './components/publicar-caracterizacion/publicar-caracterizacion.component';
 import { LlenarCaracterizacionComponent } from './components/llenar-caracterizacion/llenar-caracterizacion.component';
+import { TreeViewComponent } from './components/tree-view/tree-view.component';
+import { InicioComponent } from './components/inicio/inicio.component';
+import { PreguntasSeleccionadasComponent } from './components/preguntas-seleccionadas/preguntas-seleccionadas.component';
+
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
   { path: 'login', component: LoginComponent },
@@ -48,6 +53,10 @@ const routes: Routes = [
       },
       {
         path: 'panel-administracion', component: PanelAdministracionComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+      {
+        path: 'periodo', component: PeriodoComponent,
         // canActivate: [ValidarUsuarioGuard]
       },
       {
@@ -92,6 +101,18 @@ const routes: Routes = [
       },
       {
         path: 'caracterizacion-llenar', component: LlenarCaracterizacionComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+      {
+        path: 'tree-view', component: TreeViewComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+      {
+        path: 'inicio', component: InicioComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+      {
+        path: 'preguntas-seleccionadas', component: PreguntasSeleccionadasComponent,
         // canActivate: [ValidarUsuarioGuard]
       },
     ]

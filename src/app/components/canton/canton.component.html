@@ -55,12 +55,13 @@
                         <div class="form-group" *ngIf="_btnAccion==='Modificar'">
                             <div class="row">
                                 <div class="col-6">
-                                    <button type="submit" [disabled]="formCanton.invalid"
-                                        class="form-control btn-success">{{_btnAccion}}
+                                    <button mat-button type="submit" [disabled]="formCanton.invalid"
+                                        class="btn btn-primary btn-block">{{_btnAccion}}
+                                         <i class="fa fa-edit"></i>
                                     </button>
                                 </div>
                                 <div class="col-6">
-                                    <button type="button" class="form-control btn-secondary"
+                                    <button mat-button type="button" class="btn btn-block btn-light"
                                         (click)="_limpiarForm()">Refrescar <i class="fa fa-refresh"
                                             aria-hidden="true"></i>
                                     </button>
@@ -70,7 +71,7 @@
                     </form>
                 </mat-card>
                 <br>
-                <mat-card>
+                <!-- <mat-card>
                     <div class="row">
                         <div class="col-12"> <h2 style="text-align: center;">Provincias</h2>  </div>
                     </div>
@@ -101,7 +102,7 @@
                             <tr mat-row *matRowDef="let row; columns: tablaProvincias;"></tr>
                         </table>
                     </div>
-                </mat-card>
+                </mat-card> -->
             </div>
             <div class="col-lg-8 col-md-7">
                 <div class="tablaCantones mat-elevation-z5">
@@ -154,7 +155,7 @@
                         <tr mat-header-row *matHeaderRowDef="tablaCantones; sticky: true"></tr>
                         <tr mat-row *matRowDef="let row; columns: tablaCantones;"></tr>
                     </table>
-                    <mat-paginator [pageSizeOptions]="[3]" showFirstLastButtons></mat-paginator>
+                    <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
                 </div>
             </div>
         </div>

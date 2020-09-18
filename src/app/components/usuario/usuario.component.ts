@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 // Services
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { PersonaService } from 'src/app/services/persona.service';
@@ -38,6 +39,7 @@ export interface UserForm {
   styleUrls: ['./usuario.component.css']
 })
 export class UsuarioComponent implements OnInit {
+  hide = true;
   estadoHidden: boolean = false;
   myForm: FormGroup;
   formUsuario: FormGroup;
@@ -51,7 +53,8 @@ export class UsuarioComponent implements OnInit {
     private modalAsignacionUsuarioPersona: MatDialog,
     private modalAsignacionUsuarioTiposUsuario: MatDialog,
     private usuarioService: UsuarioService,
-    private snackBarComponent: MatSnackBar
+    private snackBarComponent: MatSnackBar,
+    private router: Router
   ) {
     this.formulario();
   }
@@ -62,15 +65,27 @@ export class UsuarioComponent implements OnInit {
       _numeroIdentificacion: new FormControl({ value: '', disabled: true }, Validators.required),
       _nombres: new FormControl({ value: '', disabled: true }, [Validators.required]),
       _apellidos: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      _usuario: new FormControl('', [Validators.required]),
-      _clave: new FormControl('', [Validators.required])
+      _usuario: new FormControl('', [Validators.required,Validators.email]),
+      _clave: new FormControl('',[Validators.required,Validators.minLength(5)]),
     });
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio!='MQAwADYAOAA='){
+      this.router.navigateByUrl("/inicio/inicio");
+    }
+
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
+
     this._consultarUsuarios();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -149,7 +164,7 @@ export class UsuarioComponent implements OnInit {
     }
   }
   _modificarUsuario2() {
-    debugger
+   
     if(this.formUsuario_clave.value){
       this.clave=this.formUsuario_clave.value;
     } 
@@ -215,14 +230,14 @@ export class UsuarioComponent implements OnInit {
       });
   }
   _prepararUsuario(_usuario: any) {
-    debugger
+    
     this.formUsuario_idUsuarioEncriptado.setValue(_usuario.IdUsuarioEncriptado);
     this.formUsuario_idPersonaEncriptado.setValue(_usuario.Persona.IdPersonaEncriptado);
     this.formUsuario_nombres.setValue(_usuario.Persona.PrimerNombre + " " + _usuario.Persona.SegundoNombre);
     this.formUsuario_apellidos.setValue(_usuario.Persona.PrimerApellido + " " + _usuario.Persona.SegundoApellido);
     this.formUsuario_numeroIdentificacion.setValue(_usuario.Persona.NumeroIdentificacion);
     this.formUsuario_usuario.setValue(_usuario.Correo);
-    this.clave=_usuario.ClaveEncriptada;
+    this.formUsuario_clave.setValue(_usuario.Clave);
     this._refrescar = true;
     this.formUsuario.controls['_clave'].setErrors(null);
   }

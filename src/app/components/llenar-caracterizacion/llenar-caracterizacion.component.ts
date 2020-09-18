@@ -1,4 +1,5 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormGroup, FormControl, Validators, Form, FormBuilder } from '@angular/forms';
 import { CaracterizacionService } from 'src/app/services/caracterizacion.service';
@@ -23,6 +24,7 @@ export class LlenarCaracterizacionComponent implements OnInit {
     private snackBarComponent: MatSnackBar,
     private lugaresService: LugaresService,
     private dialog: MatDialog,
+    private router: Router
   ) {
     this.formCaracterizacion = new FormGroup({
       _caracterizacion: new FormControl('', [Validators.required]),
@@ -119,6 +121,8 @@ export class LlenarCaracterizacionComponent implements OnInit {
   buscar() {
     console.log(this.formCaracterizacion_CmbVersion.value)
   }
+
+  tipoUsurio='';
   ngOnInit() {
     this._consultarCaracterizacionPublicadaActivos();
     this._listaCuestionariosPublicados.filterPredicate = function(data, filter: string): boolean {

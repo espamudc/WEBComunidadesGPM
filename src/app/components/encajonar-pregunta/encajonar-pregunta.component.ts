@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CuestionarioGenericoService } from 'src/app/services/cuestionario-generico.service';
 import { MatSnackBar, MatTable } from '@angular/material';
@@ -23,7 +24,8 @@ export class EncajonarPreguntaComponent implements OnInit {
     private preguntaSeccionComponenteCuestionarioGenericoService:PreguntaSeccionComponenteCuestionarioGenericoService,
     private seccionComponenteCuestionarioGenericoService:SeccionComponenteCuestionarioGenericoService,
     private componenteCuestionarioGenericoService : ComponenteCuestionarioGenericoService,
-    private cuestionarioGenericoService :CuestionarioGenericoService ) { 
+    private cuestionarioGenericoService :CuestionarioGenericoService,
+    private router: Router ) { 
     
     this.formEncajonarPregunta = new FormGroup({
       _idPreguntaEncriptado : new FormControl(''),
@@ -43,7 +45,12 @@ export class EncajonarPreguntaComponent implements OnInit {
     });
   }
 
+  tipoUsurio='';
   ngOnInit() {
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     this._cargarMisCuestionariosGenericos();
   }
 
@@ -346,7 +353,7 @@ export class EncajonarPreguntaComponent implements OnInit {
   //--------------------------------------------------------
   _listaPreguntaEncajonadas:any[]=[];
   _consultarPreguntasEncajonadas(_item){
-    console.log("opcion",_item);
+
     this._pregunta_consultarpornoencajonadasporopcionpreguntaseleccion(_item.IdOpcionPreguntaSeleccionEncriptado);
     this.preguntaEncajonarService._preguntaencajonada_consultarporidopcionpreguntaseleccion(_item.IdOpcionPreguntaSeleccionEncriptado)
       .then(data=>{
@@ -361,6 +368,25 @@ export class EncajonarPreguntaComponent implements OnInit {
 
       });
   }
+  
+
+  _consultarPreguntasEncajonadas2(_item){
+    console.log("opcion",_item);
+    this._pregunta_consultarpornoencajonadasporopcionpreguntaseleccion(_item.OpcionPreguntaSeleccion.IdOpcionPreguntaSeleccionEncriptado);
+    this.preguntaEncajonarService._preguntaencajonada_consultarporidopcionpreguntaseleccion(_item.OpcionPreguntaSeleccion.IdOpcionPreguntaSeleccionEncriptado)
+      .then(data=>{
+        if (data['http']['codigo']=='200') {
+          this._listaPreguntaEncajonadas = data['respuesta'];
+          console.log("_listaPreguntaEncajonadas",this._listaPreguntaEncajonadas);
+          
+        }
+      }).catch(error=>{
+
+      }).finally(()=>{
+
+      });
+  }
+
 //---------------------------------------------------------------
   @ViewChild('tablaPreguntasEncajonadas',{static:false}) tablaPreguntasEncajonadas : MatTable<any>;
 
@@ -375,6 +401,7 @@ export class EncajonarPreguntaComponent implements OnInit {
         this.formEncajonarPregunta_cmbPreguntaEncajonada.value
       ).then(data=>{
         if (data['http']['codigo']=='200') {
+          this._consultarPreguntasEncajonadas(_item);
           this._listaPreguntaEncajonadas.push(data['respuesta']);
         } else {
           this.mensaje(data['http']['mensaje']);
@@ -387,20 +414,23 @@ export class EncajonarPreguntaComponent implements OnInit {
         this.tablaPreguntasEncajonadas.renderRows();
       });
     } else {
-      this.mensaje("la pregunta ya ha sido seleccionada");
+      this.mensaje("La pregunta ya ha sido seleccionada");
     }
 
     
-  }
-  _eliminarPreguntaEncajonada(_item){
-    console.log(_item.IdPreguntaEncajonadaEncriptado);
     
+  }
+  preparaItem="";
+  _eliminarPreguntaEncajonada(_item){
+    console.log("itemELIMINAR", _item);
+    this.preparaItem=_item;
     this.preguntaEncajonarService._preguntaencajonada_eliminar(_item.IdPreguntaEncajonadaEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          let element = this._listaPreguntaEncajonadas.find(i=>i.IdPreguntaEncajonadaEncriptado==_item.IdPreguntaEncajonadaEncriptado);
-          let index = this._listaPreguntaEncajonadas.indexOf(element);
-          this._listaPreguntaEncajonadas.splice(index,1);
+          this._consultarPreguntasEncajonadas2(_item);
+          // let element = this._listaPreguntaEncajonadas.find(i=>i.IdPreguntaEncajonadaEncriptado==_item.IdPreguntaEncajonadaEncriptado);
+          // let index = this._listaPreguntaEncajonadas.indexOf(element);
+          // this._listaPreguntaEncajonadas.splice(index,1);
         } else {
           
         }

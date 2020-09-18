@@ -41,6 +41,38 @@ export class AsignarEncuestadoService {
 
   }
 
+  _editarAsignarEncuestado(
+    _idEncuestadoEncriptado,
+    _idCuestionarioPublicadoEncriptado,
+    _idComunidadEncriptado,
+    _idAsignarUsuarioTipoUsuarioTecnicoEncriptado,
+    _idAsignarUsuarioTipoUsuarioEncriptado,
+    _obligatorio,
+    _fechaInicio,
+    _fechaFin
+  ){
+    const _body = new HttpParams()
+      .set("IdEncuestadoEncriptado",_idEncuestadoEncriptado)
+      .set("CuestionarioPublicado.IdCuestionarioPublicadoEncriptado",_idCuestionarioPublicadoEncriptado)
+      .set("Comunidad.IdComunidadEncriptado",_idComunidadEncriptado)
+      .set("AsignarUsuarioTipoUsuarioTecnico.IdAsignarUsuarioTipoUsuarioEncriptado",_idAsignarUsuarioTipoUsuarioTecnicoEncriptado)
+      .set("AsignarUsuarioTipoUsuario.IdAsignarUsuarioTipoUsuarioEncriptado",_idAsignarUsuarioTipoUsuarioEncriptado)
+      .set("Obligatorio",_obligatorio)
+      .set("FechaInicio",_fechaInicio)
+      .set("FechaFin",_fechaFin)
+    ;
+    //console.log(_body)
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'asignarencuestado_editar',_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+
+  }
+
   _consultar_poridcuestionariopublicado(
     _idCuestionarioGenericoEncriptado
   ){

@@ -10,6 +10,7 @@ import { PreguntaSeleccionService } from 'src/app/services/tipo-preguntas/pregun
 import { PreguntaEncajonarService } from 'src/app/services/pregunta-encajonar.service';
 import { PreguntaMatrizService } from 'src/app/services/tipo-preguntas/pregunta-matriz.service';
 import { CabeceraVersionCuestionarioService } from 'src/app/services/cabecera-version-cuestionario.service';
+import { Router } from '@angular/router';
 
 export interface Seccion{
   _preguntas ?: any[];
@@ -43,6 +44,7 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
     private cabeceraVersionCuestionarioService:CabeceraVersionCuestionarioService,
 
     private snackBarComponent:MatSnackBar,
+    private router: Router
 
    
   ) {
@@ -63,8 +65,13 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
   }
 
 
-
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     this._cargarMisCuestionariosGenericos();
     //console.log("modaldata",this.ModalData);
     
@@ -322,12 +329,14 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
 
   _listaPreguntaConfigurarMatriz:any[]=[];
   _consultaOpcionesPreguntaConfigurarMatriz(_IdPreguntaEncriptado){
+    this._listaPreguntaConfigurarMatriz=[];
     console.log(_IdPreguntaEncriptado);
-    
+ 
     this.preguntaMatrizService._consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
           console.log("matriz-->",data['respuesta']);
+          
           this._listaPreguntaConfigurarMatriz=data['respuesta'];
           this._vistaPreguntaConfigurarMatriz();
         } else {
@@ -336,13 +345,14 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
       }).catch(error=>{
 
       }).finally(()=>{
-        this._vistaPreguntaConfigurarMatriz();
+        //this._vistaPreguntaConfigurarMatriz();
       });
   }
 
   FilaOpcionUnoMatriz: any[] = [];
   ColumnsOpcionDosMatriz: any[] = [];
   _vistaPreguntaConfigurarMatriz(){
+
     this._listaPreguntaConfigurarMatriz.map((element,index)=>{
       this.FilaOpcionUnoMatriz.push(element.OpcionUnoMatriz);
     });
@@ -374,9 +384,6 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
     this.ColumnsOpcionDosMatriz = unicosOpcionDos;
 
     console.log("unicosOpcionDos",unicosOpcionDos);
-    
-
-    
   }
 
   _cargarCuestionarioGenerico:any={};

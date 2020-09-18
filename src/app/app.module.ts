@@ -82,6 +82,14 @@ import { ModalAsignarRepresentanteModeloPublicadoComponent } from './components/
 import { LlenarCaracterizacionComponent } from './components/llenar-caracterizacion/llenar-caracterizacion.component';
 import { ModalLlenarInformacionComponent } from './components/modal-llenar-informacion/modal-llenar-informacion.component';
 import { GaleriaComponent } from './components/galeria/galeria.component';
+import { PreguntaArchivoComponent } from './components/tipo-preguntas/pregunta-archivo/pregunta-archivo.component';
+import { PeriodoComponent } from './components/periodo/periodo.component';
+import { ModalEncajonamientoComponent } from './components/modal-encajonamiento/modal-encajonamiento.component';
+import { TreeViewComponent } from './components/tree-view/tree-view.component';
+import {MatTreeModule} from '@angular/material/tree';
+import {OverlayModule} from '@angular/cdk/overlay';
+import { InicioComponent } from './components/inicio/inicio.component';
+import { PreguntasSeleccionadasComponent } from './components/preguntas-seleccionadas/preguntas-seleccionadas.component';
 // import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
@@ -132,6 +140,14 @@ import { GaleriaComponent } from './components/galeria/galeria.component';
     LlenarCaracterizacionComponent,
     ModalLlenarInformacionComponent,
     GaleriaComponent,
+    PreguntaArchivoComponent,
+    PeriodoComponent,
+    ModalEncajonamientoComponent,
+    TreeViewComponent,
+    InicioComponent,
+    PreguntasSeleccionadasComponent,
+
+
     // MessageBoxComponent,
   ],
   imports: [
@@ -172,7 +188,6 @@ import { GaleriaComponent } from './components/galeria/galeria.component';
     DragDropModule,
      CKEditorModule,
   ],
-  exports:[],
   entryComponents: [
     ModalDetallePersonaComponent,
     ModalAsignacionUsuarioPersonaComponent ,
@@ -187,7 +202,8 @@ import { GaleriaComponent } from './components/galeria/galeria.component';
     ModalVersionarCaracterizacionComponent,
     ModalAsignarRepresentanteModeloPublicadoComponent,
     ModalLlenarInformacionComponent,
-    GaleriaComponent
+    GaleriaComponent,
+    ModalEncajonamientoComponent,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

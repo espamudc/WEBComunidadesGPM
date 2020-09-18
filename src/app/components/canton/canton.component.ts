@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, Form } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { ProvinciaComponent } from '../provincia/provincia.component';
@@ -10,6 +11,7 @@ import { startWith, map } from 'rxjs/operators';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+
 @Component({
   selector: 'app-canton',
   templateUrl: './canton.component.html',
@@ -31,7 +33,8 @@ export class CantonComponent implements OnInit {
   constructor(
     private lugaresService: LugaresService,
     private modalLugarRepresentante: MatDialog,
-    private snackBarComponent: MatSnackBar
+    private snackBarComponent: MatSnackBar,
+    private router: Router
   ) {
     this.formCanton = new FormGroup({
       _idCantonEncriptado: new FormControl(''),
@@ -42,7 +45,14 @@ export class CantonComponent implements OnInit {
       _rutaLogo: new FormControl(''),
     });
   }
+
+  tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
     this._consultarCantones();
     this._consultarProvincias();
     this.filtroProvincias();

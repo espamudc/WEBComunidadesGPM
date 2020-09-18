@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CaracterizacionService } from 'src/app/services/caracterizacion.service';
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from '@angular/material';
@@ -16,7 +17,14 @@ export class ListaCaracterizacionComponent implements OnInit {
     private snackBarComponent: MatSnackBar,
     private dialog: MatDialog,
     private lugaresService: LugaresService,
+    private router: Router
   ) { }
+
+  tipoUsurio='';
   ngOnInit() {
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
   }
 }
