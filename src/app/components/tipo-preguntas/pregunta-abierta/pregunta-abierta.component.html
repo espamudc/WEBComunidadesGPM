@@ -17,7 +17,7 @@
             
             <mat-checkbox (change)="_requeridos($event)" [formControl]="PREGUNTAABIERTA_especificaRango" [(ngModel)]="_checkBoxEspecificarRango" class="gpm-form-field col-lg-2" labelPosition="before">Especificar Rango</mat-checkbox>
 
-            <mat-form-field *ngIf="(_identificador==1 || _identificador==3 || _identificador==4) && _checkBoxEspecificarRango==true" class="gpm-form-field col-lg-3 col-md-2">
+            <mat-form-field *ngIf="(_identificador==1 || _identificador==3 || _identificador==4 || _identificador==5) && _checkBoxEspecificarRango==true" class="gpm-form-field col-lg-3 col-md-2">
                 <input [formControl]="PREGUNTAABIERTA_valorMinimo" matInput placeholder="Valor Mínimo"  >
                 <mat-error
                     *ngIf=" PREGUNTAABIERTA_valorMinimo.hasError('required') || 
@@ -27,7 +27,7 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field *ngIf="(_identificador==1 || _identificador==3 || _identificador==4) && _checkBoxEspecificarRango==true" class="gpm-form-field col-lg-3 col-md-2">
+            <mat-form-field *ngIf="(_identificador==1 || _identificador==3 || _identificador==4 || _identificador==5) && _checkBoxEspecificarRango==true" class="gpm-form-field col-lg-3 col-md-2">
                 <input [formControl]="PREGUNTAABIERTA_valorMaximo" matInput placeholder="Valor Maximo" >
                 <mat-error
                     *ngIf=" PREGUNTAABIERTA_valorMaximo.hasError('required') || 

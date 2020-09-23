@@ -181,7 +181,7 @@ export class LugaresService {
     const _body = new HttpParams();
 
     return new Promise ((resolve,reject)=>{
-      // console.log("servicio:",_body.toString());
+     
       this.http.post(url+'parroquia_consultar', _body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
@@ -197,6 +197,10 @@ export class LugaresService {
       _CodigoParroquia:any,
       _NombreParroquia:any,
       _DescripcionParroquia:any,
+      _PoblacionParroquia:any,
+      _SuperficieParroquia:any,
+      _TemperaturaParroquia:any,
+      _ClimaParroquia:any,
       _RutaLogoParroquia:any,
       _IdCantonEncriptado,
       _IdProvinciaEncriptado
@@ -208,6 +212,10 @@ export class LugaresService {
           .set('CodigoParroquia'        ,_CodigoParroquia)
           .set('NombreParroquia'        ,_NombreParroquia)
           .set('DescripcionParroquia'   ,_DescripcionParroquia)
+          .set('PoblacionParroquia'   ,_PoblacionParroquia)
+          .set('SuperficieParroquia'   ,_SuperficieParroquia)
+          .set('TemperaturaParroquia'   ,_TemperaturaParroquia)
+          .set('ClimaParroquia'   ,_ClimaParroquia)
           .set('RutaLogoParroquia'      ,_RutaLogoParroquia)
           // .set('EstadoParroquia'        ,_EstadoParroquia)
     ;
@@ -228,6 +236,10 @@ export class LugaresService {
       _CodigoParroquia,
       _NombreParroquia,
       _DescripcionParroquia,
+      _PoblacionParroquia,
+      _SuperficieParroquia,
+      _TemperaturaParroquia,
+      _ClimaParroquia,
       _RutaLogoParroquia,
       _IdCantonEncriptado,
       _IdProvinciaEncriptado
@@ -239,6 +251,10 @@ export class LugaresService {
         .set('CodigoParroquia'        ,_CodigoParroquia)
         .set('NombreParroquia'        ,_NombreParroquia)
         .set('DescripcionParroquia'   ,_DescripcionParroquia)
+        .set('PoblacionParroquia'   ,_PoblacionParroquia)
+        .set('SuperficieParroquia'   ,_SuperficieParroquia)
+        .set('TemperaturaParroquia'   ,_TemperaturaParroquia)
+        .set('ClimaParroquia'   ,_ClimaParroquia)
         .set('RutaLogoParroquia'      ,_RutaLogoParroquia)
     ;
     return new Promise ((resolve,reject)=>{

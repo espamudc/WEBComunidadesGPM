@@ -182,5 +182,16 @@ export class VersionarCaracterizacionComponent implements OnInit {
 
   tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+
+    if(this.tipoUsurio!='MQAwADYAOAA='){
+      this.router.navigateByUrl("/inicio/inicio");
+    }
+
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
+    
   }
 }
