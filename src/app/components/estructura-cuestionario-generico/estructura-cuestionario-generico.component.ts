@@ -206,6 +206,20 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     //this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_obligatorio").setValue("true");
   }
 
+  _limpiarFormComponentes(){
+    this.formComponenteCuestionarioGenerico.reset();
+  }
+
+  _limpiarFormSecciones(){
+    this.formSeccionComponenteCuestionarioGenerico.reset();
+  }
+
+  _limpiarFormPreguntas(){
+    this._OcultarcmbTipoPregunta=false;
+    this._btnAccionP="Guardar";
+    this.formPreguntaSeccionComponenteCuestionarioGenerico.reset(); 
+  }
+
   Columns: string[] = ['descripcion', 'orden', 'acciones'];
 
   // @ViewChild('tablaComponentesCuestionarioGenerico',{static:false})           ElementRef_tablaComponentesCuestionarioGenerico          : ElementRef;
@@ -253,6 +267,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
 
   _onChangeCmbCuestionariosGenericos(event?){
 
+    
 
      // this.formCuestionarioGenerico.get("_cmbCuestionarioGenerico").reset();
      this.formCuestionarioGenerico.get("_cmbComponenteCuestionarioGenerico").reset();
@@ -287,6 +302,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
   }
   _onChangeCmbComponentesCuestionarioGenerico(event?){
 
+    
 
     // this.formCuestionarioGenerico.get("_cmbCuestionarioGenerico").reset();
     //this.formCuestionarioGenerico.get("_cmbComponenteCuestionarioGenerico").reset();
@@ -305,6 +321,9 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
   }
 
   _onChangeCmbSeccionComponentesCuestionarioGenerico(event?){
+
+   
+
     this.logica_preguntas=true;
     this.logica_componentes=false;
     this.logica_secciones =false;

@@ -66,12 +66,21 @@
                     </button> -->
 
                     <!-- <mat-card-actions> -->
-                        <button [disabled]=" _descripcion.invalid || (_cmbCuestionarioGenerico.value==0)" class=" btn btn-primary btn-block" mat-button type="submit">
-                            <i *ngIf="_btnAccionC=='Guardar'" class="fa fa-plus"></i>
-                            <i *ngIf="_btnAccionC=='Actualizar'" class="fa fa-edit"></i>
-                            <!-- <mat-icon *ngIf="_btnAccionC=='Guardar'" aria-hidden="false" aria-label="Example home icon">add </mat-icon> -->
-                            <!-- <mat-icon *ngIf="_btnAccionC=='Actualizar'" aria-hidden="false" aria-label="Example home icon"> edit</mat-icon> -->
-                        </button>
+                    <div class="row">
+                        <div class="col-6">
+                            <button [disabled]=" _descripcion.invalid || (_cmbCuestionarioGenerico.value==0)" class=" btn btn-primary btn-block" mat-button type="submit">
+                                <i *ngIf="_btnAccionC=='Guardar'" class="fa fa-plus"></i>
+                                <i *ngIf="_btnAccionC=='Actualizar'" class="fa fa-edit"></i>
+                                <!-- <mat-icon *ngIf="_btnAccionC=='Guardar'" aria-hidden="false" aria-label="Example home icon">add </mat-icon> -->
+                                <!-- <mat-icon *ngIf="_btnAccionC=='Actualizar'" aria-hidden="false" aria-label="Example home icon"> edit</mat-icon> -->
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button mat-button type="button" 
+                                    class="form-control btn-secondary" (click)="_limpiarFormComponentes()"><i class="fa fa-refresh" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
                     <!-- </mat-card-actions> -->
 
                 </form>
@@ -94,12 +103,21 @@
                         </mat-form-field>
                     </mat-card-content>
                     <mat-card-actions>
-                        <button [disabled]=" _cmbComponenteCuestionarioGenerico.value ==0 || _descripcionSeccion.invalid" class="btn btn-primary btn-block" mat-button type="submit">
-                            <i class="fa fa-plus" *ngIf="_btnAccionS=='Guardar'"></i>
-                            <i class="fa fa-edit" *ngIf="_btnAccionS=='Actualizar'"></i>
-                            <!-- <mat-icon *ngIf="_btnAccionS=='Guardar'" aria-hidden="false" aria-label="Example home icon"> add </mat-icon> -->
-                            <!-- <mat-icon *ngIf="_btnAccionS=='Actualizar'" aria-hidden="false" aria-label="Example home icon">  edit </mat-icon> -->
-                        </button>
+                        <div class="row">
+                            <div class="col-6">
+                                <button [disabled]=" _cmbComponenteCuestionarioGenerico.value ==0 || _descripcionSeccion.invalid" class="btn btn-primary btn-block" mat-button type="submit">
+                                    <i class="fa fa-plus" *ngIf="_btnAccionS=='Guardar'"></i>
+                                    <i class="fa fa-edit" *ngIf="_btnAccionS=='Actualizar'"></i>
+                                    <!-- <mat-icon *ngIf="_btnAccionS=='Guardar'" aria-hidden="false" aria-label="Example home icon"> add </mat-icon> -->
+                                    <!-- <mat-icon *ngIf="_btnAccionS=='Actualizar'" aria-hidden="false" aria-label="Example home icon">  edit </mat-icon> -->
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button mat-button type="button" 
+                                        class="form-control btn-secondary" (click)="_limpiarFormSecciones()"><i class="fa fa-refresh" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
                     </mat-card-actions>
                     
                     <!-- <mat-card-content> -->
@@ -160,14 +178,23 @@
                     </mat-radio-group>
                     
                     <!-- <mat-card-actions> -->
-                        <button [disabled]=" (_cmbComponenteCuestionarioGenerico.value==0) || formPreguntaSeccionComponenteCuestionarioGenerico.invalid"
-                            class=" btn btn-primary btn-block"  mat-button type="submit">
-                            
-                            <i class="fa fa-plus" *ngIf="_btnAccionP=='Guardar'"></i>
-                            <i class="fa fa-edit" *ngIf="_btnAccionP=='Actualizar'"></i>
-                            <!-- <mat-icon *ngIf="_btnAccionP=='Guardar'" aria-hidden="false" aria-label="Example home icon">add </mat-icon> -->
-                            <!-- <mat-icon *ngIf="_btnAccionP=='Actualizar'" aria-hidden="false" aria-label="Example home icon"> edit</mat-icon> -->
-                        </button>
+                        <div class="row">
+                            <div class="col-6">
+                                <button [disabled]=" (_cmbComponenteCuestionarioGenerico.value==0) || formPreguntaSeccionComponenteCuestionarioGenerico.invalid"
+                                    class=" btn btn-primary btn-block"  mat-button type="submit">
+                                    
+                                    <i class="fa fa-plus" *ngIf="_btnAccionP=='Guardar'"></i>
+                                    <i class="fa fa-edit" *ngIf="_btnAccionP=='Actualizar'"></i>
+                                    <!-- <mat-icon *ngIf="_btnAccionP=='Guardar'" aria-hidden="false" aria-label="Example home icon">add </mat-icon> -->
+                                    <!-- <mat-icon *ngIf="_btnAccionP=='Actualizar'" aria-hidden="false" aria-label="Example home icon"> edit</mat-icon> -->
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button mat-button type="button" 
+                                        class="form-control btn-secondary" (click)="_limpiarFormPreguntas()"><i class="fa fa-refresh" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
                     <!-- </mat-card-actions> -->
                     
 
@@ -362,7 +389,7 @@
                         <div *ngIf="item.TipoPregunta.Identificador==1">
                             <app-pregunta-abierta [item]="item"></app-pregunta-abierta>
                         </div>
-                        <div *ngIf="item.TipoPregunta.Identificador==2 || item.TipoPregunta.Identificador==3 ">
+                        <div *ngIf="item.TipoPregunta.Identificador==2 || item.TipoPregunta.Identificador==3 || item.TipoPregunta.Identificador==6">
                            
                             <app-pregunta-seleccion [item]="item"></app-pregunta-seleccion>
                            
@@ -373,6 +400,7 @@
                         <div *ngIf="item.TipoPregunta.Identificador==5">
                             <app-pregunta-archivo [item]="item"></app-pregunta-archivo>
                         </div>
+                        
 
                        
                     </mat-expansion-panel>

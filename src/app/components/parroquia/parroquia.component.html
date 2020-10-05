@@ -52,6 +52,22 @@
                             <input matInput formControlName="_descripcionParroquia" type="text" autocomplete="off"
                                 placeholder="Descripción">
                         </mat-form-field>
+                        <mat-form-field class="gpm-form-field">
+                            <input matInput formControlName="_poblacionParroquia" type="text" autocomplete="off"
+                                placeholder="Población total">
+                        </mat-form-field>
+                        <mat-form-field class="gpm-form-field">
+                            <input matInput formControlName="_superficieParroquia" type="text" autocomplete="off"
+                                placeholder="Superficie parroquial">
+                        </mat-form-field>
+                        <mat-form-field class="gpm-form-field">
+                            <input matInput formControlName="_temperaturaParroquia" type="text" autocomplete="off"
+                                placeholder="Temperatura">
+                        </mat-form-field>
+                        <mat-form-field class="gpm-form-field">
+                            <input matInput formControlName="_climaParroquia" type="text" autocomplete="off"
+                                placeholder="Clima">
+                        </mat-form-field>
                         <button *ngIf="_btnAccion=='Guardar'" mat-button class="btn btn-primary btn-block"
                             [disabled]="formParroquia.invalid">
                             <i class="fa fa-plus"></i>

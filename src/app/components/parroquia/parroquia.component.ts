@@ -41,6 +41,10 @@ export class ParroquiaComponent implements OnInit {
   ) {
     this.formParroquia = new FormGroup({
       _descripcionParroquia: new FormControl(''),
+      _poblacionParroquia: new FormControl(''),
+      _superficieParroquia: new FormControl(''),
+      _temperaturaParroquia: new FormControl(''),
+      _climaParroquia: new FormControl(''),
       _idParroquia:new FormControl(''),
       _nombreParroquia: new FormControl('', [Validators.required]),
       _codigoParroquia: new FormControl('', [Validators.required]),
@@ -122,12 +126,20 @@ export class ParroquiaComponent implements OnInit {
   this.formParroquia.controls['_nombreParroquia'].setErrors(null);
   this.formParroquia.controls['_codigoParroquia'].setErrors(null);
   this.formParroquia.controls['_descripcionParroquia'].setErrors(null);
+  this.formParroquia.controls['_poblacionParroquia'].setErrors(null);
+  this.formParroquia.controls['_superficieParroquia'].setErrors(null);
+  this.formParroquia.controls['_temperaturaParroquia'].setErrors(null);
+  this.formParroquia.controls['_climaParroquia'].setErrors(null);
  }
   _ingresarParroquia(){
     this.lugaresService._insertarParroquia(
       this.formParroquia.value._codigoParroquia,
       this.formParroquia.value._nombreParroquia,
       this.formParroquia.value._descripcionParroquia,
+      this.formParroquia.value._poblacionParroquia,
+      this.formParroquia.value._superficieParroquia,
+      this.formParroquia.value._temperaturaParroquia,
+      this.formParroquia.value._climaParroquia,
       this.formParroquia.value._rutaLogoParroquia,
       this._idCantonEncriptado,
       this._idProvinciaEncriptado,
@@ -154,6 +166,10 @@ export class ParroquiaComponent implements OnInit {
       this.formParroquia.value._nombreParroquia,
       this.formParroquia.value._codigoParroquia,
       this.formParroquia.value._descripcionParroquia,
+      this.formParroquia.value._poblacionParroquia,
+      this.formParroquia.value._superficieParroquia,
+      this.formParroquia.value._temperaturaParroquia,
+      this.formParroquia.value._climaParroquia,
       this.formParroquia.value._rutaLogoParroquia,
       this._idCantonEncriptado,
       this._idProvinciaEncriptado      
@@ -192,6 +208,7 @@ export class ParroquiaComponent implements OnInit {
     })
   }
   _prepararParroquia(_item){
+  
     this._idProvinciaEncriptado = _item.Canton.Provincia.IdProvinciaEncriptado;
     this._nombreProvincia       = _item.Canton.Provincia.NombreProvincia;
     this._idCantonEncriptado = _item.Canton.IdCantonEncriptado;
@@ -204,6 +221,11 @@ export class ParroquiaComponent implements OnInit {
     }else{
       this.formParroquia.get('_descripcionParroquia').setValue(_item.DescripcionParroquia);
     }
+    this.formParroquia.get('_poblacionParroquia').setValue(_item.PoblacionParroquia);
+    this.formParroquia.get('_superficieParroquia').setValue(_item.SuperficieParroquia);
+    this.formParroquia.get('_temperaturaParroquia').setValue(_item.TemperaturaParroquia);
+    this.formParroquia.get('_climaParroquia').setValue(_item.ClimaParroquia);
+
     this.formParroquia.get('_rutaLogoParroquia').setValue(_item.RutaLogoParroquia);
     this._btnAccion = "Modificar";
   }

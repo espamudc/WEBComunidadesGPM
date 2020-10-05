@@ -34,6 +34,10 @@ export class PreguntasSeleccionadasComponent implements OnInit {
   ngOnInit() {
 
     this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+
+    if(this.tipoUsurio!='MQAwADYAOAA='){
+      this.router.navigateByUrl("/inicio/inicio");
+    }
     if(this.tipoUsurio==''){
       this.router.navigateByUrl("/login");
     }

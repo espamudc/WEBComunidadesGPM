@@ -124,6 +124,16 @@ export class LlenarCaracterizacionComponent implements OnInit {
 
   tipoUsurio='';
   ngOnInit() {
+
+    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+
+    if(this.tipoUsurio!='MQAwADYAOAA='){
+      this.router.navigateByUrl("/inicio/inicio");
+    }
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
+    
     this._consultarCaracterizacionPublicadaActivos();
     this._listaCuestionariosPublicados.filterPredicate = function(data, filter: string): boolean {
       return (
