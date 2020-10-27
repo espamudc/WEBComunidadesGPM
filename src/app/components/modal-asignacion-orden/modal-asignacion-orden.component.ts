@@ -34,7 +34,9 @@ export class ModalAsignacionOrdenComponent implements OnInit {
   }
   name = 'ng2-ckeditor';
   ckeConfig: any;
+  ckeConfigMatriz: any;
   mycontent: string = '';
+  mycontentMatriz: string = '';
   Componente = '';
   log: string = '';
   @ViewChild(CKEditorModule, { static: false }) myckeditor: CKEditorModule;
@@ -69,9 +71,16 @@ export class ModalAsignacionOrdenComponent implements OnInit {
     this.dialogRef.close(element);
   }
   setPregunta(item) {
+    this.matriz = false;
     this.form.controls['tipoPregunta'].setValue(item.Pregunta.TipoPregunta.Descripcion)
+    if (item.Pregunta.TipoPregunta.Identificador == 4) {
+      this.matriz = true;
+    }else{
+      this.mycontentMatriz = "";
+    }
   }
   vistaPrevia = '';
+  matriz = false;
   anidarPregunta() {
     if (this.form.controls['selectPregunta'].value != 0) {
       let pregunta = this._listaPregunta.find(e => e.IdVersionamientoPreguntaEncriptado == this.form.controls['selectPregunta'].value);
@@ -86,6 +95,20 @@ export class ModalAsignacionOrdenComponent implements OnInit {
         let dato = '';
         dato = "<ul><li><textarea cols='20' rows='3' name=" + pregunta.IdVersionamientoPreguntaEncriptado + ">" + pregunta.Pregunta.Descripcion + "</textarea></li></ul>";
         this.mycontent = this.mycontent.substring(0, this.mycontent.length - 5) + dato + "</p>";
+      }else if (pregunta.Pregunta.TipoPregunta.Identificador == 4) {
+        if (this.mycontentMatriz.trim() == "") {
+          this.mensaje("Ingrese el contenido de la matriz");
+        }else{
+          var parser = new DOMParser();
+	        var doc = parser.parseFromString(this.mycontentMatriz, 'text/html');
+          if (this.mycontent.trim() == "") {
+            this.mycontent = "<p><textarea cols='20' rows='3' name=" + pregunta.IdVersionamientoPreguntaEncriptado + ">" + doc.body.getElementsByTagName("p")[0].innerText + "</textarea></p>";
+          } else {
+            this.mycontent = this.mycontent.substring(0, this.mycontent.length - 5) + "<textarea cols='20' rows='3' name=" + pregunta.IdVersionamientoPreguntaEncriptado + ">" + doc.body.getElementsByTagName("p")[0].innerText + "</textarea>";
+          }
+          this.mycontentMatriz = "";
+          //console.log(doc.body.getElementsByTagName("p")[0].innerText);
+        }
       }
     } else {
       this.mensaje("Seleccione una pregunta")
@@ -197,6 +220,14 @@ export class ModalAsignacionOrdenComponent implements OnInit {
         // removePlugins: 'horizontalrule',
         removeButtons: 'Link,Unlink,Button,TextField,Save,NewPage,Templates,Form,Checkbox,Radio,Find,Select,ImageButton,HiddenField,CopyFormatting,CreateDiv,BidiLtr,BidiRtl,Language,Flash,Smiley,PageBreak,Iframe,ShowBlocks,Table,Image,Source,Maximize,Anchor,SpecialChar,PasteFromWord,Scayt,Undo,Redo,Strike,Indent,Outdent,Blockquote'
       };
+      this.ckeConfigMatriz={
+        allowedContent: false,
+        width:"100%",
+        height:"70px",
+        forcePasteAsPlainText: true,
+        // removePlugins: 'horizontalrule',
+        removeButtons: 'Link,Unlink,TextField,Save,NewPage,Templates,Form,Checkbox,Radio,Find,Select,ImageButton,HiddenField,CopyFormatting,CreateDiv,BidiLtr,BidiRtl,Language,Flash,Smiley,PageBreak,Iframe,ShowBlocks,Table,Image,Source,Maximize,Anchor,SpecialChar,PasteFromWord,Scayt,Undo,Redo,Strike,Indent,Outdent,Blockquote'
+      }
       this._ConsultarPreguntasPorCuestionarioPublicadoComponente();
     }
   }

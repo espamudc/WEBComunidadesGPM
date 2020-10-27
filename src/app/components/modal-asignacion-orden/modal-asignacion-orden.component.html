@@ -56,23 +56,47 @@
             <div>
               <fieldset class="border p-2 gpm-universal-width">
                 <legend class="w-auto">Pregunta</legend>
-                <mat-form-field class="gpm-universal-width ">
-                  <mat-label>Pregunta</mat-label>
-                  <mat-spinner *ngIf="comboPregunta"  class="spinner" diameter="20" matSuffix></mat-spinner>
-                  <mat-select formControlName="selectPregunta" >
-                    <mat-option *ngIf="comboPregunta" value="0" disabled>Cargando....</mat-option>
-                    <mat-option *ngIf="!comboPregunta" value="0" disabled>seleccione una pregunta</mat-option>
-                    <div *ngIf="!comboPregunta">
-                      <mat-option *ngFor="let item of _listaPregunta" [value]="item.IdVersionamientoPreguntaEncriptado" (click)="setPregunta(item)">
-                        {{item.Pregunta.Descripcion}}
-                      </mat-option>
-                    </div>
-                  </mat-select>
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                  <mat-label>Tipo Pregunta</mat-label>
-                  <input readonly formControlName="tipoPregunta" matInput placeholder="Placeholder">
-                </mat-form-field>
+                <div class="row">
+                  <div class="col-12">
+                    <mat-form-field class="gpm-universal-width ">
+                      <mat-label>Pregunta</mat-label>
+                      <mat-spinner *ngIf="comboPregunta"  class="spinner" diameter="20" matSuffix></mat-spinner>
+                      <mat-select formControlName="selectPregunta" >
+                        <mat-option *ngIf="comboPregunta" value="0" disabled>Cargando....</mat-option>
+                        <mat-option *ngIf="!comboPregunta" value="0" disabled>seleccione una pregunta</mat-option>
+                        <div *ngIf="!comboPregunta">
+                          <mat-option *ngFor="let item of _listaPregunta" [value]="item.IdVersionamientoPreguntaEncriptado" (click)="setPregunta(item)">
+                            {{item.Pregunta.Descripcion}}
+                          </mat-option>
+                        </div>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-6 col-md-4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Tipo Pregunta</mat-label>
+                      <input readonly formControlName="tipoPregunta" matInput placeholder="Placeholder">
+                    </mat-form-field>
+                  </div>
+                  <div *ngIf="matriz"  class="col-xs-6 col-md-8">
+                    <form role="form" #myForm="ngForm" accept-charset="UTF-8" novalidate>
+                      <div class="form-group has-feedback"
+                            [ngClass]="{ 'has-error': myckeditor.invalid && myckeditor.touched }">
+                      </div>
+                      <ckeditor [(ngModel)]="mycontentMatriz"
+                                #myckeditor="ngModel"
+                                name="myckeditor"
+                                required
+                                [config]="ckeConfigMatriz"
+                                debounce="500"
+                                (paste)="onPaste($event)"
+                                (change)="onChange($event)">
+                      </ckeditor>
+                    </form>
+                  </div>
+                </div>
                 <button matTooltip="Añadir pregunta" mat-button matSuffix mat-icon-button type="button" (click)="anidarPregunta()">
                   <mat-icon style="color: #f0ad4e;">playlist_add</mat-icon>
                 </button>
