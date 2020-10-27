@@ -90,6 +90,7 @@ import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { PreguntasSeleccionadasComponent } from './components/preguntas-seleccionadas/preguntas-seleccionadas.component';
+import { ModalVerImagenComponent } from './components/modal-ver-imagen/modal-ver-imagen.component';
 // import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
@@ -146,6 +147,7 @@ import { PreguntasSeleccionadasComponent } from './components/preguntas-seleccio
     TreeViewComponent,
     InicioComponent,
     PreguntasSeleccionadasComponent,
+    ModalVerImagenComponent,
 
 
     // MessageBoxComponent,
@@ -205,6 +207,7 @@ import { PreguntasSeleccionadasComponent } from './components/preguntas-seleccio
     ModalLlenarInformacionComponent,
     GaleriaComponent,
     ModalEncajonamientoComponent,
+    ModalVerImagenComponent
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

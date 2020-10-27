@@ -11,6 +11,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { identifierModuleUrl } from '@angular/compiler';
 @Component({
   selector: 'app-parroquia',
   templateUrl: './parroquia.component.html',
@@ -163,8 +164,8 @@ export class ParroquiaComponent implements OnInit {
     }
     this.lugaresService._modificarParroquia(
       this.formParroquia.value._idParroquia,
-      this.formParroquia.value._nombreParroquia,
       this.formParroquia.value._codigoParroquia,
+      this.formParroquia.value._nombreParroquia,
       this.formParroquia.value._descripcionParroquia,
       this.formParroquia.value._poblacionParroquia,
       this.formParroquia.value._superficieParroquia,
@@ -214,18 +215,40 @@ export class ParroquiaComponent implements OnInit {
     this._idCantonEncriptado = _item.Canton.IdCantonEncriptado;
     this._nombreCanton       = _item.Canton.NombreCanton;
     this.formParroquia.get('_idParroquia').setValue(_item.IdParroquiaEncriptado);
-    this.formParroquia.get('_nombreParroquia').setValue(_item.CodigoParroquia);
-    this.formParroquia.get('_codigoParroquia').setValue(_item.NombreParroquia);
+    this.formParroquia.get('_nombreParroquia').setValue(_item.NombreParroquia);
+    this.formParroquia.get('_codigoParroquia').setValue(_item.CodigoParroquia);
+
     if(_item.DescripcionParroquia=="null"){
       this.formParroquia.get('_descripcionParroquia').setValue(null);
     }else{
       this.formParroquia.get('_descripcionParroquia').setValue(_item.DescripcionParroquia);
     }
-    this.formParroquia.get('_poblacionParroquia').setValue(_item.PoblacionParroquia);
-    this.formParroquia.get('_superficieParroquia').setValue(_item.SuperficieParroquia);
-    this.formParroquia.get('_temperaturaParroquia').setValue(_item.TemperaturaParroquia);
-    this.formParroquia.get('_climaParroquia').setValue(_item.ClimaParroquia);
 
+    if(_item.PoblacionParroquia=="null"){
+      this.formParroquia.get('_poblacionParroquia').setValue(null);
+    }else{
+      this.formParroquia.get('_poblacionParroquia').setValue(_item.PoblacionParroquia);
+    }
+
+    if(_item.SuperficieParroquia=="null"){
+      this.formParroquia.get('_superficieParroquia').setValue(null);
+    }else{
+      this.formParroquia.get('_superficieParroquia').setValue(_item.SuperficieParroquia);
+    }
+    
+    if(_item.TemperaturaParroquia=="null"){
+      this.formParroquia.get('_temperaturaParroquia').setValue(null);
+    }else{
+      this.formParroquia.get('_temperaturaParroquia').setValue(_item.TemperaturaParroquia);
+    }
+
+    if(_item.ClimaParroquia=="null"){
+      this.formParroquia.get('_climaParroquia').setValue(null);
+    }else{
+      this.formParroquia.get('_climaParroquia').setValue(_item.ClimaParroquia);
+    }
+    
+  
     this.formParroquia.get('_rutaLogoParroquia').setValue(_item.RutaLogoParroquia);
     this._btnAccion = "Modificar";
   }

@@ -16,6 +16,7 @@ import { MatSort } from '@angular/material/sort';
 import { LugaresService } from 'src/app/services/lugares.service';
 import { MatTable, MatDialog, MatSnackBar } from '@angular/material';
 import { ModalLugarRepresentanteComponent } from '../modal-lugar-representante/modal-lugar-representante.component';
+import { ModalVerImagenComponent } from '../modal-ver-imagen/modal-ver-imagen.component';
 import { toBase64String } from '@angular/compiler-cli/node_modules/source-map/lib/base64';
 import { encode } from 'punycode';
 import { utf8Encode } from '@angular/compiler/src/util';
@@ -43,6 +44,7 @@ export class ComunidadComponent implements OnInit {
   constructor(
     private lugaresService:LugaresService,
     private modalLugarRepresentante:MatDialog,
+    private modalVerImagen:MatDialog,
     private snackBarComponent:MatSnackBar,
     private router: Router
   ) {
@@ -127,7 +129,7 @@ export class ComunidadComponent implements OnInit {
   _codigoComunidad="";
   _nombreComunidad="";
   _descripcionComunidad="";
-  _rutaLogoComunidad: FileReader;
+  _rutaLogoComunidad: File;
 
   _btnAccion="Guardar";
 
@@ -149,8 +151,9 @@ export class ComunidadComponent implements OnInit {
     this._codigoComunidad="";
     this._nombreComunidad="";
     this._descripcionComunidad="";
-    //this._rutaLogoComunidad="";
-
+    this._rutaLogoComunidad=null;
+    this.filterParroquia="";
+    this.imageToUpload=null;
     this._btnAccion = "Guardar";
     this._validar = true;
   }
@@ -271,21 +274,19 @@ export class ComunidadComponent implements OnInit {
    this.imgFile = (event.target as HTMLInputElement).files[0];
    
   }
-
+  imageToUpload:any;
+  onSelectFile(event) {
+    if (event.target.files && event.target.files[0]) {
+        this.imageToUpload = event.target.files[0];
+   }
+}
   _ingresarComunidad(){
-   //const fd = new FormData();
-    //fd.append('File',  this._rutaLogoComunidad);
-  //  const request = new XMLHttpRequest();
-    // request.open('POST', '../../../../img/');
-    // request.send(fd);
-    debugger
-   // const file = (event.target as HTMLInputElement).files[0];
 
     this.lugaresService._insertarComunidad(
       this._codigoComunidad,
       this._nombreComunidad,
       this._descripcionComunidad,
-      this.imgFile,
+      this.imageToUpload,
       this._idParroquiaEncriptado,
       this._idCantonEncriptado,
       this._idProvinciaEncriptado,
@@ -294,6 +295,7 @@ export class ComunidadComponent implements OnInit {
         this._consultarComunidades();
         this._consultarParroquias();
         this._limpiarForm();
+        
         this._validar=true;
         this._validarBoton();
         // this._validarFormulario();
@@ -310,44 +312,18 @@ export class ComunidadComponent implements OnInit {
     });
   }
 
-  // onFileChange(event) {
-  //   if (event.target.files.length > 0) {
-  //     const file = event.target.files[0];
-  //     this.file = file;
-  //   }
-  // }
-
-
-
-
-  dataURLtoFile(dataurl, filename) {
- console.log(dataurl)
-      let arr = dataurl.split(','),
-          mime = arr[0].match(/:(.*?);/)[1],
-          bstr = atob(arr[1]), 
-          n = bstr.length, 
-          u8arr = new Uint8Array(n);
-          
-      while(n--){
-          u8arr[n] = bstr.charCodeAt(n);
-      }
-      
-      return new File([u8arr], filename, {type:mime});
-  }
 
   _modificarComunidad(){
-    this.lugaresService._modificarComunidad(
+      this.lugaresService._modificarComunidad(
       this._idComunidadEncriptado,
       this._codigoComunidad,
       this._nombreComunidad,
       this._descripcionComunidad,
-      this._rutaLogoComunidad,
+      this.imageToUpload,
       this._idParroquiaEncriptado,
       this._idCantonEncriptado,
       this._idProvinciaEncriptado
     ).then(data=>{
-      // console.log(data);
-      
       if (data['http']['codigo']=='200') {
         this._consultarComunidades();
         this._consultarParroquias();
@@ -487,5 +463,22 @@ export class ComunidadComponent implements OnInit {
     }); 
   }
 
+  _verImagen(_item){
+    let dialogRef = this.modalVerImagen.open(ModalVerImagenComponent, {
+      width: 'auto',
+      height: 'auto',
+      data: { imagen: _item }
+    });
+    dialogRef.afterClosed().subscribe(result=>{
+      // console.log(result);
+      if (result) {
+        
+      }
+    },error=>{
+
+    },()=>{
+      this._consultarComunidades();
+    }); 
+  }
 
 }
