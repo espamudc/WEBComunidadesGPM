@@ -26,5 +26,5 @@ export class NavComponent {
     ).subscribe(_ => this.drawer.close());
   }
 
-   tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+   tipoUsurio= localStorage.getItem('IdTipoUsuarioEncriptado');
 }

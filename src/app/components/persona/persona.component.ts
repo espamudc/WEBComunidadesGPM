@@ -53,8 +53,8 @@ export class PersonaComponent implements OnInit {
   tipoUsurio='';
   ngOnInit() {
 
-    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
-    if(this.tipoUsurio!='MQAwADYAOAA='){
+    this.tipoUsurio= localStorage.getItem('IdTipoUsuarioEncriptado');
+    if(this.tipoUsurio!='MQA='){
       this.router.navigateByUrl("/inicio/inicio");
     }
 
