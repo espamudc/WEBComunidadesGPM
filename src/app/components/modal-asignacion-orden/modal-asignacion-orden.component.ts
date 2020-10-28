@@ -7,6 +7,11 @@ import { CuestionarioPublicadoService } from "src/app/services/cuestionario-publ
 import { MatTabGroup, MatPaginator, MatTableDataSource } from '@angular/material';
 import { DomSanitizer } from "@angular/platform-browser";
 import { CKEditorModule } from 'ng2-ckeditor';
+import { PreguntaSeleccionService } from 'src/app/services/tipo-preguntas/pregunta-seleccion.service';
+export interface Section {
+  name: string;
+  updated: Date;
+}
 @Component({
   selector: 'app-modal-asignacion-orden',
   templateUrl: './modal-asignacion-orden.component.html',
@@ -19,6 +24,7 @@ export class ModalAsignacionOrdenComponent implements OnInit {
     private CaracterizacionService: CaracterizacionService,
     private dialogRef: MatDialogRef<ModalAsignacionOrdenComponent>,
     private cuestionarioPublicadoService: CuestionarioPublicadoService,
+    private preguntaSeleccionService:PreguntaSeleccionService,
     private snackBarComponent: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private sanitized: DomSanitizer,
@@ -41,6 +47,7 @@ export class ModalAsignacionOrdenComponent implements OnInit {
   log: string = '';
   @ViewChild(CKEditorModule, { static: false }) myckeditor: CKEditorModule;
   _listaPregunta: any[] = [];
+  _listaColumnaMatrizAbierta: any[]=[];
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   _listaCuestionarioPublicados = new MatTableDataSource<Element[]>();
   dataSource: any[] = [];
@@ -70,21 +77,50 @@ export class ModalAsignacionOrdenComponent implements OnInit {
   asignarCuestionario(element) {
     this.dialogRef.close(element);
   }
+  folders: Section[] = [
+    {
+      name: 'Photos',
+      updated: new Date('1/1/16'),
+    },
+    {
+      name: 'Recipes',
+      updated: new Date('1/17/16'),
+    },
+    {
+      name: 'Work',
+      updated: new Date('1/28/16'),
+    }
+  ];
   setPregunta(item) {
+    this._listaColumnaMatrizAbierta=[];
     this.matriz = false;
     this.form.controls['tipoPregunta'].setValue(item.Pregunta.TipoPregunta.Descripcion)
     if (item.Pregunta.TipoPregunta.Identificador == 4) {
       this.matriz = true;
+    }if (item.Pregunta.TipoPregunta.Identificador == 6) {
+      this.matriz = true;
+      this._consultarPreguntasSeleccion(item.Pregunta.IdPreguntaEncriptado)
     }else{
       this.mycontentMatriz = "";
     }
+  }
+  _consultarPreguntasSeleccion(idPreguntaEncriptado:string){
+    this.preguntaSeleccionService._consultarOpcionPreguntaSeleccion(
+      idPreguntaEncriptado
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+        this._listaColumnaMatrizAbierta = data['respuesta'];
+      }else{
+      }
+    }).catch(error=>{
+    }).finally(()=>{
+    });
   }
   vistaPrevia = '';
   matriz = false;
   anidarPregunta() {
     if (this.form.controls['selectPregunta'].value != 0) {
       let pregunta = this._listaPregunta.find(e => e.IdVersionamientoPreguntaEncriptado == this.form.controls['selectPregunta'].value);
-      //console.log(pregunta)
       if (pregunta.Pregunta.TipoPregunta.Identificador == 2 || pregunta.Pregunta.TipoPregunta.Identificador == 1) {
         if (this.mycontent.trim() == "") {
           this.mycontent = "<p><textarea cols='20' rows='3' name=" + pregunta.IdVersionamientoPreguntaEncriptado + ">" + pregunta.Pregunta.Descripcion + "</textarea></p>";
@@ -95,7 +131,7 @@ export class ModalAsignacionOrdenComponent implements OnInit {
         let dato = '';
         dato = "<ul><li><textarea cols='20' rows='3' name=" + pregunta.IdVersionamientoPreguntaEncriptado + ">" + pregunta.Pregunta.Descripcion + "</textarea></li></ul>";
         this.mycontent = this.mycontent.substring(0, this.mycontent.length - 5) + dato + "</p>";
-      }else if (pregunta.Pregunta.TipoPregunta.Identificador == 4) {
+      }else if (pregunta.Pregunta.TipoPregunta.Identificador == 4 || pregunta.Pregunta.TipoPregunta.Identificador == 6) {
         if (this.mycontentMatriz.trim() == "") {
           this.mensaje("Ingrese el contenido de la matriz");
         }else{
@@ -107,7 +143,6 @@ export class ModalAsignacionOrdenComponent implements OnInit {
             this.mycontent = this.mycontent.substring(0, this.mycontent.length - 5) + "<textarea cols='20' rows='3' name=" + pregunta.IdVersionamientoPreguntaEncriptado + ">" + doc.body.getElementsByTagName("p")[0].innerText + "</textarea>";
           }
           this.mycontentMatriz = "";
-          //console.log(doc.body.getElementsByTagName("p")[0].innerText);
         }
       }
     } else {
