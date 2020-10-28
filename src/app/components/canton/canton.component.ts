@@ -49,7 +49,7 @@ export class CantonComponent implements OnInit {
   tipoUsurio='';
   ngOnInit() {
 
-    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    this.tipoUsurio= localStorage.getItem('IdTipoUsuarioEncriptado');
     if(this.tipoUsurio==''){
       this.router.navigateByUrl("/login");
     }

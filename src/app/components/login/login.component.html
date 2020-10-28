@@ -24,7 +24,7 @@
                     <p *ngIf="_validarCorreo==true">
                         <mat-form-field style="width: 100%;" appearance="outline">
                           <mat-label >Correo</mat-label>
-                          <input type="email" matInput placeholder="example@example.com" [(ngModel)]="_correo" name="_name">
+                          <input type="email" matInput placeholder="example@example.com" autocomplete="off" [(ngModel)]="_correo" name="_name">
                           <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
                           <!-- <mat-hint>Hint</mat-hint> -->
                         </mat-form-field>
@@ -54,7 +54,7 @@
                     <mat-form-field style="width: 100%;">
                         <mat-label>Seleccione el Rol</mat-label>
                         <mat-select formControlName="_cmbTiposUsuarios" >
-                          <mat-option required *ngFor="let item of _misTiposUsuarios" value="{{item.IdAsignarUsuarioTipoUsuarioEncriptado}}" >
+                          <mat-option required *ngFor="let item of _misTiposUsuarios" value="{{item.TipoUsuario.IdTipoUsuarioEncriptado}}" >
                             {{item.TipoUsuario.Descripcion}}
                           </mat-option>
                         </mat-select>

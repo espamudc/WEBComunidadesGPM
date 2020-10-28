@@ -339,9 +339,9 @@ export class CaracterizacionComponent implements OnInit {
 
   tipoUsurio='';
   ngOnInit() {
-    this.tipoUsurio= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    this.tipoUsurio= localStorage.getItem('IdTipoUsuarioEncriptado');
 
-    if(this.tipoUsurio!='MQAwADYAOAA='){
+    if(this.tipoUsurio!='MQA='){
       this.router.navigateByUrl("/inicio/inicio");
     }
 
