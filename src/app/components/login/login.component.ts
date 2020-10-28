@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit ,AfterViewInit{
     localStorage.setItem("_correo",'');
     localStorage.setItem("_clave",'');
     localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado','');
+    localStorage.setItem('IdTipoUsuarioEncriptado','');
     // console.log(localStorage.getItem("_clave").length);
     // if(localStorage.getItem("_correo").length >0 && localStorage.getItem("_clave").length >0){
     //   console.log("u--p",localStorage.getItem("_clave").toString());
@@ -142,6 +143,7 @@ export class LoginComponent implements OnInit ,AfterViewInit{
             }else if (this._misTiposUsuarios.length==1) {
 
               localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado',this._misTiposUsuarios[0].IdAsignarUsuarioTipoUsuarioEncriptado)
+              localStorage.setItem('IdTipoUsuarioEncriptado',this._misTiposUsuarios[0].TipoUsuario.IdTipoUsuarioEncriptado)
               if (localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado').length==0) {
 
               }else{
@@ -174,6 +176,7 @@ export class LoginComponent implements OnInit ,AfterViewInit{
 
     if (this.formMisRoles.get('_cmbTiposUsuarios').value!=null ) {
       localStorage.setItem("IdAsignarUsuarioTipoUsuarioEncriptado",this.formMisRoles.get('_cmbTiposUsuarios').value);
+      localStorage.setItem("IdTipoUsuarioEncriptado",this.formMisRoles.get('_cmbTiposUsuarios').value);
       if (localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado').length==0) {
 
       }else{

@@ -10,6 +10,8 @@ export class LugaresService {
   constructor(private http: HttpClient) { }
 
   private _header = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+  private _header2 = new HttpHeaders().set('Content-Type', 'multipart/form-data');
+  private _header3 = new HttpHeaders().set('Content-Type', 'undefined');
 
 
   //---------------------PROVINCIAS---------------------------------------------------------
@@ -306,39 +308,27 @@ export class LugaresService {
     _IdCantonEncriptado:any,
     _IdProvinciaEncriptado:any
   ){
-
-debugger
-
-/*     var fd: any = new FormData();
-    //fd.append('photo', _RutaLogoComunidad);
-    fd.append("Parroquia.IdParroquiaEncriptado"  ,_IdParroquiaEncriptado);
-    fd.append("Parroquia.Canton.IdCantonEncriptado"       ,_IdCantonEncriptado);
-    fd.append("Parroquia.Canton.Provincia.IdProvinciaEncriptado"       ,_IdProvinciaEncriptado);
-    fd.append("CodigoComunidad"        ,_CodigoComunidad);
-    fd.append("NombreComunidad"      ,_NombreComunidad);
-    fd.append("DescripcionComunidad"   ,_DescripcionComunidad);
-    fd.append("RutaLogoComunidad"      ,_RutaLogoComunidad); */
-     const _body = new HttpParams()
+      const _bodyEE = new FormData();
           // .set('IdComunidadEncriptado'  ,_IdComunidadEncriptado)
-          .set('Parroquia.IdParroquiaEncriptado'  ,_IdParroquiaEncriptado)
-          .set('Parroquia.Canton.IdCantonEncriptado'       ,_IdCantonEncriptado)
-          .set('Parroquia.Canton.Provincia.IdProvinciaEncriptado'       ,_IdProvinciaEncriptado)
-          .set('CodigoComunidad'        ,_CodigoComunidad)
-          .set('NombreComunidad'        ,_NombreComunidad)
-          .set('DescripcionComunidad'   ,_DescripcionComunidad)
-          .append('RutaLogoComunidad'      ,_RutaLogoComunidad.name)
-          // .set('EstadoComunidad'        ,_EstadoComunidad)
-    ; 
-
+          _bodyEE.append("IdParroquiaEncriptado"  ,_IdParroquiaEncriptado);
+          _bodyEE.append("IdCantonEncriptado"       ,_IdCantonEncriptado);
+          _bodyEE.append("IdProvinciaEncriptado"       ,_IdProvinciaEncriptado);
+          _bodyEE.append("CodigoComunidad"        ,_CodigoComunidad);
+          _bodyEE.append("NombreComunidad"        ,_NombreComunidad);
+          _bodyEE.append("DescripcionComunidad"   ,_DescripcionComunidad);
+          _bodyEE.append("file"      ,_RutaLogoComunidad);
+          // .set('EstadoComunidad'        ,_EstadoComunidad) 
+   
     return new Promise ((resolve,reject)=>{
-      // console.log("servicio:",_body.toString());
-      this.http.post(url+'comunidad_insertar', _body.toString(),{headers:this._header})
+      this.http.post(url+'comunidad_insertar', _bodyEE)
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{
                   reject(err);
                 });
+
     });
+
 
   }
 
@@ -352,19 +342,19 @@ debugger
       _IdCantonEncriptado,
       _IdProvinciaEncriptado
       ){
-      const _body = new HttpParams()
-        .set('IdComunidadEncriptado'  ,_IdComunidadEncriptado)
-        .set('Parroquia.IdParroquiaEncriptado'  ,_IdParroquiaEncriptado)
-        .set('Parroquia.Canton.IdCantonEncriptado'       ,_IdCantonEncriptado)
-        .set('Parroquia.Canton.Provincia.IdProvinciaEncriptado'       ,_IdProvinciaEncriptado)
-        .set('CodigoComunidad'        ,_CodigoComunidad)
-        .set('NombreComunidad'        ,_NombreComunidad)
-        .set('DescripcionComunidad'   ,_DescripcionComunidad)
-        .set('RutaLogoComunidad'      ,_RutaLogoComunidad)
+    const _bodyEE = new FormData();
+        _bodyEE.append('IdComunidadEncriptado'  ,_IdComunidadEncriptado)
+        _bodyEE.append("IdParroquiaEncriptado"  ,_IdParroquiaEncriptado);
+        _bodyEE.append("IdCantonEncriptado"       ,_IdCantonEncriptado);
+        _bodyEE.append("IdProvinciaEncriptado"       ,_IdProvinciaEncriptado);
+        _bodyEE.append("CodigoComunidad"        ,_CodigoComunidad);
+        _bodyEE.append("NombreComunidad"        ,_NombreComunidad);
+        _bodyEE.append("DescripcionComunidad"   ,_DescripcionComunidad);
+        _bodyEE.append("file"      ,_RutaLogoComunidad);
     ;
     return new Promise ((resolve,reject)=>{
       // console.log("servicio:",_body.toString());
-      this.http.post(url+'comunidad_modificar', _body.toString(),{headers:this._header})
+      this.http.post(url+'comunidad_modificar', _bodyEE)
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{

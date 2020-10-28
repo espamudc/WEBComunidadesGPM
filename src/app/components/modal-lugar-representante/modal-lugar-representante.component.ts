@@ -269,7 +269,7 @@ export class ModalLugarRepresentanteComponent implements OnInit {
       this.formLugarRepresentante_tipoLugar.setValue("Comunidad");
       this.formLugarRepresentante_nombreLugar.setValue(this.data.lugar_data.NombreComunidad);
       this.formLugarRepresentante_idLugarEcriptado.setValue(this.data.lugar_data.IdComunidadEncriptado);
-      this.formLugarRepresentante_tituloRepresentante.setValue("LIDER COMUNITARIO");
+      this.formLugarRepresentante_tituloRepresentante.setValue("LÍDER COMUNITARIO");
       //==========================================================
       this._cargarRepresentanteComunidad();
     }
