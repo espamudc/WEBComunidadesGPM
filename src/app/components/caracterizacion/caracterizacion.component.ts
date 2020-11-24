@@ -348,7 +348,7 @@ export class CaracterizacionComponent implements OnInit {
     if(this.tipoUsurio==''){
       this.router.navigateByUrl("/login");
     }
-    
+
     this.consultarModeloGenericoTodos();
     //this._consultarTipoElemento();
     //this._consultar_cuestionarioPublicado();

@@ -40,13 +40,13 @@ export class PreguntaSeleccionComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.item.IdPreguntaEncriptado);
-    
+
     this._consultarPreguntasSeleccion();
   }
 
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
 
-    
+
     if (_duracion==null) {
        _duracion=3000;
     }
@@ -66,7 +66,7 @@ export class PreguntaSeleccionComponent implements OnInit {
   }
 
   Columns: string[] = ['descripcion', 'orden', 'acciones'];
-  
+
   _listaOpcionesPreguntaSeleccion:any[]=[];
   _consultarPreguntasSeleccion(){
     this.estado= "Ingresar";
@@ -74,8 +74,7 @@ export class PreguntaSeleccionComponent implements OnInit {
       this.item.IdPreguntaEncriptado
     ).then(data=>{
       if (data['http']['codigo']=='200') {
-       
-        
+        console.log("sad",data['respuesta'])
         this._listaOpcionesPreguntaSeleccion = data['respuesta'];
       }else{
 
@@ -111,7 +110,7 @@ export class PreguntaSeleccionComponent implements OnInit {
       this.item.TipoPregunta.IdTipoPreguntaEncriptado,
       this.formPreguntaTipoSeleccion.get("_descripcion").value
     ).then(data=>{
-      
+
       if (data['http']['codigo']=="200") {
         this.formPreguntaTipoSeleccion.reset();
         this._consultarPreguntasSeleccion();
@@ -122,7 +121,7 @@ export class PreguntaSeleccionComponent implements OnInit {
       }
     }).catch(error=>{
       console.log(error);
-      
+
     }).finally(()=>{});
   }
 
@@ -132,7 +131,7 @@ export class PreguntaSeleccionComponent implements OnInit {
       this.formPreguntaTipoSeleccion.get("_idOpcionPreguntaSeleccion").value,
       this.formPreguntaTipoSeleccion.get("_descripcion").value
     ).then(data=>{
-      
+
       if (data['http']['codigo']=="200") {
         this.formPreguntaTipoSeleccion.reset();
         this._consultarPreguntasSeleccion();
@@ -143,7 +142,7 @@ export class PreguntaSeleccionComponent implements OnInit {
       }
     }).catch(error=>{
       console.log(error);
-      
+
     }).finally(()=>{});
   }
 
