@@ -16,7 +16,7 @@ import { MatSnackBar } from '@angular/material';
 })
 export class LoginComponent implements OnInit ,AfterViewInit{
 
-  
+
 
   constructor(private usuarioService: UsuarioService,
     private router: Router,
@@ -45,14 +45,14 @@ export class LoginComponent implements OnInit ,AfterViewInit{
     // console.log(localStorage.getItem("_clave").length);
     // if(localStorage.getItem("_correo").length >0 && localStorage.getItem("_clave").length >0){
     //   console.log("u--p",localStorage.getItem("_clave").toString());
-      
+
     //   this._validarCorreo = false;
     //   this._login=true;
     //   this._correoUsuario = localStorage.getItem("_correo");
     //   this._clave = localStorage.getItem("_clave");
 
     //   // this._validarIngreso();
-      
+
 
     // }else if (localStorage.getItem("_correo").length>0) {
     //   console.log(localStorage.getItem("_clave"));
@@ -64,12 +64,12 @@ export class LoginComponent implements OnInit ,AfterViewInit{
     // }
   }
   ngAfterViewInit(){
-    
+
   }
 
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
 
-    
+
     if (_duracion==null) {
        _duracion=3000;
     }
@@ -88,7 +88,7 @@ export class LoginComponent implements OnInit ,AfterViewInit{
     let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
   }
 
-  
+
 
   _login =false;
   _validarCorreo=true;
@@ -103,7 +103,7 @@ export class LoginComponent implements OnInit ,AfterViewInit{
     this.usuarioService._validarCorreo(this._correo,"")
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          
+
           this._validarCorreo=false;
           this._login =true;
           this._correoUsuario= data['respuesta'];
@@ -145,17 +145,17 @@ export class LoginComponent implements OnInit ,AfterViewInit{
               localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado',this._misTiposUsuarios[0].IdAsignarUsuarioTipoUsuarioEncriptado)
               localStorage.setItem('IdTipoUsuarioEncriptado',this._misTiposUsuarios[0].TipoUsuario.IdTipoUsuarioEncriptado)
               if (localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado').length==0) {
-                
+
               }else{
                 console.log("IdAsignarUsuarioTipoUsuarioEncriptado solo uno:",localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado'));
-                
+
                 this.router.navigateByUrl("/inicio/inicio");
               }
-              
+
             }else if (this._misTiposUsuarios.length>1) {
               this._verFormularioMisTiposUsuarios=true;
             }
-            
+
           }else if (data['http']['codigo']=='500') {
             this.mensaje("A ocurrido un error inesperado, intente más tarde.")
           }else{
@@ -173,27 +173,27 @@ export class LoginComponent implements OnInit ,AfterViewInit{
   }
   _ingresarAlSistema(){
     //console.log(this.formMisRoles.get('_cmbTiposUsuarios').value);
-    
+
     if (this.formMisRoles.get('_cmbTiposUsuarios').value!=null ) {
       localStorage.setItem("IdAsignarUsuarioTipoUsuarioEncriptado",this.formMisRoles.get('_cmbTiposUsuarios').value);
       localStorage.setItem("IdTipoUsuarioEncriptado",this.formMisRoles.get('_cmbTiposUsuarios').value);
       if (localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado').length==0) {
-                
+
       }else{
         this.router.navigateByUrl("/inicio/inicio");
       }
       console.log("IdAsignarUsuarioTipoUsuarioEncriptado: ",localStorage.getItem("IdAsignarUsuarioTipoUsuarioEncriptado"));
-       
+
     }else{
       this.mensaje("Seleccione un Rol");
     }
-    
+
   }
   idRol = "0";
   _seleccionarRol(event){
     this.idRol = event.target.value;
     console.log(event.target.value);
-    
+
   }
 
 }

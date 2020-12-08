@@ -7,6 +7,12 @@ import { CuestionarioPublicadoService } from "src/app/services/cuestionario-publ
 import { MatTabGroup, MatPaginator, MatTableDataSource } from '@angular/material';
 import { DomSanitizer } from "@angular/platform-browser";
 import { CKEditorModule } from 'ng2-ckeditor';
+import { PreguntaSeleccionService } from 'src/app/services/tipo-preguntas/pregunta-seleccion.service';
+import { PreguntaMatrizService } from 'src/app/services/tipo-preguntas/pregunta-matriz.service';
+export interface Section {
+  name: string;
+  updated: Date;
+}
 @Component({
   selector: 'app-modal-asignacion-orden',
   templateUrl: './modal-asignacion-orden.component.html',
@@ -19,8 +25,10 @@ export class ModalAsignacionOrdenComponent implements OnInit {
     private CaracterizacionService: CaracterizacionService,
     private dialogRef: MatDialogRef<ModalAsignacionOrdenComponent>,
     private cuestionarioPublicadoService: CuestionarioPublicadoService,
+    private preguntaSeleccionService:PreguntaSeleccionService,
     private snackBarComponent: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private preguntaMatrizService:PreguntaMatrizService,
     private sanitized: DomSanitizer,
     fb: FormBuilder
   ) {
@@ -41,6 +49,7 @@ export class ModalAsignacionOrdenComponent implements OnInit {
   log: string = '';
   @ViewChild(CKEditorModule, { static: false }) myckeditor: CKEditorModule;
   _listaPregunta: any[] = [];
+  _listaColumnaMatrizAbierta: any[]=[];
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   _listaCuestionarioPublicados = new MatTableDataSource<Element[]>();
   dataSource: any[] = [];
@@ -70,21 +79,74 @@ export class ModalAsignacionOrdenComponent implements OnInit {
   asignarCuestionario(element) {
     this.dialogRef.close(element);
   }
+  folders: Section[] = [
+    {
+      name: 'Photos',
+      updated: new Date('1/1/16'),
+    },
+    {
+      name: 'Recipes',
+      updated: new Date('1/17/16'),
+    },
+    {
+      name: 'Work',
+      updated: new Date('1/28/16'),
+    }
+  ];
+  observacionMatriz=false;
   setPregunta(item) {
+    this._listaColumnaMatrizAbierta=[];
     this.matriz = false;
+    this.preguntaMatriz = false;
+    this.cargaColumnas = false;
+    this.observacionMatriz = false;
     this.form.controls['tipoPregunta'].setValue(item.Pregunta.TipoPregunta.Descripcion)
     if (item.Pregunta.TipoPregunta.Identificador == 4) {
+      this.observacionMatriz = true;
       this.matriz = true;
+      //this._consultarOpcionUnoMatriz(item.Pregunta.IdPreguntaEncriptado)
+    }if (item.Pregunta.TipoPregunta.Identificador == 6) {
+      this.matriz = true;
+      this.preguntaMatriz = true;
+      this.cargaColumnas = true;
+      this._consultarPreguntasSeleccion(item.Pregunta.IdPreguntaEncriptado)
     }else{
       this.mycontentMatriz = "";
     }
+  }
+  preguntaMatriz=false;
+  cargaColumnas = false;
+  _consultarPreguntasSeleccion(idPreguntaEncriptado:string){
+    this.preguntaSeleccionService._consultarOpcionPreguntaSeleccion(
+      idPreguntaEncriptado
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+        this._listaColumnaMatrizAbierta = data['respuesta'];
+      }else{
+      }
+    }).catch(error=>{
+    }).finally(()=>{
+    });
+    this.cargaColumnas = false;
+  }
+  _consultarOpcionUnoMatriz(idPreguntaEncriptado:string){
+    this.preguntaMatrizService._consultarOpcionUnoPreguntaMatriz(idPreguntaEncriptado)
+      .then(data=>{
+        if (data['http']['codigo']=='200') {
+          console.log(data['respuesta'])
+          // this._listaOpcionUnoMatriz=data['respuesta'];
+          //console.log("_listaOpcionUnoMatriz",this._listaOpcionUnoMatriz);
+        } else {
+        }
+      }).catch(error=>{
+      }).finally(()=>{
+      });
   }
   vistaPrevia = '';
   matriz = false;
   anidarPregunta() {
     if (this.form.controls['selectPregunta'].value != 0) {
       let pregunta = this._listaPregunta.find(e => e.IdVersionamientoPreguntaEncriptado == this.form.controls['selectPregunta'].value);
-      //console.log(pregunta)
       if (pregunta.Pregunta.TipoPregunta.Identificador == 2 || pregunta.Pregunta.TipoPregunta.Identificador == 1) {
         if (this.mycontent.trim() == "") {
           this.mycontent = "<p><textarea cols='20' rows='3' name=" + pregunta.IdVersionamientoPreguntaEncriptado + ">" + pregunta.Pregunta.Descripcion + "</textarea></p>";
@@ -95,7 +157,7 @@ export class ModalAsignacionOrdenComponent implements OnInit {
         let dato = '';
         dato = "<ul><li><textarea cols='20' rows='3' name=" + pregunta.IdVersionamientoPreguntaEncriptado + ">" + pregunta.Pregunta.Descripcion + "</textarea></li></ul>";
         this.mycontent = this.mycontent.substring(0, this.mycontent.length - 5) + dato + "</p>";
-      }else if (pregunta.Pregunta.TipoPregunta.Identificador == 4) {
+      }else if (pregunta.Pregunta.TipoPregunta.Identificador == 4 || pregunta.Pregunta.TipoPregunta.Identificador == 6) {
         if (this.mycontentMatriz.trim() == "") {
           this.mensaje("Ingrese el contenido de la matriz");
         }else{
@@ -107,7 +169,6 @@ export class ModalAsignacionOrdenComponent implements OnInit {
             this.mycontent = this.mycontent.substring(0, this.mycontent.length - 5) + "<textarea cols='20' rows='3' name=" + pregunta.IdVersionamientoPreguntaEncriptado + ">" + doc.body.getElementsByTagName("p")[0].innerText + "</textarea>";
           }
           this.mycontentMatriz = "";
-          //console.log(doc.body.getElementsByTagName("p")[0].innerText);
         }
       }
     } else {
@@ -168,6 +229,7 @@ export class ModalAsignacionOrdenComponent implements OnInit {
     var respuesta = await this.CaracterizacionService._consultarConfigurarComponentePorComponente(this.data.IdComponente.IdAsignarComponenteGenericoEncriptado);
     if (respuesta['http']['codigo'] == "200") {
       if (respuesta['respuesta'] != null) {
+        console.log(respuesta['respuesta'].Contenido)
         this.mycontent = respuesta['respuesta'].Contenido;
         if (respuesta['respuesta'].Imagen == 1) {
           this.formGroup.controls['Mapa'].setValue(true);

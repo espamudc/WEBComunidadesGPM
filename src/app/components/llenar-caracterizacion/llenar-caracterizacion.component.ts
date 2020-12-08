@@ -133,7 +133,7 @@ export class LlenarCaracterizacionComponent implements OnInit {
     if(this.tipoUsurio==''){
       this.router.navigateByUrl("/login");
     }
-    
+
     this._consultarCaracterizacionPublicadaActivos();
     this._listaCuestionariosPublicados.filterPredicate = function(data, filter: string): boolean {
       return (
