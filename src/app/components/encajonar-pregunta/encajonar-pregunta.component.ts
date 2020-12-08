@@ -15,8 +15,9 @@ import { PreguntaEncajonarService } from 'src/app/services/pregunta-encajonar.se
   styleUrls: ['./encajonar-pregunta.component.css']
 })
 export class EncajonarPreguntaComponent implements OnInit {
-
+  
   constructor( 
+    
     private snackBarComponent: MatSnackBar,
     private preguntaService: PreguntaSeccionComponenteCuestionarioGenericoService,
     private preguntaEncajonarService:PreguntaEncajonarService,
@@ -44,6 +45,7 @@ export class EncajonarPreguntaComponent implements OnInit {
 
     });
   }
+  
 
   tipoUsurio='';
   ngOnInit() {
@@ -52,8 +54,9 @@ export class EncajonarPreguntaComponent implements OnInit {
       this.router.navigateByUrl("/login");
     }
     this._cargarMisCuestionariosGenericos();
+    
   }
-
+  
   formEncajonarPregunta: FormGroup;
 
   get formEncajonarPregunta_idPreguntaEncriptado(){

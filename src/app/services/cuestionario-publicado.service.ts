@@ -67,6 +67,23 @@ export class CuestionarioPublicadoService {
 
   }
 
+  _deshabilitar_cuestionarioFinalizado(
+    _idAsignarEncuestadoEncriptado
+  ){
+    const _body = new HttpParams()
+     ;
+
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'cuestionariopublicado_finalizar?_idAsignarEncuestadoEncriptado='+_idAsignarEncuestadoEncriptado,_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+
+  }
+
   _consultar_cuestionarioPublicadoporidasignarusuariotipousuario(_idAsignarUsuarioTipoUsuarioEncriptado){
     
     const _body = new HttpParams();

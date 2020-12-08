@@ -288,33 +288,33 @@
         
                         <table mat-table [dataSource]="_listaAsignarEncuestados" matSort>
                             <ng-container matColumnDef="tecnico">
-                                <th mat-header-cell *matHeaderCellDef> TÉCNICO </th>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> TÉCNICO </th>
                                 <td mat-cell *matCellDef="let element"> {{ element.AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.PrimerNombre }} {{ element.AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.PrimerApellido }}</td>
                             </ng-container>
                             <ng-container matColumnDef="fecha_inicio">
-                                <th mat-header-cell *matHeaderCellDef> FECHA DE INICIO </th>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA DE INICIO </th>
                                 <td mat-cell *matCellDef="let element"> {{ element.FechaInicio | date: 'yyyy-MM-dd' }} 
                                     </td>
                             </ng-container>
                             <ng-container matColumnDef="fecha_fin">
-                                <th mat-header-cell *matHeaderCellDef> FECHA DE FIN </th>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA DE FIN </th>
                                 <td mat-cell *matCellDef="let element"> {{ element.FechaFin | date: 'yyyy-MM-dd' }} 
                                     </td>
                             </ng-container>
                             <ng-container matColumnDef="comunidad">
-                                <th mat-header-cell *matHeaderCellDef> COMUNIDAD </th>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> COMUNIDAD </th>
                                 <td mat-cell *matCellDef="let element"> {{ element.Comunidad.NombreComunidad }} </td>
                             </ng-container>
                             <ng-container matColumnDef="cuestionario">
-                                <th mat-header-cell *matHeaderCellDef> CUESTIONARIO </th>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> CUESTIONARIO </th>
                                 <td mat-cell *matCellDef="let element"> {{ element.CuestionarioPublicado.CabeceraVersionCuestionario.AsignarResponsable.CuestionarioGenerico.Nombre }} </td>
                             </ng-container>
                             <ng-container matColumnDef="cuestionario_version">
-                                <th mat-header-cell *matHeaderCellDef> VERSIÓN </th>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> VERSIÓN </th>
                                 <td mat-cell *matCellDef="let element"> {{element.CuestionarioPublicado.CabeceraVersionCuestionario.Version}} </td>
                             </ng-container>
                             <ng-container matColumnDef="acciones">
-                                <th colspan="2" mat-header-cell *matHeaderCellDef> ACCIONES </th>
+                                <th colspan="3" mat-header-cell *matHeaderCellDef mat-sort-header> ACCIONES </th>
                                 <ng-container *matCellDef="let element">
                                     <ng-container >
                                         <!-- <td mat-cell>
@@ -334,6 +334,18 @@
                                             </button>
                                         </td> -->
 
+                                        <td mat-cell>
+                                            <button  tooltip="Habilitar" placement="top" *ngIf="element.FinalizadaCabeceraRespuestas=='True'"
+                                                class="btn btn-sm btn-outline-primary separacion-botones" style="color: red; border-color: red;"
+                                                value="{{element.IdCuestionarioPublicadoEncriptado}}" (click)="_deshabilitar_cuestionarioFinalizado(element)">
+                                                <i class="fa fa-power-off" aria-hidden="true"></i>
+                                            </button>
+                                            <button  tooltip="Finalizar" placement="top" *ngIf="element.FinalizadaCabeceraRespuestas=='False'"
+                                                class="btn btn-sm btn-outline-primary separacion-botones"
+                                                value="{{element.IdCuestionarioPublicadoEncriptado}}" (click)="_deshabilitar_cuestionarioFinalizado(element)">
+                                                <i class="fa fa-power-off" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
                                         <td mat-cell>
                                             <button tooltip="Modificar" placement="top"
                                                 class="btn btn-sm btn-outline-info separacion-botones"

@@ -39,8 +39,6 @@ export class PreguntaSeleccionComponent implements OnInit {
   @Input() item : any={};
 
   ngOnInit() {
-    console.log(this.item.IdPreguntaEncriptado);
-    
     this._consultarPreguntasSeleccion();
   }
 
@@ -166,7 +164,6 @@ _Descripcion="";
 
   _prepararPreguntasSeleccion(_item: any){
     this.estado="Editar";
-    console.log(_item)
 
     this._IdPreguntaEncriptado= _item.Pregunta.IdPreguntaEncriptado;
     this._Descripcion= _item.Descripcion;

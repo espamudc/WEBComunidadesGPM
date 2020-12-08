@@ -32,6 +32,11 @@ export class PreguntaAbiertaComponent implements OnInit {
     this.formPreguntaTipoAbierta.get("_idPreguntaEncriptado").setValue(this.item.IdPreguntaEncriptado);
     this._consultarOpcionesPreguntasAbiertas();
     this._consultarPreguntaAbiertaTipoDatos();
+
+    this.formPreguntaTipoAbierta.get("_cmbTipoDato").setValue("NwA=");
+    this._identificador=4;
+ 
+    
   }
   Columns: string[] = [ 'tipo_dato','minimo', 'maximo' ,'acciones'];
   formPreguntaTipoAbierta:FormGroup;
@@ -112,7 +117,6 @@ export class PreguntaAbiertaComponent implements OnInit {
   _requeridos(event){
     this.PREGUNTAABIERTA_valorMinimo.reset();
     this.PREGUNTAABIERTA_valorMaximo.reset();
-    console.log(event.checked);
     this._input_required=event.cheked;
     
 
@@ -124,15 +128,10 @@ export class PreguntaAbiertaComponent implements OnInit {
     this.preguntaAbiertaService._consultarOpcionesPreguntasAbiertas(this.item.IdPreguntaEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          console.log("lista de Opciones",data['respuesta']);
           this._listaOpcionesPreguntasAbiertas.push(data['respuesta']);
           this._listaOpcionesPreguntasAbiertas.map((item,index)=>{
-            console.log("item",item.TipoDato.Descripcion );
 
           });
-          
-          // this._listaOpcionesPreguntasAbiertas.push(data['respuesta']);
-          // console.log("sfasdasd",this._listaOpcionesPreguntasAbiertas);
 
         }
       }).catch(error=>{
@@ -194,10 +193,6 @@ export class PreguntaAbiertaComponent implements OnInit {
   }
 
   _insertarOpcionPreguntasAbiertas(){
-
-      console.log("get miniom",this.formPreguntaTipoAbierta.get("_valorMaximo").value);
-      console.log("get max",this.formPreguntaTipoAbierta.get("_valorMinimo").value);
-      console.log("valor minimo",this.PREGUNTAABIERTA_valorMinimo.value);
       this.preguntaAbiertaService._insertarOpcionPreguntaAbierta(
             this.item.IdPreguntaEncriptado,
             this.item.TipoPregunta.IdTipoPreguntaEncriptado,

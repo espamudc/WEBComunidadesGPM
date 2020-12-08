@@ -127,7 +127,7 @@
                     <th  style="border-bottom-color: transparent; border-right-color: transparent; " scope="row"></th>
                     <th  style="border-bottom-color: transparent;" [attr.rowspan]="2" scope="row">#</th>
                     <th *ngFor="let item of ColumnsOpcionDosMatriz ; let i = index" scope="col">{{item.Descripcion}}</th>
-                    <th *ngIf="_PreguntaConfigurarMatriz.Observacion==1" scope="col">Observación</th>
+                    <th *ngIf="_PreguntaConfigurarMatriz.Observacion==1" scope="col">{{item.campo_observacion}}</th>
                   </tr>
                 </thead>
                 <tbody style="text-align: center">

@@ -150,6 +150,7 @@ import { ModalVerImagenComponent } from './components/modal-ver-imagen/modal-ver
     ModalVerImagenComponent,
 
 
+
     // MessageBoxComponent,
   ],
   imports: [
@@ -190,6 +191,7 @@ import { ModalVerImagenComponent } from './components/modal-ver-imagen/modal-ver
     DragDropModule,
     CKEditorModule,
     MatTreeModule
+    
   ],
   entryComponents: [
     ModalDetallePersonaComponent,
@@ -207,7 +209,7 @@ import { ModalVerImagenComponent } from './components/modal-ver-imagen/modal-ver
     ModalLlenarInformacionComponent,
     GaleriaComponent,
     ModalEncajonamientoComponent,
-    ModalVerImagenComponent
+    ModalVerImagenComponent,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

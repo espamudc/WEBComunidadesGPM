@@ -76,17 +76,22 @@ export class LoadmoreDatabase {
       
         this.dataMap.set(seccion.Descripcion, preguntas);
       }
+      
+      preguntas=[];
 
       });
 
       this.dataMap.set(nombres, secciones);
       this.rootLevelNodes.push(nombres);
+      
     });
     const data = this.rootLevelNodes.map((name) => this._generateNode(name));
- 
+
+
     this.dataChange.next(data);
    
   }
+  
 
   loadMore(item: string, onlyFirstTime = false) {
     
@@ -132,7 +137,7 @@ export class TreeViewComponent implements OnInit {
     this.dataSource.data= [];
       
       await this.cuestionarioGenericoService
-        ._cuestionariogenerico_consultarporidconcomponenteconseccionconpregunta(
+        ._cuestionariogenerico_consultarporidconcomponenteconseccionconpreguntaRandom(
           val
         )
         .then((data) => {
@@ -175,6 +180,16 @@ export class TreeViewComponent implements OnInit {
       .catch((error) => {})
       .finally(() => {});
   }
+
+ quitarRandom(val) {
+  var cad = val;
+  var count= cad.length;
+  
+  var cadenaFinal= cad.substring(count,7);
+  
+  return cadenaFinal;
+    
+ }
 
   _onChangeCmbCuestionariosGenericos(event) {
     
@@ -242,6 +257,7 @@ export class TreeViewComponent implements OnInit {
       this.dataSource.data = data;
     });
   }
+
 
   getChildren = (node: LoadmoreNode): Observable<LoadmoreNode[]> =>
     node.childrenChange;

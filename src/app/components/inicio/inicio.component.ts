@@ -15,7 +15,7 @@ export class InicioComponent implements OnInit {
   tipoUsurio='';
   ngOnInit() {
     this.tipoUsurio= localStorage.getItem('IdTipoUsuarioEncriptado');
-    if(this.tipoUsurio==''){
+    if(this.tipoUsurio==null){
       this.router.navigateByUrl("/login");
     }
   }
