@@ -11,7 +11,7 @@ import { formatDate } from '@angular/common';
 import { MatPaginator, MatTableDataSource, MatPaginatorIntl } from '@angular/material';
 import { MatDialog } from "@angular/material/dialog";
 import { ModalLlenarInformacionComponent } from 'src/app/components/modal-llenar-informacion/modal-llenar-informacion.component';
-
+import { urlImagen } from "../../../environments/environment";
 @Component({
   selector: 'app-llenar-caracterizacion',
   templateUrl: './llenar-caracterizacion.component.html',
@@ -89,7 +89,7 @@ export class LlenarCaracterizacionComponent implements OnInit {
   }
   generarReporte(element) {
     console.log(this.formCaracterizacion_CmbVersion.value)
-    window.open("http://localhost:55584/Caracterizacion/Caracterizacion?Encuesta="+element.IdCabeceraRespuestaEncriptado+"&Caracterizacion="+this.formCaracterizacion_CmbVersion.value.CabeceraVersionModelo.IdCabeceraVersionModeloEncriptado);
+    window.open(urlImagen+"Caracterizacion/Caracterizacion?Encuesta="+element.IdCabeceraRespuestaEncriptado+"&Caracterizacion="+this.formCaracterizacion_CmbVersion.value.CabeceraVersionModelo.IdCabeceraVersionModeloEncriptado);
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
