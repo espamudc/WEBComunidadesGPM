@@ -452,6 +452,19 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
       });
   }
 
+  _deshabilitar_cuestionarioFinalizado(_item){
+    
+    console.log(_item)
+    this.cuestionarioPublicadoService._deshabilitar_cuestionarioFinalizado(_item.IdAsignarEncuestadoEncriptado)
+      .then(data=>{
+        this._consultar_poridcuestionariopublicado(_item.CuestionarioPublicado.IdCuestionarioPublicadoEncriptado);
+      }).catch(error=>{
+
+      }).finally(()=>{
+
+      });
+  }
+
   _prepararCuestionarioPublicado(_item){
     this.guardar = true;
     //console.log("_verCuestionarioPublicado",_item);

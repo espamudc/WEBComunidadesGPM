@@ -79,14 +79,32 @@
                   <mat-label>Tipo Pregunta</mat-label>
                   <input readonly formControlName="tipoPregunta" matInput placeholder="Placeholder">
                 </mat-form-field>
-                <mat-list *ngIf="_listaColumnaMatrizAbierta.length>0">
-                  <div mat-subheader>Columnas</div>
-                  <mat-list-item style="height: inherit !important;" *ngFor="let item of _listaColumnaMatrizAbierta; index as i">
-                    <mat-icon mat-list-icon>view_column</mat-icon>
-                    <div mat-line>{{item.Descripcion}}</div>
-                    <div mat-line><strong>col-{{i+1}}</strong></div>
-                  </mat-list-item>
-                </mat-list>
+                <cdk-virtual-scroll-viewport class="example-viewport" itemSize="60" *ngIf="preguntaMatriz">
+                  <dl class="example-dl">
+                    <ng-container>
+                      <dt class="example-dt">Columnas</dt>
+                      <dd *cdkVirtualFor="let item of _listaColumnaMatrizAbierta; index as i" class="example-dd">
+                        {{item.Descripcion}} <strong>col-{{i+1}}</strong>
+                      </dd>
+                    </ng-container>
+                  </dl>
+                </cdk-virtual-scroll-viewport>
+                <cdk-virtual-scroll-viewport class="example-viewport" itemSize="60" *ngIf="observacionMatriz">
+                  <dl class="example-dl">
+                    <ng-container>
+                      <dt class="example-dt">Observación</dt>
+                      <dd class="example-dd">
+                        <strong>F: </strong> Identificador de la fila
+                      </dd>
+                      <dd class="example-dd">
+                        <strong>C: </strong> Identificador de la columna
+                      </dd>
+                      <dd class="example-dd">
+                        <strong>O: </strong> Identificador de la observación
+                      </dd>
+                    </ng-container>
+                  </dl>
+                </cdk-virtual-scroll-viewport>
               </div>
               <div *ngIf="matriz" class="col-xs-6 col-md-8">
                 <form role="form" #myForm="ngForm" accept-charset="UTF-8" novalidate>

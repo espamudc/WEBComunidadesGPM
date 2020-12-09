@@ -4,7 +4,7 @@
     <mat-label>Seleccione una Pregunta</mat-label>
     <mat-select [formControl]="formEncajonarPregunta_cmbPreguntaEncajonada" (selectionChange)="_onChangeCmbEncajonar($event)">
         
-        <mat-option *ngFor="let item of _listaPreguntasSeccionComponenteCuestionarioGenerico2"
+        <mat-option  *ngFor="let item of _listaPreguntasSeccionComponenteCuestionarioGenerico2"
             [value]="item.IdPreguntaEncriptado">
             {{item.Descripcion}}
         </mat-option>

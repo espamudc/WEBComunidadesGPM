@@ -8,6 +8,7 @@ import { MatTabGroup, MatPaginator, MatTableDataSource } from '@angular/material
 import { DomSanitizer } from "@angular/platform-browser";
 import { CKEditorModule } from 'ng2-ckeditor';
 import { PreguntaSeleccionService } from 'src/app/services/tipo-preguntas/pregunta-seleccion.service';
+import { PreguntaMatrizService } from 'src/app/services/tipo-preguntas/pregunta-matriz.service';
 export interface Section {
   name: string;
   updated: Date;
@@ -27,6 +28,7 @@ export class ModalAsignacionOrdenComponent implements OnInit {
     private preguntaSeleccionService:PreguntaSeleccionService,
     private snackBarComponent: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private preguntaMatrizService:PreguntaMatrizService,
     private sanitized: DomSanitizer,
     fb: FormBuilder
   ) {
@@ -91,19 +93,29 @@ export class ModalAsignacionOrdenComponent implements OnInit {
       updated: new Date('1/28/16'),
     }
   ];
+  observacionMatriz=false;
   setPregunta(item) {
     this._listaColumnaMatrizAbierta=[];
     this.matriz = false;
+    this.preguntaMatriz = false;
+    this.cargaColumnas = false;
+    this.observacionMatriz = false;
     this.form.controls['tipoPregunta'].setValue(item.Pregunta.TipoPregunta.Descripcion)
     if (item.Pregunta.TipoPregunta.Identificador == 4) {
+      this.observacionMatriz = true;
       this.matriz = true;
+      //this._consultarOpcionUnoMatriz(item.Pregunta.IdPreguntaEncriptado)
     }if (item.Pregunta.TipoPregunta.Identificador == 6) {
       this.matriz = true;
+      this.preguntaMatriz = true;
+      this.cargaColumnas = true;
       this._consultarPreguntasSeleccion(item.Pregunta.IdPreguntaEncriptado)
     }else{
       this.mycontentMatriz = "";
     }
   }
+  preguntaMatriz=false;
+  cargaColumnas = false;
   _consultarPreguntasSeleccion(idPreguntaEncriptado:string){
     this.preguntaSeleccionService._consultarOpcionPreguntaSeleccion(
       idPreguntaEncriptado
@@ -115,6 +127,20 @@ export class ModalAsignacionOrdenComponent implements OnInit {
     }).catch(error=>{
     }).finally(()=>{
     });
+    this.cargaColumnas = false;
+  }
+  _consultarOpcionUnoMatriz(idPreguntaEncriptado:string){
+    this.preguntaMatrizService._consultarOpcionUnoPreguntaMatriz(idPreguntaEncriptado)
+      .then(data=>{
+        if (data['http']['codigo']=='200') {
+          console.log(data['respuesta'])
+          // this._listaOpcionUnoMatriz=data['respuesta'];
+          //console.log("_listaOpcionUnoMatriz",this._listaOpcionUnoMatriz);
+        } else {
+        }
+      }).catch(error=>{
+      }).finally(()=>{
+      });
   }
   vistaPrevia = '';
   matriz = false;
@@ -203,6 +229,7 @@ export class ModalAsignacionOrdenComponent implements OnInit {
     var respuesta = await this.CaracterizacionService._consultarConfigurarComponentePorComponente(this.data.IdComponente.IdAsignarComponenteGenericoEncriptado);
     if (respuesta['http']['codigo'] == "200") {
       if (respuesta['respuesta'] != null) {
+        console.log(respuesta['respuesta'].Contenido)
         this.mycontent = respuesta['respuesta'].Contenido;
         if (respuesta['respuesta'].Imagen == 1) {
           this.formGroup.controls['Mapa'].setValue(true);

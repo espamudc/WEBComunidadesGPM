@@ -1,4 +1,6 @@
 import {DatePipe} from '@angular/common';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
@@ -150,6 +152,7 @@ import { ModalVerImagenComponent } from './components/modal-ver-imagen/modal-ver
     ModalVerImagenComponent,
 
 
+
     // MessageBoxComponent,
   ],
   imports: [
@@ -189,7 +192,8 @@ import { ModalVerImagenComponent } from './components/modal-ver-imagen/modal-ver
     MatTooltipModule,
     DragDropModule,
     CKEditorModule,
-    MatTreeModule
+    MatTreeModule,
+    ScrollingModule
   ],
   entryComponents: [
     ModalDetallePersonaComponent,
@@ -207,7 +211,7 @@ import { ModalVerImagenComponent } from './components/modal-ver-imagen/modal-ver
     ModalLlenarInformacionComponent,
     GaleriaComponent,
     ModalEncajonamientoComponent,
-    ModalVerImagenComponent
+    ModalVerImagenComponent,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

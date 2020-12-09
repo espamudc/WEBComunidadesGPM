@@ -26,5 +26,11 @@ export class NavComponent {
     ).subscribe(_ => this.drawer.close());
   }
 
-   tipoUsurio= localStorage.getItem('IdTipoUsuarioEncriptado');
+  tipoUsurio='';
+  ngOnInit() {
+    this.tipoUsurio= localStorage.getItem('IdTipoUsuarioEncriptado');
+    if(this.tipoUsurio==''){
+      this.router.navigateByUrl("/login");
+    }
+  }
 }

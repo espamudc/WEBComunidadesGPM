@@ -68,6 +68,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
       _leyendaLateral : new FormControl(''),
       _orden : new FormControl(''),
       _observacion:new FormControl(''),
+      _campoObservacion:new FormControl(''),
     });
 
     this.formPreguntaTipoSeleccion = new FormGroup({
@@ -80,10 +81,11 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
 
     //this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_obligatorio").setValue("true");
    }
-   @ViewChild(MatAccordion, { static: true }) accordion: MatAccordion;
+
 
    
    checked=true;
+   test="";
   formCuestionarioGenerico:FormGroup;
   formComponenteCuestionarioGenerico:FormGroup;
   formSeccionComponenteCuestionarioGenerico:FormGroup;
@@ -156,9 +158,13 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
   get _observacion(){
     return this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_observacion");
   }
+  get _campoObservacion(){
+    return this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_campoObservacion");
+  }
   _obligatorioPregunta=true;
   _obligatorioPregunta_true=true;
   _obligatorioPregunta_false=false;
+  _obligatorioCampoObservacion=true;
   //formPreguntaTipoSeleccionUnica-------------------------------------------------------------
   
   get pregunta_seleccion_idPreguntaEncriptado(){
@@ -195,6 +201,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
   }
 
   tipoUsurio='';
+  mensajeee= 'Este es el hijo';
   ngOnInit() {
     
     this.tipoUsurio= localStorage.getItem('IdTipoUsuarioEncriptado');
@@ -203,7 +210,9 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     }
     this._cargarMisCuestionariosGenericos();
     
-    //this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_obligatorio").setValue("true");
+    this.preguntaSeccionComponenteCuestionarioGenericoService.refresh$.subscribe(()=>{
+      this._consultarPreguntasSeccionComponenteCuestionarioGenerico(this.test);
+    })
   }
 
   _limpiarFormComponentes(){
@@ -217,7 +226,22 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
   _limpiarFormPreguntas(){
     this._OcultarcmbTipoPregunta=false;
     this._btnAccionP="Guardar";
-    this.formPreguntaSeccionComponenteCuestionarioGenerico.reset(); 
+    this.formPreguntaSeccionComponenteCuestionarioGenerico.reset();
+    this._obligatorioCampoObservacion=false;
+    this.checked=false;
+    this.agregarLeyendas=false;
+ 
+  }
+
+  campoObservacion(event: any){
+
+   if(event.checked==true){
+    this._obligatorioCampoObservacion=true;
+   }else{
+    this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_campoObservacion").setValue("");
+    this._obligatorioCampoObservacion=false;
+   }
+
   }
 
   Columns: string[] = ['descripcion', 'orden', 'acciones'];
@@ -234,24 +258,14 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
 
   _listaCuestionariosGenericos:any[]=[];
   _cargarMisCuestionariosGenericos(){
-    // console.log(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado'));
     
     this.cuestionarioGenericoService._consultarCuestionarioGeneriocoPorIdAsignarUsuarioTipoUsuarioEncriptado(
       localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')
     )
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          // console.log(data['respuesta']);
-          // 
-          this._listaCuestionariosGenericos = data['respuesta'];
-          // data['respuesta'].map(item=>{
-          //   console.log(item.CuestionarioGenerico);
-          //   this._listaCuestionariosGenericos.push(item.CuestionarioGenerico);
-          //   // this._listaCuestionariosGenericos.push(item['CuestionarioGenerico']);
-          // });
-          console.log("lista",this._listaCuestionariosGenericos);
           
-          // console.log(data['http']['codigo']);
+          this._listaCuestionariosGenericos = data['respuesta'];
           
         }else if (data['http']['codigo']=='500') {
           this.mensaje("A ocurrido un error inesperado, intente más tarde.")
@@ -261,7 +275,6 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
       }).catch(error=>{
 
       }).finally(()=>{
-        //this.MatTableCuestionariosGenericos.renderRows();
       });
   }
 
@@ -277,7 +290,6 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     this._listaPreguntasSeccionComponenteCuestionarioGenerico=null;
 
 
-    console.log(event.value);
     this.formCuestionarioGenerico.get("_cmbComponenteCuestionarioGenerico").reset();
     this._consultarComponentesDeCuestionario(event.value);
     //this.formComponenteCuestionarioGenerico.get("_idCuestionarioGenericoEncriptado").setValue(event.value);
@@ -294,6 +306,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     this._btnAccionC ="Guardar";
     this._obligatorioPregunta=true;
     this._obligatorioPregunta_true=true;
+    this._obligatorioCampoObservacion=false;
     // this.ElementRef_tablaComponentesCuestionarioGenerico.nativeElement.style          ="visible:visible";
     // this.ElementRef_formComponente.nativeElement.style                               ="visible:visible";
     // this.ElementRef_formSeccion.nativeElement.style                                  ="overflow: hidden";
@@ -310,9 +323,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
 
     this.logica_preguntas=false;
     this.logica_componentes=false;
-    this.logica_secciones =true;
-    console.log("s:",event.value);
-    
+    this.logica_secciones =true;    
     this._consultarSeccionesDeComponentesDeCuestionario(event.value);
     this.formSeccionComponenteCuestionarioGenerico.reset();
     this.formPreguntaSeccionComponenteCuestionarioGenerico.reset();
@@ -320,16 +331,27 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     this._obligatorioPregunta_true=true;
   }
 
-  _onChangeCmbSeccionComponentesCuestionarioGenerico(event?){
+  public _onChangeCmbSeccionComponentesCuestionarioGenerico(event?){
+    this.logica_preguntas=true;
+    this.logica_componentes=false;
+    this.logica_secciones =false;
+    this._consultarTiposPreguntas();
+    this._consultarPreguntasSeccionComponenteCuestionarioGenerico(event.value);
+    this.test=event.value;
+    this.formPreguntaSeccionComponenteCuestionarioGenerico.reset();
+    this._obligatorioPregunta=true;
+    this._obligatorioPregunta_true=true;
+  }
 
+  _MetodSeccionComponentesCuestionarioGenerico(value){
+this.mensajeee=value;
    
 
     this.logica_preguntas=true;
     this.logica_componentes=false;
     this.logica_secciones =false;
-    console.log("sa:",event.value);
     this._consultarTiposPreguntas();
-    this._consultarPreguntasSeccionComponenteCuestionarioGenerico(event.value);
+    this._consultarPreguntasSeccionComponenteCuestionarioGenerico(this.mensajeee);
     this.formPreguntaSeccionComponenteCuestionarioGenerico.reset();
     this._obligatorioPregunta=true;
     this._obligatorioPregunta_true=true;
@@ -351,9 +373,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     this.componenteCuestionarioGenericoService._consultarComponentesDeCuestionario(_IdCuestionarioGenericoEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          this._listaComponentesCuestionarioGenerico= data['respuesta'];
-          console.log(this._listaComponentesCuestionarioGenerico);
-          
+          this._listaComponentesCuestionarioGenerico= data['respuesta'];          
         }
       }).catch(error=>{
 
@@ -367,8 +387,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
 
 
   _validarAccionFormComponenteCuestionarioGenerico(){
-    // 
-    console.log(this._listaComponentesCuestionarioGenerico.length);
+  
     if (this._btnAccionC=="Guardar") {
       this._insertarComponenteCuestionarioGenerico(); 
     }else if (this._btnAccionC=="Actualizar"){
@@ -387,7 +406,6 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
       let orden = this._listaComponentesCuestionarioGenerico[this._listaComponentesCuestionarioGenerico.length-1].Orden+1;
       this.formComponenteCuestionarioGenerico.get("_orden").setValue(orden);
     }
-    console.log("orden:",this.formComponenteCuestionarioGenerico.get("_orden").value);
     
     this.formComponenteCuestionarioGenerico.get("_idCuestionarioGenericoEncriptado").setValue( this.formCuestionarioGenerico.get("_cmbCuestionarioGenerico").value);
 
@@ -422,7 +440,6 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
         }else{
           this.mensaje(data['http']['mensaje']);
         }
-        console.log("eliminar",data);
         
       }).catch(error=>{
 
@@ -436,7 +453,6 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaSeccionesComponenteCuestionarioGenerico = data['respuesta'];
-          // console.log(this._listaSeccionesComponenteCuestionarioGenerico);
           
         }
       }).catch(error=>{
@@ -460,7 +476,6 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     
     this.formSeccionComponenteCuestionarioGenerico.get("_orden").setValue(this._listaSeccionesComponenteCuestionarioGenerico.length+1);
 
-    console.log("descripcion",this.formSeccionComponenteCuestionarioGenerico.get("_descripcion").value);
     this.seccionComponenteCuestionarioGenericoService._insertarSeccionDeComponenteDeCuestionarioGenerico(
       this.formCuestionarioGenerico.get("_cmbComponenteCuestionarioGenerico").value,
       this.formSeccionComponenteCuestionarioGenerico.get("_descripcion").value,
@@ -559,14 +574,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     this.formSeccionComponenteCuestionarioGenerico.get("_descripcion").setValue(_item.Descripcion);
     this.formSeccionComponenteCuestionarioGenerico.get("_orden").setValue(_item.Orden);
     this._btnAccionS="Actualizar";
-
-    console.log(
-
-      "IDComponente",this.formSeccionComponenteCuestionarioGenerico.get("_idComponenteEncriptado").value
-
-    );
-    
-
+  
   }
 
   _modificarSeccionDeComponenteDeCuestionarioGenerico(){
@@ -609,24 +617,24 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     if(TipoPregunta.Identificador == 4){
       this.agregarLeyendas=true;
       this.checked = true;
+      this._obligatorioCampoObservacion=true;
     }else{
       this.agregarLeyendas=false;
       this.checked = false;
+      this._obligatorioCampoObservacion=false;
     }
   }
 
   _listaPreguntasSeccionComponenteCuestionarioGenerico:any[]=[];
   _consultarPreguntasSeccionComponenteCuestionarioGenerico(idSeccionEncriptado){
-    
-    let id = this.formCuestionarioGenerico.get("_cmbSeccionComponenteCuestionarioGenerico").value;
+    this._listaPreguntasSeccionComponenteCuestionarioGenerico=[];
     this.preguntaSeccionComponenteCuestionarioGenericoService._consultarPreguntasSeccionComponenteCuestionarioGenerico(idSeccionEncriptado)
       .then(data=>{
+        
         if (data['http']['codigo']=='200') {
-          console.log(data);
           
           this._listaPreguntasSeccionComponenteCuestionarioGenerico= data['respuesta'];
-
-          //this._listaPreguntasSeccionComponenteCuestionarioGenerico.sort(data=>data.Orden);
+          
 
         }
       }).catch(error=>{
@@ -646,7 +654,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     this.preguntaSeccionComponenteCuestionarioGenericoService._consultarPreguntasSeccionComponenteCuestionarioGenericoFiltrado(idSeccion, idTipoPregunta)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          console.log(data);
+         
           
           this._listaPreguntasSeccionComponenteCuestionarioGenerico= data['respuesta'];
 
@@ -673,18 +681,14 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
 
   _btnAccionP="Guardar";
   _insertarPreguntaSeccionComponenteCuestionarioGenerico(){
-    console.log(this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_obligatorio").value);
-
     
 
     let _orden = this._listaPreguntasSeccionComponenteCuestionarioGenerico.length+1; 
-    //console.log(_orden);
     
     if (this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_obligatorio").value==null) {
       this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_obligatorio").setValue(true);
     }
 
-    //console.log(this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_obligatorio").value);
     
 
     this.preguntaSeccionComponenteCuestionarioGenericoService._insertarPreguntasSeccionComponenteCuestionarioGenerico(
@@ -695,12 +699,15 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
       this._obligatorioPregunta,
       this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_leyendaSuperior").value,
       this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_leyendaLateral").value,
-      this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_observacion").value
+      this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_observacion").value,
+      this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_campoObservacion").value
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._listaPreguntasSeccionComponenteCuestionarioGenerico.push(data['respuesta']);
         //this._consultarPreguntasSeccionComponenteCuestionarioGenerico(this.formCuestionarioGenerico.get("_cmbSeccionComponenteCuestionarioGenerico").value);
         this.formPreguntaSeccionComponenteCuestionarioGenerico.reset();
+        this.agregarLeyendas=false;
+        this._obligatorioCampoObservacion=false;
       }else if (data['http']['codigo']=='500') {
         this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else {
@@ -709,11 +716,13 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     }).catch(error=>{
 
     }).finally(()=>{
-
+    
     });
 
     this._obligatorioPregunta=true;
     this._obligatorioPregunta_true=true;
+    
+    
   }
 
   _eliminarPreguntaSeccionComponenteCuestionarioGenerico(_item){
@@ -737,6 +746,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
               this._listaPreguntasSeccionComponenteCuestionarioGenerico[i].leyendaSuperior,
               this._listaPreguntasSeccionComponenteCuestionarioGenerico[i].leyendaLateral,
               this._listaPreguntasSeccionComponenteCuestionarioGenerico[i].Observacion,
+              this._listaPreguntasSeccionComponenteCuestionarioGenerico[i].campo_observacion,
               orden,
               this._listaPreguntasSeccionComponenteCuestionarioGenerico[i].Obligatorio,
              
@@ -772,7 +782,6 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
   _OcultarcmbTipoPregunta=false;
   _prepararPreguntaSeccionDeComponenteDeCuestionarioGenerico(_item){
 
-    console.log(_item);
     this._OcultarcmbTipoPregunta=true;
     // this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_cmbTipoPregunta");
 
@@ -787,17 +796,19 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_descripcion").setValue(_item.Descripcion);
     this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_leyendaSuperior").setValue(_item.leyendaSuperior);
     this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_leyendaLateral").setValue(_item.leyendaLateral);
+    this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_campoObservacion").setValue(_item.campo_observacion);
     
     if(_item.Observacion==true){
-      this.checked=true
+      this.checked=true;
+      this._obligatorioCampoObservacion=true;
     }else{
-      this.checked=false
+      this.checked=false;
+      this._obligatorioCampoObservacion=false;
     }
     this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_obligatorio").setValue(_item.Obligatorio);
     this._obligatorioPregunta = _item.Obligatorio;
     this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_orden").setValue(_item.Orden);
     this._btnAccionP="Actualizar";
-    console.log("obligatorio",this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_obligatorio").value);
     
   }
 
@@ -811,6 +822,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
       this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_leyendaSuperior").value,
       this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_leyendaLateral").value,
       this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_observacion").value,
+      this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_campoObservacion").value,
       this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_orden").value,
       this._obligatorioPregunta
     ).then(data=>{
@@ -818,6 +830,9 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
         this._consultarPreguntasSeccionComponenteCuestionarioGenerico(this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_cmbSeccion").value);
         this._btnAccionP="Guardar";
         this.formPreguntaSeccionComponenteCuestionarioGenerico.reset();
+        this.agregarLeyendas=false;
+        this._obligatorioCampoObservacion=false;
+        
       }else if (data['http']['codigo']=='500') {
         this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
@@ -829,6 +844,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     }).finally(()=>{
       this._OcultarcmbTipoPregunta=false;
     });
+    
   }
   expanded= false
   _subirPreguntaSeccionComponenteCuestionarioGenerico(_item){
@@ -839,7 +855,6 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
         var ElementoAnterior = this._listaPreguntasSeccionComponenteCuestionarioGenerico[index-1];
         this._listaPreguntasSeccionComponenteCuestionarioGenerico[index-1] = this._listaPreguntasSeccionComponenteCuestionarioGenerico[index];   
         this._listaPreguntasSeccionComponenteCuestionarioGenerico[index] = ElementoAnterior;
-        this.accordion.closeAll();
         this.expanded = !this.expanded;
          //this.allExpandState = !this.allExpandState; 
 
@@ -851,7 +866,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
     }).catch(error=>{
 
     }).finally(()=>{
-
+  
     });
 
   }
@@ -864,7 +879,7 @@ export class EstructuraCuestionarioGenericoComponent implements OnInit {
         var ElementoSiguiente = this._listaPreguntasSeccionComponenteCuestionarioGenerico[index+1];
         this._listaPreguntasSeccionComponenteCuestionarioGenerico[index+1] = this._listaPreguntasSeccionComponenteCuestionarioGenerico[index];   
         this._listaPreguntasSeccionComponenteCuestionarioGenerico[index] = ElementoSiguiente;
-        this.accordion.closeAll();
+       
       }else if (data['http']['codigo']=='500') {
         this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else {

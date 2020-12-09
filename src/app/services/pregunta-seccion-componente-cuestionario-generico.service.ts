@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { url } from "../../environments/environment";
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
   constructor(private http: HttpClient) { }
 
   private _header = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
-
+  public refresh$= new EventEmitter();
   
   _consultarPreguntasCuestionario(_idCuestionarioEncriptado){
     const _body = new HttpParams();
@@ -89,7 +90,8 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
       _Obligatorio,
       _leyendaSuperior,
       _leyendaLateral,
-      _observacion
+      _observacion,
+      _campoObservacion
     ){
     const _body = new HttpParams()
     .set("TipoPregunta.IdTipoPreguntaEncriptado",_IdTipoPreguntaEncriptado)
@@ -100,6 +102,7 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
     .set("leyendaSuperior",_leyendaSuperior)
     .set("leyendaLateral",_leyendaLateral)
     .set("Observacion",_observacion)
+    .set("campo_observacion",_campoObservacion)
     ;
     
     return new Promise((resolve, reject) => {
@@ -119,6 +122,7 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
       _leyendaSuperior,
       _leyendaLateral,
       _Observacion,
+      campo_observacion,
       _Orden,
       _Obligatorio,
     ){
@@ -130,6 +134,7 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
       .set("leyendaSuperior",_leyendaSuperior)
       .set("leyendaLateral",_leyendaLateral)
       .set("Observacion",_Observacion)
+      .set("campo_observacion",campo_observacion)
       .set("Orden",_Orden)
       .set("Obligatorio",_Obligatorio)
       

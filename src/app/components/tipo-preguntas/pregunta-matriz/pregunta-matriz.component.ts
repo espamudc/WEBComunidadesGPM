@@ -118,7 +118,6 @@ export class PreguntaMatrizComponent implements OnInit {
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaOpcionUnoMatriz=data['respuesta'];
-          //console.log("_listaOpcionUnoMatriz",this._listaOpcionUnoMatriz);
           
         } else {
           
@@ -233,12 +232,8 @@ export class PreguntaMatrizComponent implements OnInit {
         unicosOpcionDos.push(element);
       }
     });
-    console.log("sdasd",this.ColumnsOpcionDosMatriz)
+ 
     this.ColumnsOpcionDosMatriz = unicosOpcionDos;
-
-    console.log("unicosOpcionDos",unicosOpcionDos);
-    
-
     
   }
   _eliminarPreguntaOpcionDos(_item){

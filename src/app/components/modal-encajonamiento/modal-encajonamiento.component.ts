@@ -1,22 +1,25 @@
-import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar, MatTable } from '@angular/material';
 import { PreguntaSeccionComponenteCuestionarioGenericoService } from 'src/app/services/pregunta-seccion-componente-cuestionario-generico.service';
 import { PreguntaEncajonarService } from 'src/app/services/pregunta-encajonar.service';
 import { PreguntaSeleccionService } from 'src/app/services/tipo-preguntas/pregunta-seleccion.service';
+import { EstructuraCuestionarioGenericoComponent} from '../estructura-cuestionario-generico/estructura-cuestionario-generico.component';
+
 @Component({
   selector: 'app-modal-encajonamiento',
   templateUrl: './modal-encajonamiento.component.html',
   styleUrls: ['./modal-encajonamiento.component.css']
 })
 export class ModalEncajonamientoComponent implements OnInit {
-
+  @ViewChild(EstructuraCuestionarioGenericoComponent,{ static: false }) hijo: EstructuraCuestionarioGenericoComponent;
   constructor(
     private snackBarComponent: MatSnackBar,
     private preguntaService: PreguntaSeccionComponenteCuestionarioGenericoService,
     private preguntaSeleccionService:PreguntaSeleccionService,
     private preguntaEncajonarService:PreguntaEncajonarService,
+ 
     public dialogRef: MatDialogRef<ModalEncajonamientoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { this.formEncajonarPregunta = new FormGroup({
@@ -37,7 +40,6 @@ export class ModalEncajonamientoComponent implements OnInit {
   });}
   preguntaseleccion:any = [];
   ngOnInit() {
-    console.log(this.data)
     this.preguntaseleccion = this.data._seleccion;
     this._pregunta_consultarpornoencajonadasporopcionpreguntaseleccion(this.data._seleccion.IdOpcionPreguntaSeleccionEncriptado);
     this._consultarPreguntasEncajonadas(this.data._seleccion);
@@ -78,12 +80,9 @@ export class ModalEncajonamientoComponent implements OnInit {
     this.preguntaService._pregunta_consultarpornoencajonadasporopcionpreguntaseleccion(_idOpcionPreguntaSeleccionEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          
-          console.log(" combopregunta2 --->",data['respuesta']);
-          
+                    
           this._listaPreguntasSeccionComponenteCuestionarioGenerico2 = data['respuesta'];        
         } else {
-          console.log(data['http']['mensaje']);
            
         }
       }).catch(error=>{
@@ -100,6 +99,10 @@ export class ModalEncajonamientoComponent implements OnInit {
       
     } else {
       this._insertarPreguntaEncajonada(this.preguntaseleccion);
+      //console.log("ENCAJONADA",this.preguntaseleccion.Pregunta.Seccion.IdSeccionEncriptado);
+      //this.hijo._MetodSeccionComponentesCuestionarioGenerico(this.preguntaseleccion.Pregunta.Seccion.IdSeccionEncriptado);
+      
+
        
     }
    
@@ -112,9 +115,7 @@ export class ModalEncajonamientoComponent implements OnInit {
    this.preguntaEncajonarService._preguntaencajonada_consultarporidopcionpreguntaseleccion(_item.IdOpcionPreguntaSeleccionEncriptado)
      .then(data=>{
        if (data['http']['codigo']=='200') {
-         this._listaPreguntaEncajonadas = data['respuesta'];
-         console.log("_listaPreguntaEncajonadas",this._listaPreguntaEncajonadas);
-         
+         this._listaPreguntaEncajonadas = data['respuesta'];         
        }
      }).catch(error=>{
 
@@ -128,9 +129,7 @@ export class ModalEncajonamientoComponent implements OnInit {
   this.preguntaEncajonarService._preguntaencajonada_consultarporidopcionpreguntaseleccion(_item.OpcionPreguntaSeleccion.IdOpcionPreguntaSeleccionEncriptado)
     .then(data=>{
       if (data['http']['codigo']=='200') {
-        this._listaPreguntaEncajonadas = data['respuesta'];
-        console.log("_listaPreguntaEncajonadas",this._listaPreguntaEncajonadas);
-        
+        this._listaPreguntaEncajonadas = data['respuesta'];        
       }
     }).catch(error=>{
 
@@ -147,7 +146,6 @@ export class ModalEncajonamientoComponent implements OnInit {
       ).then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaOpcionesPreguntaSeleccion = data['respuesta'];
-          console.log(this._listaOpcionesPreguntaSeleccion)
         }else{
 
         }
@@ -165,15 +163,17 @@ export class ModalEncajonamientoComponent implements OnInit {
     
   //let element = this._listaPreguntaEncajonadas.find(i=>i.Pregunta.IdPreguntaEncriptado==this.formEncajonarPregunta_cmbPreguntaEncajonada.value);
   //let index = this._listaPreguntaEncajonadas.indexOf(element);
+ 
   if (this._listaPreguntaEncajonadas.length==0) {
-    console.log(this.formEncajonarPregunta_cmbPreguntaEncajonada.value);
     this.preguntaEncajonarService._preguntaencajonada_insertar(
       _item.IdOpcionPreguntaSeleccionEncriptado,
       this.formEncajonarPregunta_cmbPreguntaEncajonada.value
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._consultarPreguntasEncajonadas(_item);
+        
         this._listaPreguntaEncajonadas.push(data['respuesta']);
+        
       } else {
         this.mensaje(data['http']['mensaje']);
       }
@@ -182,7 +182,8 @@ export class ModalEncajonamientoComponent implements OnInit {
       this.mensaje(error);
       
     }).finally(()=>{
-      //this.tablaPreguntasEncajonadas.renderRows();
+      this.preguntaService.refresh$.emit();
+      
     });
   } else {
     this.mensaje("La pregunta ya ha sido encajonada");
@@ -192,20 +193,21 @@ export class ModalEncajonamientoComponent implements OnInit {
 
 preparaItem="";
 eliminarEncajonamiento(_item){
-  console.log("itemELIMINAR", _item);
   this.preparaItem=_item;
   this.preguntaEncajonarService._preguntaencajonada_eliminar(_item.IdPreguntaEncajonadaEncriptado)
     .then(data=>{
       if (data['http']['codigo']=='200') {
         this._consultarPreguntasEncajonadas2(_item);
+        
       } else {
         
       }
     }).catch(error=>{
 
     }).finally(()=>{
-   
+      this.preguntaService.refresh$.emit();
     });
+    
 }
 
 }
