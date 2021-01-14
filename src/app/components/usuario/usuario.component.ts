@@ -237,7 +237,7 @@ export class UsuarioComponent implements OnInit {
     this.formUsuario_apellidos.setValue(_usuario.Persona.PrimerApellido + " " + _usuario.Persona.SegundoApellido);
     this.formUsuario_numeroIdentificacion.setValue(_usuario.Persona.NumeroIdentificacion);
     this.formUsuario_usuario.setValue(_usuario.Correo);
-    this.formUsuario_clave.setValue(_usuario.Clave);
+    this.formUsuario_clave.setValue("");
     this._refrescar = true;
     this.formUsuario.controls['_clave'].setErrors(null);
   }
