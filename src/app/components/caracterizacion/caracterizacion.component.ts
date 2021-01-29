@@ -66,6 +66,7 @@ export class CaracterizacionComponent implements OnInit {
   sniperComponenteCaracterizacion = false;
   sniperComponenteCuestionario = false;
   snniperCargaCaracterizacion = false;
+  cargandoPantallaPrincipal= false;
   get formCaracterizacion_Nombre() {
     return this.formCaracterizacion.get("_nombre");
   }

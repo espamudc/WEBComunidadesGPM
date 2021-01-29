@@ -120,21 +120,21 @@
                     <th  style="border-bottom-color: transparent" style="border-bottom-color: transparent" [attr.colspan]="2" scope="col"></th>
                     
                     <th style="text-align:center !important" [attr.colspan]="ColumnsOpcionDosMatriz.length+1" scope="col">
-                        {{_PreguntaConfigurarMatriz.leyendaSuperior}}
+                       {{LeyendaSuperiorGeneral}}
                     </th>  
                   </tr>
                   <tr>
                     <th  style="border-bottom-color: transparent; border-right-color: transparent; " scope="row"></th>
                     <th  style="border-bottom-color: transparent;" [attr.rowspan]="2" scope="row">#</th>
                     <th *ngFor="let item of ColumnsOpcionDosMatriz ; let i = index" scope="col">{{item.Descripcion}}</th>
-                    <th *ngIf="_PreguntaConfigurarMatriz.Observacion==1" scope="col">{{item.campo_observacion}}</th>
+                    <th *ngIf="ObservacionGeneral==true" scope="col">{{item.campo_observacion}}</th>
                   </tr>
                 </thead>
                 <tbody style="text-align: center">
                   <tr>
                         <th style="text-align:center !important;writing-mode: vertical-lr;transform: rotate(270deg);" [attr.rowspan]="FilaOpcionUnoMatriz.length+1" scope="row">
                             <div style="width: min-content; min-width: max-content;" class="container">
-                                {{_PreguntaConfigurarMatriz.leyendaLateral}}
+                                {{LeyendaLateralGeneral}}
                             </div>
                         </th>
                   </tr>
@@ -150,7 +150,7 @@
                             <mat-radio-button value="1" disabled></mat-radio-button>
                         <!-- </mat-radio-group>                           -->
                     </td>
-                    <th *ngIf="_PreguntaConfigurarMatriz.Observacion==1" scope="row"></th>
+                    <th *ngIf="ObservacionGeneral==true" scope="row"></th>
                   </tr>
                   
                 </tbody>

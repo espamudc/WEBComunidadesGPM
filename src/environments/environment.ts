@@ -20,3 +20,4 @@ export const environment = {
  export const url = "http://apigpm.manabi.gob.ec:8080/api/";
  export const urlImagen = "http://apigpm.manabi.gob.ec:8080/";
 //export const url = "http://192.168.100.5:90/api/";
+

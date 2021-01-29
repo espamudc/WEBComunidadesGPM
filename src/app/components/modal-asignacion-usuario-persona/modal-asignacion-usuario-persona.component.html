@@ -8,11 +8,11 @@
             Lista Personas
         </div> -->
         <!-- <div class="card-body"> -->
-            <div class="form-group input-container">
+            <!-- <div class="form-group input-container">
                 <i class="fa fa-search icon"></i>
-                <input [(ngModel)]="filterPersona" type="text" class="form-control input-field"
-                    placeholder="Ejem. Zambrano Zambrano">
-            </div>
+                <input matInput (keyup)="applyFilter($event)"
+                    placeholder="Ejem. Zambrano Zambrano" autocomplete="off">
+            </div> -->
             <table class="table table-hover">
                 <thead class="card-header">
                     <tr>
@@ -24,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of _listaPersonas | filter: filterPersona : 'SegundoNombre'">
+                    <tr *ngFor="let item of _listaPersonas">
                         <td> {{ item.PrimerNombre }} {{ item.SegundoNombre }} </td>
                         <td> {{ item.PrimerApellido }} {{ item.SegundoApellido }} </td>
                         <td> {{ item.TipoIdentificacion.Descripcion }} </td>

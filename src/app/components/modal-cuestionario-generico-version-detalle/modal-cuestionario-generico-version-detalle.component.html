@@ -34,7 +34,7 @@
     
                                 <mat-expansion-panel *ngFor="let pregunta of seccion.listaPregunta; let i=index" > <!--_listaPreguntasSeccionComponenteCuestionarioGenerico-->
             
-                                    <mat-expansion-panel-header (click)="_consultarOpcionesPreguntas(pregunta)">
+                                    <mat-expansion-panel-header>
                                         <mat-panel-title >
                                             {{pregunta.Descripcion}} 
                                         </mat-panel-title>
@@ -43,106 +43,6 @@
                                         </mat-panel-description> -->
                                        
                                     </mat-expansion-panel-header>
-                                    <div *ngIf="pregunta.TipoPregunta.Identificador==1">
-                                        <!-- <app-pregunta-abierta [item]="pregunta"></app-pregunta-abierta> -->
-
-                                        <table #tablaOpcionesPreguntaAbierta mat-table [dataSource]="_listaOpcionesPreguntasAbiertas" class="mat-elevation-z7 gpm-table">
-
-                                            <ng-container matColumnDef="tipo_dato">
-                                                <th mat-header-cell *matHeaderCellDef> Tipo de Dato </th>
-                                                <td mat-cell *matCellDef="let element"> {{element.TipoDato.Descripcion}} </td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="minimo">
-                                                <th mat-header-cell *matHeaderCellDef> Valor Mínimo </th>
-                                                <td mat-cell *matCellDef="let element"> 
-                                                    <div *ngIf="element.ValorMinimo!='undefined'"> {{element.ValorMinimo}} </div> 
-                                                    <div *ngIf="element.ValorMinimo=='undefined'"> No Aplica </div>    
-                                                </td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="maximo">
-                                                <th mat-header-cell *matHeaderCellDef> Valor Máximo </th>
-                                                <td mat-cell *matCellDef="let element">  
-                                                    <div *ngIf="element.ValorMaximo!='undefined'"> {{element.ValorMaximo}} </div> 
-                                                    <div *ngIf="element.ValorMaximo=='undefined'"> No Aplica </div>    
-                                                </td>
-                                            </ng-container>
-                                            <!-- Symbol Column -->
-                                            <tr mat-header-row *matHeaderRowDef="ColumnsPreguntaAbierta"></tr>
-                                            <tr mat-row *matRowDef="let row; columns: ColumnsPreguntaAbierta;"></tr>
-                                        </table>
-
-                                    </div>
-                                    <div *ngIf="pregunta.TipoPregunta.Identificador==2 || pregunta.TipoPregunta.Identificador==3 ">
-                                        <!-- <app-pregunta-seleccion [item]="pregunta"></app-pregunta-seleccion> -->
-                                       
-                                        <mat-accordion >
-                                            <mat-expansion-panel class="mat-elevation-z7" *ngFor="let opcionPreguntaSeleccion of _listaOpcionesPreguntaSeleccion ; let i = index" >
-                                                <mat-expansion-panel-header (click)="_consultarPreguntasEncajonadas(opcionPreguntaSeleccion)">
-                                                    <mat-panel-title>
-                                                        <!-- <mat-radio-group >  -->
-                                                            <mat-radio-button  value="1"></mat-radio-button>
-                                                        <!-- </mat-radio-group>  -->
-                                                        {{opcionPreguntaSeleccion.Descripcion}}
-                                                    </mat-panel-title>
-                                                </mat-expansion-panel-header>
-                                                <table #tablaPreguntasEncajonadas   mat-table [dataSource]="_listaPreguntaEncajonadas" class="mat-elevation-z7 gpm-table">
-
-                                                    <ng-container matColumnDef="icono">
-                                                    <th mat-header-cell *matHeaderCellDef> # </th>
-                                                    <td mat-cell *matCellDef="let preguntaEncajonada"> 
-                                                        <mat-radio-group > <!--*ngIf="item.TipoPregunta.Identificador==2"-->
-                                                            <mat-radio-button  value="1"></mat-radio-button>
-                                                        </mat-radio-group> <!--  -->
-                                                        <!-- <mat-checkbox *ngIf="item.TipoPregunta.Identificador==3"></mat-checkbox> -->
-                                                
-                                                    </td>
-                                                    </ng-container>
-                            
-                                                    <ng-container matColumnDef="descripcion">
-                                                        <th mat-header-cell *matHeaderCellDef> Descripción </th>
-                                                        <td mat-cell *matCellDef="let preguntaEncajonada"> {{preguntaEncajonada.Pregunta.Descripcion}} </td>
-                                                    </ng-container>
-                                                    <!-- Symbol Column -->
-                                                    
-                                                    <tr mat-header-row *matHeaderRowDef="ColumnsPreguntaEncajonada"></tr>
-                                                    <tr mat-row *matRowDef="let row; columns: ColumnsPreguntaEncajonada;"></tr>
-                                                </table>
-                                            </mat-expansion-panel>
-                                        </mat-accordion>
-
-                                    </div>
-                                    <div *ngIf="pregunta.TipoPregunta.Identificador==4">
-                                        <!-- <app-pregunta-matriz [item]="pregunta"></app-pregunta-matriz> -->
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <mat-card class="mat-elevation-z7">
-                                                    <table class="table table-bordered">
-                                                        <thead>
-                                                          <tr>
-                                                            <th scope="col">#</th>
-                                                            <th *ngFor="let item of ColumnsOpcionDosMatriz ; let i = index" scope="col">{{item.Descripcion}}</th>
-                                                            
-                                                          </tr>
-                                                        </thead>
-                                                        <tbody>
-                                        
-                                                          <tr *ngFor="let item of FilaOpcionUnoMatriz">
-                                                            <th scope="row">{{item.Descripcion}}</th>
-                                                            <td *ngFor="let item of ColumnsOpcionDosMatriz ; let i = index" scope="col">
-                                                                <mat-radio-group aria-label="Select an option">
-                                                                    <mat-radio-button value="1"></mat-radio-button>
-                                                                   
-                                                                  </mat-radio-group>                          
-                                                            </td>
-                                                           
-                                                          </tr>
-                                                          
-                                                        </tbody>
-                                                    </table>
-                                                </mat-card>
-                                            </div>
-                                        </div>
-                                    </div>
             
                                    
                                 </mat-expansion-panel>
