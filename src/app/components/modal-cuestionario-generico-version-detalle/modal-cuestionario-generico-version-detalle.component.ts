@@ -27,7 +27,6 @@ export class ModalCuestionarioGenericoVersionDetalleComponent implements OnInit 
         if (data['http']['codigo']=='200') {
 
           this._cargarCuestionarioGenerico = data['respuesta'];
-          console.log("componentes de una version",data['respuesta']);
 
         } else {
 

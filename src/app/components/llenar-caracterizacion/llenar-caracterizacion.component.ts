@@ -19,6 +19,7 @@ import { urlImagen } from "../../../environments/environment";
 })
 export class LlenarCaracterizacionComponent implements OnInit {
   formCaracterizacion: FormGroup;
+  cargandoIngresoInformacion = false;
   constructor(
     private CaracterizacionService: CaracterizacionService,
     private snackBarComponent: MatSnackBar,

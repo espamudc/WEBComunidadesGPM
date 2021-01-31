@@ -40,7 +40,6 @@ export class ModalAsignacionUsuarioPersonaComponent implements OnInit {
   _consultarPersonas(){
     this.personaService._consultarPersonasSinUsuarios('token')
         .then(data=>{
-          console.log(data);
           if (data['http']['codigo']=='200') {
             // debugger
             this._listaPersonas = data['respuesta'];

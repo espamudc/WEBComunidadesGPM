@@ -22,12 +22,25 @@ export interface ConfigurarMatriz{
   IdOpcionDosMatrizEncriptado:string;
 }
 
+export interface PresentarDatosMatriz{
+  Observacion:string;
+  leyendaSuperior:string;
+  leyendaLateral:string;
+}
+
+
+
 @Component({
   selector: 'app-pregunta-matriz',
   templateUrl: './pregunta-matriz.component.html',
   styleUrls: ['./pregunta-matriz.component.css']
 })
 export class PreguntaMatrizComponent implements OnInit {
+
+  ObservacionGeneral: any;
+  LeyendaSuperiorGeneral: any;
+  LeyendaLateralGeneral: any;
+  datosMatriz: Array <PresentarDatosMatriz>=[];
 
   constructor(
     private snackBarComponent: MatSnackBar,
@@ -155,7 +168,7 @@ export class PreguntaMatrizComponent implements OnInit {
 
   // @ViewChild('tablaOpcionUno',{static:false}) tablaOpcionUno:MatTable<any>
   _listaPreguntaConfigurarMatriz:any[]=[];
-  _PreguntaConfigurarMatriz:any[];
+  _PreguntaConfigurarMatriz:any[]=[];
   _consultarPreguntaConfigurarMatriz(){
 
     this.preguntaMatrizService._consultarPreguntaConfigurarMatriz(this.item.IdPreguntaEncriptado)
@@ -163,9 +176,14 @@ export class PreguntaMatrizComponent implements OnInit {
     
         if (data['http']['codigo']=='200') {
        
+          this.datosMatriz.push({Observacion: data['respuesta1'].Observacion, leyendaSuperior: data['respuesta1'].leyendaSuperior, leyendaLateral: data['respuesta1'].leyendaLateral})
           this._PreguntaConfigurarMatriz = data['respuesta1'];
           this._listaPreguntaConfigurarMatriz=data['respuesta'];
           this._vistaPreguntaConfigurarMatriz();
+
+          this.ObservacionGeneral=this.datosMatriz[0].Observacion;
+          this.LeyendaSuperiorGeneral=this.datosMatriz[0].leyendaSuperior;
+          this.LeyendaLateralGeneral=this.datosMatriz[0].leyendaLateral;
         } else {
           
         }

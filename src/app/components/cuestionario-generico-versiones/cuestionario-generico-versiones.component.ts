@@ -85,7 +85,6 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
   }
 
   _onChangeCmbCuestionariosGenericos(event){
-    // this._consultarComponentesDeCuestionario(event.value);
     if (event.value==0) {
 
     } else {
@@ -94,31 +93,21 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
       const index = this._listaCuestionariosGenericos.indexOf(obj);
 
       this.formCuestionarioGenericoVersion_idAsignarResponsableEncriptado.setValue(obj.IdAsignarResponsableEncriptado);
-      //console.log("idAsignarResponsable:",this.formCuestionarioGenericoVersion_idAsignarResponsableEncriptado.value);
 
     }
     this._consultarCabeceraVersionCuestionario(event.value);
 
   }
   _cargarMisCuestionariosGenericos(){
-    // console.log(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado'));
-    // this._listaCuestionariosGenericos=null;
 
     this.cuestionarioGenericoService._consultarCuestionarioGeneriocoPorIdAsignarUsuarioTipoUsuarioEncriptado(
       localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')
     )
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          // console.log(data['respuesta']);
-          //
+    
           this._listaCuestionariosGenericos=[];
           this._listaCuestionariosGenericos = data['respuesta'];
-          console.log("mis cuestionarios",this._listaCuestionariosGenericos);
-
-
-          //console.log("lista",this._listaCuestionariosGenericos);
-
-
           
         }
 
@@ -126,7 +115,6 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
 
       }).finally(()=>{
 
-        //this.MatTableCuestionariosGenericos.renderRows();
       });
   }
 

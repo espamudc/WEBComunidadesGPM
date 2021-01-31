@@ -72,7 +72,6 @@ export class PreguntaSeleccionComponent implements OnInit {
       this.item.IdPreguntaEncriptado
     ).then(data=>{
       if (data['http']['codigo']=='200') {
-        console.log("sad",data['respuesta'])
         this._listaOpcionesPreguntaSeleccion = data['respuesta'];
       }else{
 
