@@ -11,6 +11,7 @@ import {MatSortModule} from '@angular/material/sort';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 //import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { CKEditorModule } from 'ng2-ckeditor';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 // Material Components
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -115,6 +116,7 @@ import { ModalVerImagenComponent } from './components/modal-ver-imagen/modal-ver
     ProvinciaComponent,
     ModalAsignacionUsuarioTiposUsuarioComponent,
     ModalDetalleUsuarioComponent,
+    
     // ModalProvinciaPrefectoComponent,
     // LugarRepresentanteComponent,
     ModalLugarRepresentanteComponent,
@@ -213,7 +215,8 @@ import { ModalVerImagenComponent } from './components/modal-ver-imagen/modal-ver
     ModalEncajonamientoComponent,
     ModalVerImagenComponent,
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, { provide: LocationStrategy, useClass: HashLocationStrategy }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

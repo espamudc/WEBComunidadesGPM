@@ -62,8 +62,6 @@ export class CuestionarioGenericoComponent implements OnInit {
   }
 
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
-
-    
     if (_duracion==null) {
        _duracion=3000;
     }
@@ -81,13 +79,9 @@ export class CuestionarioGenericoComponent implements OnInit {
     }
     let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
   }
-
   _btnAccion="Guardar";
-
   _listaCuestionariosGenericos : any[]=[];
   Columns: string[] = ['nombre', 'descripcion', 'acciones'];
-
-
   _validarAccionForm(){
     if (this._btnAccion=="Guardar") {
       this._insertarCuestionarioGenerico();
@@ -95,12 +89,8 @@ export class CuestionarioGenericoComponent implements OnInit {
       this._modificarCuestionarioGenerico();
     }
   }
-
   _limpiarForm(){
     this.formCuestionarioGenerico.reset();
-    // this.formCuestionarioGenerico.get("_IdCuestionarioGenericoEncriptado").setValue(" ");
-    // this.formCuestionarioGenerico.get("_nombre").setValue(" ");
-    // this.formCuestionarioGenerico.get("_descripcion").setValue(" ");
     this._btnAccion = "Guardar";
 
   }
@@ -126,40 +116,7 @@ export class CuestionarioGenericoComponent implements OnInit {
       });
   }
 
-  // _cargarMisCuestionariosGenericos(){
-  //   // console.log(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado'));
-    
-  //   this.cuestionarioGenericoService._consultarCuestionarioGeneriocoPorIdAsignarUsuarioTipoUsuarioEncriptado(
-  //     localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')
-  //   )
-  //     .then(data=>{
-  //       if (data['http']['codigo']=='200') {
-  //         // console.log(data['respuesta']);
-  //         // debugger
-  //         this._listaCuestionariosGenericos = data['respuesta'];
-  //         // data['respuesta'].map(item=>{
-  //         //   console.log(item.CuestionarioGenerico);
-  //         //   this._listaCuestionariosGenericos.push(item.CuestionarioGenerico);
-  //         //   // this._listaCuestionariosGenericos.push(item['CuestionarioGenerico']);
-  //         // });
-  //         console.log(this._listaCuestionariosGenericos);
-          
-  //         // console.log(data['http']['codigo']);
-          
-  //       }else{
-  //         this.mensaje(data['http']['mensaje']);
-  //       }
-  //     }).catch(error=>{
-
-  //     }).finally(()=>{
-  //       this.MatTableCuestionariosGenericos.renderRows();
-  //     });
-  // }
-
   _insertarCuestionarioGenerico(){
-    // console.log(this.formCuestionarioGenerico.get("_nombre").value);
-    // console.log(this.formCuestionarioGenerico.get("_descripcion").value);
-    
     this.cuestionarioGenericoService._insertarCuestionarioGenerioco(
       this.formCuestionarioGenerico.get("_nombre").value,
       this.formCuestionarioGenerico.get("_descripcion").value
