@@ -199,7 +199,6 @@ export class CaracterizacionComponent implements OnInit {
             }
             this._listaComponenteCaracterizacion.push(e);
           });
-          //this._listaComponenteCaracterizacion = respuesta['respuesta']['AsignarCuestionarioModelo'][0].AsignarComponenteGenerico;
         }
         this._consultarComponentesDeCuestionario(element.IdModeloGenericoEncriptado, respuesta['respuesta'].AsignarCuestionarioModelo[0].CuestionarioPublicado.IdCuestionarioPublicadoEncriptado);
       } else {
@@ -351,7 +350,6 @@ export class CaracterizacionComponent implements OnInit {
     }
 
     this.consultarModeloGenericoTodos();
-    //this._consultarTipoElemento();
-    //this._consultar_cuestionarioPublicado();
+   
   }
 }

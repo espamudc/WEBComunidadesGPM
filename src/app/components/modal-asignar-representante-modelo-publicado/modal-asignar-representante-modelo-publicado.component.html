@@ -27,7 +27,6 @@
         <div class="row">
           <mat-form-field class="gpm-form-field col-sm-4">
             <input type="text" placeholder="Seleccione una opción" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
-            <!-- <mat-spinner *ngIf="autoComplete" diameter="20" matSuffix></mat-spinner> -->
             <mat-autocomplete [displayWith]="displayFn.bind(this)" autoActiveFirstOption #auto="matAutocomplete">
               <mat-option *ngFor="let option of filteredOptions | async" value="{{option.IdProvinciaEncriptado}}">
                 {{option.NombreProvincia}}

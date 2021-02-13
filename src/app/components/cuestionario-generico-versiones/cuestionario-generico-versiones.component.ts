@@ -43,7 +43,6 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
     }
     this._cargarMisCuestionariosGenericos();
   }
-  //---------------------------------------------------------------------------------------
   formCuestionarioGenericoVersion:FormGroup;
 
   get formCuestionarioGenericoVersion_cmbCuestionario(){
@@ -58,7 +57,6 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
   get formCuestionarioGenericoVersion_idAsignarResponsableEncriptado(){
     return this.formCuestionarioGenericoVersion.get("_idAsignarResponsableEncriptado");
   }
-  //----------------------------------------------------------------------------------------
   _listaCuestionariosGenericos:any[]=[];
   _listaVersionesCuestionario:any[]=[];
   Columns=['caracteristica','version','fecha_creacion','acciones'];
@@ -126,8 +124,6 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
         this._listaVersionesCuestionario=data['respuesta'];
       }
 
-      //console.log("cabecera:", data);
-
     }).catch(error=>{
 
     }).finally(()=>{
@@ -146,7 +142,6 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
       } else if(data['http']['codigo']=="200") {
         this._consultarCabeceraVersionCuestionario(this.formCuestionarioGenericoVersion_cmbCuestionario.value);
   
-        // this.mensaje("Cuestionario versionado correctamente");
       }else{
         this.mensaje(data['http']['mensaje'],3000,0,'primary');
       }
@@ -156,7 +151,6 @@ export class CuestionarioGenericoVersionesComponent implements OnInit {
   }
 
   _eliminarCabeceraVersionCuestionario(_item){
-    //console.log(_item);
 
     this.cabeceraVersionCuestionarioService._eliminarCabeceraVersionCuestionario(_item.IdCabeceraVersionCuestionarioEncriptado)
       .then(data=>{

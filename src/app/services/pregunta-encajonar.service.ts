@@ -9,14 +9,11 @@ export class PreguntaEncajonarService {
 
   constructor(private http: HttpClient) { }
 
-//----------------------------------------------------------------------------------------------
-
   private _header = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
   _preguntaencajonada_consultarporidopcionpreguntaseleccion(_idOpcionPregunta)
   {
     const _body = new HttpParams();
-    //debugger
    
     return new Promise((resolve, reject) => {
       this.http.post(url+'preguntaencajonada_consultarporidopcionpreguntaseleccion?_idOpcionPreguntaSeleccionEncriptado='+_idOpcionPregunta,_body.toString(),{headers:this._header})
@@ -36,7 +33,6 @@ export class PreguntaEncajonarService {
       .set("OpcionPreguntaSeleccion.IdOpcionPreguntaSeleccionEncriptado",_IdOpcionPreguntaSeleccionEncriptado)
       .set("Pregunta.IdPreguntaEncriptado",_IdPreguntaEncriptadoHijo)
     ;
-    //debugger
    
     return new Promise((resolve, reject) => {
       this.http.post(url+'preguntaencajonada_insertar',_body.toString(),{headers:this._header})

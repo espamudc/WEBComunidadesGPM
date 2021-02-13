@@ -15,7 +15,6 @@ export class ModalDetallePersonaComponent implements OnInit,AfterViewInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) 
   { 
-    console.log(data);
     this.formPersona  = new FormGroup({
       _idPersonaEncriptado    : new FormControl(''),
       _primerNombre           : new FormControl({ value:'', disabled: true }),
@@ -102,11 +101,7 @@ export class ModalDetallePersonaComponent implements OnInit,AfterViewInit {
 
   _vacio:string="";
   ngAfterViewInit(){
-    // if (this.data._persona.SegundoNombre=='null') {
-    //   this.data._persona.SegundoNombre="";
-    // }if(this.data._persona.Telefono=='null'){
-    //   this.data._persona.Telefono="";
-    // }
+    
   }
 
 }

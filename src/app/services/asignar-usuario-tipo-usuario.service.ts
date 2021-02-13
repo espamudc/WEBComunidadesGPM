@@ -43,7 +43,6 @@ export class AsignarUsuarioTipoUsuarioService {
 
   _eliminarAsignarUsuarioTipoUsuario(_IdAsignarUsuarioTipoUsuarioEncriptado){
     const _body = new HttpParams();
-      // .set('_IdAsignarUsuarioTipoUsuarioEncriptado',_IdAsignarUsuarioTipoUsuarioEncriptado);
       return new Promise((resolve, reject) => {
         this.http.post(url+'asignarusuariotipousuario_eliminar?_IdAsignarUsuarioTipoUsuarioEncriptado='+_IdAsignarUsuarioTipoUsuarioEncriptado,_body.toString(),{headers:this._header})
                   .subscribe(res=>{

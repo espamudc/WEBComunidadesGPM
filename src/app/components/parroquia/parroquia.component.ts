@@ -189,7 +189,6 @@ export class ParroquiaComponent implements OnInit {
       }else if (data['http']['codigo']=='500') {
         this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
-        console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
       }
     })

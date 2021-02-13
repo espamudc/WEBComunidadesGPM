@@ -1,9 +1,5 @@
-<!-- <p>pregunta-abierta works!</p> -->
-<!-- <div class="row">
-    <div class="col-lg-12"> -->
-    
+   
         <form *ngIf="_listaOpcionesPreguntasAbiertas.length==0" [formGroup]="formPreguntaTipoAbierta" (ngSubmit)="_validarFormPreguntasAbiertas()">
-            <!-- <mat-card class="col-lg-12"> -->
             <mat-form-field  class="gpm-form-field col-lg-3 col-md-2">
                 <mat-label>Seleccione un Tipo de Dato</mat-label>
                 <mat-select required [formControl]="PREGUNTAABIERTA_cmbTipoDato"
@@ -54,23 +50,12 @@
             <button [disabled]="formPreguntaTipoAbierta.invalid || (_listaOpcionesPreguntasAbiertas.length > 0)" mat-button class="btn btn-primary col-lg-1">  
                 
                 <i class="fa fa-plus"></i>
-                <!-- <mat-icon >add</mat-icon> -->
             </button>  
         </form>
         <br *ngIf="_listaOpcionesPreguntasAbiertas.length==0">
 
         <table mat-table [dataSource]="_listaOpcionesPreguntasAbiertas" class="mat-elevation-z7 gpm-table">
 
-
-
-            <!-- <ng-container matColumnDef="descripcion">
-            <th mat-header-cell *matHeaderCellDef>  </th>
-            <td mat-cell *matCellDef="let element"> 
-                
-               
-        
-            </td>
-            </ng-container> -->
             <ng-container matColumnDef="tipo_dato">
                 <th mat-header-cell *matHeaderCellDef> Tipo de Dato </th>
                 <td mat-cell *matCellDef="let element"> {{element.TipoDato.Descripcion}} </td>
@@ -89,18 +74,9 @@
                     <div *ngIf="element.ValorMaximo=='undefined'"> No Aplica </div>    
                 </td>
             </ng-container>
-            <!-- Symbol Column -->
             <ng-container matColumnDef="acciones">  
             <th  mat-header-cell *matHeaderCellDef>  </th>
             <ng-container *matCellDef="let element">
-                
-                <!-- <td mat-cell *ngIf="element.Utilizado==0"> 
-                    <button mat-button  tooltip="Eliminar" placement="top"
-                        class="btn btn-sm btn-outline-danger" value="{{element.IdOpcionPreguntaSeleccionEncriptado}}"
-                        (click)=_eliminarPreguntasSeleccion(element)>
-                        <mat-icon>clear</mat-icon>
-                    </button>
-                </td> -->
                
                 </ng-container>
             </ng-container>
@@ -110,7 +86,3 @@
             <tr mat-row *matRowDef="let row; columns: Columns;"></tr>
         </table>
 
-
-    <!-- </div>
-    
-</div> -->

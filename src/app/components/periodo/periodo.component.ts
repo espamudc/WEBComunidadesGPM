@@ -2,12 +2,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, Validators, FormControl, Form } from '@angular/forms';
 import { Router } from '@angular/router';
-// Services
 import { PersonaService } from "../../services/persona.service";
 import { PeriodoService } from "../../services/periodo.service";
-// Functional Components
 import { MatDialog } from "@angular/material/dialog";
-// Components
 import { ModalDetallePersonaComponent } from "src/app/components/modal-detalle-persona/modal-detalle-persona.component";
 import { SexoService } from 'src/app/services/sexo.service';
 import { TipoIdentificacionService } from 'src/app/services/tipo-identificacion.service';
@@ -84,7 +81,6 @@ export class PeriodoComponent implements OnInit {
     return this.formPeriodo.get("_fechaFin");
   }
   
-  //-------------------------------------------------------------------------------------------
   _validar = true;
   _listaSexos: any[] = [];
   _listaTipoIdentificacion: any[] = [];

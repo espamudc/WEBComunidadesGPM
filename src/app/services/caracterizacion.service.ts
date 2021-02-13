@@ -275,7 +275,6 @@ export class CaracterizacionService {
   _cabeceracaracterizacion_consultarporidasignarresponsablemodelopublicado(_idAsignarResponsableModeloPublicadoEncriptado:any){
     const _body = new HttpParams();
     return new Promise ((resolve,reject)=>{
-      // console.log("servicio:",_body.toString());
       this.http.post(url+'cabeceracaracterizacion_consultarporidasignarresponsablemodelopublicado?_idAsignarResponsableModeloPublicadoEncriptado='+_idAsignarResponsableModeloPublicadoEncriptado, _body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
@@ -289,7 +288,6 @@ export class CaracterizacionService {
     .set("AsignarResponsableModeloPublicado.IdAsignarResponsableModeloPublicadoEncriptado",_IdAsignarResponsableModeloPublicadoEncriptado)
     ;
     return new Promise ((resolve,reject)=>{
-      // console.log("servicio:",_body.toString());
       this.http.post(url+'cabeceracaracterizacion_insertar', _body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
@@ -302,7 +300,6 @@ export class CaracterizacionService {
   asignarresponsablemodelopublicado_consultarporidmodelopublicado(_IdModeloPublicadoEncriptado:any){
     const _body = new HttpParams();
     return new Promise ((resolve,reject)=>{
-      // console.log("servicio:",_body.toString());
       this.http.post(url+'asignarresponsablemodelopublicado_consultarporidmodelopublicado?_idModeloPublicadoEncriptado='+_IdModeloPublicadoEncriptado, _body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
@@ -315,7 +312,6 @@ export class CaracterizacionService {
   asignarresponsablemodelopublicado_consultarporparroquia(_idParroquia:any){
     const _body = new HttpParams();
     return new Promise ((resolve,reject)=>{
-      // console.log("servicio:",_body.toString());
       this.http.post(url+'asignarresponsablemodelopublicado_consultarporparroquia?_idParroquia='+_idParroquia, _body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);

@@ -79,7 +79,6 @@ export class CantonComponent implements OnInit {
   private _normalizeValue(value: string): string {
     return value.toLowerCase().replace(/\s/g, '');
   }
-  //---------------------------------------------------------------
   formCanton: FormGroup;
   get formCanton_idCantonEncriptado() {
     return this.formCanton.get("_idCantonEncriptado");

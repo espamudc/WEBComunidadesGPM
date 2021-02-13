@@ -1,17 +1,14 @@
 import { FlatTreeControl } from "@angular/cdk/tree";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Component, Injectable, OnInit, AfterViewInit } from "@angular/core";
-//import { salir, openDialog } from "../../functions/global";
 import { Router } from "@angular/router";
 
-// Material
 import {
   MatTreeFlatDataSource,
   MatTreeFlattener,
 } from "@angular/material/tree";
 import { BehaviorSubject, Observable } from "rxjs";
 
-// Services
 import { CuestionarioGenericoService } from "src/app/services/cuestionario-generico.service";
 import { MatDialog } from "@angular/material";
 import { isNgTemplate } from "@angular/compiler";
@@ -244,16 +241,12 @@ export class TreeViewComponent implements OnInit {
     
     this._database.dataChange.subscribe((data) => {
       
-      //var kn=data[0].childrenChange.value;
-      this.dataSource = new MatTreeFlatDataSource(
+        this.dataSource = new MatTreeFlatDataSource(
         this.treeControl,
         this.treeFlattener
       );
-      //this.treeControl.Nodes.Clear();
-      //this.treeControl.InvalidateLayout(); 
       this.dataSource.data=[];
       
-      //data.childrenchange._value=0 o []
       this.dataSource.data = data;
     });
   }

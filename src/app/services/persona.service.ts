@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-// import { FormGroup } from '@angular/forms';
 import { url } from "../../environments/environment";
 @Injectable({
   providedIn: 'root'
@@ -9,7 +8,6 @@ export class PersonaService {
 
   constructor(private http: HttpClient) { }
 
-//----------------------------------------------------------------------------------------------
 
   private _header = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
@@ -27,7 +25,6 @@ export class PersonaService {
     _Token:string
   ){
     const _body = new HttpParams()
-          // .set('IdPersonaEncriptado'  ,_persona.IdPersonaEncriptado)
           .set('PrimerNombre'         ,_PrimerNombre)
           .set('SegundoNombre'        ,_SegundoNombre)
           .set('PrimerApellido'       ,_PrimerApellido)
@@ -36,15 +33,11 @@ export class PersonaService {
           .set('TipoIdentificacion.IdTipoIdentificacionEncriptado',_IdTipoIdentificacionEncriptado)
           .set('Telefono'             ,_Telefono)
           .set('Sexo.IdSexoEncriptado',_IdSexoEncriptado)
-          .set('Parroquia.IdParroquiaEncriptado'            ,_IdParroquiaEncriptado) //se debe cambiar esto cuando exista la tabla de parroquia
+          .set('Parroquia.IdParroquiaEncriptado'            ,_IdParroquiaEncriptado)
           .set('Direccion'            ,_Direccion)
           .set('Token'                ,_Token);
-    // _body.
-    //_persona.Parroquia.IdParroquia=1; // se debe cambiar esto cuando se tenga los modulos de Parroquia
-    // const IdParroquia = _persona.Parroquia.IdParroquia.toString();
-    // _persona.Parroquia.IdParroquia = IdParroquia;
+   
     return new Promise ((resolve,reject)=>{
-      // console.log("servicio:",_body.toString());
       this.http.post(url+'persona_insertar', _body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
@@ -67,7 +60,6 @@ export class PersonaService {
     _Direccion:string,
     _Token:string
   ){
-    // 
     const _body = new HttpParams()
           .set('IdPersonaEncriptado'  ,_IdPersonaEncriptado)
           .set('PrimerNombre'         ,_PrimerNombre)
@@ -78,15 +70,11 @@ export class PersonaService {
           .set('TipoIdentificacion.IdTipoIdentificacionEncriptado',_IdTipoIdentificacionEncriptado)
           .set('Telefono'             ,_Telefono)
           .set('Sexo.IdSexoEncriptado',_IdSexoEncriptado)
-          .set('Parroquia.IdParroquiaEncriptado'            ,_IdParroquiaEncriptado) //se debe cambiar esto cuando exista la tabla de parroquia
+          .set('Parroquia.IdParroquiaEncriptado'            ,_IdParroquiaEncriptado)
           .set('Direccion'            ,_Direccion)
           .set('Token'                ,_Token);
-    // _body.
-    //_persona.Parroquia.IdParroquia=1; // se debe cambiar esto cuando se tenga los modulos de Parroquia
-    // const IdParroquia = _persona.Parroquia.IdParroquia.toString();
-    // _persona.Parroquia.IdParroquia = IdParroquia;
+    
     return new Promise ((resolve,reject)=>{
-      console.log("servicio:",_body.toString());
       this.http.post(url+'persona_modificar', _body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
@@ -99,12 +87,8 @@ export class PersonaService {
     _IdPersonaEncriptado:string
   ){
     const _body = new HttpParams();
-    // _body.
-    //_persona.Parroquia.IdParroquia=1; // se debe cambiar esto cuando se tenga los modulos de Parroquia
-    // const IdParroquia = _persona.Parroquia.IdParroquia.toString();
-    // _persona.Parroquia.IdParroquia = IdParroquia;
+  
     return new Promise ((resolve,reject)=>{
-      console.log("servicio:",_body.toString());
       this.http.post(url+'persona_eliminar?_idPersonaEncriptado='+_IdPersonaEncriptado, _body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
@@ -126,7 +110,6 @@ export class PersonaService {
   }
 
   _consultarPersonasSinUsuarios(_token:string=""){
-    // 
     const _body = new HttpParams().set('Token',_token);
     
     return new Promise((resolve, reject) => {
@@ -139,10 +122,8 @@ export class PersonaService {
     });
   }
 
-  //---------------------------------------------------------------------------------------------
 
   private apiUrl = "http://192.168.25.20:90/api/";
-  // private apiUrl: string = "http://localhost:49962/api/";
 
   consultarPersonas(_token: string) {
     const body = new HttpParams()
@@ -355,7 +336,6 @@ export class PersonaService {
     segundoNombre: string,
     _token: string
   ) {
-    console.log('in crear persona service');
     const body = new HttpParams()
       .set('NumeroDocumento', numeroDocumento)
       .set('IdTipoDocumento', tipoDocumento)

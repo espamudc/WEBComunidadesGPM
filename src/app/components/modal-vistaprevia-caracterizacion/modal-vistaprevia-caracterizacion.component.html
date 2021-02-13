@@ -106,9 +106,6 @@
           <div *ngFor="let element1 of element.DescripcionComponente ; let i1 = index">
             <div class="row">
               <div style="vertical-align: middle" class="border border-secondary col-sm-5">
-                <!-- DESCRIPCIÓN <br>
-                OBLIGATORIO : <span style="font-weight: bold;" *ngIf="element1.Obligatorio">SI</span>
-                <span style="font-weight: bold;" *ngIf="!element1.Obligatorio">NO</span> -->
                 <br>
                 <span style="font-weight: bold;" *ngIf="element1.Obligatorio">OBLIGATORIO</span>
                 <span style="font-weight: bold;" *ngIf="!element1.Obligatorio">OPCIONAL</span>
@@ -120,9 +117,6 @@
                 </p>
               </div>
               <div style="text-align:center;" class="border border-secondary col-sm-7">
-                <!-- {{element1.AsignarDescripcionComponenteTipoElemento.TipoElemento.Descripcion}}<br>
-                OBLIGATORIO : <span style="font-weight: bold;" *ngIf="element1.AsignarDescripcionComponenteTipoElemento.Obligatorio">SI</span>
-                <span style="font-weight: bold;" *ngIf="!element1.AsignarDescripcionComponenteTipoElemento.Obligatorio">NO</span> -->
                 <ng-container *ngIf="element1.AsignarDescripcionComponenteTipoElemento.TipoElemento.Identificador == 1">
                   <strong *ngIf="element1.AsignarDescripcionComponenteTipoElemento.Obligatorio">{{element1.AsignarDescripcionComponenteTipoElemento.TipoElemento.Descripcion}} <span>(OBLIGATORIO)</span></strong>
                   <strong *ngIf="!element1.AsignarDescripcionComponenteTipoElemento.Obligatorio">{{element1.AsignarDescripcionComponenteTipoElemento.TipoElemento.Descripcion}} <span>(OPCIONAL)</span></strong>
@@ -164,7 +158,3 @@
     </div>
   </div>
 </mat-dialog-content>
-<!-- <mat-dialog-actions> -->
-<!-- <button class="mat-raised-button" (click)="close()">Close</button>
-  <button class="mat-raised-button mat-primary" (click)="save()">Save</button> -->
-<!-- </mat-dialog-actions> -->

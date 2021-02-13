@@ -34,11 +34,6 @@
                     <mat-form-field class="gpm-universal-width" type="email">
                         <input matInput type="email" placeholder="Nombre de Usuario" [formControl]="formUsuario_usuario" required
                             autocomplete="off">
-                        <!-- <mat-error *ngIf="  formUsuario_usuario.hasError('required') || 
-                                            formUsuario_usuario.invalid || 
-                                            (formUsuario_usuario.dirty ) ">
-                            Este dato es <strong>obligatorio</strong>
-                        </mat-error> -->
                     </mat-form-field>
                     <mat-form-field class="gpm-universal-width" appearance="fill">
                         <input matInput [type]="hide ? 'password' : 'text'"  placeholder="Contraseña" [formControl]="formUsuario_clave" required

@@ -12,7 +12,6 @@ export class TipoIdentificacionService {
     private _header = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
     consultarTiposIdentificacion(_token:string=''){
-        //debugger
         const _body = new HttpParams().set('Token',_token);
         
         return new Promise((resolve, reject) => {

@@ -121,7 +121,6 @@ export class PreguntaAbiertaComponent implements OnInit {
     
 
   }
-  // _lsita_listaOpcionesPreguntasAbiertas
   @ViewChild(MatTable,{static:false}) tablaOpcionesPreguntaAbierta : MatTable<any>;
   _listaOpcionesPreguntasAbiertas:any[]=[];
   _consultarOpcionesPreguntasAbiertas(){
@@ -145,7 +144,6 @@ export class PreguntaAbiertaComponent implements OnInit {
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._consultarOpcionesPreguntasAbiertas();
-          //this._listaOpcionesPreguntasAbiertas = data['respuesta'];
         }else if (data['http']['codigo']=='500') {
           this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
@@ -165,7 +163,6 @@ export class PreguntaAbiertaComponent implements OnInit {
       
 
       let obj = (this._listaPreguntaAbiertaTipoDatos.find(item=>item.IdTipoDatoEncriptado== this.formPreguntaTipoAbierta.get("_cmbTipoDato").value)).Identificador;
-      //this._identificador = obj;
      
       if (obj==2) {
         try {
@@ -209,7 +206,6 @@ export class PreguntaAbiertaComponent implements OnInit {
               this.mensaje(data['http']['mensaje']);
             }
           }).catch(error=>{
-            console.log(error);
 
           }).finally(()=>{
 

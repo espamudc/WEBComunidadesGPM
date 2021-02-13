@@ -47,7 +47,6 @@ export class ProvinciaComponent implements OnInit {
    this.dataSource.paginator = this.paginator;
    this.dataSource.sort = this.sort;
   }
-  //-----------------------------------------------------------------------------------------
   formProvincia : FormGroup;
   get formProvincia_idProvinciaEncriptado(){
     return this.formProvincia.get("_idProvinciaEncriptado");
@@ -64,7 +63,6 @@ export class ProvinciaComponent implements OnInit {
   get formProvincia_descripcion(){
     return this.formProvincia.get("_descripcion");
   }
-  //-----------------------------------------------------------------------------------------
   mensaje(_mensaje: string, _duracion?: number, _color?: string) {
     if (_duracion == null) {
       _duracion = 3000;
@@ -156,7 +154,6 @@ export class ProvinciaComponent implements OnInit {
        this.mensaje(error);
     });
   }
-  //-----------------------------------------------------------------------------------------
   _validar=true;
   tablaProvincias = ['codigo','provincia', 'acciones'];
   _idProvinciaEncriptado="";

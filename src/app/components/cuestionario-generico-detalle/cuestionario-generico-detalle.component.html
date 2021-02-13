@@ -1,4 +1,3 @@
-<!-- <p>cuestionario-generico-detalle works!</p> -->
 <br>
 <div class="container">
     <div  class="row">
@@ -20,24 +19,7 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <!-- <mat-form-field class="gpm-form-field col-lg-7">
-                            <input matInput placeholder="Característica" [formControl]="formCuestionarioGenericoDetalle_caracteristica" required>
-                            
-                            <mat-error *ngIf="formCuestionarioGenericoDetalle_caracteristica.hasError('required') || formCuestionarioGenericoDetalle_caracteristica.invalid || (formCuestionarioGenericoDetalle_caracteristica.dirty || formCuestionarioGenericoDetalle_caracteristica.touched ) ">
-                              Este dato es <strong>obligatorio</strong>
-                            </mat-error>
-                        </mat-form-field>
-                        <mat-form-field class="gpm-form-field col-lg-4">
-                            <input type="number" matInput placeholder="Versión" [formControl]="formCuestionarioGenericoDetalle_version" required>
-                            <mat-error *ngIf="formCuestionarioGenericoDetalle_version.hasError('required') || formCuestionarioGenericoDetalle_version.invalid || (formCuestionarioGenericoDetalle_version.dirty || formCuestionarioGenericoDetalle_version.touched ) ">
-                              Este dato es <strong>obligatorio</strong> 
-                               <strong *ngIf="formCuestionarioGenericoDetalle_version.invalid">. Este dato es invalido</strong>
-                            </mat-error>
-                            
-                        </mat-form-field>
-                        <div class="col-lg-1">
-                            <button type="submit" [disabled]="formCuestionarioGenericoDetalle.invalid" mat-button class=" btn btn-primary btn-block"> <i class="fa fa-plus"></i> </button>  
-                        </div> -->
+                       
                     </div>
 
                 </mat-card>
@@ -52,43 +34,36 @@
     
                 <mat-expansion-panel expanded 
                     >
-                    <mat-expansion-panel-header > <!--(click)="_consultarSeccionesDeComponentesDeCuestionario(componente.IdComponenteEncriptado)"-->
+                    <mat-expansion-panel-header >
                         <mat-panel-title>
                             {{componente.Descripcion}}
                         </mat-panel-title>
-                        <!-- <mat-panel-description >
-                            (COMPONENTE)
-                        </mat-panel-description> -->
+                        
                     </mat-expansion-panel-header>
                     
                     <mat-accordion *ngFor="let seccion of componente.listaSeccion; let a=index">
     
                         <mat-expansion-panel expanded 
                             >
-                            <mat-expansion-panel-header > <!--(click)="_consultarPreguntasSeccionComponenteCuestionarioGenerico(seccion.IdSeccionEncriptado)"-->
+                            <mat-expansion-panel-header > 
                                 <mat-panel-title>
                                     {{seccion.Descripcion}}
                                 </mat-panel-title>
-                                <!-- <mat-panel-description >
-                                    (SECCIÓN)
-                                </mat-panel-description> -->
+                                
                             </mat-expansion-panel-header>
                             
                             <mat-accordion>
     
-                                <mat-expansion-panel *ngFor="let pregunta of seccion.listaPregunta; let i=index" > <!--_listaPreguntasSeccionComponenteCuestionarioGenerico-->
+                                <mat-expansion-panel *ngFor="let pregunta of seccion.listaPregunta; let i=index" >
             
                                     <mat-expansion-panel-header (click)="_consultarOpcionesPreguntas(pregunta)">
                                         <mat-panel-title >
                                             {{pregunta.Descripcion}} 
                                         </mat-panel-title>
-                                        <!-- <mat-panel-description >
-                                            (PREGUNTA)
-                                        </mat-panel-description> -->
+                                    
                                        
                                     </mat-expansion-panel-header>
                                     <div *ngIf="pregunta.TipoPregunta.Identificador==1">
-                                        <!-- <app-pregunta-abierta [item]="pregunta"></app-pregunta-abierta> -->
 
                                         <table #tablaOpcionesPreguntaAbierta mat-table [dataSource]="_listaOpcionesPreguntasAbiertas" class="mat-elevation-z7 gpm-table">
 
@@ -110,22 +85,20 @@
                                                     <div *ngIf="element.ValorMaximo=='undefined'"> No Aplica </div>    
                                                 </td>
                                             </ng-container>
-                                            <!-- Symbol Column -->
                                             <tr mat-header-row *matHeaderRowDef="ColumnsPreguntaAbierta"></tr>
                                             <tr mat-row *matRowDef="let row; columns: ColumnsPreguntaAbierta;"></tr>
                                         </table>
 
                                     </div>
                                     <div *ngIf="pregunta.TipoPregunta.Identificador==2 || pregunta.TipoPregunta.Identificador==3 ">
-                                        <!-- <app-pregunta-seleccion [item]="pregunta"></app-pregunta-seleccion> -->
                                        
                                         <mat-accordion >
                                             <mat-expansion-panel class="mat-elevation-z7" *ngFor="let opcionPreguntaSeleccion of _listaOpcionesPreguntaSeleccion ; let i = index" >
                                                 <mat-expansion-panel-header (click)="_consultarPreguntasEncajonadas(opcionPreguntaSeleccion)">
                                                     <mat-panel-title>
-                                                        <!-- <mat-radio-group >  -->
+                                                       
                                                             <mat-radio-button  value="1"></mat-radio-button>
-                                                        <!-- </mat-radio-group>  -->
+                                                       
                                                         {{opcionPreguntaSeleccion.Descripcion}}
                                                     </mat-panel-title>
                                                 </mat-expansion-panel-header>
@@ -134,10 +107,9 @@
                                                    <ng-container matColumnDef="icono">
                                                     <th mat-header-cell *matHeaderCellDef> # </th>
                                                     <td mat-cell *matCellDef="let preguntaEncajonada"> 
-                                                        <mat-radio-group > <!--*ngIf="item.TipoPregunta.Identificador==2"-->
+                                                        <mat-radio-group >
                                                             <mat-radio-button  value="1"></mat-radio-button>
                                                         </mat-radio-group>
-                                                        <!-- <mat-checkbox *ngIf="item.TipoPregunta.Identificador==3"></mat-checkbox> -->
                                                 
                                                     </td>
                                                     </ng-container>
@@ -146,7 +118,6 @@
                                                         <th mat-header-cell *matHeaderCellDef> Descripción </th>
                                                         <td mat-cell *matCellDef="let preguntaEncajonada"> {{preguntaEncajonada.Pregunta.Descripcion}} </td>
                                                     </ng-container>
-                                                    <!-- Symbol Column -->
                                                     
                                                     <tr mat-header-row *matHeaderRowDef="ColumnsPreguntaEncajonada"></tr>
                                                     <tr mat-row *matRowDef="let row; columns: ColumnsPreguntaEncajonada;"></tr>
@@ -156,7 +127,6 @@
 
                                     </div>
                                     <div *ngIf="pregunta.TipoPregunta.Identificador==4">
-                                        <!-- <app-pregunta-matriz [item]="pregunta"></app-pregunta-matriz> -->
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <mat-card class="mat-elevation-z7">
@@ -173,9 +143,7 @@
                                                           <tr *ngFor="let item of FilaOpcionUnoMatriz">
                                                             <th scope="row">{{item.Descripcion}}</th>
                                                             <td *ngFor="let item of ColumnsOpcionDosMatriz ; let i = index" scope="col">
-                                                                <!-- <mat-radio-group aria-label="Select an option"> -->
                                                                     <mat-radio-button value="1"></mat-radio-button>
-                                                                <!-- </mat-radio-group>                           -->
                                                             </td>
                                                            
                                                           </tr>
@@ -188,7 +156,6 @@
                                     </div>
 
                                     <div *ngIf="pregunta.TipoPregunta.Identificador==5">
-                                        <!-- <app-pregunta-matriz [item]="pregunta"></app-pregunta-matriz> -->
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <input type="file"  placeholder="Ingrese la opción" accept="image/*" required>
@@ -208,33 +175,4 @@
             
         </div>
     </div>
-    <!-- <div class="row">
-        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-    
-            <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-              <button mat-icon-button disabled></button>
-              {{node.item}}
-            </mat-tree-node>
-          
-        
-            <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-              <button mat-icon-button
-                      [attr.aria-label]="'toggle ' + node.filename"
-                      (click)="loadChildren(node)"
-                      matTreeNodeToggle>
-                <mat-icon class="mat-icon-rtl-mirror">
-                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-                </mat-icon>
-              </button>
-              {{node.item}}
-            </mat-tree-node>
-          
-            <mat-tree-node *matTreeNodeDef="let node; when: isLoadMore">
-              <button mat-button (click)="loadMore(node.loadMoreParentItem)">
-                Load more...
-              </button>
-            </mat-tree-node>
-          </mat-tree>
-          
-    </div> -->
 </div>

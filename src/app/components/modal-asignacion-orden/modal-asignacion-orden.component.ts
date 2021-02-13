@@ -65,7 +65,6 @@ export class ModalAsignacionOrdenComponent implements OnInit {
         e.CabeceraVersionCuestionario.AsignarResponsable.CuestionarioGenerico.Nombre.trim().toLowerCase().includes(filterValue.trim().toLowerCase())
       );
     }
-    // this._listaCuestionarioPublicados.filter = filterValue.trim();
   }
   mensaje(_mensaje: string, _duracion?: number, _color?: string) {
     if (_duracion == null) {
@@ -104,7 +103,6 @@ export class ModalAsignacionOrdenComponent implements OnInit {
     if (item.Pregunta.TipoPregunta.Identificador == 4) {
       this.observacionMatriz = true;
       this.matriz = true;
-      //this._consultarOpcionUnoMatriz(item.Pregunta.IdPreguntaEncriptado)
     }if (item.Pregunta.TipoPregunta.Identificador == 6) {
       this.matriz = true;
       this.preguntaMatriz = true;
@@ -133,9 +131,7 @@ export class ModalAsignacionOrdenComponent implements OnInit {
     this.preguntaMatrizService._consultarOpcionUnoPreguntaMatriz(idPreguntaEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          console.log(data['respuesta'])
-          // this._listaOpcionUnoMatriz=data['respuesta'];
-          //console.log("_listaOpcionUnoMatriz",this._listaOpcionUnoMatriz);
+          
         } else {
         }
       }).catch(error=>{
@@ -203,13 +199,10 @@ export class ModalAsignacionOrdenComponent implements OnInit {
     this.comboPregunta = false;
   }
   onChange($event: any): void {
-    // console.log($event);
   }
   onPaste($event: any): void {
-    // console.log("onPaste");
   }
   async _insertarConfigurarComponente() {
-    console.log(this.formGroup.controls['Mapa'].value)
     let imagen = 0;
     if (this.formGroup.controls['Mapa'].value) {
       imagen = 1;
@@ -229,7 +222,6 @@ export class ModalAsignacionOrdenComponent implements OnInit {
     var respuesta = await this.CaracterizacionService._consultarConfigurarComponentePorComponente(this.data.IdComponente.IdAsignarComponenteGenericoEncriptado);
     if (respuesta['http']['codigo'] == "200") {
       if (respuesta['respuesta'] != null) {
-        console.log(respuesta['respuesta'].Contenido)
         this.mycontent = respuesta['respuesta'].Contenido;
         if (respuesta['respuesta'].Imagen == 1) {
           this.formGroup.controls['Mapa'].setValue(true);
@@ -279,7 +271,6 @@ export class ModalAsignacionOrdenComponent implements OnInit {
       this.ckeConfig = {
         allowedContent: false,
         forcePasteAsPlainText: true,
-        // removePlugins: 'horizontalrule',
         removeButtons: 'Link,Unlink,Button,TextField,Save,NewPage,Templates,Form,Checkbox,Radio,Find,Select,ImageButton,HiddenField,CopyFormatting,CreateDiv,BidiLtr,BidiRtl,Language,Flash,Smiley,PageBreak,Iframe,ShowBlocks,Table,Image,Source,Maximize,Anchor,SpecialChar,PasteFromWord,Scayt,Undo,Redo,Strike,Indent,Outdent,Blockquote'
       };
       this.ckeConfigMatriz={
@@ -287,7 +278,6 @@ export class ModalAsignacionOrdenComponent implements OnInit {
         width:"100%",
         height:"70px",
         forcePasteAsPlainText: true,
-        // removePlugins: 'horizontalrule',
         removeButtons: 'Link,Unlink,TextField,Save,NewPage,Templates,Form,Checkbox,Radio,Find,Select,ImageButton,HiddenField,CopyFormatting,CreateDiv,BidiLtr,BidiRtl,Language,Flash,Smiley,PageBreak,Iframe,ShowBlocks,Table,Image,Source,Maximize,Anchor,SpecialChar,PasteFromWord,Scayt,Undo,Redo,Strike,Indent,Outdent,Blockquote'
       }
       this._ConsultarPreguntasPorCuestionarioPublicadoComponente();

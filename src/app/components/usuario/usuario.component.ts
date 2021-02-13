@@ -1,15 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-// Services
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { PersonaService } from 'src/app/services/persona.service';
-// Interfaces
 import { Usuario } from 'src/app/interfaces/usuario/usuario';
 import { Persona } from 'src/app/interfaces/persona/persona';
-// Functional Components
 import { MatDialog } from "@angular/material/dialog";
-// Components
 import { ModalAsignacionUsuarioPersonaComponent } from '../modal-asignacion-usuario-persona/modal-asignacion-usuario-persona.component';
 import { ModalAsignacionUsuarioTiposUsuarioComponent } from '../modal-asignacion-usuario-tipos-usuario/modal-asignacion-usuario-tipos-usuario.component';
 import { ModalDetalleUsuarioComponent } from '../modal-detalle-usuario/modal-detalle-usuario.component';
@@ -189,7 +185,6 @@ export class UsuarioComponent implements OnInit {
       this.mensaje("Verifique si faltan por completar")
     });
   }
-  ///---------------------------------------------------------------------------
   botonInsertar = 'insertar';
   cedula = '';
   nombres = '';
@@ -214,7 +209,6 @@ export class UsuarioComponent implements OnInit {
     }
   }
   tablaUsuarios = ['usuario', 'nombres', 'acciones'];
-  //--------------------------------------------------------------------------------------------
   _listaUsuarios: any[] = [];
   @ViewChild(MatTable, { static: false }) MATtableUsuarios: MatTable<any>;
   _consultarUsuarios() {

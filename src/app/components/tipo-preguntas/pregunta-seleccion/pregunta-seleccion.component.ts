@@ -117,7 +117,6 @@ export class PreguntaSeleccionComponent implements OnInit {
         this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
-      console.log(error);
 
     }).finally(()=>{});
   }
@@ -138,13 +137,11 @@ export class PreguntaSeleccionComponent implements OnInit {
         this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
-      console.log(error);
 
     }).finally(()=>{});
   }
 
   _eliminarPreguntasSeleccion(_item){
-    // this.preguntaSeleccionService
     this.preguntaSeleccionService._eliminarOpcionPreguntaSeleccion(_item.IdOpcionPreguntaSeleccionEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {

@@ -52,36 +52,11 @@ export class ModalVistapreviaCaracterizacionComponent implements OnInit {
       this.provincia = this.data.Lugar.Parroquia.Canton.Provincia.NombreProvincia;
       this.canton = this.data.Lugar.Parroquia.Canton.NombreCanton;
       this.parroquia = this.data.Lugar.Parroquia.NombreParroquia;
-      // this.nComunidades = this.data.NumeroComunidades;
       this.nComunidades = this.data.Lugar.Representante;
       this.mostrarDataCaracterizacionVistaPreviaLugar = true;
       this.listaComponentes1 = this.data.data.AsignarComponenteGenerico;
-      console.log(this.data.data.AsignarComponenteGenerico)
     }
-    // this.CargandoVistaPrevia=true;
-    // this.datosCargados=false;
-    // if (this.data.Encabezado.NombreCaracterizacion != undefined) {
-    //   this.tituloEncabezado = 'CARACTERIZACIÓN ' + this.data.Encabezado.NombreCaracterizacion;
-    //   this.descripcionEncabezado = this.data.Encabezado.Descripcion;
-    //   this.listaComponentes = this.data.Encabezado.ListaComponentes;
-    //   this.mostrarDataCaracterizacionVistaPrevia=true;
-    // } else {
-    //   console.log(this.data.Encabezado);
-    //   this.tituloEncabezado = 'CARACTERIZACIÓN ' + this.data.Encabezado.data.NombreModeloGenerico;
-    //   this.descripcionEncabezado = this.data.Encabezado.data.DescripcionModeloGenerico;
-    //   this.provincia = this.data.Encabezado.Lugar.Provincia;
-    //   this.canton = this.data.Encabezado.Lugar.Canton;
-    //   this.parroquia = this.data.Encabezado.Lugar.Parroquia;
-    //   this.nComunidades= this.data.Encabezado.NumeroComunidades;
-    //   this.version = 'VERSIÓN '+this.data.Encabezado.data.Version;
-    //   this.Publicado = this.data.Encabezado.data.Publicado;
-    //   this.FechaPublicacion = this.data.Encabezado.data.FechaPublicacion;
-    //   this.Periodo = this.data.Encabezado.data.Periodo;
-    //   this.listaComponentes = this.data.Encabezado.data._ListaComponentes;
-    //   this.mostrarDataCaracterizacionVistaPreviaLugar=true;
-    // }
-    // this.CargandoVistaPrevia=false;
-    // this.datosCargados=true;
+    
   }
 
 }

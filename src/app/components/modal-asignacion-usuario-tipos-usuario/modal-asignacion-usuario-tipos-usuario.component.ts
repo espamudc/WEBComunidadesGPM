@@ -5,7 +5,6 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TipoUsuarioService } from 'src/app/services/tipo-usuario.service';
 import { AsignarUsuarioTipoUsuarioService } from 'src/app/services/asignar-usuario-tipo-usuario.service';
 import { MatSnackBar } from '@angular/material';
-// import { element } from 'protractor';
 
 @Component({
   selector: 'app-modal-asignacion-usuario-tipos-usuario',
@@ -36,48 +35,32 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
   ngOnInit() {
     this._consultarTiposUsuariosNoAsignados();
     this._consultarTiposUsuariosAsignados();
-    // this.testSelect.nativeElement.value="0";
-    // this._consultarTiposUsuarios().then(data=>{
-    //   this._consultarTiposUsuariosUsados();
-    // }).finally(()=>{
-      
-    // });
   
   }
-// ----------------------------------------------------------------------------------------------
-  // _ordenar(){
-  //   this._listaTiposUsuarios.sort();
-  //   this._listaAsignarUsuarioTipoUsuario.sort();
-  // }
+
   _listaTiposUsuarios:any[]=[];
   _listaAsignarUsuarioTipoUsuario:any[]=[];
   _consultarTiposUsuariosAsignados(){
-    console.log("_consultarTiposUsuariosUsados");
      this.asignarUsuarioTipoUsuarioService._consultarAsignarUsuarioTipoUsuario(this.data._usuario.IdUsuarioEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaAsignarUsuarioTipoUsuario=data['respuesta'];
 
         }else{
-          console.log(data['http']);
         }
       })
       .catch(error=>{
-        console.log(error);
       });
   }
   _consultarTiposUsuariosNoAsignados(){
     this.tipoUsuariosService._consultarTiposUsuariosNoAsignados(this.data._usuario.IdUsuarioEncriptado)
         .then(data=>{
           if (data['http']['codigo']=="200") {
-            // debugger
             this._listaTiposUsuarios = data['respuesta'];
           }else{
-            console.log(data['http']);
           }
         })
         .catch(error=>{
-          console.log(error);
         });
   }
   _asignarTipoUsuario(){
@@ -93,7 +76,6 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
         }else if (data['http']['codigo']=='500') {
           this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
-          console.log(data['http']);
         }
       }).catch(error=>{
   
@@ -113,16 +95,13 @@ export class ModalAsignacionUsuarioTiposUsuarioComponent implements OnInit {
         }else if (data['http']['codigo']=='500') {
           this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
-          console.log(data['http']);
         }
       })
       .catch(error=>{
-        console.log(error);
       });
   }
 
   onCangeSelectTipoU(event:any){
-    console.log(event.target.value); 
   }
   
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){

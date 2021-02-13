@@ -14,7 +14,6 @@ export class ModalVerImagenComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
  
   ) {
-    console.log(data);
    }
     imagenVar="";
     comunidadVar="";

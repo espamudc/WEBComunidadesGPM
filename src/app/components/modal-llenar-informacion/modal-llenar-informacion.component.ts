@@ -6,7 +6,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatDialog } from "@angular/material/dialog";
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { GaleriaComponent } from 'src/app/components/galeria/galeria.component';
-// import {Folder, path, knownFolders} from "tns-core-modules/file-system";
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -46,7 +45,6 @@ export class ModalLlenarInformacionComponent implements OnInit {
     }
   }
   preview() {
-    // Show preview
     var mimeType = this.fileData.type;
     if (mimeType.match(/image\/*/) == null) {
       return;
@@ -56,7 +54,6 @@ export class ModalLlenarInformacionComponent implements OnInit {
     reader.onload = (_event) => {
       this.previewUrl = reader.result;
     }
-    //console.log(reader)
   }
   eliminarImagen() {
     this.fileData = null;
@@ -66,7 +63,6 @@ export class ModalLlenarInformacionComponent implements OnInit {
     this.firstFormGroup.controls['firstCtrl'].setValue('');
     this.mostrarBotonEliminar = false;
     this.mostrarAgregarImagen = true;
-    //this.firstFormGroup.value.firstCtrl ='';
   }
   close() {
     this.dialogRef.close(this.accionesEjecutada);
@@ -111,7 +107,6 @@ export class ModalLlenarInformacionComponent implements OnInit {
         this.mensaje(data['http']['mensaje']);
       }
     }).catch(error => {
-      console.log(error);
     }).finally(() => {
       if (ejecutado != false) {
         this.dialogRef.close(this.accionesEjecutada);
@@ -135,7 +130,6 @@ export class ModalLlenarInformacionComponent implements OnInit {
         this.mensaje(data['http']['mensaje']);
       }
     }).catch(error => {
-      console.log(error);
     }).finally(() => {
       if (ejecutado != false) {
         this.dialogRef.close(this.accionesEjecutada);
@@ -159,7 +153,6 @@ export class ModalLlenarInformacionComponent implements OnInit {
           this.mensaje(data['http']['mensaje']);
         }
       }).catch(error => {
-        console.log(error);
       }).finally(() => {
         if (ejecutado != false) {
           this.dialogRef.close(this.accionesEjecutada);

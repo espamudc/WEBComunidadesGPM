@@ -29,7 +29,6 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
     });
 
    }
-   //------------------------------
    formAsignarResponsableCuestionarioGenerico:FormGroup;
 
    get _cmbTipoUsuario(){
@@ -38,10 +37,8 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
    get _cmbAsignarUsuarioTipoUsuario(){
      return this.formAsignarResponsableCuestionarioGenerico.get("_cmbAsignarUsuarioTipoUsuario");
    }
-   //-------------------------------
 
   ngOnInit() {
-    console.log(this.data);
     this._consultarTiposUsuarios();
     this._consultarAsignados();
     this.dataSource.paginator = this.paginator;
@@ -106,25 +103,16 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
             }
           });
           this._listaTiposUsuarios.push(tipo);
-          // this._listaTiposUsuarios = data['respuesta'];
-
-          //console.log(this._listaTiposUsuarios);
         }else{
-          console.log(data['http']);
-          // this.mensaje(data['http']['mensaje']);
         }
       })
       .catch(error=>{
-        console.log(error);
       })
       .finally(()=>{
-        // this._listaTiposUsuarios = tipo;
       });
   }
 
   _consultarNoAsinados(event?){
-    // console.log(event.value);
-    // console.log(this.data);
 
     this.asignarUsuarioTipoUsuarioService._consultarAsignarUsuarioTipoUsuario_No_responsablesporcuestionariogenericoporidentificadortipousuario(
       this.data.IdCuestionarioGenericoEncriptado,
@@ -132,16 +120,13 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
     )
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          console.log(data['respuesta']);
 
           this._listaUsuariosNoAsignados = data['respuesta'];
         }else{
           this.mensaje(data['http']['mensaje']);
         }
       }).catch(error=>{
-        console.log(error);
 
-        // this.mensaje(error);
       }).finally(()=>{
 
       });
@@ -155,21 +140,15 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
       .then(data=>{
         if (data['http']['codigo']=='200') {
 
-          console.log(
-          data['respuesta']);
           this._listaUsuariosAsignados = data['respuesta'];
           this.dataSource.data = this._listaUsuariosAsignados
           this.MatTableAsignarResponsables.renderRows();
         }else{
-          console.log(data['http']);
-          // this.mensaje(data['http']['mensaje']);
         }
       })
       .catch(error=>{
-        console.log(error);
       })
       .finally(()=>{
-        // this._listaTiposUsuarios = tipo;
       });
   }
 
@@ -186,15 +165,12 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
         }else if (data['http']['codigo']=='500') {
           this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
-          console.log(data['http']);
           this.mensaje(data['http']['mensaje']);
         }
       })
       .catch(error=>{
-        console.log(error);
       })
       .finally(()=>{
-        // this._listaTiposUsuarios = tipo;
       });
   }
 
@@ -209,7 +185,6 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
         }else if (data['http']['codigo']=='500') {
           this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
-          console.log(data['http']);
           this.mensaje(data['http']['mensaje']);
         }
       }).catch(error=>{
@@ -226,9 +201,7 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._consultarAsignados();
-          // this._consultarNoAsinados();
         }else{
-          console.log(data['http']);
           this.mensaje(data['http']['mensaje']);
         }
       }).catch(error=>{

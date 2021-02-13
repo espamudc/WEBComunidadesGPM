@@ -32,36 +32,26 @@
                 <form #frmComunidad="ngForm" (ngSubmit)="_validarFormulario()" method="POST" enctype="multipart/form-data">
                     <mat-form-field class="gpm-form-field">
                         <input matInput disabled required [(ngModel)]="_nombreProvincia" [ngModelOptions]="{standalone: true}" name="_nombreProvincia" type="text" (keyup)="_validarCompletos($event)"  aria-describedby="emailHelp" placeholder="Provincia" autocomplete="off">
-                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                     </mat-form-field>
                     <mat-form-field class="gpm-form-field">
                         <input matInput disabled required [(ngModel)]="_nombreCanton" [ngModelOptions]="{standalone: true}" name="_nombreCanton" type="text" (keyup)="_validarCompletos($event)"  aria-describedby="emailHelp" placeholder="Canton" autocomplete="off">
-                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                     </mat-form-field>
                     <mat-form-field class="gpm-form-field"> 
                         <input matInput disabled required [(ngModel)]="_nombreParroquia" [ngModelOptions]="{standalone: true}" name="_nombreParroquia" type="text" (keyup)="_validarCompletos($event)" aria-describedby="emailHelp" placeholder="Parroquia" autocomplete="off">
-                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                     </mat-form-field>
                     <mat-form-field class="gpm-form-field">
                         <input matInput required [(ngModel)]="_codigoComunidad" [ngModelOptions]="{standalone: true}" name="_codigoComunidad" type="text" (keyup)="_validarCompletos($event)" aria-describedby="emailHelp" placeholder="Código de la Comunidad" autocomplete="off">
-                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                     </mat-form-field>
                     <mat-form-field class="gpm-form-field">
                         <input matInput required [(ngModel)]="_nombreComunidad" [ngModelOptions]="{standalone: true}" name="_nombreComunidad" type="text" (keyup)="_validarCompletos($event)"  aria-describedby="emailHelp" placeholder="Nombre" autocomplete="off">
-                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                     </mat-form-field>
                     <mat-form-field class="gpm-form-field">
-                        <input matInput [(ngModel)]="_descripcionComunidad" [ngModelOptions]="{standalone: true}" name="_descripcionComunidad" type="text"  aria-describedby="emailHelp" placeholder="Descripción" autocomplete="off"> <!-- (keyup)="_validarCompletos($event)"-->
-                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                        <input matInput [(ngModel)]="_descripcionComunidad" [ngModelOptions]="{standalone: true}" name="_descripcionComunidad" type="text"  aria-describedby="emailHelp" placeholder="Descripción" autocomplete="off">
                     </mat-form-field>
                     <div class="form-group">
                         Seleccione una imagen
                         <input type="file" (change)="onSelectFile($event)" [(ngModel)]="_rutaLogoComunidad" name="_rutaLogoComunidad" placeholder="Seleccione la imagen"  accept="image/*" required>
-                    </div>
-                    <!-- <div class="form-group"> 
-                        <input #rutaLogoComunidad [(ngModel)]="_rutaLogoComunidad" [ngModelOptions]="{standalone: true}" name="_rutaLogoComunidad" type="file" (keyup)="_validarCompletos($event)" class="form-control"  aria-describedby="emailHelp" placeholder="Telefono"> -->
-                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                    <!-- </div>  -->   
+                    </div>  
                     <div class="form-group">
                         <button type="submit" [disabled]="_validar" *ngIf="_btnAccion==='Guardar'" mat-button class="btn btn-primary btn-block">
                             <i class="fa fa-plus"></i>
@@ -87,37 +77,6 @@
             </mat-card>
            
             <br>
-            <!-- <mat-card>
-                <div class="row">
-                    <div class="col-12"> <h2 style="text-align: center;">Parroquias</h2>  </div>
-                </div>
-                <div class="form-group input-container">
-                    <i class="fa fa-search icon"></i>
-                    <input [(ngModel)]="filterParroquia" type="text" class="form-control input-field"
-                        placeholder="Ejem. Tosagua">
-                    <i class="fa fa-refresh icon" (click)="_consultarParroquias()" aria-hidden="true"></i>
-                </div>
-
-                <div class="tablaParroquias mat-elevation-z5">
-                    <table #MatTableParroquias mat-table [dataSource]="_listaParroquias">
-                        <ng-container matColumnDef="parroquia">
-                            <th mat-header-cell *matHeaderCellDef> Cantón </th>
-                            <td mat-cell *matCellDef="let element"> {{element.NombreParroquia}} </td>
-                        </ng-container>
-                        <ng-container matColumnDef="acciones">
-                            <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                            <td mat-cell *matCellDef="let element">
-                                <button tooltip="Seleccionar" placement="top"
-                                    class="btn btn-sm btn-block btn-outline-warning" (click)="_prepararParroquia(element)">
-                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                </button>
-                            </td>
-                        </ng-container>
-                        <tr mat-header-row *matHeaderRowDef="tablaParroquias; sticky: true"></tr>
-                        <tr mat-row *matRowDef="let row; columns: tablaParroquias;"></tr>
-                    </table>
-                </div>
-            </mat-card> -->
            
         </div>
 

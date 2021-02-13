@@ -43,7 +43,6 @@ export class VersionarCaracterizacionComponent implements OnInit {
   cabeceraVersionModelo: any[] = [];
   _listaVersiones: any[] = [];
   _idModeloGenerico = '';
-  //_VersionesPorCaracterizacion: any[] = [];
   @ViewChild('paginator', { static: false }) paginator: MatPaginator;
   _VersionesPorCaracterizacion = new MatTableDataSource<Element[]>();
   get formVersionar_Caracteristica() {

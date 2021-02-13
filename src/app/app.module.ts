@@ -1,4 +1,7 @@
 import {DatePipe} from '@angular/common';
+import { CookieService } from 'ngx-cookie-service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './_helpers/jwt.Interceptor';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
 import { BrowserModule } from '@angular/platform-browser';
@@ -215,7 +218,12 @@ import { ModalVerImagenComponent } from './components/modal-ver-imagen/modal-ver
     ModalEncajonamientoComponent,
     ModalVerImagenComponent,
   ],
-  providers: [DatePipe, { provide: LocationStrategy, useClass: HashLocationStrategy }
+  providers: [CookieService,
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: TokenInterceptor,
+        multi: true
+    },DatePipe, { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

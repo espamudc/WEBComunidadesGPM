@@ -89,7 +89,6 @@ export class LlenarCaracterizacionComponent implements OnInit {
     this.tablaCuestionarios = false;
   }
   generarReporte(element) {
-    console.log(this.formCaracterizacion_CmbVersion.value)
     window.open(urlImagen+"Caracterizacion/Caracterizacion?Encuesta="+element.IdCabeceraRespuestaEncriptado+"&Caracterizacion="+this.formCaracterizacion_CmbVersion.value.CabeceraVersionModelo.IdCabeceraVersionModeloEncriptado);
   }
   applyFilter(event: Event) {
@@ -120,7 +119,6 @@ export class LlenarCaracterizacionComponent implements OnInit {
     let snackBarRef = this.snackBarComponent.open(_mensaje, null, { duration: _duracion, panelClass: [`${_color}`], verticalPosition: 'bottom', horizontalPosition: 'end' });
   }
   buscar() {
-    console.log(this.formCaracterizacion_CmbVersion.value)
   }
 
   tipoUsurio='';

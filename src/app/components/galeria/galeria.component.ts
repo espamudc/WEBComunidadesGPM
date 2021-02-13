@@ -21,7 +21,6 @@ export class GaleriaComponent implements OnInit {
     private snackBarComponent: MatSnackBar,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    // private _electronService: ElectronService
   ) {}
   incrementador = 1;
   _listaImagenes:any[]=[];
@@ -33,14 +32,12 @@ export class GaleriaComponent implements OnInit {
         if (data['http']['codigo'] == '200') {
           ejecutado = true;
           this._listaImagenes = data['respuesta'];
-          console.log(data['respuesta'])
         } else if (data['http']['codigo'] == '500') {
           this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         } else {
           this.mensaje(data['http']['mensaje']);
         }
       }).catch(error => {
-        console.log(error);
       }).finally(() => {
         if (ejecutado != false) {
         }
@@ -74,7 +71,6 @@ export class GaleriaComponent implements OnInit {
     if(this.tipoUsurio==''){
       this.router.navigateByUrl("/login");
     }
-    //var BrowserWindow = this._electronService.remote.BrowserWindow;
     this.mostrarCarpeta();
   }
 

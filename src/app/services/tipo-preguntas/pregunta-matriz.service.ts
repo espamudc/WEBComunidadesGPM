@@ -48,11 +48,9 @@ export class PreguntaMatrizService {
 
   _insertarPreguntaConfigurarMatriz(
     _IdPreguntaEncriptado,
-    //_IdOpcionUnoMatrizEncriptado,
     _Descripcion
   ){
     const _body = new HttpParams()
-    // .set("OpcionUnoMatriz.IdOpcionUnoMatrizEncriptado",_IdOpcionUnoMatrizEncriptado)
     .set("OpcionUnoMatriz.Pregunta.IdPreguntaEncriptado",_IdPreguntaEncriptado)
     .set("OpcionDosMatriz.Descripcion",_Descripcion)
     ;

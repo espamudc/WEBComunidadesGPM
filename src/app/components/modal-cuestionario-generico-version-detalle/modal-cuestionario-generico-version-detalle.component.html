@@ -1,4 +1,3 @@
-<!-- <p>modal-cuestionario-generico-version-detalle works!</p> -->
 <br>
 <div class="container">
 
@@ -8,39 +7,32 @@
     
                 <mat-expansion-panel expanded 
                     >
-                    <mat-expansion-panel-header > <!--(click)="_consultarSeccionesDeComponentesDeCuestionario(componente.IdComponenteEncriptado)"-->
+                    <mat-expansion-panel-header >
                         <mat-panel-title>
                             {{componente.Descripcion}}
                         </mat-panel-title>
-                        <!-- <mat-panel-description >
-                            (COMPONENTE)
-                        </mat-panel-description> -->
+                      
                     </mat-expansion-panel-header>
                     
                     <mat-accordion *ngFor="let seccion of componente.listaSeccion; let a=index">
     
                         <mat-expansion-panel expanded 
                             >
-                            <mat-expansion-panel-header > <!--(click)="_consultarPreguntasSeccionComponenteCuestionarioGenerico(seccion.IdSeccionEncriptado)"-->
+                            <mat-expansion-panel-header >
                                 <mat-panel-title>
                                     {{seccion.Descripcion}}
                                 </mat-panel-title>
-                                <!-- <mat-panel-description >
-                                    (SECCIÓN)
-                                </mat-panel-description> -->
+                                
                             </mat-expansion-panel-header>
                             
                             <mat-accordion>
     
-                                <mat-expansion-panel *ngFor="let pregunta of seccion.listaPregunta; let i=index" > <!--_listaPreguntasSeccionComponenteCuestionarioGenerico-->
+                                <mat-expansion-panel *ngFor="let pregunta of seccion.listaPregunta; let i=index" >
             
                                     <mat-expansion-panel-header>
                                         <mat-panel-title >
                                             {{pregunta.Descripcion}} 
                                         </mat-panel-title>
-                                        <!-- <mat-panel-description >
-                                            (PREGUNTA)
-                                        </mat-panel-description> -->
                                        
                                     </mat-expansion-panel-header>
             

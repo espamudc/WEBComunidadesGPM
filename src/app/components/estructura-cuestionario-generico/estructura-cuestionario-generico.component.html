@@ -1,4 +1,3 @@
-<!-- <p>estructura-cuestionario-generico works!</p> -->
 <div class="container">
     
     <br>
@@ -47,7 +46,6 @@
         </div>
 
         <div  class="col-lg-6 mr-auto">
-        <!-- <br *ngIf="logica_componentes == true"> -->
             <mat-card style="height: 100% !important;" *ngIf="logica_componentes == true" class="gpm-universal-width ">
                 <h3 style="text-align: center;">Componente</h3>
                 <form [formGroup]="formComponenteCuestionarioGenerico"
@@ -61,18 +59,11 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <!-- <button (click)="formComponenteCuestionarioGenerico.reset()" *ngIf="_btnAccionC=='Actualizar'" [disabled]="_cmbCuestionarioGenerico.invalid" class=" btn btn-block col-lg-1 col-sm-2" mat-button type="button"> 
-                        <mat-icon  aria-hidden="false" aria-label="Example home icon">refresh</mat-icon>
-                    </button> -->
-
-                    <!-- <mat-card-actions> -->
                     <div class="row">
                         <div class="col-6">
                             <button [disabled]=" _descripcion.invalid || (_cmbCuestionarioGenerico.value==0)" class=" btn btn-primary btn-block" mat-button type="submit">
                                 <i *ngIf="_btnAccionC=='Guardar'" class="fa fa-plus"></i>
                                 <i *ngIf="_btnAccionC=='Actualizar'" class="fa fa-edit"></i>
-                                <!-- <mat-icon *ngIf="_btnAccionC=='Guardar'" aria-hidden="false" aria-label="Example home icon">add </mat-icon> -->
-                                <!-- <mat-icon *ngIf="_btnAccionC=='Actualizar'" aria-hidden="false" aria-label="Example home icon"> edit</mat-icon> -->
                             </button>
                         </div>
                         <div class="col-6">
@@ -81,11 +72,9 @@
                             </button>
                         </div>
                     </div>
-                    <!-- </mat-card-actions> -->
 
                 </form>
             </mat-card>
-            <!-- <br *ngIf="logica_secciones == true"> -->
             <mat-card style="height: 100% !important;" *ngIf="logica_secciones == true" class="gpm-universal-width">
                
                 
@@ -108,8 +97,7 @@
                                 <button [disabled]=" _cmbComponenteCuestionarioGenerico.value ==0 || _descripcionSeccion.invalid" class="btn btn-primary btn-block" mat-button type="submit">
                                     <i class="fa fa-plus" *ngIf="_btnAccionS=='Guardar'"></i>
                                     <i class="fa fa-edit" *ngIf="_btnAccionS=='Actualizar'"></i>
-                                    <!-- <mat-icon *ngIf="_btnAccionS=='Guardar'" aria-hidden="false" aria-label="Example home icon"> add </mat-icon> -->
-                                    <!-- <mat-icon *ngIf="_btnAccionS=='Actualizar'" aria-hidden="false" aria-label="Example home icon">  edit </mat-icon> -->
+                                    
                                 </button>
                             </div>
                             <div class="col-6">
@@ -119,19 +107,11 @@
                             </div>
                         </div>
                     </mat-card-actions>
-                    
-                    <!-- <mat-card-content> -->
-
-                    <!-- </mat-card-content> -->
-                    <!-- <mat-card-actions > -->
-
-                    <!-- </mat-card-actions> -->
 
 
                 </form>
             </mat-card>
 
-            <!-- <br *ngIf="logica_preguntas == true"> -->
             <mat-card style="height: 100% !important;" *ngIf="logica_preguntas == true" class="gpm-universal-width">
                 <h3 style="text-align: center;">Pregunta</h3>
                 <form [formGroup]="formPreguntaSeccionComponenteCuestionarioGenerico"
@@ -171,7 +151,6 @@
                       
 
 
-                    <!-- <div class="row"> -->
                     
                     <mat-radio-group [(ngModel)]="_obligatorioPregunta" class="gpm-form-field" required [formControl]="_obligatorio" aria-label="Obligatoria">
                         <mat-label>La Pregunta es obligatoria?  </mat-label>
@@ -180,7 +159,6 @@
                        
                     </mat-radio-group>
                     
-                    <!-- <mat-card-actions> -->
                         <div class="row">
                             <div class="col-6">
                                 <button [disabled]=" (_cmbComponenteCuestionarioGenerico.value==0) || formPreguntaSeccionComponenteCuestionarioGenerico.invalid"
@@ -188,8 +166,7 @@
                                     
                                     <i class="fa fa-plus" *ngIf="_btnAccionP=='Guardar'"></i>
                                     <i class="fa fa-edit" *ngIf="_btnAccionP=='Actualizar'"></i>
-                                    <!-- <mat-icon *ngIf="_btnAccionP=='Guardar'" aria-hidden="false" aria-label="Example home icon">add </mat-icon> -->
-                                    <!-- <mat-icon *ngIf="_btnAccionP=='Actualizar'" aria-hidden="false" aria-label="Example home icon"> edit</mat-icon> -->
+                                    
                                 </button>
                             </div>
                             <div class="col-6">
@@ -198,7 +175,6 @@
                                 </button>
                             </div>
                         </div>
-                    <!-- </mat-card-actions> -->
                     
 
                 </form>
@@ -221,19 +197,12 @@
                             <mat-panel-title>
                                 {{element.Descripcion}}
                             </mat-panel-title>
-                            <!-- <mat-icon>edit</mat-icon> -->
-    
-    
-    
-    
     
                             <button mat-button *ngIf="element.Utilizado==0" (click)="_prepararComponenteCuestionarioGenerico(element)">
                                 <i class="fa fa-edit"> </i>
-                                <!-- <mat-icon (click)="_prepararComponenteCuestionarioGenerico(element)">edit</mat-icon> -->
                             </button>
                             <button mat-button *ngIf="element.Utilizado==0" (click)="_eliminarComponenteCuestionarioGenerico(element)">
                                 <i class="fa fa-times"> </i>
-                                <!-- <mat-icon (click)="_eliminarComponenteCuestionarioGenerico(element)">clear</mat-icon> -->
                             </button>
 
                             <button mat-button  *ngIf="i > 0" tooltip="Cambiar el orden : Subir" placement="top" (click)="_subirComponenteCuestionarioGenerico(element)">
@@ -243,22 +212,10 @@
                             <button mat-button *ngIf="(i+1) != _listaComponentesCuestionarioGenerico.length" tooltip="Cambiar el orden : Bajar" placement="top" (click)="_bajarComponenteCuestionarioGenerico(element)">
                                 
                                 <i class="fa fa-sort-down"></i>
-                                <!-- <mat-icon *ngIf="i > 0" (click)="_subirComponenteCuestionarioGenerico(element)"> 
-                                    arrow_drop_up</mat-icon>-->
-                                <!-- <mat-icon *ngIf="(i+1) != _listaComponentesCuestionarioGenerico.length"
-                                    (click)="_bajarComponenteCuestionarioGenerico(element)">arrow_drop_down</mat-icon> -->
+                                
                             </button>
                             
-    
-    
-                            <!-- <mat-slide-toggle *ngIf="element.Estado==0" checked="false">Activar!</mat-slide-toggle>
-                        <mat-slide-toggle *ngIf="element.Estado==1"  checked="true">Desactivar!</mat-slide-toggle> -->
-    
-                            <!-- <mat-panel-description>
-                          Currently I am {{panelOpenState ? 'open' : 'closed'}}
-                        </mat-panel-description> -->
                         </mat-expansion-panel-header>
-                        <!-- <p>I'm visible because I am open</p> -->
     
                     </mat-expansion-panel>
                 </mat-accordion>
@@ -282,12 +239,7 @@
                             <mat-panel-title>
                                 {{element.Descripcion}}
                             </mat-panel-title>
-                            <!-- <mat-icon>edit</mat-icon> -->
-    
-                            <!-- <button mat-button *ngIf="element.Utilizado==0">
-                                <mat-icon (click)="_prepararSeccionDeComponenteDeCuestionarioGenerico(element)">edit
-                                </mat-icon>
-                            </button> -->
+                            
                             <button mat-button *ngIf="element.Utilizado==0" tooltip="Editar" placement="top"
                                 (click)="_prepararSeccionDeComponenteDeCuestionarioGenerico(element)">
                                 <i class="fa fa-edit"></i>
@@ -297,14 +249,7 @@
                                 (click)="_eliminarSeccionComponenteCuestionarioGenerico(element)">
                                 <i class="fa fa-times"></i>
                             </button>
-                            <!-- <button mat-button *ngIf="_listaSeccionesComponenteCuestionarioGenerico.length >1">
-                                
-                                <mat-icon *ngIf="i > 0" (click)="_subirSeccionComponenteCuestionarioGenerico(element)">
-                                    arrow_drop_up</mat-icon>
-                                <mat-icon *ngIf="(i+1) != _listaSeccionesComponenteCuestionarioGenerico.length"
-                                    (click)="_bajarSeccionComponenteCuestionarioGenerico(element)">arrow_drop_down
-                                </mat-icon>
-                            </button> -->
+                            
                             <button mat-button  *ngIf="i > 0" tooltip="Cambiar el orden : Subir" placement="top" (click)="_subirSeccionCuestionarioGenerico(element)">
                                 <i class="fa fa-sort-up"></i>
                             </button>
@@ -312,17 +257,8 @@
                             <button mat-button *ngIf="(i+1) != _listaSeccionesComponenteCuestionarioGenerico.length" tooltip="Cambiar el orden : Bajar" placement="top" (click)="_bajarSeccionCuestionarioGenerico(element)">
                                 <i class="fa fa-sort-down"></i>
                             </button>
-                            
     
-    
-                            <!-- <mat-slide-toggle *ngIf="element.Estado==0" checked="false">Activar!</mat-slide-toggle>
-                        <mat-slide-toggle *ngIf="element.Estado==1"  checked="true">Desactivar!</mat-slide-toggle> -->
-    
-                            <!-- <mat-panel-description>
-                          Currently I am {{panelOpenState ? 'open' : 'closed'}}
-                        </mat-panel-description> -->
                         </mat-expansion-panel-header>
-                        <!-- <p>I'm visible because I am open</p> -->
     
                     </mat-expansion-panel>
                 </mat-accordion>
@@ -359,33 +295,26 @@
                             <mat-panel-description >
                                 
                             </mat-panel-description>
-                            <!-- <mat-icon>edit</mat-icon> -->
      
                             <button mat-button *ngIf="item.Utilizado==0" tooltip="Editar" placement="top"
                                 (click)="_prepararPreguntaSeccionDeComponenteDeCuestionarioGenerico(item)">
                                 <i class="fa fa-edit"></i>
-                                <!-- <mat-icon (click)="_prepararPreguntaSeccionDeComponenteDeCuestionarioGenerico(item)">edit
-                                </mat-icon> -->
+                               
                             </button>
                             <button mat-button *ngIf="item.Utilizado==0" tooltip="Eliminar" placement="top"
                                 (click)="_eliminarPreguntaSeccionComponenteCuestionarioGenerico(item)">
                                 <i class="fa fa-times"></i>
-                                <!-- <mat-icon (click)="_eliminarPreguntaSeccionComponenteCuestionarioGenerico(item)">clear
-                                </mat-icon> -->
+                              
                             </button>
                             <button mat-button *ngIf="i > 0" tooltip="Cambiar el orden : Subir" placement="top"
                                 (click)="_subirPreguntaSeccionComponenteCuestionarioGenerico(item)">
                                 <i class="fa fa-sort-up"></i>
-                                <!-- <mat-icon *ngIf="i > 0" (click)="_subirPreguntaSeccionComponenteCuestionarioGenerico(item)">
-                                    arrow_drop_up
-                                </mat-icon> -->
+                               
                             </button>
                             <button mat-button *ngIf="(i+1) != _listaPreguntasSeccionComponenteCuestionarioGenerico.length" tooltip="Cambiar el orden : Bajar" placement="top"
                                 (click)="_bajarPreguntaSeccionComponenteCuestionarioGenerico(item)">
                                 <i class="fa fa-sort-down"></i>
-                                <!-- <mat-icon *ngIf="(i+1) != _listaPreguntasSeccionComponenteCuestionarioGenerico.length"
-                                    (click)="_bajarPreguntaSeccionComponenteCuestionarioGenerico(item)">arrow_drop_down
-                                </mat-icon> -->
+                               
                             </button>
                            
                         </mat-expansion-panel-header>
@@ -404,15 +333,11 @@
                             <app-pregunta-archivo [item]="item"></app-pregunta-archivo>
                         </div>
                         
-
-                       
                     </mat-expansion-panel>
                 </mat-accordion>
     
             </div>
         </div>
     </mat-card>
-
-
 
 </div>

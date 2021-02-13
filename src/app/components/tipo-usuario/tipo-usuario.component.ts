@@ -36,13 +36,10 @@ export class TipoUsuarioComponent implements OnInit {
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaTiposUsuarios = data['respuesta'];
-          console.log(this._listaTiposUsuarios);
         }else{
-          console.log(data['http']);
         }
       })
       .catch(error=>{
-        console.log(error);
       })
       .finally(()=>{
 
@@ -56,7 +53,6 @@ export class TipoUsuarioComponent implements OnInit {
       data: { _item }
     });
     dialogRef.afterClosed().subscribe(result=>{
-      // console.log(result);
       if (result) {
         
       }
@@ -64,7 +60,6 @@ export class TipoUsuarioComponent implements OnInit {
   }
 
   _verTipoUsuario(_item){
-    console.log(_item);
     
   }
 

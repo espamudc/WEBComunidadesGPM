@@ -86,7 +86,6 @@ export class ModalEncajonamientoComponent implements OnInit {
            
         }
       }).catch(error=>{
-        console.log(error);
         
       }).finally(()=>{
 
@@ -94,14 +93,10 @@ export class ModalEncajonamientoComponent implements OnInit {
   }
 
   _onChangeCmbEncajonar(event?){
-    //this._listaPreguntasSeccionComponenteCuestionarioGenerico2 = null;
     if (event.value=='0') {
       
     } else {
-      this._insertarPreguntaEncajonada(this.preguntaseleccion);
-      //console.log("ENCAJONADA",this.preguntaseleccion.Pregunta.Seccion.IdSeccionEncriptado);
-      //this.hijo._MetodSeccionComponentesCuestionarioGenerico(this.preguntaseleccion.Pregunta.Seccion.IdSeccionEncriptado);
-      
+      this._insertarPreguntaEncajonada(this.preguntaseleccion);     
 
        
     }
@@ -160,9 +155,6 @@ export class ModalEncajonamientoComponent implements OnInit {
  }
 
  _insertarPreguntaEncajonada(_item){
-    
-  //let element = this._listaPreguntaEncajonadas.find(i=>i.Pregunta.IdPreguntaEncriptado==this.formEncajonarPregunta_cmbPreguntaEncajonada.value);
-  //let index = this._listaPreguntaEncajonadas.indexOf(element);
  
   if (this._listaPreguntaEncajonadas.length==0) {
     this.preguntaEncajonarService._preguntaencajonada_insertar(
@@ -178,7 +170,6 @@ export class ModalEncajonamientoComponent implements OnInit {
         this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
-      console.log(error);
       this.mensaje(error);
       
     }).finally(()=>{

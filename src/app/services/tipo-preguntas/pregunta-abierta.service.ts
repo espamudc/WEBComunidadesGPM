@@ -30,7 +30,7 @@ export class PreguntaAbiertaService {
     const _body = new HttpParams()
     ;
 
-    return new Promise((resolve, reject) => {//preguntaabierta_consultarporidpregunta
+    return new Promise((resolve, reject) => {
       this.http.post(url+'preguntaabierta_consultarporidpregunta?_idPreguntaEncriptado='+_idPreguntaEncriptado,_body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
@@ -41,7 +41,6 @@ export class PreguntaAbiertaService {
   }
 
   _insertarOpcionPreguntaAbierta(
-    // _idPreguntaAbiertaEncriptado,
     _idPreguntaEncriptadoEncriptado,
     _idTipoPreguntaEncriptado,
     _idTipoDatoEncriptado,

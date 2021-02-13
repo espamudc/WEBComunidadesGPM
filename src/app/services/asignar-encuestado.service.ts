@@ -61,7 +61,6 @@ export class AsignarEncuestadoService {
       .set("FechaInicio",_fechaInicio)
       .set("FechaFin",_fechaFin)
     ;
-    //console.log(_body)
     return new Promise((resolve, reject) => {
       this.http.post(url+'asignarencuestado_editar',_body.toString(),{headers:this._header})
                 .subscribe(res=>{

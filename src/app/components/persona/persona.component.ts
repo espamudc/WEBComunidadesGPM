@@ -1,11 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, Validators, FormControl, Form } from '@angular/forms';
 import { Router } from '@angular/router';
-// Services
 import { PersonaService } from "../../services/persona.service";
-// Functional Components
 import { MatDialog } from "@angular/material/dialog";
-// Components
 import { ModalDetallePersonaComponent } from "src/app/components/modal-detalle-persona/modal-detalle-persona.component";
 import { SexoService } from 'src/app/services/sexo.service';
 import { TipoIdentificacionService } from 'src/app/services/tipo-identificacion.service';
@@ -113,7 +110,6 @@ export class PersonaComponent implements OnInit {
   get formPersona_direccion() {
     return this.formPersona.get("_direccion");
   }
-  //-------------------------------------------------------------------------------------------
   _validar = true;
   _listaSexos: any[] = [];
   _listaTipoIdentificacion: any[] = [];

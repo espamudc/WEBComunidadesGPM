@@ -74,7 +74,6 @@ export class PreguntaMatrizComponent implements OnInit {
 
 
   formPreguntaOpcionUnoMatriz:FormGroup;
-  //------------------------------------------------------------------------------
   get OpcionUnoMatriz_idOpcionUnoMatriz(){
     return this.formPreguntaOpcionUnoMatriz.get("_idOpcionUnoMatriz");
   }
@@ -87,9 +86,7 @@ export class PreguntaMatrizComponent implements OnInit {
   get OpcionUnoMatriz_descripcion(){
     return this.formPreguntaOpcionUnoMatriz.get("_descripcion");
   }
-  //-------------------------------------------------------------------------------
   formPreguntaOpcionDosMatriz:FormGroup;
-  //-------------------------------------------------------------------------------
   get OpcionDosMatriz_idOpcionDosMatriz(){
     return this.formPreguntaOpcionDosMatriz.get("_idOpcionDosMatriz");
   }
@@ -102,7 +99,6 @@ export class PreguntaMatrizComponent implements OnInit {
   get OpcionDosMatriz_descripcion(){
     return this.formPreguntaOpcionDosMatriz.get("_descripcion");
   }
-  //-------------------------------------------------------------------------------
 
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
 
@@ -166,7 +162,6 @@ export class PreguntaMatrizComponent implements OnInit {
     });
   }
 
-  // @ViewChild('tablaOpcionUno',{static:false}) tablaOpcionUno:MatTable<any>
   _listaPreguntaConfigurarMatriz:any[]=[];
   _PreguntaConfigurarMatriz:any[]=[];
   _consultarPreguntaConfigurarMatriz(){
@@ -218,7 +213,6 @@ export class PreguntaMatrizComponent implements OnInit {
       }).finally(()=>{
         this._vistaPreguntaConfigurarMatriz()
       });
-    // });
   }
 
   FilaOpcionUnoMatriz: any[] = [];
@@ -237,7 +231,6 @@ export class PreguntaMatrizComponent implements OnInit {
     });
 
     this.FilaOpcionUnoMatriz = unicosOpcionUno;
-    //------------------------------------------------------------------------------------
     this._listaPreguntaConfigurarMatriz.map((element,index)=>{
       this.ColumnsOpcionDosMatriz.push(element.OpcionDosMatriz);
     });
@@ -263,7 +256,6 @@ export class PreguntaMatrizComponent implements OnInit {
           this.ColumnsOpcionDosMatriz=[];
           this._consultarOpcionUnoMatriz();
           this._consultarPreguntaConfigurarMatriz();
-          //this._vistaPreguntaConfigurarMatriz();
         }else if (data['http']['codigo']=='500') {
           this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
@@ -272,8 +264,7 @@ export class PreguntaMatrizComponent implements OnInit {
       }).catch(error=>{
 
       }).finally(()=>{
-        //this._consultarPreguntaConfigurarMatriz();
-        //this._vistaPreguntaConfigurarMatriz();
+        
       });
   }
 
@@ -285,7 +276,6 @@ export class PreguntaMatrizComponent implements OnInit {
           this.ColumnsOpcionDosMatriz=[];
           this._consultarOpcionUnoMatriz();
           this._consultarPreguntaConfigurarMatriz();
-          //this._vistaPreguntaConfigurarMatriz();
         }else if (data['http']['codigo']=='500') {
           this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
@@ -296,7 +286,6 @@ export class PreguntaMatrizComponent implements OnInit {
       }).finally(()=>{
         this._consultarOpcionUnoMatriz();
         this._consultarPreguntaConfigurarMatriz();
-        //this._vistaPreguntaConfigurarMatriz();
       });
   }
 

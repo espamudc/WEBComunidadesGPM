@@ -1,79 +1,9 @@
-
-<!-- <mat-dialog-content>
-    <h1 mat-dialog-title style="text-align: center;">Datos de Persona</h1>
-    <div class="form-group row">
-        <div class="col-sm-12">
-            <input matInput [(ngModel)]="data._persona.PrimerNombre +' '+data._persona.SegundoNombre +' '+data._persona.PrimerApellido +' '+ data._persona.SegundoApellido"
-            type="text" class="form-control" readonly>
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-6">
-            <input matInput [(ngModel)]="data._persona.TipoIdentificacion.Descripcion" type="text" class="form-control" readonly>
-        </div>
-        <div class="col-sm-6">
-            <input matInput [(ngModel)]="data._persona.NumeroIdentificacion" type="text" class="form-control" readonly>
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-6">
-            <input type="text" class="form-control" readonly value="TELEFONO">
-        </div>
-        <div class="col-sm-6">
-            <input matInput  [(ngModel)]="data._persona.Telefono || _vacio" type="text" class="form-control" readonly>
-        </div>
-        
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-6">
-            <input type="text" class="form-control" readonly value="SEXO">
-        </div>
-        <div class="col-sm-6">
-            <input matInput [(ngModel)]="data._persona.Sexo.Descripcion || _vacio" type="text" class="form-control" readonly>
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-6">
-            <input  type="text" class="form-control" readonly value="PROVINCIA">
-        </div>
-        <div class="col-sm-6">
-            <input matInput [(ngModel)]="data._persona.Parroquia.Canton.Provincia.NombreProvincia || _vacio" type="text" class="form-control" readonly>
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-6">
-            <input  type="text" class="form-control" readonly value="CANTON">
-        </div>
-        <div class="col-sm-6">
-            <input matInput [(ngModel)]="data._persona.Parroquia.Canton.NombreCanton || _vacio" type="text" class="form-control" readonly>
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-6">
-            <input  type="text" class="form-control" readonly value="PARROQUIA">
-        </div>
-        <div class="col-sm-6">
-            <input matInput [(ngModel)]="data._persona.Parroquia.NombreParroquia || _vacio" type="text" class="form-control" readonly>
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-6">
-            <input  type="text" class="form-control" readonly value="DIRECCIÓN">
-        </div>
-        <div class="col-sm-6">
-            <input matInput [(ngModel)]="data._persona.Direccion || _vacio" type="text" class="form-control" readonly>
-        </div>
-    </div>
-</mat-dialog-content> -->
 <h2 mat-dialog-title style="text-align: center;">Detalle de Persona</h2>
 <mat-dialog-content>
     
     <form [formGroup]="formPersona">
 
-        <!-- <mat-card class="mat-elevation-z7"> -->
-            <!-- <div class="row">
-                <div class="col-12"> <h2 style="text-align: center;">Persona</h2>  </div>
-            </div> -->
+    
             
             <mat-form-field class="gpm-form-field">
                 <input matInput placeholder="Primer Nombre" [formControl]="formPersona_primerNombre" [disabled]="true" type="text">
@@ -141,12 +71,6 @@
 
                 </mat-expansion-panel>
             </mat-accordion>
-            <!-- <mat-accordion>
-                
-            </mat-accordion> -->
-           
-            
-        <!-- </mat-card> -->
     </form>
 </mat-dialog-content>
 

@@ -14,7 +14,6 @@ export class ModalAsignacionUsuarioPersonaComponent implements OnInit {
   constructor(
     private personaService: PersonaService,
     private dialogRef: MatDialogRef<ModalAsignacionUsuarioPersonaComponent>,
-    // @Inject(MAT_DIALOG_DATA) public data:DialogData
     @Inject(MAT_DIALOG_DATA) public data:any
   ) { }
   
@@ -35,17 +34,14 @@ export class ModalAsignacionUsuarioPersonaComponent implements OnInit {
     this._consultarPersonas();
   }
 
-  //-------------------------------------------------------------------------------
   _listaPersonas:any[]=[];
   _consultarPersonas(){
     this.personaService._consultarPersonasSinUsuarios('token')
         .then(data=>{
           if (data['http']['codigo']=='200') {
-            // debugger
             this._listaPersonas = data['respuesta'];
           }
         }).catch(error=>{
-          console.log(error);
         });
   }
 

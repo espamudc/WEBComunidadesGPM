@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { CaracterizacionService } from 'src/app/services/caracterizacion.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
-// import { ModalVersionarCaracterizacionComponent } from "src/app/components/modal-versionar-caracterizacion/modal-versionar-caracterizacion.component";
 import { MatDialog } from "@angular/material/dialog";
 import { PeriodoService } from 'src/app/services/periodo.service';
 import { LugaresService } from 'src/app/services/lugares.service';
@@ -130,7 +129,6 @@ export class PublicarCaracterizacionComponent extends MatPaginatorIntl implement
       this._listaVersionesPublicadas.data = [];
       this._listaVersionesPublicadas.data = respuesta['respuesta'];
       this._listaVersionesPublicadas.paginator = this.paginator;
-      console.log(this._listaVersionesPublicadas.data);
     } else {
       this.mensaje(respuesta['http']['mensaje']);
     }

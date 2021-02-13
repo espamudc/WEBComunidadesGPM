@@ -56,7 +56,6 @@ export class PeriodoService {
     _FechaInicio:string,
     _FechaFin:string
   ){
-    // 
     const _body = new HttpParams()
           .set('IdPeriodoEncriptado'  ,_IdPeriodoEncriptado)
           .set('Descripcion'         ,_Descripcion)
@@ -64,7 +63,6 @@ export class PeriodoService {
           .set('FechaFin'       ,_FechaFin)
 
     return new Promise ((resolve,reject)=>{
-      console.log("servicio:",_body.toString());
       this.http.post(url+'periodo_modificar', _body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
@@ -80,7 +78,6 @@ export class PeriodoService {
     const _body = new HttpParams();
   
     return new Promise ((resolve,reject)=>{
-      console.log("servicio:",_body.toString());
       this.http.post(url+'periodo_eliminar?_idPeriodoEncriptado='+_IdPeriodoEncriptado, _body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);

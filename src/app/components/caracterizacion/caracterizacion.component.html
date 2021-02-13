@@ -165,12 +165,6 @@
                 <img align="middle" style="z-index:2;" width="30%" height="20%" src="../../../assets/img/panel/loading-gif-transparent-4.gif" alt="" />
               </div>
               <div *ngIf="!snniperCargaCaracterizacion" class="row" style="display: block !important;margin-left: 0px !important;margin-right: 0px !important;">
-                <!-- <mat-form-field class="example-full-width TextArea">
-                  <input [(ngModel)]="_NombreCuestionario" readonly matInput type="text" name="Cuestionario" placeholder="Cuestionario" />
-                  <button matTooltip="Seleccionar Cuestionario" *ngIf="!_ConCuestionario" mat-button matSuffix mat-icon-button type="button" (click)="asignarCuestionario(1)">
-                    <mat-icon style="color: #f0ad4e;">person_add</mat-icon>
-                  </button>
-                </mat-form-field> -->
                 <mat-form-field class="example-full-width TextArea">
                   <mat-label>Cuestionario</mat-label>
                   <textarea class="areaTexto" rows="3" cols="20" name="Cuestionario" [(ngModel)]="_NombreCuestionario" readonly matInput> </textarea>

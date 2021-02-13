@@ -15,8 +15,7 @@
                 <mat-card class="example-card">
                     <mat-card-header>
                       <div mat-card-avatar class="example-header-image"></div>
-                      <!-- <mat-card-title>Shiba Inu</mat-card-title> -->
-                      <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+                    
                     </mat-card-header>
                     <img src="../../../assets/img/logo.png" alt="Photo of a Shiba Inu">
                     <br>
@@ -25,22 +24,20 @@
                         <mat-form-field style="width: 100%;" appearance="outline">
                           <mat-label >Correo</mat-label>
                           <input type="email" matInput placeholder="example@example.com" autocomplete="off" [(ngModel)]="_correo" name="_name">
-                          <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-                          <!-- <mat-hint>Hint</mat-hint> -->
+                         
                         </mat-form-field>
                     </p>
                     <p *ngIf="_login==true">
                         <mat-form-field style="width: 100%;" appearance="outline">
                           <mat-label>{{ _correoUsuario }}</mat-label>
                           <input type="password" matInput  [(ngModel)]="_clave" name="_clave">
-                          <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-                          <!-- <mat-hint>Hint</mat-hint> -->
+                         
                         </mat-form-field>
                     </p>
     
                     <mat-card-actions>
                       <button class="btn-primary" mat-button style="width: 100%;">Ingresar</button>
-                      <!-- <button mat-button>SHARE</button> -->
+                     
                     </mat-card-actions>
                 </mat-card>
             </form >
@@ -61,59 +58,9 @@
                     </mat-form-field>
                     <mat-card-actions>
                         <button type="submit" class="btn-primary" mat-button style="width: 100%;"  invalid="frmTiposUsuarios.invalid">Ingresar</button>
-                        <!-- <button mat-button>SHARE</button> -->
                     </mat-card-actions>
-                    <!-- <button *ngFor="let item of _misTiposUsuarios" class="btn btn-primary btn-block" mat-button (click)="_ingresarAlSistema(item)"> {{item.Descripcion}} </button> -->
                 </mat-card>   
             </form>
-
-            <!-- <div class="card">
-                <div class="card-body card-login">
-                    <img src="../../../assets/img/logo.png" width="200" height="100">
-                    <form [formGroup]="myForm" (ngSubmit)="login()" novalidate>
-                        <div class="form-group">
-                            <label>Usuario</label>
-                            <input formControlName="_usuario" type="text" class="form-control" 
-                            (keyup)="credendialesIncorrectas()">
-                            <div class="badge badge-danger mt-3 btn-block"
-                                *ngIf="_usuario.invalid && (_usuario.dirty || _usuario.touched)">
-                                <div *ngIf="_usuario.errors.required">
-                                    Usuario Requerido
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Contrasena</label>
-                            <input formControlName="_contrasena" type="password" class="form-control"
-                            (keyup)="credendialesIncorrectas()">
-                            <div class="badge badge-danger mt-3 btn-block"
-                                *ngIf="_contrasena.invalid && (_contrasena.dirty || _contrasena.touched)">
-                                <div *ngIf="_contrasena.errors.required">
-                                    Contrasena Requerido
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="form-group">
-                            <div class="badge badge-danger btn-block" [hidden]="credendialesIncorrectasInput">
-                                Credendiales Incorrectas
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" [disabled]="myForm.invalid" class="form-control btn btn-primary">
-                                Iniciar Sesion
-                            </button>
-                        </div>
-                    </form>
-                
-
-                      
-
-                </div>
-            </div> -->
         </div>
     </div>
 </div>
-<!-- <div class="padre">
-    <div id="loadingPage" class="lds-roller hijo"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-</div> -->

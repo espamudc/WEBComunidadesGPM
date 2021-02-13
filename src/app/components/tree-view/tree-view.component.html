@@ -30,13 +30,11 @@
     <div class="col-lg-12 col-md-12 mr-auto" >
       <div class="card-body">
         <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-          <!-- Leaf node -->
           <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
             <button mat-icon-button disabled></button>
             {{ node.item }} 
           </mat-tree-node>
 
-          <!-- expandable node -->
           <mat-tree-node
             *matTreeNodeDef="let node; when: hasChild"
             matTreeNodePadding

@@ -5,11 +5,6 @@
     <mat-toolbar class="text-white bg-primary"><i class="fa fa-home"> MENU</i>
     </mat-toolbar>
     <mat-nav-list>
-      <!-- <div class="matItemHover">
-        <a mat-list-item routerLink="/inicio/roles">
-          <i style="margin-right: 10px;" class="fa fa-users" aria-hidden="true"></i>Roles
-        </a>
-      </div> -->
       <div class="matItemHover">
         <a mat-list-item routerLink="/inicio/inicio">
           <i style="margin-right: 10px;" class="fa fa-file-text-o" aria-hidden="true"></i>
@@ -51,18 +46,6 @@
           Estructura Cuestionario
         </a>
       </div>
-      <!-- <div class="matItemHover">
-        <a mat-list-item routerLink="/inicio/encajonar-pregunta">
-          <i style="margin-right: 10px;" class="fa fa-id-card" aria-hidden="true"></i>
-          Encajonar Preguntas
-        </a>
-      </div> -->
-      <!-- <div class="matItemHover">
-        <a mat-list-item routerLink="/inicio/cuestionario-generico-detalle">
-          <i style="margin-right: 10px;" class="fa fa-id-card" aria-hidden="true"></i>
-          Vista Previa del Cuestionario
-        </a>
-      </div> -->
       <div class="matItemHover">
         <a mat-list-item routerLink="/inicio/tree-view">
           <i style="margin-right: 10px;" class="fa fa-list-ul" aria-hidden="true"></i>
@@ -82,49 +65,18 @@
         </a>
       </div>
 
-
-      <!-- <div class="matItemHover">
-        <a mat-list-item routerLink="/inicio/cuestionario-caracterizacion">
-          <i style="margin-right: 10px;" class="fa fa-file-text-o" aria-hidden="true"></i>
-          Caracterizacion
-        </a>
-      </div>
-
-      <div class="matItemHover">
-        <a mat-list-item routerLink="/inicio/cuestionario-version-caracterizacion">
-          <i style="margin-right: 10px;" class="fa fa-file-text-o" aria-hidden="true"></i>
-          Versionar Caracterizacion
-        </a>
-      </div>
-
-      <div class="matItemHover">
-        <a mat-list-item routerLink="/inicio/cuestionario-publicar-caracterizacion">
-          <i style="margin-right: 10px;" class="fa fa-file-text-o" aria-hidden="true"></i>
-          Publicar Caracterizacion
-        </a>
-      </div> -->
-
       <div class="matItemHover">
         <a mat-list-item routerLink="/inicio/preguntas-seleccionadas" *ngIf="tipoUsurio=='MQA='">
           <i style="margin-right: 10px;" class="fa fa-file-excel-o" aria-hidden="true"></i>
           Preguntas seleccionadas
         </a>
       </div>
-
       <div class="matItemHover">
         <a mat-list-item routerLink="/inicio/cuestionario-lista-caracterizacion" *ngIf="tipoUsurio=='MQA='">
           <i style="margin-right: 10px;" class="fa fa-bar-chart" aria-hidden="true"></i>
           Caracterización
         </a>
       </div>
-
-
-      <!-- <div class="matItemHover">
-        <a mat-list-item>
-          <i style="margin-right: 10px;" class="fa fa-user" aria-hidden="true"></i>
-          Cuenta
-        </a>
-      </div> -->
       <div class="matItemHover">
         <a mat-list-item routerLink="/login">
           <i style="margin-right: 10px;" class="fa fa-sign-out" aria-hidden="true"></i>
@@ -138,9 +90,6 @@
       <a (click)="drawer.toggle()" *ngIf="isHandset$ | async">
         <i class="fa fa-bars"></i>
       </a>
-   
-      <!-- <img src="./assets/img/amucomt.png" width="210" height="100" class="amucomt" style="margin-left: 1rem;"
-        routerLink="/inicio"> -->
     </mat-toolbar>
    
  

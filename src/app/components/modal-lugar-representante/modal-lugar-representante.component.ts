@@ -25,7 +25,6 @@ export class ModalLugarRepresentanteComponent implements OnInit {
       _tituloRepresentante: new FormControl('')
     });
   }
-  //------------------------------------------------------------------------------------------
   formLugarRepresentante: FormGroup;
   representante: any = null;
   get formLugarRepresentante_tipoLugar() {
@@ -49,7 +48,6 @@ export class ModalLugarRepresentanteComponent implements OnInit {
   get formLugarRepresentante_tituloRepresentante() {
     return this.formLugarRepresentante.get("_tituloRepresentante");
   }
-  //------------------------------------------------------------------------------------------
   ngOnInit() {
     this.formLugarRepresentante_nombreLugar.disable();
     this._cargartabla();
@@ -65,7 +63,6 @@ export class ModalLugarRepresentanteComponent implements OnInit {
   }
   tablaRepresentantes = ['representante', 'fechaIngreso', 'fechaSalida', 'acciones'];
   _listaRepresentantes: any[] = [];
-  //--------------------------------------------------------------------------------
   _validarFormulario2() {
     if (this._btnAccion === "Guardar") {
       this._ingresarRepresentante();
@@ -176,7 +173,6 @@ export class ModalLugarRepresentanteComponent implements OnInit {
       } else if (data['http']['codigo'] == '500') {
         this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       } else {
-        console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
       }
     }).catch(error => {
@@ -241,36 +237,28 @@ export class ModalLugarRepresentanteComponent implements OnInit {
   @ViewChild(MatTable, { static: false }) MatTableRepresentantes: MatTable<any>;
   _cargartabla() {
     if (this.data.lugar_tipo == "provincia") {
-      //==========================================================
       this.formLugarRepresentante_tipoLugar.setValue("Provincia");
       this.formLugarRepresentante_nombreLugar.setValue(this.data.lugar_data.NombreProvincia);
       this.formLugarRepresentante_idLugarEcriptado.setValue(this.data.lugar_data.IdProvinciaEncriptado);
       this.formLugarRepresentante_tituloRepresentante.setValue("PREFECTO");
-      //==========================================================
       this._cargarRepresentanteProvincia();
     } else if (this.data.lugar_tipo == "canton") {
-      //==========================================================
       this.formLugarRepresentante_tipoLugar.setValue("Cantón");
       this.formLugarRepresentante_nombreLugar.setValue(this.data.lugar_data.NombreCanton);
       this.formLugarRepresentante_idLugarEcriptado.setValue(this.data.lugar_data.IdCantonEncriptado);
       this.formLugarRepresentante_tituloRepresentante.setValue("ALCALDE");
-      //==========================================================
       this._cargarRepresentanteCanton();
     } else if (this.data.lugar_tipo == "parroquia") {
-      //==========================================================
       this.formLugarRepresentante_tipoLugar.setValue("Parroquia");
       this.formLugarRepresentante_nombreLugar.setValue(this.data.lugar_data.NombreParroquia);
       this.formLugarRepresentante_idLugarEcriptado.setValue(this.data.lugar_data.IdParroquiaEncriptado);
       this.formLugarRepresentante_tituloRepresentante.setValue("PRESIDENTE DE LA JUNTA PARROQUIAL");
-      //==========================================================
       this._cargarRepresentanteParroquia();
     } else if (this.data.lugar_tipo == "comunidad") {
-      //==========================================================
       this.formLugarRepresentante_tipoLugar.setValue("Comunidad");
       this.formLugarRepresentante_nombreLugar.setValue(this.data.lugar_data.NombreComunidad);
       this.formLugarRepresentante_idLugarEcriptado.setValue(this.data.lugar_data.IdComunidadEncriptado);
       this.formLugarRepresentante_tituloRepresentante.setValue("LÍDER COMUNITARIO");
-      //==========================================================
       this._cargarRepresentanteComunidad();
     }
   }
@@ -296,7 +284,6 @@ export class ModalLugarRepresentanteComponent implements OnInit {
       this._ingresarRepresentanteComunidad2();
     }
   }
-  //PROVINCIA-------------------------------------------------------------------------------------------
   _cargarRepresentanteProvincia() {
     let id = this.formLugarRepresentante_idLugarEcriptado.value;
     this.lugaresService._consultarRepresentanteProvincia(id)
@@ -317,11 +304,7 @@ export class ModalLugarRepresentanteComponent implements OnInit {
         if (data['http']['codigo'] == '200') {
           ejecutado = true;
           this.formLugarRepresentante.reset();
-          //this.formLugarRepresentante_fechaSalida.setValue(null);
-          
-          //this.clearMenssageError();
           this.formLugarRepresentante_representante.setValue(null);
-          //this.formLugarRepresentante.setErrors({ invalid: true });
           this.mensaje("Registro actualizado", null, 'msj-success');
         } else {
           this.mensaje(data['http']['mensaje']);
@@ -331,11 +314,8 @@ export class ModalLugarRepresentanteComponent implements OnInit {
       }).finally(() => {
         if (ejecutado == true) {
           this.representante = null;
-         // this.formLugarRepresentante_fechaSalida.clearValidators();
-         // this.formLugarRepresentante_fechaSalida.updateValueAndValidity(); 
           this._btnAccion = "Guardar";
-        // this.formLugarRepresentante.reset();
-         this.formLugarRepresentante_representante.enable();
+          this.formLugarRepresentante_representante.enable();
           this.formLugarRepresentante_fechaIngreso.enable(); 
           this._cargartabla();
         }
@@ -357,7 +337,6 @@ export class ModalLugarRepresentanteComponent implements OnInit {
       this.mensaje(error);
     })
   }
-  //CANTON-------------------------------------------------------------------------------------------
   _cargarRepresentanteCanton() {
     let id = this.formLugarRepresentante_idLugarEcriptado.value;
     this.lugaresService._consultarRepresentanteCanton(id)
@@ -418,7 +397,6 @@ export class ModalLugarRepresentanteComponent implements OnInit {
       this.mensaje(error);
     })
   }
-  //PARROQUIA-----------------------------------------------------------------------------------------
   _cargarRepresentanteParroquia() {
     let id = this.formLugarRepresentante_idLugarEcriptado.value;
     this.lugaresService._consultarRepresentanteParroquia(id)
@@ -437,7 +415,6 @@ export class ModalLugarRepresentanteComponent implements OnInit {
     this.lugaresService._modificarRepresentanteParroquia(_IdPresidenteJuntaParroquialEncriptado, _IdParroquiaEncriptado, _Representante, _FechaIngreso, _FechaSalida)
       .then(data => {
         if (data['http']['codigo'] == '200') {
-          console.log(data['respuesta']);
           ejecutado = true;
         } else {
           this.mensaje(data['http']['mensaje']);
@@ -472,7 +449,6 @@ export class ModalLugarRepresentanteComponent implements OnInit {
       this.mensaje(error);
     })
   }
-  //COMUNIDAD---------------------------------------------------------------------------------
   _cargarRepresentanteComunidad() {
     let id = this.formLugarRepresentante_idLugarEcriptado.value;
     this.lugaresService._consultarRepresentanteComunidad(id)
@@ -501,5 +477,4 @@ export class ModalLugarRepresentanteComponent implements OnInit {
       this.mensaje(error);
     })
   }
-  //------------------------------------------------------------------------------------------
 }

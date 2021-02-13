@@ -1,18 +1,13 @@
 <mat-dialog-content>
-    <!-- <h1 mat-dialog-title style="text-align: center;"> ASIGNAR ROL(ES)</h1> -->
-    <!-- <div class="card "> -->
-        <!-- <div class="card-header"> -->
     <div class="row">
         <div class="col-12"><h2 style="text-align: center;"> ASIGNAR ROL(ES)</h2></div> 
     </div>   
    <br>
-        <!-- </div> -->
-        <!-- <div class="card-body"> -->
             <div class="row">
 
                 <div class="col-md-12">
-                    <div class="form-group input-container"> <!-- [(ngModel)]="_tipoUsuario"-->
-                        <select #testSelect  type="text" class="form-control input-field"  > <!-- (click)="_validarTiposUsados()"    (click)="agregarTipoUsuarioALista($event)"-->
+                    <div class="form-group input-container">
+                        <select #testSelect  type="text" class="form-control input-field">
                             <option value="0" disabled selected>Seleccionar Tipo Usuario</option>
                             <option *ngFor="let item of _listaTiposUsuarios" 
                             value="{{item.IdTipoUsuarioEncriptado}}">
@@ -48,8 +43,6 @@
                     </div>
                 </div>
             </div>
-        <!-- </div> -->
-    <!-- </div> -->
 </mat-dialog-content>
 <mat-dialog-actions>
     <button mat-button [mat-dialog-close]="data" type="button" class="btn btn-block btn-primary">

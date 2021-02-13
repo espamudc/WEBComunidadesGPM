@@ -35,7 +35,6 @@ export class PreguntaArchivoComponent implements OnInit {
   @Input() item : any={};
 
   ngOnInit() {
-    console.log(this.item.IdPreguntaEncriptado);
     
     this._consultarPreguntasSeleccion();
   }
@@ -98,12 +97,10 @@ export class PreguntaArchivoComponent implements OnInit {
         this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
-      console.log(error);
       
     }).finally(()=>{});
   }
   _eliminarPreguntasSeleccion(_item){
-    // this.preguntaSeleccionService
     this.preguntaSeleccionService._eliminarOpcionPreguntaSeleccion(_item.IdOpcionPreguntaSeleccionEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {

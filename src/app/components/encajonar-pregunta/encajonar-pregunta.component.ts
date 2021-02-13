@@ -126,7 +126,6 @@ export class EncajonarPreguntaComponent implements OnInit {
     if (event.value=='0') {
       
     } else {
-       // this.formCuestionarioGenerico.get("_cmbCuestionarioGenerico").reset();
       this.formEncajonarPregunta.get("_cmbComponente").reset();
       this.formEncajonarPregunta.get("_cmbSeccion").reset();
       this.formEncajonarPregunta.get("_cmbPregunta").reset();
@@ -137,7 +136,6 @@ export class EncajonarPreguntaComponent implements OnInit {
  }
  _onChangeCmbComponentesCuestionarioGenerico(event?){
     
-  // this._listaComponentesCuestionarioGenerico = null;
   this._listaSeccionesComponenteCuestionarioGenerico = null;
   this._listaPreguntasSeccionComponenteCuestionarioGenerico = null;
   this._listaPreguntasSeccionComponenteCuestionarioGenerico2 = null;
@@ -153,21 +151,16 @@ export class EncajonarPreguntaComponent implements OnInit {
 
  _onChangeCmbSeccionComponentesCuestionarioGenerico(event?){
 
-  // this._listaComponentesCuestionarioGenerico = null;
-  // this._listaSeccionesComponenteCuestionarioGenerico = null;
   this._listaPreguntasSeccionComponenteCuestionarioGenerico = null;
   this._listaPreguntasSeccionComponenteCuestionarioGenerico2 = null;
 
   this.formEncajonarPregunta.get("_cmbPregunta").reset();
-  // this._listaPreguntasSeccionComponenteCuestionarioGenerico = null;
-  // this._listaPreguntasSeccionComponenteCuestionarioGenerico2 = null;
 
   if(event.value=='0'){
 
   }else{
     this._consultarPreguntasSeccionComponenteCuestionarioGenerico(event.value);
   } 
-   //this.formPreguntaSeccionComponenteCuestionarioGenerico.reset();
  }
 
  _onChangeCmbSeccionComponentesCuestionarioGenericoPorIdentificadorTipoPregunta(event?){
@@ -184,7 +177,6 @@ export class EncajonarPreguntaComponent implements OnInit {
  }
 
  _onChangeCmbPreguntasSeccionComponenteCuestionarioGenerico(event?){
-   console.log(event.value);
    if(event.value=='0'){
 
    }else{
@@ -195,36 +187,19 @@ export class EncajonarPreguntaComponent implements OnInit {
 
   _listaCuestionariosGenericos : any[]=[];
   _cargarMisCuestionariosGenericos(){
-    // console.log(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado'));
-    // this._listaCuestionariosGenericos=null;
+    
 
     this.cuestionarioGenericoService._consultarCuestionarioGeneriocoPorIdAsignarUsuarioTipoUsuarioEncriptado(
       localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')
     )
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          // console.log(data['respuesta']);
-          // 
-          this._listaCuestionariosGenericos = data['respuesta'];
-          // data['respuesta'].map(item=>{
-          //   console.log(item.CuestionarioGenerico);
-          //   this._listaCuestionariosGenericos.push(item.CuestionarioGenerico);
-          //   // this._listaCuestionariosGenericos.push(item['CuestionarioGenerico']);
-          // });
-          console.log("lista",this._listaCuestionariosGenericos);
-          
-          // console.log(data['http']['codigo']);
-          
+          this._listaCuestionariosGenericos = data['respuesta']; 
         }
-        // else if (data['http']['codigo']=='500') {
-        //   this.mensaje("A ocurrido un error inesperado, intente más tarde.")
-        // }else{
-        //   this.mensaje(data['http']['mensaje']);
-        // }
+       
       }).catch(error=>{
 
       }).finally(()=>{
-        //this.MatTableCuestionariosGenericos.renderRows();
       });
   }
   
@@ -233,9 +208,7 @@ export class EncajonarPreguntaComponent implements OnInit {
     this.componenteCuestionarioGenericoService._consultarComponentesDeCuestionario(_IdCuestionarioGenericoEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          this._listaComponentesCuestionarioGenerico= data['respuesta'];
-          console.log(this._listaComponentesCuestionarioGenerico);
-          
+          this._listaComponentesCuestionarioGenerico= data['respuesta'];          
         }
       }).catch(error=>{
 
@@ -252,11 +225,9 @@ export class EncajonarPreguntaComponent implements OnInit {
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaSeccionesComponenteCuestionarioGenerico = data['respuesta'];
-          // console.log(this._listaSeccionesComponenteCuestionarioGenerico);
           
         }
       }).catch(error=>{
-        console.log("error",error);
         
       }).finally(()=>{
 
@@ -269,39 +240,17 @@ export class EncajonarPreguntaComponent implements OnInit {
 
   _consultarPreguntasSeccionComponenteCuestionarioGenerico(idSeccionEncriptado){
     
-  //  this._listaPreguntasSeccionComponenteCuestionarioGenerico2 = null;
-
     let id = this.formEncajonarPregunta.get("_cmbSeccion").value;
     this.preguntaSeccionComponenteCuestionarioGenericoService._consultarPreguntasSeccionComponenteCuestionarioGenerico(idSeccionEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          console.log(data['respuesta']);          
           this._listaPreguntasSeccionComponenteCuestionarioGenerico = [];
           this._listaPreguntasSeccionComponenteCuestionarioGenerico= data['respuesta'];
-          //this._listaPreguntasSeccionComponenteCuestionarioGenerico2 = data['respuesta'];
-          //this._listaPreguntasSeccionComponenteCuestionarioGenerico.sort(data=>data.Orden);
-
         }
       }).catch(error=>{
-        console.log(error);
         
       }).finally(()=>{
-        //comenté estas líneas porque se cargaban las preguntas de otros cuestionarios,
-        // cuando ya habías cambiado de cuestionario 
-        // for (let index = 0; index < this._listaPreguntasSeccionComponenteCuestionarioGenerico.length; index++) {
-        //   const element = this._listaPreguntasSeccionComponenteCuestionarioGenerico[index];
-         //  if (element.TipoPregunta.Identificador===2) {
-         //    console.log(element);
-         //    let obj = this._listaPreguntasTemporal.find(it=>it.IdPreguntaEncriptado === element.IdPreguntaEncriptado);
-          //   let ind = this._listaPreguntasTemporal.indexOf(obj);
-          //   if (ind == -1) {
-          //     this._listaPreguntasTemporal.push(element);
-          //   }
-            //// let obj = this._listaPreguntasTemporal.find(data=>data.)
-            //// this._listaPreguntasTemporal.push(element);
-          // }
-         //}
-      //  this._listaPreguntasSeccionComponenteCuestionarioGenerico = this._listaPreguntasTemporal;
+        
       });
   }
   
@@ -312,13 +261,11 @@ export class EncajonarPreguntaComponent implements OnInit {
       this.preguntaSeccionComponenteCuestionarioGenericoService._consultarPreguntasSeleccionUnicaPorSeccion(idSeccionEncriptado)
         .then(data=>{
           if (data['http']['codigo']=='200') {
-            console.log(data['respuesta']);          
             this._listaPreguntasSeccionComponenteCuestionarioGenerico = [];
             this._listaPreguntasSeccionComponenteCuestionarioGenerico= data['respuesta'];
   
           }
         }).catch(error=>{
-          console.log(error);
           
         }).finally(()=>{
 
@@ -332,15 +279,10 @@ export class EncajonarPreguntaComponent implements OnInit {
   Columns2: string[] = ['icono','descripcion', 'acciones'];
   _listaOpcionesPreguntaSeleccion:any[]=[];
   _consultarOpcionesPreguntaSeleccion(_IdPreguntaSeleccionEncriptado){
-    // const element = this._listaPreguntasSeccionComponenteCuestionarioGenerico2.find(item=>item.IdPreguntaEncriptado==_IdPreguntaSeleccionEncriptado);
-    // const index = this._listaPreguntasSeccionComponenteCuestionarioGenerico2.indexOf(element);
-    
-    // this._listaPreguntasSeccionComponenteCuestionarioGenerico2.splice(index,1);
 
     this.preguntaSeleccionService._consultarOpcionPreguntaSeleccion(
       _IdPreguntaSeleccionEncriptado
     ).then(data=>{
-      console.log(data)
       if (data['http']['codigo']=='200') {
         this._listaOpcionesPreguntaSeleccion = data['respuesta'];
       }else{
@@ -353,7 +295,6 @@ export class EncajonarPreguntaComponent implements OnInit {
     });
   }
 
-  //--------------------------------------------------------
   _listaPreguntaEncajonadas:any[]=[];
   _consultarPreguntasEncajonadas(_item){
 
@@ -361,9 +302,7 @@ export class EncajonarPreguntaComponent implements OnInit {
     this.preguntaEncajonarService._preguntaencajonada_consultarporidopcionpreguntaseleccion(_item.IdOpcionPreguntaSeleccionEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          this._listaPreguntaEncajonadas = data['respuesta'];
-          console.log("_listaPreguntaEncajonadas",this._listaPreguntaEncajonadas);
-          
+          this._listaPreguntaEncajonadas = data['respuesta'];  
         }
       }).catch(error=>{
 
@@ -374,14 +313,11 @@ export class EncajonarPreguntaComponent implements OnInit {
   
 
   _consultarPreguntasEncajonadas2(_item){
-    console.log("opcion",_item);
     this._pregunta_consultarpornoencajonadasporopcionpreguntaseleccion(_item.OpcionPreguntaSeleccion.IdOpcionPreguntaSeleccionEncriptado);
     this.preguntaEncajonarService._preguntaencajonada_consultarporidopcionpreguntaseleccion(_item.OpcionPreguntaSeleccion.IdOpcionPreguntaSeleccionEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          this._listaPreguntaEncajonadas = data['respuesta'];
-          console.log("_listaPreguntaEncajonadas",this._listaPreguntaEncajonadas);
-          
+          this._listaPreguntaEncajonadas = data['respuesta'];          
         }
       }).catch(error=>{
 
@@ -390,7 +326,6 @@ export class EncajonarPreguntaComponent implements OnInit {
       });
   }
 
-//---------------------------------------------------------------
   @ViewChild('tablaPreguntasEncajonadas',{static:false}) tablaPreguntasEncajonadas : MatTable<any>;
 
   _insertarPreguntaEncajonada(_item){
@@ -398,7 +333,6 @@ export class EncajonarPreguntaComponent implements OnInit {
     let element = this._listaPreguntaEncajonadas.find(i=>i.Pregunta.IdPreguntaEncriptado==this.formEncajonarPregunta_cmbPreguntaEncajonada.value);
     let index = this._listaPreguntaEncajonadas.indexOf(element);
     if ( index ==-1) {
-      console.log(this.formEncajonarPregunta_cmbPreguntaEncajonada.value);
       this.preguntaEncajonarService._preguntaencajonada_insertar(
         _item.IdOpcionPreguntaSeleccionEncriptado,
         this.formEncajonarPregunta_cmbPreguntaEncajonada.value
@@ -410,7 +344,6 @@ export class EncajonarPreguntaComponent implements OnInit {
           this.mensaje(data['http']['mensaje']);
         }
       }).catch(error=>{
-        console.log(error);
         this.mensaje(error);
         
       }).finally(()=>{
@@ -425,15 +358,12 @@ export class EncajonarPreguntaComponent implements OnInit {
   }
   preparaItem="";
   _eliminarPreguntaEncajonada(_item){
-    console.log("itemELIMINAR", _item);
     this.preparaItem=_item;
     this.preguntaEncajonarService._preguntaencajonada_eliminar(_item.IdPreguntaEncajonadaEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._consultarPreguntasEncajonadas2(_item);
-          // let element = this._listaPreguntaEncajonadas.find(i=>i.IdPreguntaEncajonadaEncriptado==_item.IdPreguntaEncajonadaEncriptado);
-          // let index = this._listaPreguntaEncajonadas.indexOf(element);
-          // this._listaPreguntaEncajonadas.splice(index,1);
+         
         } else {
           
         }
@@ -448,17 +378,12 @@ export class EncajonarPreguntaComponent implements OnInit {
     
     this.preguntaService._pregunta_consultarpornoencajonadasporopcionpreguntaseleccion(_idOpcionPreguntaSeleccionEncriptado)
       .then(data=>{
-        if (data['http']['codigo']=='200') {
-          
-          console.log(" combopregunta2 --->",data['respuesta']);
-          
+        if (data['http']['codigo']=='200') {       
           this._listaPreguntasSeccionComponenteCuestionarioGenerico2 = data['respuesta'];        
         } else {
-          console.log(data['http']['mensaje']);
            
         }
       }).catch(error=>{
-        console.log(error);
         
       }).finally(()=>{
 

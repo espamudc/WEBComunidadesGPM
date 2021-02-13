@@ -31,14 +31,8 @@
 
         <div class="col-lg-12">
             
-            <!-- <app-pregunta-abierta [item]="pregunta"></app-pregunta-abierta> -->
-
             <table #tablaOpcionesPreguntaAbierta mat-table [dataSource]="_listaVersionesCuestionario" class="mat-elevation-z7 gpm-table">
 
-                <!-- <ng-container matColumnDef="responsable">
-                    <th mat-header-cell *matHeaderCellDef> Responsable </th>
-                    <td mat-cell *matCellDef="let element"> {{element.AsignarResponsable.}} </td>
-                </ng-container> -->
           
                 <ng-container matColumnDef="descripcion">
                     <th mat-header-cell *matHeaderCellDef> Descripcion </th>
@@ -48,10 +42,6 @@
                     <th mat-header-cell *matHeaderCellDef> Tipo </th>
                     <td mat-cell *matCellDef="let element"> {{element.TipoPregunta.Descripcion}} </td>
                 </ng-container>
-                <!-- <ng-container matColumnDef="fecha_creacion">
-                    <th mat-header-cell *matHeaderCellDef> Componente </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Seccion.Componente.Descripcion}} </td>
-                </ng-container> -->
                 <ng-container matColumnDef="acciones">
                     <th  colspan="1" mat-header-cell *matHeaderCellDef> Seleccionar </th>
                     <ng-container *matCellDef="let element">
@@ -78,7 +68,6 @@
                     </ng-container>
                     
                 </ng-container>
-                <!-- Symbol Column -->
                 <tr mat-header-row *matHeaderRowDef="Columns"></tr>
                 <tr mat-row *matRowDef="let row; columns: Columns;"></tr>
             </table>

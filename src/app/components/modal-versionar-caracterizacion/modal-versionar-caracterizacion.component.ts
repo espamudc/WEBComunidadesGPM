@@ -20,9 +20,6 @@ export class ModalVersionarCaracterizacionComponent implements OnInit {
     dialogRef.disableClose = true;
    }
    accionesEjecutada = false;
-   // save() {
-   //   this.dialogRef.close(this.accionesEjecutada);
-   // }
    close() {
      this.dialogRef.close(this.accionesEjecutada);
    }
@@ -49,10 +46,8 @@ export class ModalVersionarCaracterizacionComponent implements OnInit {
     }
   }
   onChange($event: any): void {
-    // console.log($event);
   }
   onPaste($event: any): void {
-    // console.log("onPaste");
   }
   ckeConfig: any;
   name = 'ng2-ckeditor';
@@ -65,7 +60,6 @@ export class ModalVersionarCaracterizacionComponent implements OnInit {
       readOnly: true,
       allowedContent: false,
       forcePasteAsPlainText: true,
-      // removePlugins: 'horizontalrule',
       removeButtons: 'Link,Unlink,Button,TextField,Save,NewPage,Templates,Form,Checkbox,Radio,Find,Select,ImageButton,HiddenField,CopyFormatting,CreateDiv,BidiLtr,BidiRtl,Language,Flash,Smiley,PageBreak,Iframe,ShowBlocks,Table,Image,Source,Maximize,Anchor,SpecialChar,PasteFromWord,Scayt,Undo,Redo,Strike,Indent,Outdent,Blockquote'
     };
   }

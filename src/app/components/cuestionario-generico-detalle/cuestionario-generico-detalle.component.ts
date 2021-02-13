@@ -73,19 +73,11 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
       this.router.navigateByUrl("/login");
     }
     this._cargarMisCuestionariosGenericos();
-    //console.log("modaldata",this.ModalData);
     
   }
   
   ngAfterViewInit(){
-    // try {
-    //   console.log("modaldata",this.ModalData);
-      
-      
-    //   this.verform = false;
-    // } catch (ex) {
-    //   //this.verform = true;
-    // }
+   
   }
 
    formCuestionarioGenericoDetalle : FormGroup;
@@ -135,14 +127,12 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
     let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
   }
 
-  // @Input() ModalData ={};
   @ViewChild('tablaOpcionesPreguntaAbierta',{static:false}) tablaOpcionesPreguntaAbierta : MatTable<any>;
   @ViewChild('tablaPreguntasEncajonadas',{static:false}) tablaPreguntasEncajonadas : MatTable<any>;
 
   _cuestionarioGenerico : CuestionarioGenerico[];
 
   _onChangeCmbCuestionariosGenericos(event){
-    // this._consultarComponentesDeCuestionario(event.value);
     if (event.value==0) {
       
     } else {
@@ -150,7 +140,6 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
       const index = this._listaCuestionariosGenericos.indexOf(obj);
 
       this.formCuestionarioGenericoDetalle_idAsignarResponsableEncriptado.setValue(obj.IdAsignarResponsableEncriptado); 
-      console.log("idAsignarResponsable:",this.formCuestionarioGenericoDetalle_idAsignarResponsableEncriptado.value);
     
     }
     this._cuestionariogenerico_consultarporidconcomponenteconseccionconpregunta(event.value);
@@ -158,40 +147,23 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
   }
 
   _cargarMisCuestionariosGenericos(){
-    // console.log(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado'));
-    // this._listaCuestionariosGenericos=null;
+    
 
     this.cuestionarioGenericoService._consultarCuestionarioGeneriocoPorIdAsignarUsuarioTipoUsuarioEncriptado(
       localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')
     )
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          // console.log(data['respuesta']);
-          // 
+          
           this._listaCuestionariosGenericos=[];
           this._listaCuestionariosGenericos = data['respuesta'];
-          console.log("mis cuestionarios",this._listaCuestionariosGenericos);
-          
-          // data['respuesta'].map(item=>{
-          //   console.log(item.CuestionarioGenerico);
-          //   this._listaCuestionariosGenericos.push(item.CuestionarioGenerico);
-          //   // this._listaCuestionariosGenericos.push(item['CuestionarioGenerico']);
-          // });
-          console.log("lista",this._listaCuestionariosGenericos);
-          
-          // console.log(data['http']['codigo']);
           
         }
-        // else if (data['http']['codigo']=='500') {
-        //   this.mensaje("A ocurrido un error inesperado, intente más tarde.")
-        // }else{
-        //   this.mensaje(data['http']['mensaje']);
-        // }
+       
       }).catch(error=>{
 
       }).finally(()=>{
         
-        //this.MatTableCuestionariosGenericos.renderRows();
       });
   }
   _consultarComponentesDeCuestionario(_IdCuestionarioGenericoEncriptado){
@@ -200,7 +172,6 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
         if (data['http']['codigo']=='200') {
           this._listaComponentesCuestionarioGenerico=[];
           this._listaComponentesCuestionarioGenerico= data['respuesta'];
-          console.log(this._listaComponentesCuestionarioGenerico);
           
         }
       }).catch(error=>{
@@ -220,11 +191,9 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
         if (data['http']['codigo']=='200') {
           this._listaSeccionesComponenteCuestionarioGenerico=[];
           this._listaSeccionesComponenteCuestionarioGenerico = data['respuesta'];
-          // console.log(this._listaSeccionesComponenteCuestionarioGenerico);
           
         }
       }).catch(error=>{
-        console.log("error",error);
         
       }).finally(()=>{
         for (let index = 0; index < this._listaSeccionesComponenteCuestionarioGenerico.length; index++) {
@@ -239,15 +208,10 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
     this.preguntaSeccionComponenteCuestionarioGenericoService._consultarPreguntasSeccionComponenteCuestionarioGenerico(idSeccionEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          console.log(data);
           this._listaPreguntasSeccionComponenteCuestionarioGenerico=[];
           this._listaPreguntasSeccionComponenteCuestionarioGenerico= data['respuesta'];
-
-          //this._listaPreguntasSeccionComponenteCuestionarioGenerico.sort(data=>data.Orden);
-
         }
       }).catch(error=>{
-        console.log(error);
         
       }).finally(()=>{
 
@@ -271,15 +235,10 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaOpcionesPreguntasAbiertas=[];
-          console.log("lista de Opciones",data['respuesta']);
           this._listaOpcionesPreguntasAbiertas.push(data['respuesta']);
           this._listaOpcionesPreguntasAbiertas.map((item,index)=>{
-            console.log("item",item.TipoDato.Descripcion );
 
           });
-          
-          // this._listaOpcionesPreguntasAbiertas.push(data['respuesta']);
-          // console.log("sfasdasd",this._listaOpcionesPreguntasAbiertas);
 
         }
       }).catch(error=>{
@@ -297,7 +256,6 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
       if (data['http']['codigo']=='200') {
         this._listaOpcionesPreguntaSeleccion =[];
         this._listaOpcionesPreguntaSeleccion = data['respuesta'];
-        console.log("opciones preguntas seleccion",this._listaOpcionesPreguntaSeleccion);
         
       }else{
 
@@ -310,15 +268,11 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
   }
 
   _consultarPreguntasEncajonadas(_item){
-    console.log("opcion",_item);
-    //this._pregunta_consultarpornoencajonadasporopcionpreguntaseleccion(_item.IdOpcionPreguntaSeleccionEncriptado);
     this.preguntaEncajonarService._preguntaencajonada_consultarporidopcionpreguntaseleccion(_item.IdOpcionPreguntaSeleccionEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaPreguntaEncajonadas=[];
-          this._listaPreguntaEncajonadas = data['respuesta'];
-          console.log("_listaPreguntaEncajonadas",this._listaPreguntaEncajonadas);
-          
+          this._listaPreguntaEncajonadas = data['respuesta'];          
         }
       }).catch(error=>{
 
@@ -329,13 +283,10 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
 
   _listaPreguntaConfigurarMatriz:any[]=[];
   _consultaOpcionesPreguntaConfigurarMatriz(_IdPreguntaEncriptado){
-    this._listaPreguntaConfigurarMatriz=[];
-    console.log(_IdPreguntaEncriptado);
- 
+    this._listaPreguntaConfigurarMatriz=[]; 
     this.preguntaMatrizService._consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          console.log("matriz-->",data['respuesta']);
           
           this._listaPreguntaConfigurarMatriz=data['respuesta'];
           this._vistaPreguntaConfigurarMatriz();
@@ -345,7 +296,6 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
       }).catch(error=>{
 
       }).finally(()=>{
-        //this._vistaPreguntaConfigurarMatriz();
       });
   }
 
@@ -366,7 +316,6 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
     });
 
     this.FilaOpcionUnoMatriz = unicosOpcionUno;
-    //------------------------------------------------------------------------------------
     this._listaPreguntaConfigurarMatriz.map((element,index)=>{
       this.ColumnsOpcionDosMatriz.push(element.OpcionDosMatriz);
     });
@@ -383,7 +332,6 @@ export class CuestionarioGenericoDetalleComponent implements OnInit,AfterViewIni
 
     this.ColumnsOpcionDosMatriz = unicosOpcionDos;
 
-    console.log("unicosOpcionDos",unicosOpcionDos);
   }
 
   _cargarCuestionarioGenerico:any={};

@@ -28,7 +28,6 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
 
   _consultarPreguntasSeccionComponenteCuestionarioGenerico(_idSeccionEncriptado){
     const _body = new HttpParams();
-    //debugger
    
     return new Promise((resolve, reject) => {
       this.http.post(url+'pregunta_consultarporidseccion?_idSeccionEncriptado='+_idSeccionEncriptado,_body.toString(),{headers:this._header})
@@ -59,7 +58,6 @@ export class PreguntaSeccionComponenteCuestionarioGenericoService {
 
   _consultarPreguntasSeccionComponenteCuestionarioGenericoFiltrado(idSeccion, idTipoPregunta){
     const _body = new HttpParams();
-    //debugger
    
     return new Promise((resolve, reject) => {
       this.http.post(url+'pregunta_consultarporidseccionFiltrado?_idSeccionEncriptado='+idSeccion+'&_idTipoPreguntaEncriptado='+idTipoPregunta,_body.toString(),{headers:this._header})

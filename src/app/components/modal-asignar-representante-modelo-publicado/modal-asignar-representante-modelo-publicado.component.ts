@@ -100,13 +100,10 @@ export class ModalAsignarRepresentanteModeloPublicadoComponent implements OnInit
         if (data['http']['codigo'] == '200') {
           lista = data['respuesta'];
         } else {
-          console.log(data['http']);
         }
       }).catch(error => {
-        console.log(error);
       }).finally(() => {
         this.cargandoRepresentante = false;
-        console.log(this.listaRepresentantes);
         this.listaRepresentantes = lista.find(p => p.FechaSalida == '0001-01-01T00:00:00');
         if (this.listaRepresentantes != undefined) {
           this.form_Representante.setValue(this.listaRepresentantes['Representante']);
@@ -114,7 +111,6 @@ export class ModalAsignarRepresentanteModeloPublicadoComponent implements OnInit
         } else {
           this.form_Representante.setValue('');
         }
-        //console.log(this.listaRepresentantes);
       });
   }
   displayFn(IdProvinciaEncriptado) {
@@ -145,7 +141,6 @@ export class ModalAsignarRepresentanteModeloPublicadoComponent implements OnInit
             this.mensaje(data['http']['mensaje']);
           }
         }).catch(error => {
-          console.log(error);
         }).finally(() => {
           if (ejecutado != false) {
             this.myControl.setValue('');
@@ -176,14 +171,11 @@ export class ModalAsignarRepresentanteModeloPublicadoComponent implements OnInit
           if (data['http']['codigo'] == '200') {
             this._listaProvincias = data['respuesta'];
           } else {
-            console.log(data);
           }
         }
       ).catch(error => {
-        console.log(error);
       }).finally(() => {
         this.filteredOptions = this.myControl.valueChanges.pipe(
-          // startWith(''),
           map(value => this._filter(value))
         );
 
@@ -201,10 +193,8 @@ export class ModalAsignarRepresentanteModeloPublicadoComponent implements OnInit
         if (data['http']['codigo'] == '200') {
           this._listaCantones = data['respuesta'];
         } else {
-          console.log(data);
         }
       }).catch(error => {
-        console.log(error);
       }).finally(() => {
       });
   }
@@ -218,10 +208,8 @@ export class ModalAsignarRepresentanteModeloPublicadoComponent implements OnInit
         if (data['http']['codigo'] == '200') {
           this._listaParroquias = data['respuesta'];
         } else {
-          console.log(data);
         }
       }).catch(error => {
-        console.log(error);
       }).finally(() => {
       });
   }
@@ -240,11 +228,9 @@ export class ModalAsignarRepresentanteModeloPublicadoComponent implements OnInit
             ejecutado = true;
           } else {
             ejecutado = false;
-            console.log(data);
           }
         }
       ).catch(error => {
-        console.log(error);
       }).finally(() => {
         if (ejecutado != false) {
           this._listaLugaresModeloPublicado.paginator = this.paginator;
@@ -258,7 +244,6 @@ export class ModalAsignarRepresentanteModeloPublicadoComponent implements OnInit
       element.IdAsignarResponsableModeloPublicadoEncriptado,
     ).then(data => {
       if (data['http']['codigo'] == '200') {
-        //console.log(data['respuesta']);
         ejecutado = true;
         this.accionesEjecutada = true;
       } else if (data['http']['codigo'] == '500') {
@@ -267,7 +252,6 @@ export class ModalAsignarRepresentanteModeloPublicadoComponent implements OnInit
         this.mensaje(data['http']['mensaje']);
       }
     }).catch(error => {
-      console.log(error);
     }).finally(() => {
       if (ejecutado != false) {
         this.asignarresponsablemodelopublicado_consultarporidmodelopublicado(this.data.ModeloPublicado.IdModeloPublicadoEncriptado);
@@ -298,11 +282,9 @@ export class ModalAsignarRepresentanteModeloPublicadoComponent implements OnInit
           this.accionesEjecutada = true;
           ejecutado = true;
         } else {
-          console.log(data['http']);
         }
       })
       .catch(error => {
-        console.log(error);
       }).finally(() => {
         if (ejecutado != false) {
           setTimeout(() => {
@@ -319,11 +301,9 @@ export class ModalAsignarRepresentanteModeloPublicadoComponent implements OnInit
           this.accionesEjecutada = true;
           ejecutado = true;
         } else {
-          console.log(data['http']);
         }
       })
       .catch(error => {
-        console.log(error);
       }).finally(() => {
         if (ejecutado != false) {
           setTimeout(() => {

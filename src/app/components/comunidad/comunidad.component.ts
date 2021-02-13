@@ -122,7 +122,7 @@ export class ComunidadComponent implements OnInit {
   tablaComunidades = ['codigo','comunidad', 'parroquia','canton', 'acciones'];
   tablaParroquias = ['parroquia', 'acciones'];
 
-  _idParroquiaEncriptado=""; _nombreParroquia=""; _listaParroquias:any[]=[];  _idCantonEncriptado=""; _nombreCanton="";  _idProvinciaEncriptado=""; _nombreProvincia="";// la Canton que se escoje
+  _idParroquiaEncriptado=""; _nombreParroquia=""; _listaParroquias:any[]=[];  _idCantonEncriptado=""; _nombreCanton="";  _idProvinciaEncriptado=""; _nombreProvincia="";
 
   _validar=true;
   _idComunidadEncriptado="";
@@ -137,16 +137,12 @@ export class ComunidadComponent implements OnInit {
   @ViewChild(ParroquiaComponent,{static:false}) CantonComponent: ParroquiaComponent;
 
   _limpiarForm(){
-    //----------Provincia--------------
     this._idProvinciaEncriptado ="";
     this._nombreProvincia ="";
-    //----------Canton-----------------
     this._idCantonEncriptado = "";
     this._nombreCanton       = "";
-    //----------Parroquia--------------
     this._idParroquiaEncriptado="";
     this._nombreParroquia ="";
-    //---------------------------------
     this._idComunidadEncriptado="";
     this._codigoComunidad="";
     this._nombreComunidad="";
@@ -169,8 +165,6 @@ export class ComunidadComponent implements OnInit {
       this._codigoComunidad      !="" &&
       this._nombreComunidad      !="" &&
       this._nombreCanton   !=""
-      // this._descripcionComunidad !="" &&
-      // this._rutaLogoComunidad    !=""
     ) {
       this._validar=false;
     }else{
@@ -187,8 +181,6 @@ export class ComunidadComponent implements OnInit {
       this._nombreParroquia      !="" &&
       this._nombreCanton         !="" &&
       this._nombreProvincia      !=""
-      // this._descripcionComunidad !="" &&
-      // this._rutaLogoComunidad    !=""
     ) {
       this._validar=false;
     }else{
@@ -200,8 +192,6 @@ export class ComunidadComponent implements OnInit {
     if (
       this._codigoComunidad      !="" &&
       this._nombreComunidad
-      // this._descripcionComunidad !="" &&
-      // this._rutaLogoComunidad    !=""
     ) {
       if (this._validar===false) {
         if (this._btnAccion==="Guardar") {
@@ -217,7 +207,6 @@ export class ComunidadComponent implements OnInit {
 
   _listaComunidades:any[]=[];
   _consultarComunidades(){
-    //this.native_codigoComunidad.nativeElement.value;
     this.lugaresService._consultarComunidades()
       .then(data=>{
         if (data['http']['codigo']=='200') {
@@ -227,11 +216,9 @@ export class ComunidadComponent implements OnInit {
         }else if (data['http']['codigo']=='500') {
           this.mensaje("A ocurrido un error inesperado, intente más tarde.")
         }else{
-          console.log(data['http']);
         }
       })
       .catch(error=>{
-        console.log(error);
       }).finally(()=>{
 
       });
@@ -239,10 +226,8 @@ export class ComunidadComponent implements OnInit {
 
   onChange(event) {
     let file = event.srcElement.files;
-    let postData = {field1:"field1", field2:"field2"}; // Put your form data variable. This is only example.
-    console.log(event.base)
+    let postData = {field1:"field1", field2:"field2"}; 
     this.postWithFile(event.baseUrl + "add-update",postData,file).then(result => {
-        console.log(result);
     });
   }
 
@@ -251,10 +236,6 @@ export class ComunidadComponent implements OnInit {
     let headers = new Headers();
     let formData:FormData = new FormData();
     formData.append('files', files[0], files[0].name);
-    // For multiple files
-    // for (let i = 0; i < files.length; i++) {
-    //     formData.append(`files[]`, files[i], files[i].name);
-    // }
 
     if(postData !=="" && postData !== undefined && postData !==null){
       for (var property in postData) {
@@ -298,11 +279,9 @@ export class ComunidadComponent implements OnInit {
         
         this._validar=true;
         this._validarBoton();
-        // this._validarFormulario();
       }else if (data['http']['codigo']=='500') {
         this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
-        console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
@@ -331,7 +310,6 @@ export class ComunidadComponent implements OnInit {
       }else if (data['http']['codigo']=='500') {
         this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
-        console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
@@ -351,7 +329,6 @@ export class ComunidadComponent implements OnInit {
       }else if (data['http']['codigo']=='500') {
         this.mensaje("A ocurrido un error inesperado, intente más tarde.")
       }else{
-        console.log(data['http']);
         this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
@@ -363,16 +340,12 @@ export class ComunidadComponent implements OnInit {
 
   _ParroquiaQuitada:any="";
   _prepararComunidad(_item){
-    //------------------Provincia--------------------------------------
     this._idProvinciaEncriptado = _item.Parroquia.Canton.Provincia.IdProvinciaEncriptado;
     this._nombreProvincia       = _item.Parroquia.Canton.Provincia.NombreProvincia;
-     //------------------Canton----------------------------------------
     this._idCantonEncriptado = _item.Parroquia.Canton.IdCantonEncriptado;
     this._nombreCanton       = _item.Parroquia.Canton.NombreCanton;
-    //------------------Parroquia----------------------------------------
     this._idParroquiaEncriptado = _item.Parroquia.IdParroquiaEncriptado;
     this._nombreParroquia       = _item.Parroquia.NombreParroquia;
-    //---------------------------------------------------------
     this._idComunidadEncriptado =_item.IdComunidadEncriptado;
     this._codigoComunidad       =_item.CodigoComunidad;
     this._nombreComunidad       =_item.NombreComunidad;
@@ -388,41 +361,31 @@ export class ComunidadComponent implements OnInit {
   @ViewChild('MatTableParroquias',{static:false}) MatTableParroquias :MatTable<any>;
   _prepararParroquia(_item){
   
-  //------------------Provincia--------------------------------------
     this._idProvinciaEncriptado = _item.Canton.Provincia.IdProvinciaEncriptado;
     this._nombreProvincia       = _item.Canton.Provincia.NombreProvincia;
-     //------------------Canton----------------------------------------
     this._idCantonEncriptado    = _item.Canton.IdCantonEncriptado;
     this._nombreCanton       = _item.Canton.NombreCanton;
-    //------------------Parroquia----------------------------------------
     this._idParroquiaEncriptado = _item.IdParroquiaEncriptado;
     this._nombreParroquia       = _item.NombreParroquia;
-    //---------------------------------------------------------
   
 
     if (this._ParroquiaQuitada!="") {
-      // this._consultarParroquias();
       this._listaParroquias.push(this._ParroquiaQuitada);
-
     }
     
     var obj = this._listaParroquias.find(dato=>dato.IdParroquiaEncriptado==_item.IdParroquiaEncriptado);
-    console.log(obj);
     
     var index = this._listaParroquias.indexOf(obj);
-    console.log(index);
     
     this._listaParroquias.splice(index,1);
     this._ParroquiaQuitada = _item;
 
     this.MatTableParroquias.dataSource = this._listaParroquias;
-    // this._listaParroquias.sort();
     this.MatTableParroquias.renderRows();
 
   }
 
   _consultarParroquias(){
-    //this.native_codigoParroquia.nativeElement.value;
     this.lugaresService._consultarParroquias()
       .then(data=>{
         if (data['http']['codigo']=='200') {
@@ -433,13 +396,10 @@ export class ComunidadComponent implements OnInit {
           }
           this.filtroParroquias();
         }else{
-          console.log(data['http']);
         }
       })
       .catch(error=>{
-        console.log(error);
       }).finally(()=>{
-        // this._listaParroquias.sort();
       });
   }
 
@@ -452,7 +412,6 @@ export class ComunidadComponent implements OnInit {
       data: { lugar_tipo: 'comunidad', lugar_data: _item }
     });
     dialogRef.afterClosed().subscribe(result=>{
-      // console.log(result);
       if (result) {
         
       }
@@ -470,7 +429,6 @@ export class ComunidadComponent implements OnInit {
       data: { imagen: _item }
     });
     dialogRef.afterClosed().subscribe(result=>{
-      // console.log(result);
       if (result) {
         
       }
