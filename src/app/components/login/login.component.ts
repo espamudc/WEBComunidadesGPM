@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit ,AfterViewInit{
 
     localStorage.setItem("_correo",'');
     localStorage.setItem("_clave",'');
+    localStorage.setItem("token",'');
     localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado','');
     localStorage.setItem('IdTipoUsuarioEncriptado','');
     
@@ -88,8 +89,6 @@ export class LoginComponent implements OnInit ,AfterViewInit{
           this._login =true;
           this._correoUsuario= data['respuesta'];
 
-          localStorage.setItem("_correo",data['respuesta']);
-
         }else if(data['http']['codigo']=='404'){
           this.mensaje("El usuario no existe. Intentelo de nuevo");
         }else{
@@ -115,7 +114,7 @@ export class LoginComponent implements OnInit ,AfterViewInit{
 
             this._verFormularioLogin=false;
             this._misTiposUsuarios = data['respuesta'];
-            localStorage.setItem("_clave",this._clave);
+            localStorage.setItem("token", data['token']);
 
             if (this._misTiposUsuarios.length<0) {
               this.mensaje("No Tiene Roles Asignados");

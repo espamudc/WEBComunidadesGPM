@@ -24,14 +24,20 @@ export class TokenInterceptor implements HttpInterceptor {
     ) {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let csrftoken = this.cookieService.get('csrftoken')
-    let jwttoken = this.cookieService.get('jwttoken')
+    
+    let jwttoken = localStorage.getItem('token')
+   // let jwttoken = this.cookieService.get('jwttoken')
+   if(!request['url'].includes('ValidarCorreo') && !request['url'].includes('Login')){
     request = request.clone({
       setHeaders: {
         // This is where you can use your various tokens
-        // Authorization: `JWT ${jwttoken}`,
+        Authorization: `Bearer ${jwttoken}`,
         // 'X-CSRFToken': `${csrftoken}`
       }
     });
+   }
+  
+    
     return next.handle(request).do((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
         // do stuff with response if you want
