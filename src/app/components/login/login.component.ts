@@ -7,15 +7,12 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Usuario } from 'src/app/interfaces/usuario/usuario';
 import { MatSnackBar } from '@angular/material';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit ,AfterViewInit{
-
-
 
   constructor(private usuarioService: UsuarioService,
     private router: Router,
@@ -31,26 +28,20 @@ export class LoginComponent implements OnInit ,AfterViewInit{
     return this.formMisRoles.get("_cmbTiposUsuarios");
   }
 
-
   formMisRoles:FormGroup;
   formValidarCorreo:FormGroup;
 
   ngOnInit() {
-
-    localStorage.setItem("_correo",'');
-    localStorage.setItem("_clave",'');
     localStorage.setItem("token",'');
     localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado','');
     localStorage.setItem('IdTipoUsuarioEncriptado','');
-    
   }
+
   ngAfterViewInit(){
 
   }
 
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
-
-
     if (_duracion==null) {
        _duracion=3000;
     }
@@ -69,8 +60,6 @@ export class LoginComponent implements OnInit ,AfterViewInit{
     let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
   }
 
-
-
   _login =false;
   _validarCorreo=true;
   _correoUsuario=null;
@@ -80,6 +69,7 @@ export class LoginComponent implements OnInit ,AfterViewInit{
   _verFormularioLogin=true;
   _verFormularioMisTiposUsuarios=false;
   _cmbComboTipos="";
+
   _validarCorreoIngresado(){
     this.usuarioService._validarCorreo(this._correo,"")
       .then(data=>{
@@ -144,11 +134,7 @@ export class LoginComponent implements OnInit ,AfterViewInit{
         });
   }
 
-  _verMisTiposDeRoles(item:any){
-
-  }
   _ingresarAlSistema(){
-
     if (this.formMisRoles.get('_cmbTiposUsuarios').value!=null ) {
       localStorage.setItem("IdAsignarUsuarioTipoUsuarioEncriptado",this.formMisRoles.get('_cmbTiposUsuarios').value);
       localStorage.setItem("IdTipoUsuarioEncriptado",this.formMisRoles.get('_cmbTiposUsuarios').value);
@@ -161,7 +147,6 @@ export class LoginComponent implements OnInit ,AfterViewInit{
     }else{
       this.mensaje("Seleccione un Rol");
     }
-
   }
   idRol = "0";
   _seleccionarRol(event){
