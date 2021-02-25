@@ -1,5 +1,5 @@
 export const environment = {
   production: true
 };
-export const url = "http://apigpm.manabi.gob.ec:8080/api/";
-export const urlImagen = "http://apigpm.manabi.gob.ec:8080/";
+export const url = "https://apigpm.manabi.gob.ec/api/";
+export const urlImagen = "https://apigpm.manabi.gob.ec/";
