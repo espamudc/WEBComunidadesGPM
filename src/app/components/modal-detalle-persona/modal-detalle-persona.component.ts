@@ -81,8 +81,6 @@ export class ModalDetallePersonaComponent implements OnInit,AfterViewInit {
     if(this.data._persona.Telefono=='null'){
         this.data._persona.Telefono="";
     }
-    
-
     this.formPersona.get("_idPersonaEncriptado")  .setValue(this.data._persona.IdPersonaEncriptado);
     this.formPersona.get("_primerNombre")         .setValue(this.data._persona.PrimerNombre);
     this.formPersona.get("_segundoNombre")        .setValue(this.data._persona.SegundoNombre);
@@ -96,12 +94,9 @@ export class ModalDetallePersonaComponent implements OnInit,AfterViewInit {
     this.formPersona.get("_cmbCanton")            .setValue(this.data._persona.Parroquia.Canton.NombreCanton);
     this.formPersona.get("_cmbParroquia")         .setValue(this.data._persona.Parroquia.NombreParroquia);
     this.formPersona.get("_direccion")            .setValue(this.data._persona.Direccion);
-    
   }
-
   _vacio:string="";
   ngAfterViewInit(){
-    
   }
 
 }

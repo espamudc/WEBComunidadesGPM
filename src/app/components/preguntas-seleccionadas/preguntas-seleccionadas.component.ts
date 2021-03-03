@@ -12,7 +12,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./preguntas-seleccionadas.component.css']
 })
 export class PreguntasSeleccionadasComponent implements OnInit {
-
   constructor(
     private cuestionarioGenericoService :CuestionarioGenericoService,
     private cabeceraVersionCuestionarioService:CabeceraVersionCuestionarioService,
@@ -29,12 +28,9 @@ export class PreguntasSeleccionadasComponent implements OnInit {
     _fechaCreacion : new FormControl(''),
     _estado : new FormControl('')
   }); }
-
   tipoUsurio='';
   ngOnInit() {
-
     this.tipoUsurio= localStorage.getItem('IdTipoUsuarioEncriptado');
-
     if(this.tipoUsurio!='MQA='){
       this.router.navigateByUrl("/inicio/inicio");
     }
@@ -44,7 +40,6 @@ export class PreguntasSeleccionadasComponent implements OnInit {
     this._cargarMisCuestionariosGenericos();
   }
   formCuestionarioGenericoVersion:FormGroup;
-
   get formCuestionarioGenericoVersion_cmbCuestionario(){
     return this.formCuestionarioGenericoVersion.get("_cmbCuestionario");
   }
@@ -60,69 +55,40 @@ export class PreguntasSeleccionadasComponent implements OnInit {
   _listaCuestionariosGenericos:any[]=[];
   _listaVersionesCuestionario:any[]=[];
   Columns=['descripcion','tipo','acciones'];
-
   _cargarMisCuestionariosGenericos(){
-
     this.cuestionarioGenericoService._consultarCuestionarioGeneriocoPorIdAsignarUsuarioTipoUsuarioEncriptado(
       localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')
     )
       .then(data=>{
         if (data['http']['codigo']=='200') {
-         
           this._listaCuestionariosGenericos=[];
           this._listaCuestionariosGenericos = data['respuesta'];
-        
         }
-
-      }).catch(error=>{
-
-      }).finally(()=>{
-
-        
-      });
+      })
   }
-
   _onChangeCmbCuestionariosGenericos(event){
-  
     if (event.value==0) {
-
     } else {
-
       const obj=  this._listaCuestionariosGenericos.find(data=>data.CuestionarioGenerico.IdCuestionarioGenericoEncriptado===event.value);
       const index = this._listaCuestionariosGenericos.indexOf(obj);
-
       this.formCuestionarioGenericoVersion_idAsignarResponsableEncriptado.setValue(obj.IdAsignarResponsableEncriptado);
-
     }
     this._consultarPreguntasCuestionario(event.value);
-
   }
-
   _consultarPreguntasCuestionario(_idCuestionarioEncriptado){
-
     this.preguntasCuestionarioGenericoService._consultarPreguntasCuestionario(_idCuestionarioEncriptado)
     .then(data=>{
       if (data['http']['codigo']=='200') {
         this._listaVersionesCuestionario=data['respuesta'];
       }
-
-    }).catch(error=>{
-
-    }).finally(()=>{
-
-    });
+    })
   }
-
   _seleccionarPreguntas(_item){
-
     this.preguntasCuestionarioGenericoService._seleccionarPreguntas(_item.IdPreguntaEncriptado)
       .then(data=>{
         this._consultarPreguntasCuestionario(_item.Seccion.Componente.CuestionarioGenerico.IdCuestionarioGenericoEncriptado);
       }).catch(error=>{
-
-      }).finally(()=>{
-
-      });
+      })
   }
 
 }

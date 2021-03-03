@@ -19,7 +19,6 @@ export class ModalEncajonamientoComponent implements OnInit {
     private preguntaService: PreguntaSeccionComponenteCuestionarioGenericoService,
     private preguntaSeleccionService:PreguntaSeleccionService,
     private preguntaEncajonarService:PreguntaEncajonarService,
- 
     public dialogRef: MatDialogRef<ModalEncajonamientoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { this.formEncajonarPregunta = new FormGroup({
@@ -30,7 +29,6 @@ export class ModalEncajonamientoComponent implements OnInit {
     _obligatorio : new FormControl(''),
     _orden : new FormControl(''),
     _estado : new FormControl(''),
-
     _cmbCuestionario : new FormControl('',[Validators.required]),
     _cmbComponente : new FormControl('',[Validators.required]),
     _cmbSeccion : new FormControl('',[Validators.required]),
@@ -43,7 +41,6 @@ export class ModalEncajonamientoComponent implements OnInit {
     this.preguntaseleccion = this.data._seleccion;
     this._pregunta_consultarpornoencajonadasporopcionpreguntaseleccion(this.data._seleccion.IdOpcionPreguntaSeleccionEncriptado);
     this._consultarPreguntasEncajonadas(this.data._seleccion);
-    
   }
 
   Columns: string[] = ['OP', 'Descripcion', 'Acciones'];
@@ -55,8 +52,6 @@ export class ModalEncajonamientoComponent implements OnInit {
   }
 
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
-
-    
     if (_duracion==null) {
        _duracion=3000;
     }
@@ -85,23 +80,14 @@ export class ModalEncajonamientoComponent implements OnInit {
         } else {
            
         }
-      }).catch(error=>{
-        
-      }).finally(()=>{
-
-      });
+      })
   }
 
   _onChangeCmbEncajonar(event?){
-    if (event.value=='0') {
-      
+    if (event.value=='0') {      
     } else {
-      this._insertarPreguntaEncajonada(this.preguntaseleccion);     
-
-       
+      this._insertarPreguntaEncajonada(this.preguntaseleccion);  
     }
-   
-
  }
 
  _listaPreguntaEncajonadas:any[]=[];
@@ -112,11 +98,7 @@ export class ModalEncajonamientoComponent implements OnInit {
        if (data['http']['codigo']=='200') {
          this._listaPreguntaEncajonadas = data['respuesta'];         
        }
-     }).catch(error=>{
-
-     }).finally(()=>{
-
-     });
+     })
  }
 
  _consultarPreguntasEncajonadas2(_item){
@@ -126,11 +108,7 @@ export class ModalEncajonamientoComponent implements OnInit {
       if (data['http']['codigo']=='200') {
         this._listaPreguntaEncajonadas = data['respuesta'];        
       }
-    }).catch(error=>{
-
-    }).finally(()=>{
-
-    });
+    })
 }
 
  _listaOpcionesPreguntaSeleccion:any[]=[];
@@ -141,21 +119,15 @@ export class ModalEncajonamientoComponent implements OnInit {
       ).then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaOpcionesPreguntaSeleccion = data['respuesta'];
-        }else{
-
         }
-      }).catch(error=>{
-
-      }).finally(()=>{
-
-      });
+      })
    }else{
     this._listaOpcionesPreguntaSeleccion = [];
    }
  }
 
  _insertarPreguntaEncajonada(_item){
- 
+
   if (this._listaPreguntaEncajonadas.length==0) {
     this.preguntaEncajonarService._preguntaencajonada_insertar(
       _item.IdOpcionPreguntaSeleccionEncriptado,
@@ -163,23 +135,18 @@ export class ModalEncajonamientoComponent implements OnInit {
     ).then(data=>{
       if (data['http']['codigo']=='200') {
         this._consultarPreguntasEncajonadas(_item);
-        
         this._listaPreguntaEncajonadas.push(data['respuesta']);
-        
       } else {
         this.mensaje(data['http']['mensaje']);
       }
     }).catch(error=>{
       this.mensaje(error);
-      
     }).finally(()=>{
       this.preguntaService.refresh$.emit();
-      
     });
   } else {
     this.mensaje("La pregunta ya ha sido encajonada");
   }
-  
 }
 
 preparaItem="";
@@ -190,11 +157,7 @@ eliminarEncajonamiento(_item){
       if (data['http']['codigo']=='200') {
         this._consultarPreguntasEncajonadas2(_item);
         
-      } else {
-        
-      }
-    }).catch(error=>{
-
+      } 
     }).finally(()=>{
       this.preguntaService.refresh$.emit();
     });

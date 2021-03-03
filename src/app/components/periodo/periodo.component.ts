@@ -148,9 +148,6 @@ export class PeriodoComponent implements OnInit {
     this.formPeriodo.controls['_fechaFin'].setErrors(null);
   }
   _ingresarPeriodo2() {
-
-
-    
     this.periodoService._insertarPeriodo(
       this.formPeriodo_descripcion.value,
       this.formPeriodo_fechaInicio.value,
