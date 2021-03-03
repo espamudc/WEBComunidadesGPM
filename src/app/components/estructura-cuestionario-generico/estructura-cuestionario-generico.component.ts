@@ -592,18 +592,12 @@ this.mensajeee=value;
     this._listaPreguntasSeccionComponenteCuestionarioGenerico=[];
     this.preguntaSeccionComponenteCuestionarioGenericoService._consultarPreguntasSeccionComponenteCuestionarioGenerico(idSeccionEncriptado)
       .then(data=>{
-        
         if (data['http']['codigo']=='200') {
-          
           this._listaPreguntasSeccionComponenteCuestionarioGenerico= data['respuesta'];
-          
-
         }
       }).catch(error=>{
         
-      }).finally(()=>{
-
-      });
+      })
       this._obligatorioPregunta=true;
       this._obligatorioPregunta_true=true;
   }
@@ -683,6 +677,7 @@ this.mensajeee=value;
   }
 
   _eliminarPreguntaSeccionComponenteCuestionarioGenerico(_item){
+
     let id = _item.IdPreguntaEncriptado;
     let idSeccion = _item.Seccion.IdSeccionEncriptado;
     this.preguntaSeccionComponenteCuestionarioGenericoService._eliminarPreguntasSeccionComponenteCuestionarioGenerico(id)
@@ -736,7 +731,6 @@ this.mensajeee=value;
   
   _OcultarcmbTipoPregunta=false;
   _prepararPreguntaSeccionDeComponenteDeCuestionarioGenerico(_item){
-
     this._OcultarcmbTipoPregunta=true;
     if(_item.TipoPregunta.Identificador == 4){
       this.agregarLeyendas=true;
@@ -750,7 +744,6 @@ this.mensajeee=value;
     this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_leyendaSuperior").setValue(_item.leyendaSuperior);
     this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_leyendaLateral").setValue(_item.leyendaLateral);
     this.formPreguntaSeccionComponenteCuestionarioGenerico.get("_campoObservacion").setValue(_item.campo_observacion);
-    
     if(_item.Observacion==true){
       this.checked=true;
       this._obligatorioCampoObservacion=true;

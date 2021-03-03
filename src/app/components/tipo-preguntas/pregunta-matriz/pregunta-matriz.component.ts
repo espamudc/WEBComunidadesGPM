@@ -165,12 +165,9 @@ export class PreguntaMatrizComponent implements OnInit {
   _listaPreguntaConfigurarMatriz:any[]=[];
   _PreguntaConfigurarMatriz:any[]=[];
   _consultarPreguntaConfigurarMatriz(){
-
     this.preguntaMatrizService._consultarPreguntaConfigurarMatriz(this.item.IdPreguntaEncriptado)
       .then(data=>{
-    
         if (data['http']['codigo']=='200') {
-       
           this.datosMatriz.push({Observacion: data['respuesta1'].Observacion, leyendaSuperior: data['respuesta1'].leyendaSuperior, leyendaLateral: data['respuesta1'].leyendaLateral})
           this._PreguntaConfigurarMatriz = data['respuesta1'];
           this._listaPreguntaConfigurarMatriz=data['respuesta'];
@@ -180,11 +177,8 @@ export class PreguntaMatrizComponent implements OnInit {
           this.LeyendaSuperiorGeneral=this.datosMatriz[0].leyendaSuperior;
           this.LeyendaLateralGeneral=this.datosMatriz[0].leyendaLateral;
         } else {
-          
         }
       }).catch(error=>{
-     
-
       }).finally(()=>{
         this._vistaPreguntaConfigurarMatriz();
       });
