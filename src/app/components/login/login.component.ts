@@ -25,9 +25,9 @@ export class LoginComponent implements OnInit ,AfterViewInit{
   formMisRoles:FormGroup;
   formValidarCorreo:FormGroup;
   ngOnInit() {
-    localStorage.setItem("token",'');
-    localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado','');
-    localStorage.setItem('IdTipoUsuarioEncriptado','');
+    if((localStorage.getItem("token"))){
+      this.router.navigateByUrl("/inicio/inicio");
+    }
   }
   ngAfterViewInit(){
   }
