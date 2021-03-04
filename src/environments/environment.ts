@@ -15,9 +15,9 @@ export const environment = {
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
 // export const url = "http://192.168.25.25:90/api/";
-//export const url = "http://localhost:55584/api/";
-//export const urlImagen = "http://localhost:55584/";
-export const url = "http://apigpm.manabi.gob.ec:8080/api/";
-export const urlImagen = "http://apigpm.manabi.gob.ec:8080/";
+export const url = "http://localhost:55584/api/";
+export const urlImagen = "http://localhost:55584/";
+//export const url = "http://apigpm.manabi.gob.ec:8080/api/";
+//export const urlImagen = "http://apigpm.manabi.gob.ec:8080/";
 //export const url = "http://192.168.100.5:90/api/";
 

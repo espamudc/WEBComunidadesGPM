@@ -90,7 +90,7 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
   applyFilter(event: Event) {
-    debugger
+   
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }

@@ -168,7 +168,7 @@ export class PreguntaMatrizComponent implements OnInit {
 
     this.preguntaMatrizService._consultarPreguntaConfigurarMatriz(this.item.IdPreguntaEncriptado)
       .then(data=>{
-    
+
         if (data['http']['codigo']=='200') {
        
           this.datosMatriz.push({Observacion: data['respuesta1'].Observacion, leyendaSuperior: data['respuesta1'].leyendaSuperior, leyendaLateral: data['respuesta1'].leyendaLateral})
@@ -183,7 +183,7 @@ export class PreguntaMatrizComponent implements OnInit {
           
         }
       }).catch(error=>{
-     
+  
 
       }).finally(()=>{
         this._vistaPreguntaConfigurarMatriz();
