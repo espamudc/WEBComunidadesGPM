@@ -19,16 +19,12 @@ export class ListaCaracterizacionComponent implements OnInit {
     private lugaresService: LugaresService,
     private router: Router
   ) { }
-
   tipoUsurio='';
   ngOnInit() {
-
     this.tipoUsurio= localStorage.getItem('IdTipoUsuarioEncriptado');
-   
     if(this.tipoUsurio!='MQA='){
       this.router.navigateByUrl("/inicio/inicio");
     }
-
     if(this.tipoUsurio==''){
       this.router.navigateByUrl("/login");
     }

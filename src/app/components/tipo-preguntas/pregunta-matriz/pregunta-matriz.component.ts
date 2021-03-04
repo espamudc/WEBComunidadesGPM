@@ -27,21 +27,17 @@ export interface PresentarDatosMatriz{
   leyendaSuperior:string;
   leyendaLateral:string;
 }
-
-
-
 @Component({
   selector: 'app-pregunta-matriz',
   templateUrl: './pregunta-matriz.component.html',
   styleUrls: ['./pregunta-matriz.component.css']
 })
 export class PreguntaMatrizComponent implements OnInit {
-
+  op:any;
   ObservacionGeneral: any;
   LeyendaSuperiorGeneral: any;
   LeyendaLateralGeneral: any;
   datosMatriz: Array <PresentarDatosMatriz>=[];
-
   constructor(
     private snackBarComponent: MatSnackBar,
     private preguntaMatrizService:PreguntaMatrizService
@@ -67,12 +63,8 @@ export class PreguntaMatrizComponent implements OnInit {
     this.formPreguntaOpcionUnoMatriz.get("_idPreguntaEncriptado").setValue(this.idPreguntaencriptada);
     this.formPreguntaOpcionDosMatriz.get("_idPreguntaEncriptado").setValue(this.idPreguntaencriptada);
   }
-
   @Input() item :any ={};
-
   Columns: string[] = ['descripcion', 'acciones'];
-
-
   formPreguntaOpcionUnoMatriz:FormGroup;
   get OpcionUnoMatriz_idOpcionUnoMatriz(){
     return this.formPreguntaOpcionUnoMatriz.get("_idOpcionUnoMatriz");
@@ -99,10 +91,7 @@ export class PreguntaMatrizComponent implements OnInit {
   get OpcionDosMatriz_descripcion(){
     return this.formPreguntaOpcionDosMatriz.get("_descripcion");
   }
-
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
-
-
     if (_duracion==null) {
        _duracion=3000;
     }
@@ -131,10 +120,6 @@ export class PreguntaMatrizComponent implements OnInit {
         } else {
           
         }
-      }).catch(error=>{
-
-      }).finally(()=>{
-
       });
   }
   _insertarOpcionUnoMatriz(){
@@ -155,43 +140,40 @@ export class PreguntaMatrizComponent implements OnInit {
       } else {
         this.mensaje(data['http']['mensaje']);
       }
-    }).catch(error=>{
-
-    }).finally(()=>{
-
-    });
+    })
   }
 
   _listaPreguntaConfigurarMatriz:any[]=[];
   _PreguntaConfigurarMatriz:any[]=[];
   _consultarPreguntaConfigurarMatriz(){
-
     this.preguntaMatrizService._consultarPreguntaConfigurarMatriz(this.item.IdPreguntaEncriptado)
       .then(data=>{
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9fe8e9c630b9b84e5d51ad0997db1d2d6e138185
         if (data['http']['codigo']=='200') {
-       
           this.datosMatriz.push({Observacion: data['respuesta1'].Observacion, leyendaSuperior: data['respuesta1'].leyendaSuperior, leyendaLateral: data['respuesta1'].leyendaLateral})
           this._PreguntaConfigurarMatriz = data['respuesta1'];
+          this.op =this._PreguntaConfigurarMatriz['campo_observacion'];
           this._listaPreguntaConfigurarMatriz=data['respuesta'];
           this._vistaPreguntaConfigurarMatriz();
-
           this.ObservacionGeneral=this.datosMatriz[0].Observacion;
           this.LeyendaSuperiorGeneral=this.datosMatriz[0].leyendaSuperior;
           this.LeyendaLateralGeneral=this.datosMatriz[0].leyendaLateral;
         } else {
-          
         }
+<<<<<<< HEAD
       }).catch(error=>{
   
 
+=======
+>>>>>>> 9fe8e9c630b9b84e5d51ad0997db1d2d6e138185
       }).finally(()=>{
         this._vistaPreguntaConfigurarMatriz();
       });
   }
-
   _insertarPreguntaConfigurarMatriz(){
-      
       this.preguntaMatrizService._insertarPreguntaConfigurarMatriz(
         this.item.IdPreguntaEncriptado,
         this.formPreguntaOpcionDosMatriz.get("_descripcion").value
@@ -208,8 +190,6 @@ export class PreguntaMatrizComponent implements OnInit {
         }else{
           this.mensaje(data['http']['mensaje']);
         }
-      }).catch(error=>{
-
       }).finally(()=>{
         this._vistaPreguntaConfigurarMatriz()
       });
@@ -222,33 +202,26 @@ export class PreguntaMatrizComponent implements OnInit {
       this.FilaOpcionUnoMatriz.push(element.OpcionUnoMatriz);
     });
     let unicosOpcionUno = [ ];
-    
     this.FilaOpcionUnoMatriz.map((element,index)=>{
       let x= unicosOpcionUno.find(data=>data.IdOpcionUnoMatrizEncriptado===element.IdOpcionUnoMatrizEncriptado);
       if (unicosOpcionUno.indexOf( x ) == -1){
         unicosOpcionUno.push(element);
       }
     });
-
     this.FilaOpcionUnoMatriz = unicosOpcionUno;
     this._listaPreguntaConfigurarMatriz.map((element,index)=>{
       this.ColumnsOpcionDosMatriz.push(element.OpcionDosMatriz);
     });
-
     let unicosOpcionDos = [ ];
-
     this.ColumnsOpcionDosMatriz.map((element,index)=>{
       let x= unicosOpcionDos.find(data=>data.IdOpcionDosMatrizEncriptado===element.IdOpcionDosMatrizEncriptado);
       if (unicosOpcionDos.indexOf( x ) == -1){
         unicosOpcionDos.push(element);
       }
     });
- 
     this.ColumnsOpcionDosMatriz = unicosOpcionDos;
-    
   }
   _eliminarPreguntaOpcionDos(_item){
-    
     this.preguntaMatrizService._eliminarPreguntaMatrizOpcionDos(_item.IdOpcionDosMatrizEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
@@ -258,16 +231,9 @@ export class PreguntaMatrizComponent implements OnInit {
           this._consultarPreguntaConfigurarMatriz();
         }else if (data['http']['codigo']=='500') {
           this.mensaje("A ocurrido un error inesperado, intente más tarde.")
-        }else{
-          
         }
-      }).catch(error=>{
-
-      }).finally(()=>{
-        
       });
   }
-
   _eliminarPreguntaOpcionUno(_item){
     this.preguntaMatrizService._eliminarPreguntaMatrizOpcionUno(_item.IdOpcionUnoMatrizEncriptado)
       .then(data=>{
@@ -281,8 +247,6 @@ export class PreguntaMatrizComponent implements OnInit {
         }else{
           this.mensaje(data['http']['mensaje']);
         }
-      }).catch(error=>{
-
       }).finally(()=>{
         this._consultarOpcionUnoMatriz();
         this._consultarPreguntaConfigurarMatriz();

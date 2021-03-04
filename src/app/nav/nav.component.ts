@@ -33,4 +33,12 @@ export class NavComponent {
       this.router.navigateByUrl("/login");
     }
   }
+  CerrarSesion(){
+     localStorage.removeItem("token");
+     localStorage.removeItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+     localStorage.removeItem('_clave');
+     localStorage.removeItem('_correo');
+     localStorage.removeItem('IdTipoUsuarioEncriptado');
+     this.router.navigateByUrl("login");
+  }
 }

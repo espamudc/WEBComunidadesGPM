@@ -16,10 +16,8 @@ export class ModalAsignacionUsuarioPersonaComponent implements OnInit {
     private dialogRef: MatDialogRef<ModalAsignacionUsuarioPersonaComponent>,
     @Inject(MAT_DIALOG_DATA) public data:any
   ) { }
-  
   personas : Persona[] = [];
   filterPersona = '';
-
   asignarUsuarioaPersona(persona) {
     this.data.cedula = persona.NumeroDocumento;
     this.data.idPersona = persona.IdPersona;
@@ -27,13 +25,9 @@ export class ModalAsignacionUsuarioPersonaComponent implements OnInit {
     this.data.nombres = persona.PrimerNombre +' '+ persona.SegundoNombre; 
     this.data.apellidos = persona.ApellidoPaterno +' '+ persona.ApellidoMaterno; 
   }
-
-
-
   ngOnInit() {
     this._consultarPersonas();
   }
-
   _listaPersonas:any[]=[];
   _consultarPersonas(){
     this.personaService._consultarPersonasSinUsuarios('token')
@@ -41,15 +35,10 @@ export class ModalAsignacionUsuarioPersonaComponent implements OnInit {
           if (data['http']['codigo']=='200') {
             this._listaPersonas = data['respuesta'];
           }
-        }).catch(error=>{
-        });
+        })
   }
-
   _persona = {};
-
   _asignarUsuarioaPersona(_item){
     this.dialogRef.close(_item);
   }
-
-
 }

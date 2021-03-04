@@ -1,54 +1,45 @@
-// app/auth/token.interceptor.ts
-
 import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
-  HttpResponse,
-  HttpErrorResponse
-} from '@angular/common/http';
-
-import 'rxjs/add/operator/do';
-import { Observable } from 'rxjs';
-import { CookieService } from 'ngx-cookie-service';
-import 'rxjs/add/operator/do';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   constructor(
-    private cookieService: CookieService
+    private router: Router
     ) {}
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let csrftoken = this.cookieService.get('csrftoken')
-    
-    let jwttoken = localStorage.getItem('token')
-   // let jwttoken = this.cookieService.get('jwttoken')
-   if(!request['url'].includes('ValidarCorreo') && !request['url'].includes('Login')){
-    request = request.clone({
-      setHeaders: {
-        // This is where you can use your various tokens
-        Authorization: `Bearer ${jwttoken}`,
-        // 'X-CSRFToken': `${csrftoken}`
-      }
-    });
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  let csrftoken = localStorage.getItem('token')
+  let request = req;
+   if(!req['url'].includes('ValidarCorreo') && !req['url'].includes('Login')){
+    if (csrftoken) {
+      request = req.clone({
+        setHeaders: {
+          authorization: `Bearer ${ csrftoken }`
+        }
+      });
+    }
    }
   
     
-    return next.handle(request).do((event: HttpEvent<any>) => {
-      if (event instanceof HttpResponse) {
-        // do stuff with response if you want
+   return next.handle(request).pipe(
+    catchError((err: HttpErrorResponse) => {
+      //token expirado o token no válido
+      if (err.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+        localStorage.removeItem('_clave');
+        localStorage.removeItem('_correo');
+        localStorage.removeItem('IdTipoUsuarioEncriptado');
+        this.router.navigateByUrl("login");
       }
-    }, (err: any) => {
-      if (err instanceof HttpErrorResponse) {
-        if (err.status === 401 || err.status === 403) {
-          console.log("handle error here")
-          
-        }
-      }
-    });
-  }
+      return throwError( err );
+
+    })
+  );
+}
+
 }
