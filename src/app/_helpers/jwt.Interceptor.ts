@@ -29,7 +29,12 @@ export class TokenInterceptor implements HttpInterceptor {
     catchError((err: HttpErrorResponse) => {
       //token expirado o token no válido
       if (err.status === 401) {
-        this.router.navigateByUrl('/login');
+        localStorage.removeItem("token");
+        localStorage.removeItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+        localStorage.removeItem('_clave');
+        localStorage.removeItem('_correo');
+        localStorage.removeItem('IdTipoUsuarioEncriptado');
+        this.router.navigateByUrl("login");
       }
       return throwError( err );
 
