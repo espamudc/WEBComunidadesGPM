@@ -97,6 +97,8 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { PreguntasSeleccionadasComponent } from './components/preguntas-seleccionadas/preguntas-seleccionadas.component';
 import { ModalVerImagenComponent } from './components/modal-ver-imagen/modal-ver-imagen.component';
+import { DasboardComponent } from './components/reportes/dasboard/dasboard.component';
+import { ReportCuestionarioComponent } from './components/reportes/cuestionarios/report-cuestionario/report-cuestionario.component';
 // import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
@@ -155,6 +157,8 @@ import { ModalVerImagenComponent } from './components/modal-ver-imagen/modal-ver
     InicioComponent,
     PreguntasSeleccionadasComponent,
     ModalVerImagenComponent,
+    DasboardComponent,
+    ReportCuestionarioComponent,
 
 
 
