@@ -23,6 +23,7 @@ import { DatePipe } from '@angular/common';
 export class CuestionarioGenericoPublicarComponent implements OnInit {
   tablaCuestionarios = ['periodo', 'fecha_publicacion', 'cuestionario', 'cuestionario_version', 'acciones'];
   dataSource = new MatTableDataSource();
+  dataSource2 = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
  @ViewChild(MatSort, { static: true }) sort: MatSort;
   constructor(
@@ -58,6 +59,7 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
       _cmbParroquia: new FormControl('',[Validators.required]),
       _cmbComunidad: new FormControl('',[Validators.required]),
       _cmbTecnico : new FormControl('',[Validators.required]),
+      _numeroEncuestas : new FormControl('',[Validators.required]),
       _idAsignarUsuarioTipoUsuarioEncriptado: new FormControl('',[Validators.required]),
       _obligatorio : new FormControl('',[Validators.required]),
       _fechaInicio : new FormControl('',[Validators.required]),
@@ -88,14 +90,21 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
     this._consultar_cuestionarioPublicado();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.dataSource2.paginator = this.paginator;
+    this.dataSource2.sort = this.sort;
   }
+
   applyFilter(event: Event) {
-<<<<<<< HEAD
    
-=======
->>>>>>> 9fe8e9c630b9b84e5d51ad0997db1d2d6e138185
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  applyFilter2(event: Event) {
+   
+    const filterValue2 = (event.target as HTMLInputElement).value;
+    this.dataSource2.filter = filterValue2.trim().toLowerCase();
+
   }
 
   formCuestionarioGenericoPublicar:FormGroup;
@@ -134,6 +143,10 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
   get formAsignarEncuestado_cmbTecnico(){
     return this.formAsignarEncuestado.get("_cmbTecnico");
   }
+  get formAsignarEncuestado_numeroEncuestas(){
+    return this.formAsignarEncuestado.get("_numeroEncuestas");
+  }
+
   get formAsignarEncuestado_fechaInicio(){
     return this.formAsignarEncuestado.get("_fechaInicio");
   }
@@ -161,7 +174,8 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
   idEncuestadoEncriptado= "";
 
   Columns=['periodo','fecha_publicacion','cuestionario','cuestionario_version','acciones'];
-  ColumnsAsignarEncuestado=['tecnico','fecha_inicio','fecha_fin','comunidad','cuestionario','cuestionario_version','acciones'];
+  tablaEncuestado=['id_encuesta', 'tecnico','comunidad','cuestionario','cuestionario_version','acciones'];
+  ColumnsAsignarEncuestado=['id_encuesta', 'tecnico','comunidad','cuestionario','cuestionario_version','acciones'];
 
   mensaje(_mensaje:string,_duracion?:number,_opcion?:number,_color?:string){
 
@@ -400,6 +414,7 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
 
   _prepararCuestionarioPublicado(_item){
     this.guardar = true;
+    this.formAsignarEncuestado_numeroEncuestas.setValue("1");
     this.formAsignarEncuestado_idAsignarUsuarioTipoUsuarioEncriptado.setValue(localStorage.getItem("IdAsignarUsuarioTipoUsuarioEncriptado"));
     this.formAsignarEncuestado_idCuestionarioPublicadoEncriptado.setValue(_item.IdCuestionarioPublicadoEncriptado);
     this.formAsignarEncuestado_versionCuestionarioGenenico.setValue(_item.CabeceraVersionCuestionario.Version+" ("+_item.CabeceraVersionCuestionario.FechaCreacion +")");
@@ -421,6 +436,7 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
 
   _prepararEncuestador(_item: any) {
     this.guardar = false;
+    this.formAsignarEncuestado_numeroEncuestas.setValue("1");
     this.idEncuestadoEncriptado = _item.IdAsignarEncuestadoEncriptado;  
     
     this._listaProvincias=[];
@@ -447,36 +463,40 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
   _insertarAsignarEncuestado(){
 
     this.formAsignarEncuestado_cmbComunidad.value.forEach(element => {
-
-      this.asignarEncuestadoService._insertarAsignarEncuestado(
-        this.formAsignarEncuestado_idCuestionarioPublicadoEncriptado.value,
-        element,
-        this.formAsignarEncuestado_cmbTecnico.value,
-        localStorage.getItem("IdAsignarUsuarioTipoUsuarioEncriptado"),
-        this.formAsignarEncuestado_obligatorio.value,
-        this.formAsignarEncuestado_fechaInicio.value,
-        this.formAsignarEncuestado_fechaFin.value
-      ).then(data=>{
-        if (data['http']['codigo']=='500') {
-  
-        } else if(data['http']['codigo']=='200'){
-          
-          this._consultar_poridcuestionariopublicado(this.formAsignarEncuestado_idCuestionarioPublicadoEncriptado.value);
-          this.formAsignarEncuestado_cmbProvincia.setValue("");
-          this.formAsignarEncuestado_cmbCanton.setValue("");
-          this.formAsignarEncuestado_cmbParroquia.setValue("");
-          this.formAsignarEncuestado_cmbComunidad.setValue("");
-          this.formAsignarEncuestado_cmbTecnico.setValue("");
-          this.formAsignarEncuestado_obligatorio.setValue("True");
-  
-        } else {
-  
-        }
-      }).catch(error=>{
-  
-      }).finally(()=>{
-      });
-
+     for (let index = 0; index < this.formAsignarEncuestado_numeroEncuestas.value; index++) {
+     
+       
+    
+        this.asignarEncuestadoService._insertarAsignarEncuestado(
+          this.formAsignarEncuestado_idCuestionarioPublicadoEncriptado.value,
+          element,
+          this.formAsignarEncuestado_cmbTecnico.value,
+          localStorage.getItem("IdAsignarUsuarioTipoUsuarioEncriptado"),
+          this.formAsignarEncuestado_obligatorio.value,
+          this.formAsignarEncuestado_fechaInicio.value,
+          this.formAsignarEncuestado_fechaFin.value
+        ).then(data=>{
+          if (data['http']['codigo']=='500') {
+    
+          } else if(data['http']['codigo']=='200'){
+            
+            this._consultar_poridcuestionariopublicado(this.formAsignarEncuestado_idCuestionarioPublicadoEncriptado.value);
+            this.formAsignarEncuestado_cmbProvincia.setValue("");
+            this.formAsignarEncuestado_cmbCanton.setValue("");
+            this.formAsignarEncuestado_cmbParroquia.setValue("");
+            this.formAsignarEncuestado_cmbComunidad.setValue("");
+            this.formAsignarEncuestado_cmbTecnico.setValue("");
+            this.formAsignarEncuestado_obligatorio.setValue("True");
+    
+          } else {
+    
+          }
+        }).catch(error=>{
+    
+        }).finally(()=>{
+          this.formAsignarEncuestado_numeroEncuestas.setValue("1");
+        });
+      }
     })
     
     
@@ -527,6 +547,7 @@ export class CuestionarioGenericoPublicarComponent implements OnInit {
 
         } else if(data['http']['codigo']=='200') {
           this._listaAsignarEncuestados = data['respuesta'];
+          this.dataSource2.data= this._listaAsignarEncuestados;
         }else{
 
         }

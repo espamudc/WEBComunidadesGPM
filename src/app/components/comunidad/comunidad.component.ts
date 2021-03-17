@@ -251,10 +251,7 @@ export class ComunidadComponent implements OnInit {
   }
 
   uploadFile(event) {
-<<<<<<< HEAD
   
-=======
->>>>>>> 9fe8e9c630b9b84e5d51ad0997db1d2d6e138185
    this.imgFile = (event.target as HTMLInputElement).files[0];
   }
   imageToUpload:any;

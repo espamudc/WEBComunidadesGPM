@@ -27,7 +27,7 @@
                             </mat-error>
                         </mat-form-field>
                         <mat-form-field class="gpm-form-field col-lg-4">
-                            <input type="number" matInput placeholder="Versión" [formControl]="formCuestionarioGenericoVersion_version" required>
+                            <input type="number" min="1" matInput placeholder="Versión" [formControl]="formCuestionarioGenericoVersion_version" required>
                             <mat-error *ngIf="formCuestionarioGenericoVersion_version.hasError('required') || formCuestionarioGenericoVersion_version.invalid || (formCuestionarioGenericoVersion_version.dirty || formCuestionarioGenericoVersion_version.touched ) ">
                               Este dato es <strong>obligatorio</strong> 
                                <strong *ngIf="formCuestionarioGenericoVersion_version.invalid">. Este dato es invalido</strong>

@@ -69,15 +69,12 @@
         <div class="col-lg-7 col-md-7 mr-auto">
             <div class="Columns mat-elevation-z5 gpm-universal-heigth">
                 <br>
-                <div class="col-12">
+                <!-- <div class="col-12">
                     <mat-form-field class="gpm-input">
                         <input matInput (keyup)="applyFilter($event)" placeholder="Buscar cuestionario..."
                             autocomplete="off">
                     </mat-form-field>
-                </div>
-    
-                
-
+                </div> -->
                 <table mat-table [dataSource]="dataSource" matSort>
                     <ng-container matColumnDef="periodo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> PERIODO </th>
@@ -143,7 +140,7 @@
                     <tr mat-header-row *matHeaderRowDef="tablaCuestionarios"></tr>
                     <tr mat-row *matRowDef="let row; columns: tablaCuestionarios;"></tr>
                 </table>
-                <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
+      
             </div>
         </div>
     </div>
@@ -233,6 +230,10 @@
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>
+                                    <mat-form-field *ngIf="guardar" class="gpm-form-field ">
+                                        <mat-label>Número de encuestas</mat-label>
+                                        <input type="number" min="1" matInput placeholder="Versión" [formControl]="formAsignarEncuestado_numeroEncuestas" autocomplete="off">
+                                    </mat-form-field>
                                 </mat-expansion-panel>
                                 <mat-expansion-panel>
                                     <mat-expansion-panel-header  >
@@ -261,27 +262,21 @@
                     </form>
                 </div>
                 <div class="col-lg-7 col-md-7">
-                    <div style="height: 100% !important;" class="mat-elevation-z7">
+                    <div style="height: 100% !important;" class="ColumnsAsignarEncuestado mat-elevation-z7">
                         <br>
                         <div class="col-12">
                             
                         </div>
                         
         
-                        <table mat-table [dataSource]="_listaAsignarEncuestados" matSort>
+                        <table mat-table [dataSource]="dataSource2" matSort>
+                            <ng-container matColumnDef="id_encuesta">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> NÚMERO </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.IdAsignarEncuestado }}</td>
+                            </ng-container>
                             <ng-container matColumnDef="tecnico">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> TÉCNICO </th>
                                 <td mat-cell *matCellDef="let element"> {{ element.AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.PrimerNombre }} {{ element.AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.PrimerApellido }}</td>
-                            </ng-container>
-                            <ng-container matColumnDef="fecha_inicio">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA DE INICIO </th>
-                                <td mat-cell *matCellDef="let element"> {{ element.FechaInicio | date: 'yyyy-MM-dd' }} 
-                                    </td>
-                            </ng-container>
-                            <ng-container matColumnDef="fecha_fin">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA DE FIN </th>
-                                <td mat-cell *matCellDef="let element"> {{ element.FechaFin | date: 'yyyy-MM-dd' }} 
-                                    </td>
                             </ng-container>
                             <ng-container matColumnDef="comunidad">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> COMUNIDAD </th>
