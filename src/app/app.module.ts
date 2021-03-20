@@ -97,6 +97,7 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { PreguntasSeleccionadasComponent } from './components/preguntas-seleccionadas/preguntas-seleccionadas.component';
 import { ModalVerImagenComponent } from './components/modal-ver-imagen/modal-ver-imagen.component';
+import { ModalAsignarEncuestadoComponent } from './components/modal-asignar-encuestado/modal-asignar-encuestado.component';
 // import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
@@ -155,6 +156,7 @@ import { ModalVerImagenComponent } from './components/modal-ver-imagen/modal-ver
     InicioComponent,
     PreguntasSeleccionadasComponent,
     ModalVerImagenComponent,
+    ModalAsignarEncuestadoComponent,
 
 
 
@@ -217,6 +219,7 @@ import { ModalVerImagenComponent } from './components/modal-ver-imagen/modal-ver
     GaleriaComponent,
     ModalEncajonamientoComponent,
     ModalVerImagenComponent,
+    ModalAsignarEncuestadoComponent
   ],
   providers: [CookieService,
     {
