@@ -58,13 +58,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import Swal from 'sweetalert2';
 import { MatTableModule, MatNativeDateModule } from '@angular/material';
-// import { ModalProvinciaPrefectoComponent } from './components/modal-provincia-prefecto/modal-provincia-prefecto.component';
-// import { LugarRepresentanteComponent } from './components/lugar-representante/lugar-representante.component';
 import { ModalLugarRepresentanteComponent } from './components/modal-lugar-representante/modal-lugar-representante.component';
 import { TipoUsuarioComponent } from './components/tipo-usuario/tipo-usuario.component';
 import { ModalAsignarModuloPrivilegioComponent } from './components/modal-asignar-modulo-privilegio/modal-asignar-modulo-privilegio.component';
 import { ModalAsignarTipoUsuarioModuloPrivilegioComponent } from './components/modal-asignar-tipo-usuario-modulo-privilegio/modal-asignar-tipo-usuario-modulo-privilegio.component';
-
 import { MatDatepickerModule,MatCheckboxModule,MatRadioModule,MatSlideToggleModule,MatExpansionModule, MatInputModule,MatSnackBarModule,MatCardModule,MatSelectModule } from "@angular/material";
 import { CuestionarioGenericoComponent } from './components/cuestionario-generico/cuestionario-generico.component';
 import { ModalAsignarResponsableCuestionarioGenericoComponent } from './components/modal-asignar-responsable-cuestionario-generico/modal-asignar-responsable-cuestionario-generico.component';
@@ -97,8 +94,10 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { PreguntasSeleccionadasComponent } from './components/preguntas-seleccionadas/preguntas-seleccionadas.component';
 import { ModalVerImagenComponent } from './components/modal-ver-imagen/modal-ver-imagen.component';
+import { DasboardComponent } from './components/reportes/dasboard/dasboard.component';
+import { ReportCuestionarioComponent } from './components/reportes/cuestionarios/report-cuestionario/report-cuestionario.component';
 import { ModalAsignarEncuestadoComponent } from './components/modal-asignar-encuestado/modal-asignar-encuestado.component';
-// import { MessageBoxComponent } from './message-box/message-box.component';
+
 
 @NgModule({
   declarations: [
@@ -108,9 +107,6 @@ import { ModalAsignarEncuestadoComponent } from './components/modal-asignar-encu
     PersonaComponent,
     Page404Component,
     NavComponent,
-    // InventarioComponent,
-    // CompraComponent,
-    // VentaComponent,
     ModalDetallePersonaComponent,
     ModalAsignacionUsuarioPersonaComponent,
     PanelAdministracionComponent,
@@ -120,9 +116,6 @@ import { ModalAsignarEncuestadoComponent } from './components/modal-asignar-encu
     ProvinciaComponent,
     ModalAsignacionUsuarioTiposUsuarioComponent,
     ModalDetalleUsuarioComponent,
-    
-    // ModalProvinciaPrefectoComponent,
-    // LugarRepresentanteComponent,
     ModalLugarRepresentanteComponent,
     TipoUsuarioComponent,
     ModalAsignarModuloPrivilegioComponent,
@@ -156,11 +149,9 @@ import { ModalAsignarEncuestadoComponent } from './components/modal-asignar-encu
     InicioComponent,
     PreguntasSeleccionadasComponent,
     ModalVerImagenComponent,
+    DasboardComponent,
+    ReportCuestionarioComponent,
     ModalAsignarEncuestadoComponent,
-
-
-
-    // MessageBoxComponent,
   ],
   imports: [
     BrowserModule,

@@ -73,8 +73,14 @@
       </div>
       <div class="matItemHover">
         <a mat-list-item routerLink="/inicio/cuestionario-lista-caracterizacion" *ngIf="tipoUsurio=='MQA='">
-          <i style="margin-right: 10px;" class="fa fa-bar-chart" aria-hidden="true"></i>
+          <i style="margin-right: 10px;" class="fa fa-file" aria-hidden="true"></i>
           Caracterización
+        </a>
+      </div>
+      <div class="matItemHover">
+        <a mat-list-item routerLink="/inicio/reportes" *ngIf="tipoUsurio=='MQA='">
+          <i style="margin-right: 10px;" class="fa fa-bar-chart" aria-hidden="true"></i>
+          Reporte
         </a>
       </div>
       <div class="matItemHover">

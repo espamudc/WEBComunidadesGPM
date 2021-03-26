@@ -1,18 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-// Components
 import { LoginComponent } from './components/login/login.component';
 import { NavComponent } from './nav/nav.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { PersonaComponent } from './components/persona/persona.component';
 import { PeriodoComponent } from './components/periodo/periodo.component';
-// import { InventarioComponent } from "./components/inventario/inventario.component";
-// import { CompraComponent } from "./components/compra/compra.component";
-// import { VentaComponent } from "./components/venta/venta.component";
 import { Page404Component } from './components/page404/page404.component';
-
-// Guards
 import { ValidarUsuarioGuard } from "src/app/guards/validar-usuario.guard";
 import { PanelAdministracionComponent } from './components/panel-administracion/panel-administracion.component';
 import { TipoUsuarioComponent } from './components/tipo-usuario/tipo-usuario.component';
@@ -30,6 +23,8 @@ import { LlenarCaracterizacionComponent } from './components/llenar-caracterizac
 import { TreeViewComponent } from './components/tree-view/tree-view.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { PreguntasSeleccionadasComponent } from './components/preguntas-seleccionadas/preguntas-seleccionadas.component';
+import { DasboardComponent } from './components/reportes/dasboard/dasboard.component';
+import { ReportCuestionarioComponent } from './components/reportes/cuestionarios/report-cuestionario/report-cuestionario.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -113,6 +108,14 @@ const routes: Routes = [
       },
       {
         path: 'preguntas-seleccionadas', component: PreguntasSeleccionadasComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+      {
+        path: 'reportes', component: DasboardComponent,
+        // canActivate: [ValidarUsuarioGuard]
+      },
+      {
+        path: 'reportes/cuestionarios', component: ReportCuestionarioComponent,
         // canActivate: [ValidarUsuarioGuard]
       },
     ]
