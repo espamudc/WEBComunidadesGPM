@@ -24,7 +24,7 @@
     "@ckeditor/ckeditor5-angular": "^1.2.3",
     "@ckeditor/ckeditor5-build-balloon": "^20.0.0",
     "@ckeditor/ckeditor5-build-classic": "^20.0.0",
-    "@ckeditor/ckeditor5-font": "^20.0.0",
+    "@ckeditor/ckeditor5-font": "^27.0.0",
     "@ckeditor/ckeditor5-select-all": "^20.0.0",
     "hammerjs": "^2.0.8",
     "nativescript-share-file": "^1.0.6",
