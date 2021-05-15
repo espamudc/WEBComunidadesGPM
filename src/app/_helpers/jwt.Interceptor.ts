@@ -26,7 +26,6 @@ export class TokenInterceptor implements HttpInterceptor {
     catchError((err: HttpErrorResponse) => {
       //token expirado o token no válido
       if (err.status === 401) {
-        console.log("token vencido",err);
         localStorage.removeItem("token");
         localStorage.removeItem('IdAsignarUsuarioTipoUsuarioEncriptado');
         localStorage.removeItem('_clave');

@@ -1,0 +1,9 @@
+<table mat-table [dataSource]="_listaOpcionesPreguntaSeleccion" class="mat-elevation-z7 gpm-table">
+    <ng-container matColumnDef="Respuestas">
+        <th mat-header-cell *matHeaderCellDef> Respuestas </th>
+        <td mat-cell *matCellDef="let element"> {{element.Descripcion}} <input class="form-control" placeholder="Respuestas" *ngIf="element.Pregunta.TipoPregunta.Identificador==6"></td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="Columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: Columns;"></tr>
+</table>

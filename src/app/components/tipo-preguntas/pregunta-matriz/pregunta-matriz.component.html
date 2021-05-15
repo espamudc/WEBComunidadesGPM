@@ -99,11 +99,8 @@
         <mat-card class="mat-elevation-z7">
             <table class="table table-bordered">
                 <thead style="text-align: center">
-                  
                   <tr>
-                    
                     <th  style="border-bottom-color: transparent" style="border-bottom-color: transparent" [attr.colspan]="2" scope="col"></th>
-                    
                     <th style="text-align:center !important" [attr.colspan]="ColumnsOpcionDosMatriz.length+1" scope="col">
                        {{LeyendaSuperiorGeneral}}
                     </th>  
@@ -117,24 +114,19 @@
                 </thead>
                 <tbody style="text-align: center">
                   <tr>
-                        <th style="text-align:center !important;writing-mode: vertical-lr;transform: rotate(270deg);" [attr.rowspan]="FilaOpcionUnoMatriz.length+1" scope="row">
+                        <th  [attr.rowspan]="FilaOpcionUnoMatriz.length+1" scope="row">
                             <div style="width: min-content; min-width: max-content;" class="container">
                                 {{LeyendaLateralGeneral}}
                             </div>
                         </th>
                   </tr>
                   <tr *ngFor="let item of FilaOpcionUnoMatriz  ; let a = index1">
-                    
-
                     <th scope="row">{{item.Descripcion}}</th>
-                    
-                   
-                    <td *ngFor="let item of ColumnsOpcionDosMatriz ; let i = index" scope="col">
-                            <mat-radio-button value="1" disabled></mat-radio-button>
-                    </td>
+                        <td *ngFor="let item of ColumnsOpcionDosMatriz ; let i = index" scope="col">
+                                <mat-radio-button value="1" disabled></mat-radio-button>
+                        </td>
                     <th *ngIf="ObservacionGeneral==true" scope="row"></th>
                   </tr>
-                  
                 </tbody>
             </table>
         </mat-card>

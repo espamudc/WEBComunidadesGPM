@@ -1,1 +1,133 @@
-<p>report-cuestionario works!</p>
+<div class="container">
+    <br>
+    <div class="row">
+        <div  class="col-lg-12 mr-auto">
+            <mat-card style="height: 100% !important;" class="gpm-universal-width">
+                <h3 style="text-align: center;">REPORTE DE CUESTIONARIOS </h3>
+                <form [formGroup]="formCuestionarioGenerico">
+                    <mat-form-field class="gpm-form-field col-lg-12">
+                        <mat-label>Cuestionario</mat-label>
+                        <mat-select [formControl]="_cmbCuestionarioGenerico"
+                            (selectionChange)="_onChangeCmbCuestionariosGenericos($event)">
+                            <mat-option value="0"> --Seleccione una opción-- </mat-option>
+                            <mat-option *ngFor="let item of _listaCuestionariosGenericos"
+                                [value]="item.CuestionarioGenerico.IdCuestionarioGenericoEncriptado">
+                                {{item.CuestionarioGenerico.Nombre}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field  class="gpm-form-field col-lg-12">
+                        <mat-label> Versiones</mat-label>
+                        <mat-select [disabled]="_cmbCuestionarioGenerico.invalid" [formControl]="_cmbVersionCuestionarioGenerico"
+                            (selectionChange)="_onChangeCmbVersionCuestionarioGenerico($event)">
+                            <mat-option value="0"> --Seleccione una opción-- </mat-option>
+                            <mat-option *ngFor="let item of _listaVersionesCuestionario"
+                                [value]="item.idVersionEncriptado">
+                                Versión: {{item.Version}}, {{item.FechaCreacion | date: 'yyyy-MM-dd'}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field  class="gpm-form-field col-lg-12">
+                        <mat-label>Comunidades</mat-label>
+                        <mat-select [disabled]="_cmbVersionCuestionarioGenerico.invalid" [formControl]="_cmbComunidadCuestionarioGenerico"
+                            (selectionChange)="_onChangeCmbComunidadCuestionarioGenerico($event)">
+                            <mat-option value="0"> --Seleccione una opción-- </mat-option>
+                            <mat-option *ngFor="let item of _listaComunidadesCuestionarioGenerico"
+                                [value]="item.IdComunidadEncriptado">
+                                {{item.NombreComunidad}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </form>
+            </mat-card>
+
+        </div>
+    </div>
+  <!-- <div style="margin-top: 10px !important;" class="row">
+    <div class="col-lg-12 col-md-12 mr-auto" >
+      <div class="card-body">
+        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+          <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+            <button mat-icon-button disabled></button>
+            {{ node.item }} 
+          </mat-tree-node>
+
+          <mat-tree-node
+            *matTreeNodeDef="let node; when: hasChild"
+            matTreeNodePadding
+          >
+            <button
+              mat-icon-button
+              [attr.aria-label]="'toggle ' + node.filename"
+              (click)="loadChildren(node)"
+              matTreeNodeToggle
+            >
+              <mat-icon class="mat-icon-rtl-mirror">
+                {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }} 
+              </mat-icon>
+            </button>
+            {{ quitarRandom(node.item) }} 
+          </mat-tree-node>
+
+          <mat-tree-node *matTreeNodeDef="let node; when: isLoadMore">
+            <button mat-button (click)="loadMore(node.loadMoreParentItem)">
+              Load more...
+            </button>
+          </mat-tree-node>
+        </mat-tree>
+      </div>
+    </div>
+  </div>  -->
+
+  <br *ngIf="logica_preguntas == true">
+    <mat-card *ngIf="logica_preguntas == true">
+        <div *ngIf="logica_preguntas == true" class="row">
+
+            <div class="col-12">
+                <h2 style="text-align: center;">Listado de Preguntas</h2>
+                <!-- <mat-form-field class="gpm-form-field">
+                    <mat-label>Seleccione el criterio de agrupación</mat-label>
+                    <mat-select  (selectionChange)="_onChangeCmbFiltroPreguntas($event)">
+                        <mat-option value="0">TODAS</mat-option>
+                        <mat-option *ngFor="let item of _listaTipoPreguntaSeccionComponenteCuestionarioGenericoService"
+                            [value]="item.IdTipoPreguntaEncriptado">
+                            {{item.Descripcion}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field> -->
+                <mat-accordion>
+                    <mat-expansion-panel *ngFor="let item of _listaPreguntasSeccionComponenteCuestionarioGenerico.listaPreguntas; let i=index"
+                        hideToggle>
+
+                        <mat-expansion-panel-header *ngIf="item.Encajonamiento==0">
+                            <mat-panel-title >
+                              {{ quitarRandom(item.Descripcion) }}  
+                            </mat-panel-title>
+                            <mat-panel-description >
+                                
+                            </mat-panel-description>
+                           
+                        </mat-expansion-panel-header>
+                        <div *ngIf="item.TipoPregunta.Identificador==1">
+                            <app-respuestas-abierta [item]="item"></app-respuestas-abierta>
+                        </div>
+                        <div *ngIf="item.TipoPregunta.Identificador==2 || item.TipoPregunta.Identificador==3">
+                            <app-respuestas-seleccion [item]="item"></app-respuestas-seleccion>
+                        </div>
+                        <div *ngIf="item.TipoPregunta.Identificador==4">
+                            <app-respuestas-matriz-seleccion [item]="item"></app-respuestas-matriz-seleccion>
+                        </div>
+                        <div *ngIf="item.TipoPregunta.Identificador==5">
+                            <app-pregunta-archivo [item]="item"></app-pregunta-archivo>
+                        </div>
+                        <div *ngIf="item.TipoPregunta.Identificador==6">
+                          <app-respuestas-matriz-abierta [item]="item"></app-respuestas-matriz-abierta>
+                        </div>
+                        
+                    </mat-expansion-panel>
+                </mat-accordion>
+    
+            </div>
+        </div>
+    </mat-card>
+</div>
