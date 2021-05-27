@@ -9,7 +9,7 @@
                         <mat-label>Cuestionario</mat-label>
                         <mat-select [formControl]="_cmbCuestionarioGenerico"
                             (selectionChange)="_onChangeCmbCuestionariosGenericos($event)">
-                            <mat-option value="0"> --Seleccione una opción-- </mat-option>
+                            <mat-option disabled value="0"> --Seleccione una opción-- </mat-option>
                             <mat-option *ngFor="let item of _listaCuestionariosGenericos"
                                 [value]="item.CuestionarioGenerico.IdCuestionarioGenericoEncriptado">
                                 {{item.CuestionarioGenerico.Nombre}}
@@ -18,11 +18,11 @@
                     </mat-form-field>
                     <mat-form-field  class="gpm-form-field col-lg-12">
                         <mat-label> Versiones</mat-label>
-                        <mat-select [disabled]="_cmbCuestionarioGenerico.invalid" [formControl]="_cmbVersionCuestionarioGenerico"
+                        <mat-select [formControl]="_cmbVersionCuestionarioGenerico"
                             (selectionChange)="_onChangeCmbVersionCuestionarioGenerico($event)">
-                            <mat-option value="0"> --Seleccione una opción-- </mat-option>
+                            <mat-option disabled value="0"> --Seleccione una opción-- </mat-option>
                             <mat-option *ngFor="let item of _listaVersionesCuestionario"
-                                [value]="item.idVersionEncriptado">
+                                [value]="item.Version">
                                 Versión: {{item.Version}}, {{item.FechaCreacion | date: 'yyyy-MM-dd'}}
                             </mat-option>
                         </mat-select>
@@ -49,7 +49,7 @@
         <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
           <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
             <button mat-icon-button disabled></button>
-            {{ node.item }} 
+            {{ node.item }}
           </mat-tree-node>
 
           <mat-tree-node
@@ -63,10 +63,10 @@
               matTreeNodeToggle
             >
               <mat-icon class="mat-icon-rtl-mirror">
-                {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }} 
+                {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
               </mat-icon>
             </button>
-            {{ quitarRandom(node.item) }} 
+            {{ quitarRandom(node.item) }}
           </mat-tree-node>
 
           <mat-tree-node *matTreeNodeDef="let node; when: isLoadMore">
@@ -101,12 +101,12 @@
 
                         <mat-expansion-panel-header *ngIf="item.Encajonamiento==0">
                             <mat-panel-title >
-                              {{ quitarRandom(item.Descripcion) }}  
+                              {{ quitarRandom(item.Descripcion) }}
                             </mat-panel-title>
                             <mat-panel-description >
-                                
+
                             </mat-panel-description>
-                           
+
                         </mat-expansion-panel-header>
                         <div *ngIf="item.TipoPregunta.Identificador==1">
                             <app-respuestas-abierta [item]="item"></app-respuestas-abierta>
@@ -120,10 +120,10 @@
                         <div *ngIf="item.TipoPregunta.Identificador==6">
                           <app-respuestas-matriz-abierta [item]="item"></app-respuestas-matriz-abierta>
                         </div>
-                        
+
                     </mat-expansion-panel>
                 </mat-accordion>
-    
+
             </div>
         </div>
     </mat-card>

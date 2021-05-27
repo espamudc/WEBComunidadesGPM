@@ -48,18 +48,18 @@ export class LoadmoreDatabase {
   dataMap = new Map<string, string[]>();
 
   recibirData(preguntas) {
-  
+
     this.rootLevelNodes = [];
-  
+
     this.dataMap.set('', []);
     this.dataChange.next([])
     preguntas.listaPreguntas.map((pregunta) => {
-      
+
       var preguntas = [];
       var respuestas = [];
-  
+
       var nombres = pregunta.Descripcion;
-      
+
 
       pregunta.ListaRespuestas.map((respuesta) => {
         respuestas.push(respuesta.DescripcionRespuestaAbierta);
@@ -69,18 +69,18 @@ export class LoadmoreDatabase {
 
       this.dataMap.set(nombres, respuestas);
       this.rootLevelNodes.push(nombres);
-      
+
     });
     const data = this.rootLevelNodes.map((name) => this._generateNode(name));
 
 
     this.dataChange.next(data);
-   
+
   }
-  
+
 
   loadMore(item: string, onlyFirstTime = false) {
-    
+
     if (!this.nodeMap.has(item) || !this.dataMap.has(item)) {
       return;
     }
@@ -128,12 +128,12 @@ export class ReportCuestionarioComponent implements OnInit {
     private router: Router,
     private _database: LoadmoreDatabase,
     private dialog: MatDialog,
-  
-  ) 
+
+  )
   {
     this.formCuestionarioGenerico = new FormGroup({
       _cmbCuestionarioGenerico : new FormControl('',[Validators.required]),
-      _cmbVersionCuestionarioGenerico : new FormControl('',[Validators.required]),
+      _cmbVersionCuestionarioGenerico : new FormControl('',),
       _cmbComunidadCuestionarioGenerico : new FormControl('',[Validators.required])
     });
 
@@ -226,40 +226,44 @@ export class ReportCuestionarioComponent implements OnInit {
     let snackBarRef = this.snackBarComponent.open(_mensaje,null,{duration:_duracion,panelClass:['text-white',`${_color}`],data:{}});
   }
 
-  
+
 
   tipoUsurio='';
   _obligatorioPregunta=true;
   _obligatorioPregunta_true=true;
 
-  consultarDatos(cuestionario, version, comunidad) {
+  async consultarDatos(cuestionario, version, comunidad) {
     // this.dataSource.data= [];
-      
+
     //   await this.cuestionarioGenericoService
     //     ._cuestionariogenerico_consultarporpreguntaRandom(
     //       cuestionario, version, comunidad
     //     )
     //     .then((data) => {
-          
+
     //       if (data["http"]["codigo"] == "200") {
     //         this._database.recibirData(data["respuesta"]);
     //       } else {
     //         this._database.recibirData('');
     //       }
     //     });
-
     this._listaPreguntasSeccionComponenteCuestionarioGenerico=[];
-    this.cuestionarioGenericoService._cuestionariogenerico_consultarporpreguntaRandom(cuestionario, version, comunidad)
-      .then(data=>{
-        if (data['http']['codigo']=='200') {
-          this._listaPreguntasSeccionComponenteCuestionarioGenerico= data['respuesta'];
-        }
-      })
+    // this.cuestionarioGenericoService._cuestionariogenerico_consultarporpreguntaRandom(cuestionario, version, comunidad)
+    //   .then(data=>{
+    //     if (data['http']['codigo']=='200') {
+    //       this._listaPreguntasSeccionComponenteCuestionarioGenerico= data['respuesta'];
+    //     }
+    //   })
+    //   this._obligatorioPregunta=true;
+    //   this._obligatorioPregunta_true=true;
+    //   this.logica_preguntas=true;
+    var respuesta = await this.cuestionarioGenericoService._cuestionariogenerico_consultarporpreguntaRandom(cuestionario, version, comunidad);
+    if (respuesta['http']['codigo']=='200') {
+      this._listaPreguntasSeccionComponenteCuestionarioGenerico= respuesta['respuesta'];
+    }
       this._obligatorioPregunta=true;
       this._obligatorioPregunta_true=true;
       this.logica_preguntas=true;
-
-  
   }
 
   ngOnInit() {
@@ -276,28 +280,28 @@ export class ReportCuestionarioComponent implements OnInit {
   quitarRandom(val) {
     var cad = val;
     var count= cad.length;
-    
+
     var cadenaFinal= cad.substring(count,7);
-    
+
     return cadenaFinal;
-      
+
    }
-  
+
   nodeMap = new Map<string, LoadmoreFlatNode>();
   treeControl: FlatTreeControl<LoadmoreFlatNode>;
   treeFlattener: MatTreeFlattener<LoadmoreNode, LoadmoreFlatNode>;
   dataSource: MatTreeFlatDataSource<LoadmoreNode, LoadmoreFlatNode>;
 
   methodChange(){
-    
+
     this._database.dataChange.subscribe((data) => {
-      
+
         this.dataSource = new MatTreeFlatDataSource(
         this.treeControl,
         this.treeFlattener
       );
       this.dataSource.data=[];
-      
+
       this.dataSource.data = data;
     });
   }
@@ -346,11 +350,11 @@ export class ReportCuestionarioComponent implements OnInit {
   _btnAccionC="Guardar";
   _listaCuestionariosGenericos:any[]=[];
 
-  
+
   _onChangeCmbComunidadCuestionarioGenerico(event) {
-    
     this.methodChange();
     if (event.value != 0) {
+      //en esta parte se debe de activar el cargar
       const obj = this._listaCuestionariosGenericos.find(
         (data) =>
           data.CuestionarioGenerico.IdCuestionarioGenericoEncriptado ===
@@ -359,26 +363,24 @@ export class ReportCuestionarioComponent implements OnInit {
       const index = this._listaCuestionariosGenericos.indexOf(obj);
     }
     this.consultarDatos(this.formCuestionarioGenerico.get("_cmbCuestionarioGenerico").value, this.formCuestionarioGenerico.get("_cmbVersionCuestionarioGenerico").value, event.value);
-    
+    //aqui se desactiva el de cargar
   }
 
-  _cargarMisCuestionariosGenericos(){
-    this.cuestionarioGenericoService._consultarCuestionarioGeneriocoPorIdAsignarUsuarioTipoUsuarioEncriptado(
+  async _cargarMisCuestionariosGenericos(){
+    var respuesta = await this.cuestionarioGenericoService._consultarCuestionarioGeneriocoPorIdAsignarUsuarioTipoUsuarioEncriptado(
       localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')
-    )
-      .then(data=>{
-        if (data['http']['codigo']=='200') {
-          this._listaCuestionariosGenericos = data['respuesta'];
-        }else if (data['http']['codigo']=='500') {
-          this.mensaje("A ocurrido un error inesperado, intente más tarde.")
-        }else{
-          this.mensaje(data['http']['mensaje']);
-        }
-      })
+    );
+    if (respuesta['http']['codigo']=='200') {
+      this._listaCuestionariosGenericos = respuesta['respuesta'];
+    }else if (respuesta['http']['codigo']=='500') {
+      this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+    }else{
+      this.mensaje(respuesta['http']['mensaje']);
+    }
   }
 
   _onChangeCmbCuestionariosGenericos(event?){
-    this.formCuestionarioGenerico.get("_cmbVersionCuestionarioGenerico").reset();
+    //this.formCuestionarioGenerico.get("_cmbVersionCuestionarioGenerico").reset();
     this._listaVersionesCuestionario=null;
     this._listaComunidadesCuestionarioGenerico=null;
     this._consultarVersionesDeCuestionario(event.value);
@@ -386,7 +388,7 @@ export class ReportCuestionarioComponent implements OnInit {
     this.logica_secciones =false;
     this.logica_preguntas =false;
     this._btnAccionC ="Guardar";
-    this.consultarDatos('','','');
+    //this.consultarDatos('','','');
   }
 
 
@@ -398,38 +400,32 @@ export class ReportCuestionarioComponent implements OnInit {
 
 
 
-  _consultarVersionesDeCuestionario(_IdCuestionarioGenericoEncriptado){
-    this.cabeceraVersionCuestionarioService._consultarCabeceraVersionCuestionario(_IdCuestionarioGenericoEncriptado)
-    .then(data=>{
-      if (data['http']['codigo']=='200') {
-        this._listaVersionesCuestionario=data['respuesta'];
-
+  async _consultarVersionesDeCuestionario(_IdCuestionarioGenericoEncriptado)
+  {
+    this._listaVersionesCuestionario=[];
+    var respuesta = await this.cabeceraVersionCuestionarioService._consultarCabeceraVersionCuestionario(_IdCuestionarioGenericoEncriptado);
+      if (respuesta['http']['codigo']=='200') {
+        this._listaVersionesCuestionario=respuesta['respuesta'];
       }
-
-    }).catch(error=>{
-
-    }).finally(()=>{
-
-    });
   }
 
-  _onChangeCmbVersionCuestionarioGenerico(event?){
-    this.formCuestionarioGenerico.get("_cmbComunidadCuestionarioGenerico").reset();
-    this.logica_preguntas=false;
-    this.logica_componentes=false;
-    this.logica_secciones =true;
-    this._listaComunidadesCuestionarioGenerico=null;
+  _onChangeCmbVersionCuestionarioGenerico(event?)
+  {
+    //this.formCuestionarioGenerico.get("_cmbComunidadCuestionarioGenerico").reset();
+    //this.logica_preguntas=false;
+    //this.logica_componentes=false;
+    //this.logica_secciones =true;
+    //this._listaComunidadesCuestionarioGenerico=null;
     this._consultarComunidadesDeCuestionario(this.formCuestionarioGenerico.get("_cmbCuestionarioGenerico").value, event.value);
-    this.consultarDatos('','','');
+    //this.consultarDatos('','','');
   }
 
-  _consultarComunidadesDeCuestionario(_idCuestionarioEncriptado, _idVersionEncriptado){
-    this.lugaresService._consultarComunidadesPorVersion(_idCuestionarioEncriptado, _idVersionEncriptado)
-      .then(data=>{
-        if (data['http']['codigo']=='200') {
-          this._listaComunidadesCuestionarioGenerico = data['respuesta'];
-        }
-      })
+  async _consultarComunidadesDeCuestionario(_idCuestionarioEncriptado, _idVersionEncriptado)
+  {
+    var respuesta = await this.lugaresService._consultarComunidadesPorVersion(_idCuestionarioEncriptado, _idVersionEncriptado);
+    if (respuesta['http']['codigo']=='200') {
+      this._listaComunidadesCuestionarioGenerico = respuesta['respuesta'];
+    }
   }
 
 

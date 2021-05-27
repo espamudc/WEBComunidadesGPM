@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component,AfterViewInit, OnInit, Input, ViewChild ,ViewChildren,ElementRef} from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { PreguntaMatrizService } from 'src/app/services/tipo-preguntas/pregunta-matriz.service';
 import { MatSnackBar, MatTable } from '@angular/material';
@@ -33,7 +33,7 @@ export interface PresentarDatosMatriz{
   templateUrl: './respuestas-matriz-seleccion.component.html',
   styleUrls: ['./respuestas-matriz-seleccion.component.css']
 })
-export class RespuestasMatrizSeleccionComponent implements OnInit {
+export class RespuestasMatrizSeleccionComponent implements OnInit,AfterViewInit{
 
   op:any;
   ObservacionGeneral: any;
@@ -42,42 +42,55 @@ export class RespuestasMatrizSeleccionComponent implements OnInit {
   datosMatriz: Array <PresentarDatosMatriz>=[];
   constructor(
     private snackBarComponent: MatSnackBar,
-    private preguntaMatrizService:PreguntaMatrizService
+    private preguntaMatrizService:PreguntaMatrizService,
+    private element: ElementRef
   ) {
   }
   idPreguntaencriptada="";
-
+  listaRespuesta : any[]=[];
+  ngAfterViewInit(){
+  }
   ngOnInit() {
     this._consultarPreguntaConfigurarMatriz();
     this.idPreguntaencriptada = this.item.IdPreguntaEncriptado;
+    this.listaRespuesta= this.item['ListaRespuestas'];
   }
-
+  getElemtn(id:string,value:any){
+    if(document.getElementById(id)!=null){
+      (<HTMLInputElement>document.getElementById(id)).innerText =value;
+    }
+  }
+  private delay(ms: number)
+  {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  async asignarRespuesta(){
+    for (let index = 0; index < this.item['ListaRespuestas'].length; index++) {
+      await this.delay(2000);
+      this.getElemtn(this.item['ListaRespuestas'][index]['DescripcionRespuestaAbierta'],this.item['ListaRespuestas'][index]['VecesRepetidas']);
+    }
+  }
   @Input() item :any ={};
   Columns: string[] = ['descripcion', 'acciones'];
 
 
   _listaPreguntaConfigurarMatriz:any[]=[];
   _PreguntaConfigurarMatriz:any[]=[];
-  _consultarPreguntaConfigurarMatriz(){
-    this.preguntaMatrizService._consultarPreguntaConfigurarMatriz(this.item.IdPreguntaEncriptado)
-      .then(data=>{
-        if (data['http']['codigo']=='200') {
-          this.datosMatriz.push({Observacion: data['respuesta1'].Observacion, leyendaSuperior: data['respuesta1'].leyendaSuperior, leyendaLateral: data['respuesta1'].leyendaLateral})
-          this._PreguntaConfigurarMatriz = data['respuesta1'];
-          this.op =this._PreguntaConfigurarMatriz['campo_observacion'];
-          this._listaPreguntaConfigurarMatriz=data['respuesta'];
-          this._vistaPreguntaConfigurarMatriz();
-          this.ObservacionGeneral=this.datosMatriz[0].Observacion;
-          this.LeyendaSuperiorGeneral=this.datosMatriz[0].leyendaSuperior;
-          this.LeyendaLateralGeneral=this.datosMatriz[0].leyendaLateral;
-        } else {
-        }
-      }).catch(error=>{
-  
-
-      }).finally(()=>{
-        this._vistaPreguntaConfigurarMatriz();
-      });
+  async _consultarPreguntaConfigurarMatriz()
+  {
+    var respuesta = await this.preguntaMatrizService._consultarPreguntaConfigurarMatriz(this.item.IdPreguntaEncriptado);
+    if (respuesta['http']['codigo']=='200') {
+      this.datosMatriz.push({Observacion: respuesta['respuesta1'].Observacion, leyendaSuperior: respuesta['respuesta1'].leyendaSuperior, leyendaLateral: respuesta['respuesta1'].leyendaLateral})
+      this._PreguntaConfigurarMatriz = respuesta['respuesta1'];
+      this.op =this._PreguntaConfigurarMatriz['campo_observacion'];
+      this._listaPreguntaConfigurarMatriz=respuesta['respuesta'];
+      this._vistaPreguntaConfigurarMatriz();
+      this.ObservacionGeneral=this.datosMatriz[0].Observacion;
+      this.LeyendaSuperiorGeneral=this.datosMatriz[0].leyendaSuperior;
+      this.LeyendaLateralGeneral=this.datosMatriz[0].leyendaLateral;
+    } else {
+    }
+    //this._vistaPreguntaConfigurarMatriz();
   }
 
 
@@ -106,6 +119,10 @@ export class RespuestasMatrizSeleccionComponent implements OnInit {
       }
     });
     this.ColumnsOpcionDosMatriz = unicosOpcionDos;
+    this.asignarRespuesta();
+    // if(document.getElementById('Flora,Alto')!=null){
+    //   document.getElementById('Flora,Alto').value="2";
+    // }
   }
 
 

@@ -21,29 +21,24 @@ export class RespuestasMatrizAbiertaComponent implements OnInit {
 
   ngOnInit() {
     this._consultarPreguntasSeleccion();
+    this.estructurarRespuesta();
   }
-
-
+  respuestas:any[];
   Columns: string[] = ['Respuestas'];
-
-  _listaOpcionesPreguntaSeleccion:any[]=[];
-  _consultarPreguntasSeleccion(){
-
-    this.preguntaSeleccionService._consultarOpcionPreguntaSeleccion(
-      this.item.IdPreguntaEncriptado
-    ).then(data=>{
-      if (data['http']['codigo']=='200') {
-        this._listaOpcionesPreguntaSeleccion = data['respuesta'];
-      }else{
-
-      }
-    }).catch(error=>{
-
-    }).finally(()=>{
-
+  estructurarRespuesta(){
+    this.respuestas=[];
+    this.item['ListaRespuestas'].map(items => {
+      this.respuestas.push(items['DescripcionRespuestaAbierta'].split(','));
     });
   }
-
-
-
+  _listaOpcionesPreguntaSeleccion:any[]=[];
+  async _consultarPreguntasSeleccion(){
+    var respuesta = await this.preguntaSeleccionService._consultarOpcionPreguntaSeleccion(
+      this.item.IdPreguntaEncriptado
+    );
+    if (respuesta['http']['codigo']=='200') {
+      this._listaOpcionesPreguntaSeleccion = respuesta['respuesta'];
+    }else{
+    }
+  }
 }
