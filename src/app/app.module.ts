@@ -97,6 +97,10 @@ import { ModalVerImagenComponent } from './components/modal-ver-imagen/modal-ver
 import { DasboardComponent } from './components/reportes/dasboard/dasboard.component';
 import { ReportCuestionarioComponent } from './components/reportes/cuestionarios/report-cuestionario/report-cuestionario.component';
 import { ModalAsignarEncuestadoComponent } from './components/modal-asignar-encuestado/modal-asignar-encuestado.component';
+import { RespuestasAbiertaComponent } from './components/respuestas-preguntas/respuestas-abierta/respuestas-abierta.component';
+import { RespuestasSeleccionComponent } from './components/respuestas-preguntas/respuestas-seleccion/respuestas-seleccion.component';
+import { RespuestasMatrizAbiertaComponent } from './components/respuestas-preguntas/respuestas-matriz-abierta/respuestas-matriz-abierta.component';
+import { RespuestasMatrizSeleccionComponent } from './components/respuestas-preguntas/respuestas-matriz-seleccion/respuestas-matriz-seleccion.component';
 
 
 @NgModule({
@@ -152,6 +156,10 @@ import { ModalAsignarEncuestadoComponent } from './components/modal-asignar-encu
     DasboardComponent,
     ReportCuestionarioComponent,
     ModalAsignarEncuestadoComponent,
+    RespuestasAbiertaComponent,
+    RespuestasSeleccionComponent,
+    RespuestasMatrizAbiertaComponent,
+    RespuestasMatrizSeleccionComponent,
   ],
   imports: [
     BrowserModule,

@@ -117,6 +117,21 @@ export class CuestionarioGenericoService {
     });
   }
 
+  _cuestionariogenerico_consultarporpreguntaRandom(IdCuestionarioGenericoEncriptado, IdVersionEncriptado, IdComunidadEncriptado)
+  {
+    
+    const _body = new HttpParams()
+     ;
+     return new Promise((resolve, reject) => {
+      this.http.post(url+'cuestionariogenerico_consultarporpreguntasRandom?_idCuestionarioGenericoEncriptado='+IdCuestionarioGenericoEncriptado+'&_idVersionEncriptado='+IdVersionEncriptado+'&_idComunidadEncriptado='+IdComunidadEncriptado,_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
+
   _cuestionariogenerico_consultarporversion(IdCuestionarioGenericoEncriptado, IdCabeceraVersionCuestionarioEncriptado)
   {
     

@@ -1,0 +1,15 @@
+<div class="tablaRespuestas mat-elevation-z5">
+    <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="#">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>
+            <td mat-cell *matCellDef="let element"> {{element.VecesRepetidas}} </td>
+        </ng-container>
+        <ng-container matColumnDef="respuesta">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Respuestas </th>
+            <td mat-cell *matCellDef="let element"> {{element.DescripcionRespuestaSeleccion}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="tablaRespuestas; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: tablaRespuestas;"></tr>
+    </table>
+   
+</div>

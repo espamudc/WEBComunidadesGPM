@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit ,AfterViewInit{
         }else{
           this.mensaje("Problemas en el Servidor. Por favor Intentelo más tarde.");
         }
-      }).catch(error=>{ this.mensaje("Error al valdiar el correo")})
+      }).catch(error=>{ this.mensaje("Error al validar el correo")})
   }
   _onSubmitForm(){
     if (this._validarCorreo==true) {

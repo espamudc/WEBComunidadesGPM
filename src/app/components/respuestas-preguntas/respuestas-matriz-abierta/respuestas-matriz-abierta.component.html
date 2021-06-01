@@ -1,0 +1,17 @@
+<div style="margin-top: 15px;" class="col-lg-8 col-md-8 mr-auto ">
+  <mat-card class="mat-elevation-z7 table-responsive">
+    <div class="example-table-container">
+      <table class="col-12">
+        <thead class="thead-light">
+          <tr>
+            <th style="text-align: center;" *ngFor="let item of _listaOpcionesPreguntaSeleccion" scope="col">{{item.Descripcion}}<hr></th>
+          </tr>
+        </thead>
+        
+        <tr *ngFor="let item of respuestas;let i = index">
+          <td style="text-align: center;" *ngFor="let items of item;let is = index" >{{items}}<hr></td>
+        </tr>
+      </table>
+    </div>
+  </mat-card>
+</div>

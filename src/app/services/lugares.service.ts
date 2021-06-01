@@ -268,7 +268,6 @@ export class LugaresService {
                   reject(err);
                 });
     });
-
   }
 
   _insertarComunidad(
@@ -370,6 +369,7 @@ export class LugaresService {
     });
 
   }
+
   _consultarComunidadesDe(_IdParroquiaEncriptado:any){
     const _body = new HttpParams();
    
@@ -382,6 +382,22 @@ export class LugaresService {
                 });
     });
 
+  }
+
+  _consultarComunidadesPorVersion(
+    _CodigoCuestionarioEncriptado:any,
+    _CodigoVersionEncriptado:any,
+  ){
+    const _body = new HttpParams();
+
+    return new Promise ((resolve,reject)=>{
+      this.http.post(url+'comunidad_consultarporversion?_idCuestionarioEncriptado='+_CodigoCuestionarioEncriptado+'&_idVersionEncriptado='+_CodigoVersionEncriptado, _body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
   }
 
  

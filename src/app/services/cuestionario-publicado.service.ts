@@ -74,7 +74,7 @@ export class CuestionarioPublicadoService {
      ;
 
     return new Promise((resolve, reject) => {
-      this.http.post(url+'cuestionariopublicado_finalizar?_idAsignarEncuestadoEncriptado='+_idAsignarEncuestadoEncriptado,_body.toString(),{headers:this._header})
+      this.http.post(url+'cuestionarioasignado_finalizar?_idAsignarEncuestadoEncriptado='+_idAsignarEncuestadoEncriptado,_body.toString(),{headers:this._header})
                 .subscribe(res=>{
                   resolve(res);
                 },(err)=>{
