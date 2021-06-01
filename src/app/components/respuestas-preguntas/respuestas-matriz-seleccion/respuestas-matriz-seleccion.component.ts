@@ -64,11 +64,14 @@ export class RespuestasMatrizSeleccionComponent implements OnInit,AfterViewInit{
   {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
+  loadingMatriz = false;
   async asignarRespuesta(){
+    this.loadingMatriz = true;
     for (let index = 0; index < this.item['ListaRespuestas'].length; index++) {
       await this.delay(2000);
       this.getElemtn(this.item['ListaRespuestas'][index]['DescripcionRespuestaAbierta'],this.item['ListaRespuestas'][index]['VecesRepetidas']);
     }
+    this.loadingMatriz = false;
   }
   @Input() item :any ={};
   Columns: string[] = ['descripcion', 'acciones'];

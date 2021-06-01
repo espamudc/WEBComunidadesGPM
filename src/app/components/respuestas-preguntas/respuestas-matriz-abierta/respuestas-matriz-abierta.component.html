@@ -4,11 +4,12 @@
       <table class="col-12">
         <thead class="thead-light">
           <tr>
-            <th *ngFor="let item of _listaOpcionesPreguntaSeleccion" scope="col">{{item.Descripcion}}</th>
+            <th style="text-align: center;" *ngFor="let item of _listaOpcionesPreguntaSeleccion" scope="col">{{item.Descripcion}}<hr></th>
           </tr>
         </thead>
+        
         <tr *ngFor="let item of respuestas;let i = index">
-          <td *ngFor="let items of item;let is = index" >{{items}}</td>
+          <td style="text-align: center;" *ngFor="let items of item;let is = index" >{{items}}<hr></td>
         </tr>
       </table>
     </div>

@@ -189,6 +189,7 @@ export class ReportCuestionarioComponent implements OnInit {
     this.methodChange();
    }
    checked=true;
+   loadingPreguntas = false;
    test="";
   formCuestionarioGenerico:FormGroup;
   formComponenteCuestionarioGenerico:FormGroup;
@@ -233,6 +234,7 @@ export class ReportCuestionarioComponent implements OnInit {
   _obligatorioPregunta_true=true;
 
   async consultarDatos(cuestionario, version, comunidad) {
+    this.loadingPreguntas = true;
     // this.dataSource.data= [];
 
     //   await this.cuestionarioGenericoService
@@ -260,10 +262,16 @@ export class ReportCuestionarioComponent implements OnInit {
     var respuesta = await this.cuestionarioGenericoService._cuestionariogenerico_consultarporpreguntaRandom(cuestionario, version, comunidad);
     if (respuesta['http']['codigo']=='200') {
       this._listaPreguntasSeccionComponenteCuestionarioGenerico= respuesta['respuesta'];
-    }
       this._obligatorioPregunta=true;
       this._obligatorioPregunta_true=true;
       this.logica_preguntas=true;
+    }else{
+      this._obligatorioPregunta=false;
+      this._obligatorioPregunta_true=false;
+      this.logica_preguntas=false;
+    }
+    
+      this.loadingPreguntas = false;
   }
 
   ngOnInit() {
@@ -352,18 +360,21 @@ export class ReportCuestionarioComponent implements OnInit {
 
 
   _onChangeCmbComunidadCuestionarioGenerico(event) {
-    this.methodChange();
+    //this.methodChange();
+    
     if (event.value != 0) {
-      //en esta parte se debe de activar el cargar
+      
       const obj = this._listaCuestionariosGenericos.find(
         (data) =>
           data.CuestionarioGenerico.IdCuestionarioGenericoEncriptado ===
           event.value
       );
       const index = this._listaCuestionariosGenericos.indexOf(obj);
+      
     }
+    
     this.consultarDatos(this.formCuestionarioGenerico.get("_cmbCuestionarioGenerico").value, this.formCuestionarioGenerico.get("_cmbVersionCuestionarioGenerico").value, event.value);
-    //aqui se desactiva el de cargar
+    
   }
 
   async _cargarMisCuestionariosGenericos(){
@@ -426,6 +437,10 @@ export class ReportCuestionarioComponent implements OnInit {
     if (respuesta['http']['codigo']=='200') {
       this._listaComunidadesCuestionarioGenerico = respuesta['respuesta'];
     }
+  }
+
+  _imprimirReporte(){
+    //window.open(urlImagen+"Caracterizacion/Caracterizacion?Encuesta="+element.IdCabeceraRespuestaEncriptado+"&Caracterizacion="+this.formCaracterizacion_CmbVersion.value.CabeceraVersionModelo.IdCabeceraVersionModeloEncriptado);
   }
 
 

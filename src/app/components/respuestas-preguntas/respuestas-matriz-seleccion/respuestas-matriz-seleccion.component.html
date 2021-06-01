@@ -1,4 +1,7 @@
-<div class="row">
+<div align="center">
+  <img align="middle" *ngIf="loadingMatriz" style="z-index:2;" width="23%" height="30%" src="../../../assets/img/panel/loading-gif-transparent-4.gif" alt="" />
+</div>
+<div class="row" [hidden]="loadingMatriz">
     <div class="col-lg-12">
         <mat-card class="mat-elevation-z7">
             <table class="table table-bordered">
