@@ -22,7 +22,7 @@
                             (selectionChange)="_onChangeCmbVersionCuestionarioGenerico($event)">
                             <mat-option disabled value="0"> --Seleccione una opción-- </mat-option>
                             <mat-option *ngFor="let item of _listaVersionesCuestionario"
-                                [value]="item.Version">
+                                [value]="item.IdCabeceraVersionCuestionarioEncriptado">
                                 Versión: {{item.Version}}, {{item.FechaCreacion | date: 'yyyy-MM-dd'}}
                             </mat-option>
                         </mat-select>
