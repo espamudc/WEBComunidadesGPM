@@ -51,6 +51,28 @@ export class UsuarioService {
       });
   }
 
+  _login2(correo:string, clave:string, idTipoUsuario, token:string)
+  {
+    const body = new HttpParams()
+    .set('Correo', correo)
+    .set('Clave', clave)
+    .set('idTipoUsuario', idTipoUsuario)
+    .set('Token',token);
+
+     return new Promise((resolve, reject) => {
+          this.http.post(url+'Login2',body.toString(),
+            { 
+              headers: new HttpHeaders()
+              .set('Content-Type', 'application/x-www-form-urlencoded')}
+            )
+            .subscribe(res => {
+                resolve(res);
+            }, (err) => {
+              reject(err);
+          });
+      });
+  }
+
   _cosultarUsuarios(){
     const body = new HttpParams();
 

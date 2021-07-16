@@ -55,6 +55,7 @@ export class LoginComponent implements OnInit ,AfterViewInit{
   _correo="";
   _clave="";
   _misTiposUsuarios:any[]=[];
+  _asignarUsuariosTipoUsuarios:any[]=[];
   _verFormularioLogin=true;
   _verFormularioMisTiposUsuarios=false;
   _cmbComboTipos="";
@@ -109,7 +110,7 @@ export class LoginComponent implements OnInit ,AfterViewInit{
   }
   _ingresarAlSistema(){
     if (this.formMisRoles.get('_cmbTiposUsuarios').value!=null ) {
-      localStorage.setItem("IdAsignarUsuarioTipoUsuarioEncriptado",this.formMisRoles.get('_cmbTiposUsuarios').value);
+      //localStorage.setItem("IdAsignarUsuarioTipoUsuarioEncriptado",this.formMisRoles.get('_cmbTiposUsuarios').value);
       localStorage.setItem("IdTipoUsuarioEncriptado",this.formMisRoles.get('_cmbTiposUsuarios').value);
       if (localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado').length==0) {
       }else{
@@ -119,7 +120,33 @@ export class LoginComponent implements OnInit ,AfterViewInit{
       this.mensaje("Seleccione un Rol");
     }
   }
+
+  _onChangeAsignarUsuarioTipoUsuario(item){
+    if (item.value != 0) {
+
+    this.usuarioService._login2(this._correo, this._clave, item.value, "")
+        .then(data=>{
+          if (data['http']['codigo']=='200') {
+            this._asignarUsuariosTipoUsuarios = data['respuesta'];
+              //console.log(this._asignarUsuariosTipoUsuarios[0].IdAsignarUsuarioTipoUsuarioEncriptado);
+              localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado',this._asignarUsuariosTipoUsuarios[0].IdAsignarUsuarioTipoUsuarioEncriptado)           
+          }else if (data['http']['codigo']=='500') {
+            this.mensaje("A ocurrido un error inesperado, intente más tarde.")
+          }else{
+            this.mensaje(data['http']['mensaje']);
+          }
+        }).catch(error=>{
+          this.mensaje("Error al ingresar")
+        })
+  
+   
+      
+    }
+  
+  }
+
   idRol = "0";
+
   _seleccionarRol(event){
     this.idRol = event.target.value;
   }

@@ -78,7 +78,7 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
 
   @ViewChild(MatTable,{static:false}) MatTableAsignarResponsables : MatTable<any>;
 
-  Columns: string[] = ['nombre','apellido','numeroidentificacion' ,'usuario', 'acciones'];
+  Columns: string[] = ['nombre','apellido','numeroidentificacion' ,'usuario', 'rol', 'acciones'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -97,12 +97,13 @@ export class ModalAsignarResponsableCuestionarioGenericoComponent implements OnI
     this.tipoUsuarioService._consultarTiposUsuarios()
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          data['respuesta'].map(item=>{
-            if (item.Identificador==1) {
-              tipo=item;
-            }
-          });
-          this._listaTiposUsuarios.push(tipo);
+          // data['respuesta'].map(item=>{
+          //   if (item.Identificador==1) {
+          //     tipo=item;
+          //   }
+          // });
+          // this._listaTiposUsuarios.push(tipo);
+          this._listaTiposUsuarios=data['respuesta'];
         }else{
         }
       })
