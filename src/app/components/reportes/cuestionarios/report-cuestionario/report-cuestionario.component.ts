@@ -6,6 +6,7 @@ import { MatSnackBar, MatTable, MatTableDataSource, MatDialog } from '@angular/m
 import { CuestionarioGenericoService } from 'src/app/services/cuestionario-generico.service';
 import { CabeceraVersionCuestionarioService } from 'src/app/services/cabecera-version-cuestionario.service';
 import { LugaresService } from 'src/app/services/lugares.service';
+import { urlImagen } from "../../../../../environments/environment";
 import {
   MatTreeFlatDataSource,
   MatTreeFlattener,
@@ -440,7 +441,7 @@ export class ReportCuestionarioComponent implements OnInit {
   }
 
   _imprimirReporte(){
-    //window.open(urlImagen+"Caracterizacion/Caracterizacion?Encuesta="+element.IdCabeceraRespuestaEncriptado+"&Caracterizacion="+this.formCaracterizacion_CmbVersion.value.CabeceraVersionModelo.IdCabeceraVersionModeloEncriptado);
+    window.open(urlImagen+"ReporteCuestionario/Cuestionario?CuestionarioGenericoEncriptado="+this.formCuestionarioGenerico.get("_cmbCuestionarioGenerico").value+"&VersionEncriptado="+this.formCuestionarioGenerico.get("_cmbVersionCuestionarioGenerico").value+"&ComunidadEncriptado="+this.formCuestionarioGenerico.get("_cmbComunidadCuestionarioGenerico").value);
   }
 
 

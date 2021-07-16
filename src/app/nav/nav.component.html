@@ -35,13 +35,13 @@
         </a>
       </div>
       <div class="matItemHover">
-        <a mat-list-item routerLink="/inicio/cuestionario-generico">
+        <a mat-list-item routerLink="/inicio/cuestionario-generico" *ngIf="tipoUsurio=='MQA='">
           <i style="margin-right: 10px;" class="fa fa-folder-open-o" aria-hidden="true"></i>
           Cuestionario Genérico
         </a>
       </div>
       <div class="matItemHover">
-        <a mat-list-item routerLink="/inicio/estructura-cuestionario-generico">
+        <a mat-list-item routerLink="/inicio/estructura-cuestionario-generico" *ngIf="tipoUsurio=='MQA='">
           <i style="margin-right: 10px;" class="fa fa-check-square-o" aria-hidden="true"></i>
           Estructura Cuestionario
         </a>
@@ -53,7 +53,7 @@
         </a>
       </div>
       <div class="matItemHover">
-        <a mat-list-item routerLink="/inicio/cuestionario-generico-versiones">
+        <a mat-list-item routerLink="/inicio/cuestionario-generico-versiones" *ngIf="tipoUsurio=='MQA='">
           <i style="margin-right: 10px;" class="fa fa-exchange" aria-hidden="true"></i>
           Versionar Cuestionario
         </a>
