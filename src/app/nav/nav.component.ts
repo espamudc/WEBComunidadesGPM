@@ -27,8 +27,12 @@ export class NavComponent {
   }
 
   tipoUsurio='';
+  nombreUsuario='';
+  descripcionTipoUsuario='';
   ngOnInit() {
     this.tipoUsurio= localStorage.getItem('IdTipoUsuarioEncriptado');
+    this.nombreUsuario= localStorage.getItem('nombreUsuario');
+    this.descripcionTipoUsuario= localStorage.getItem('tipoUsuario');
     if(this.tipoUsurio==''){
       this.router.navigateByUrl("/login");
     }
@@ -38,6 +42,8 @@ export class NavComponent {
      localStorage.removeItem('IdAsignarUsuarioTipoUsuarioEncriptado');
      localStorage.removeItem('_clave');
      localStorage.removeItem('_correo');
+     localStorage.removeItem('nombreUsuario');
+     localStorage.removeItem('tipoUsuario');
      localStorage.removeItem('IdTipoUsuarioEncriptado');
      this.router.navigateByUrl("login");
   }

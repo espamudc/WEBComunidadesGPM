@@ -91,6 +91,8 @@ export class LoginComponent implements OnInit ,AfterViewInit{
               this.mensaje("No Tiene Roles Asignados");
             }else if (this._misTiposUsuarios.length==1) {
               localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado',this._misTiposUsuarios[0].IdAsignarUsuarioTipoUsuarioEncriptado)
+              localStorage.setItem('nombreUsuario',this._misTiposUsuarios[0].Usuario.Persona.PrimerNombre+" "+this._misTiposUsuarios[0].Usuario.Persona.SegundoNombre+" "+this._misTiposUsuarios[0].Usuario.Persona.PrimerApellido+" "+this._misTiposUsuarios[0].Usuario.Persona.SegundoApellido)
+              localStorage.setItem('tipoUsuario',this._misTiposUsuarios[0].TipoUsuario.Descripcion)
               localStorage.setItem('IdTipoUsuarioEncriptado',this._misTiposUsuarios[0].TipoUsuario.IdTipoUsuarioEncriptado)
               if (localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado').length==0) {
               }else{
@@ -129,6 +131,8 @@ export class LoginComponent implements OnInit ,AfterViewInit{
           if (data['http']['codigo']=='200') {
             this._asignarUsuariosTipoUsuarios = data['respuesta'];
               //console.log(this._asignarUsuariosTipoUsuarios[0].IdAsignarUsuarioTipoUsuarioEncriptado);
+              localStorage.setItem('nombreUsuario',this._asignarUsuariosTipoUsuarios[0].Usuario.Persona.PrimerNombre+" "+this._asignarUsuariosTipoUsuarios[0].Usuario.Persona.SegundoNombre+" "+this._asignarUsuariosTipoUsuarios[0].Usuario.Persona.PrimerApellido+" "+this._asignarUsuariosTipoUsuarios[0].Usuario.Persona.SegundoApellido)
+              localStorage.setItem('tipoUsuario',this._asignarUsuariosTipoUsuarios[0].TipoUsuario.Descripcion)
               localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado',this._asignarUsuariosTipoUsuarios[0].IdAsignarUsuarioTipoUsuarioEncriptado)           
           }else if (data['http']['codigo']=='500') {
             this.mensaje("A ocurrido un error inesperado, intente más tarde.")
