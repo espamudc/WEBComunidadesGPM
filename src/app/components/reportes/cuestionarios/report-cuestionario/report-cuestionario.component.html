@@ -45,42 +45,6 @@
     <div align="center">
       <img align="middle" *ngIf="loadingPreguntas" style="z-index:2;" width="23%" height="30%" src="../../../assets/img/panel/loading-gif-transparent-4.gif" alt="" />
     </div>
-  <!-- <div style="margin-top: 10px !important;" class="row">
-    <div class="col-lg-12 col-md-12 mr-auto" >
-      <div class="card-body">
-        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-          <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-            <button mat-icon-button disabled></button>
-            {{ node.item }}
-          </mat-tree-node>
-
-          <mat-tree-node
-            *matTreeNodeDef="let node; when: hasChild"
-            matTreeNodePadding
-          >
-            <button
-              mat-icon-button
-              [attr.aria-label]="'toggle ' + node.filename"
-              (click)="loadChildren(node)"
-              matTreeNodeToggle
-            >
-              <mat-icon class="mat-icon-rtl-mirror">
-                {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
-              </mat-icon>
-            </button>
-            {{ quitarRandom(node.item) }}
-          </mat-tree-node>
-
-          <mat-tree-node *matTreeNodeDef="let node; when: isLoadMore">
-            <button mat-button (click)="loadMore(node.loadMoreParentItem)">
-              Load more...
-            </button>
-          </mat-tree-node>
-        </mat-tree>
-      </div>
-    </div>
-  </div>  -->
-
   <br *ngIf="logica_preguntas == true">
     <mat-card *ngIf="logica_preguntas == true">
         <div *ngIf="logica_preguntas == true" class="row">
@@ -90,17 +54,6 @@
                 <button mat-button type="button" 
                           class="form-control btn-success" (click)="_imprimirReporte()">Imprimir Reporte
                 </button>
-                
-                <!-- <mat-form-field class="gpm-form-field">
-                    <mat-label>Seleccione el criterio de agrupación</mat-label>
-                    <mat-select  (selectionChange)="_onChangeCmbFiltroPreguntas($event)">
-                        <mat-option value="0">TODAS</mat-option>
-                        <mat-option *ngFor="let item of _listaTipoPreguntaSeccionComponenteCuestionarioGenericoService"
-                            [value]="item.IdTipoPreguntaEncriptado">
-                            {{item.Descripcion}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field> -->
                 <mat-accordion>
                     <mat-expansion-panel *ngFor="let item of _listaPreguntasSeccionComponenteCuestionarioGenerico.listaPreguntas; let i=index"
                         hideToggle>

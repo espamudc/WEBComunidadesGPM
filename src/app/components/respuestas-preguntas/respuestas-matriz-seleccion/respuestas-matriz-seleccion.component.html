@@ -30,10 +30,6 @@
                     <th scope="row">{{item.Descripcion}}</th>
                         <td *ngFor="let items of ColumnsOpcionDosMatriz ; let i = index" scope="col" [id]="item.Descripcion+','+items.Descripcion">
                           0
-                          <!-- <div [id]="item.Descripcion+','+items.Descripcion" class="prueba" #respuestaMatriz>
-                            <input [id]="item.Descripcion+','+items.Descripcion" class="prueba" type="text" name="" value="0">
-                            0
-                          </div> -->
                         </td>
                   </tr>
                 </tbody>

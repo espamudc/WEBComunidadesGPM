@@ -93,7 +93,6 @@ export class RespuestasMatrizSeleccionComponent implements OnInit,AfterViewInit{
       this.LeyendaLateralGeneral=this.datosMatriz[0].leyendaLateral;
     } else {
     }
-    //this._vistaPreguntaConfigurarMatriz();
   }
 
 
@@ -123,11 +122,7 @@ export class RespuestasMatrizSeleccionComponent implements OnInit,AfterViewInit{
     });
     this.ColumnsOpcionDosMatriz = unicosOpcionDos;
     this.asignarRespuesta();
-    // if(document.getElementById('Flora,Alto')!=null){
-    //   document.getElementById('Flora,Alto').value="2";
-    // }
   }
-
 
 
 }

@@ -15,8 +15,6 @@ export class RespuestasMatrizAbiertaComponent implements OnInit {
     private snackBarComponent: MatSnackBar,
     private preguntaSeleccionService:PreguntaSeleccionService) {
    }
-
-
   @Input() item : any={};
 
   ngOnInit() {
