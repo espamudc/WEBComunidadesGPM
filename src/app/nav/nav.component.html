@@ -2,7 +2,7 @@
   <mat-sidenav #drawer class="sidenav bg-dark" fixedTopGap
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false">
-    <mat-toolbar class="text-white bg-primary"><i class="fa fa-home"> MENU</i>
+    <mat-toolbar class="text-white bg-primary"><i class="fa fa-home"> MENÚ</i>
     </mat-toolbar>
     <mat-nav-list>
       <div class="matItemHover">
@@ -95,11 +95,8 @@
     <mat-toolbar class="card-header" style="border-bottom: 2px solid #e92631; background-color: #157a44;">
       <a (click)="drawer.toggle()" *ngIf="isHandset$ | async">
         <i class="fa fa-bars"></i>
-      </a>
+      </a><i class="matItemHover" style="color: white;">&nbsp;{{nombreUsuario}} | {{descripcionTipoUsuario}}</i>
     </mat-toolbar>
-   
- 
     <router-outlet></router-outlet>
-   
   </mat-sidenav-content>
 </mat-sidenav-container>
