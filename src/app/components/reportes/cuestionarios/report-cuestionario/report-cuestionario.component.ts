@@ -203,7 +203,7 @@ export class ReportCuestionarioComponent implements OnInit {
     this._listaPreguntasSeccionComponenteCuestionarioGenerico=[];
     var respuesta = await this.cuestionarioGenericoService._cuestionariogenerico_consultarporpreguntaRandom(cuestionario, version, comunidad);
     if (respuesta['http']['codigo']=='200') {
-      this._listaPreguntasSeccionComponenteCuestionarioGenerico= respuesta['respuesta'];
+      this._listaPreguntasSeccionComponenteCuestionarioGenerico= respuesta['respuesta']['listaPreguntas'];
       this._obligatorioPregunta=true;
       this._obligatorioPregunta_true=true;
       this.logica_preguntas=true;
